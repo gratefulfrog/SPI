@@ -9,97 +9,52 @@
 
 //extern void flashInfo(int);
 
-uint16_t AD7689::shiftTransactionHWSPI(uint16_t command, bool readback, uint16_t* rb_cmd_ptr) {
-
-  // one time start-up sequence
-  if (!init_complete) {
-    // give ADC time to start up
-    delay(STARTUP_DELAY);
-
-    // synchronize start of conversion
-    digitalWrite(SS, LOW);
-    delayMicroseconds(TACQ); // miniumum 10 ns
-    digitalWrite(SS, HIGH);
-    delayMicroseconds(TCONV); // minimum 3.2 µs
-    init_complete = true;
-  }
-
-  // allow time to sample
-  delayMicroseconds(TCONV);
-
-  // send config (RAC mode) and acquire data
+/**
+ * [AD7689::beginHWSPITransaction Sets u a HW SPI transaction.]
+ * */
+void AD7689::beginHWSPITransaction(){
   SPI.beginTransaction(AD7689_settings);
   digitalWrite(SS, LOW); // activate the ADC
-
-  uint16_t data = (SPI.transfer(command >> 8) << 8) | SPI.transfer(command & 0xFF);
-
-  // if a readback is requested, the 16 bit frame is extended with another 16 bits to retrieve the value
-  if (readback) {
-    // duplicate previous command
-    uint16_t res = (SPI.transfer(command >> 8) << 8) | SPI.transfer(command & 0xFF);
-    if(rb_cmd_ptr ){
-      *rb_cmd_ptr = res;
-    }
-  }
-
-  digitalWrite(SS, HIGH); // release the ADC
-  SPI.endTransaction();
-  
-  // delay to allow data acquisition for the next cycle
-  delayMicroseconds(TACQ); // minumum 1.2µs
-
-  return data;
 }
 
-
-uint16_t AD7689::shiftTransactionYSPI(uint16_t command, bool readback, uint16_t* rb_cmd_ptr) {
-
-  // one time start-up sequence
-  if (!init_complete) {
-    // give ADC time to start up
-    delay(STARTUP_DELAY);
-
-    // synchronize start of conversion
-    //digitalWrite(SS, LOW);
-    yspi->setSS(LOW);
-    delayMicroseconds(TACQ); // miniumum 10 ns
-    //digitalWrite(SS, HIGH);
-    yspi->setSS(HIGH);
-    delayMicroseconds(TCONV); // minimum 3.2 µs
-    init_complete = true;
-  }
-
-  // allow time to sample
-  delayMicroseconds(TCONV);
-
-  // send config (RAC mode) and acquire data
-  //SPI.beginTransaction(AD7689_settings);
-  //digitalWrite(SS, LOW); // activate the ADC
+/**
+ * [AD7689::beginYSPITransaction Sets ups a  YSPI transaction.]
+ * */
+void AD7689::beginYSPITransaction(){
   yspi->setSS(LOW);
-
-  uint16_t data = (yspi->MSPIMTransfer(command >> 8) << 8) | yspi->MSPIMTransfer(command & 0xFF);
-   
-  // if a readback is requested, the 16 bit frame is extended with another 16 bits to retrieve the value
-  if (readback) {
-    // duplicate previous command
-    //*rb_cmd_ptr = (SPI.transfer(command >> 8) << 8) | SPI.transfer(command & 0xFF);
-    uint16_t res = (yspi->MSPIMTransfer(command >> 8) << 8) | yspi->MSPIMTransfer(command & 0xFF); 
-    if(rb_cmd_ptr ){
-      *rb_cmd_ptr = res;
-    } 
-  }
-
-  yspi-> endTransaction();
-  //digitalWrite(SS, HIGH); // release the ADC
-  
-  //SPI.endTransaction();
-  
-  // delay to allow data acquisition for the next cycle
-  delayMicroseconds(TACQ); // minumum 1.2µs
-
-  return data;
 }
 
+/**
+ * [AD7689::HWSPITransfer Sends a byte to the HW SPI.]
+ * @param  data    The byte to send..
+ * @return         The response byte.
+ */
+byte AD7689::HWSPITransfer(byte data){
+  return SPI.transfer(data);
+}
+
+/**
+ * [AD7689::YSPITransfer Sends a byte to the YSPI.]
+ * @param  data    The byte to send..
+ * @return         The response byte.
+ */
+byte AD7689::YSPITransfer(byte data){
+  return yspi->MSPIMTransfer(data);
+}
+
+/**
+ * [AD7689::HWSPIEndTransaction Terminates a HW SPI transaction.]
+ * */
+void AD7689::HWSPIEndTransaction(){
+  digitalWrite(SS, HIGH);
+  SPI.endTransaction();
+}
+/**
+ * [AD7689::YSPIEndTransaction Terminates a YSPI transaction.]
+ * */
+void AD7689::YSPIEndTransaction(){
+   yspi-> endTransaction();
+}
 
 /* sends a 16 bit word to the ADC, and simultaneously captures the response
    ADC responses lag 2 frames behind on commands
@@ -115,12 +70,48 @@ uint16_t AD7689::shiftTransactionYSPI(uint16_t command, bool readback, uint16_t*
  * @return            A 16 bit word received from the ADC, as response to the command from 2 frames ago.
  */
 uint16_t AD7689::shiftTransaction(uint16_t command, bool readback, uint16_t* rb_cmd_ptr) {
-  if (usingYSPI){
-    return shiftTransactionYSPI(command,readback, rb_cmd_ptr);
+  // one time start-up sequence
+  if (!init_complete) {
+    // give ADC time to start up
+    delay(STARTUP_DELAY);
+
+    // synchronize start of conversion
+    if(usingYSPI){
+      yspi->setSS(LOW);
+      delayMicroseconds(TACQ); // miniumum 10 ns
+      yspi->setSS(HIGH);
+    }
+    else{
+      digitalWrite(SS, LOW);
+      delayMicroseconds(TACQ); // miniumum 10 ns
+      digitalWrite(SS, HIGH);
+    }
+    delayMicroseconds(TCONV); // minimum 3.2 µs
+    init_complete = true;
   }
-  else{
-    return shiftTransactionHWSPI(command,readback, rb_cmd_ptr);
+
+  // allow time to sample
+  delayMicroseconds(TCONV);
+
+  (this->*beginTransactionFunc)();
+
+  uint16_t data = ((this->*transferFunc)(command >> 8) << 8) | (this->*transferFunc)(command & 0xFF);
+
+  // if a readback is requested, the 16 bit frame is extended with another 16 bits to retrieve the value
+  if (readback) {
+    // duplicate previous command
+    uint16_t res = ((this->*transferFunc)(command >> 8) << 8) | (this->*transferFunc)(command & 0xFF);
+    if(rb_cmd_ptr ){
+      *rb_cmd_ptr = res;
+    }
   }
+
+  (this->*endTransactionFunc)();
+  
+  // delay to allow data acquisition for the next cycle
+  delayMicroseconds(TACQ); // minumum 1.2µs
+
+  return data;
 }
 
 // converts a command structure to a 16 bit word that can be transmitted over SPI
@@ -196,8 +187,14 @@ float AD7689::readTemperature() {
   // configure MUX for temperature sensor
   temp_conf.INCC_conf = INCC_TEMP;
 
-  digitalWrite(SS, LOW);
-  digitalWrite(SS, HIGH);
+  if(usingYSPI){
+    yspi->setSS(LOW);
+    yspi->setSS(HIGH);
+  }
+  else {
+    digitalWrite(SS, LOW);
+    digitalWrite(SS, HIGH);
+  }
   delayMicroseconds(TCONV);
 
   // send the command
@@ -392,17 +389,29 @@ void AD7689::finalizeInstance(){
  */
 AD7689::AD7689(uint8_t SSpin, uint8_t numberChannels) : AD7689_settings (F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU, MSBFIRST, SPI_MODE0) ,
                                                         SS(SSpin),
-                                                        inputCount(numberChannels)  {
+                                                        inputCount(numberChannels),
+                                                        beginTransactionFunc(&beginHWSPITransaction),
+                                                        endTransactionFunc(&HWSPIEndTransaction),
+                                                        transferFunc(&HWSPITransfer)
+                                                        {
  
   initHWSPI();
   finalizeInstance();
 }
 
+/**
+ * [AD7689::constructor Create an instance of an AD7689 ADC. using YSPI]
+ * @param y               Pointer to an instance of YMSPI..
+ * @param numberChannels  The highest channel in use for the application, a value between 1 and 8.
+ * @return                Instance of the ADC.
+ */
 AD7689::AD7689(YMSPI *y, uint8_t numberChannels) : AD7689_settings (F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU, MSBFIRST, SPI_MODE0) ,
                                                    yspi(y),
                                                    usingYSPI(true),
-                                                   inputCount(numberChannels) {
-                                                          
+                                                   inputCount(numberChannels),
+                                                   beginTransactionFunc(&beginYSPITransaction),
+                                                   endTransactionFunc(&YSPIEndTransaction),
+                                                   transferFunc(&YSPITransfer){
   finalizeInstance();
 }
 
@@ -536,4 +545,100 @@ bool AD7689::selftest() {
   return (readback == toCommand(rb_conf));
 }
 
+
+
+/////////////////////////////////////  OBSOLETE CODE ///////////////////////////////////////
+/*
+ 
+uint16_t AD7689::shiftTransactionHWSPI(uint16_t command, bool readback, uint16_t* rb_cmd_ptr) {
+
+  // one time start-up sequence
+  if (!init_complete) {
+    // give ADC time to start up
+    delay(STARTUP_DELAY);
+
+    // synchronize start of conversion
+    digitalWrite(SS, LOW);
+    delayMicroseconds(TACQ); // miniumum 10 ns
+    digitalWrite(SS, HIGH);
+    delayMicroseconds(TCONV); // minimum 3.2 µs
+    init_complete = true;
+  }
+
+  // allow time to sample
+  delayMicroseconds(TCONV);
+
+  // send config (RAC mode) and acquire data
+  SPI.beginTransaction(AD7689_settings);
+  digitalWrite(SS, LOW); // activate the ADC
+
+  uint16_t data = (SPI.transfer(command >> 8) << 8) | SPI.transfer(command & 0xFF);
+
+  // if a readback is requested, the 16 bit frame is extended with another 16 bits to retrieve the value
+  if (readback) {
+    // duplicate previous command
+    uint16_t res = (SPI.transfer(command >> 8) << 8) | SPI.transfer(command & 0xFF);
+    if(rb_cmd_ptr ){
+      *rb_cmd_ptr = res;
+    }
+  }
+
+  digitalWrite(SS, HIGH); // release the ADC
+  SPI.endTransaction();
+  
+  // delay to allow data acquisition for the next cycle
+  delayMicroseconds(TACQ); // minumum 1.2µs
+
+  return data;
+}
+
+uint16_t AD7689::shiftTransactionYSPI(uint16_t command, bool readback, uint16_t* rb_cmd_ptr) {
+
+  // one time start-up sequence
+  if (!init_complete) {
+    // give ADC time to start up
+    delay(STARTUP_DELAY);
+
+    // synchronize start of conversion
+    //digitalWrite(SS, LOW);
+    yspi->setSS(LOW);
+    delayMicroseconds(TACQ); // miniumum 10 ns
+    //digitalWrite(SS, HIGH);
+    yspi->setSS(HIGH);
+    delayMicroseconds(TCONV); // minimum 3.2 µs
+    init_complete = true;
+  }
+
+  // allow time to sample
+  delayMicroseconds(TCONV);
+
+  // send config (RAC mode) and acquire data
+  //SPI.beginTransaction(AD7689_settings);
+  //digitalWrite(SS, LOW); // activate the ADC
+  yspi->setSS(LOW);
+
+  uint16_t data = (yspi->MSPIMTransfer(command >> 8) << 8) | yspi->MSPIMTransfer(command & 0xFF);
+   
+  // if a readback is requested, the 16 bit frame is extended with another 16 bits to retrieve the value
+  if (readback) {
+    // duplicate previous command
+    //*rb_cmd_ptr = (SPI.transfer(command >> 8) << 8) | SPI.transfer(command & 0xFF);
+    uint16_t res = (yspi->MSPIMTransfer(command >> 8) << 8) | yspi->MSPIMTransfer(command & 0xFF); 
+    if(rb_cmd_ptr ){
+      *rb_cmd_ptr = res;
+    } 
+  }
+
+  yspi-> endTransaction();
+  //digitalWrite(SS, HIGH); // release the ADC
+  
+  //SPI.endTransaction();
+  
+  // delay to allow data acquisition for the next cycle
+  delayMicroseconds(TACQ); // minumum 1.2µs
+
+  return data;
+}
+
+ */
 

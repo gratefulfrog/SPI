@@ -32,6 +32,7 @@
 #include "ad7689.h"
 #include "yspi.h"
 
+const boolean useSerial = false;  
 boolean usingYSPI = true;
 
 const int hbPin         = 9,
@@ -81,11 +82,11 @@ const uint8_t nbChannels = 2;
 
 void doSelfTest(){
   if (adc->selftest()){
-    (!usingYSPI && Serial.println("AD7689 connected and ready"));
+    (!usingYSPI && useSerial && Serial.println("AD7689 connected and ready"));
     flash(true);
   } 
   else {
-    (!usingYSPI && Serial.println("Error: AD7689  self Test Failed!"));
+    (!usingYSPI && useSerial && Serial.println("Error: AD7689  self Test Failed!"));
     while (1){
       flash(false);
     }
@@ -125,10 +126,12 @@ void setup() {
     delay(1000);
   }
   else{
-    Serial.begin(115200);
-    while(!Serial);
-    Serial.println("let the test begin!"); 
-    Serial.println("adc instance created");
+    if (useSerial){
+      Serial.begin(115200);
+      while(!Serial);
+      Serial.println("let the test begin!"); 
+      Serial.println("adc instance created");
+    }
     flashInfo(1);
     delay(1000);
     adc = new AD7689(AD7689_SS_pin,nbChannels);
@@ -151,7 +154,7 @@ boolean checkChannelReading(int chan, float reading){
 
 void checkAndTell(){
   float reading = adc->acquireChannel(ch_cnt, &timeStamp); 
-  if (!usingYSPI){
+  if (!usingYSPI && useSerial){
     Serial.print(ch_cnt==0 ?"\n" :"");
     Serial.print("AD7689 voltage input "+ String(ch_cnt)+" :");
     Serial.print(reading);

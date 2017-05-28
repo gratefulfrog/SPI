@@ -82,6 +82,12 @@ struct AD7689_conf {
 /**
  * Represents the Analog Devices AD7689, an ADC with 8 channels and 16 bit resolution.
  */
+
+class AD7689;
+typedef void (AD7689::*voidVoidFunc)();
+typedef byte (AD7689::*byteByteFunc)(byte);
+
+
 class AD7689 {
   protected:
     AD7689_conf conf;                       /*!< Configuration settings for the ADC. */
@@ -109,11 +115,19 @@ class AD7689 {
 
     bool usingYSPI = false;                 /*!< Indicates use of YSPI instead of HW SPI. */
     YMSPI *yspi = NULL;                     /*!< Points to YMSPI instance to be used in comms instead of HW SPI. */
-
+    voidVoidFunc beginTransactionFunc,
+                 endTransactionFunc;
+    byteByteFunc transferFunc;
+                 
 
     // functions are documented in the .cpp file.
-    uint16_t shiftTransactionHWSPI(uint16_t command, bool readback, uint16_t* rb_cmd_ptr);
-    uint16_t shiftTransactionYSPI(uint16_t command, bool readback, uint16_t* rb_cmd_ptr);
+    void beginHWSPITransaction();
+    void beginYSPITransaction();
+    byte HWSPITransfer(byte data);
+    byte YSPITransfer(byte data);
+    void HWSPIEndTransaction();
+    void YSPIEndTransaction();
+
     uint16_t shiftTransaction(uint16_t command, bool readback, uint16_t* rb_cmd_ptr);
     uint16_t toCommand(AD7689_conf cfg) const;
     AD7689_conf getADCConfig(bool default_config = false);
@@ -136,5 +150,7 @@ class AD7689 {
     float acquireTemperature();
     bool selftest(void);
 };
+
+
 #endif
 
