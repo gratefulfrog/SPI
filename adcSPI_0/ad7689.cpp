@@ -398,10 +398,10 @@ AD7689::AD7689(uint8_t SSpin, uint8_t numberChannels) : AD7689_settings (F_CPU >
   finalizeInstance();
 }
 
-AD7689::AD7689(YMSPI *y, uint8_t numberChannels = TOTAL_CHANNELS) : AD7689_settings (F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU, MSBFIRST, SPI_MODE0) ,
-                                                        yspi(y),
-                                                        usingYSPI(true),
-                                                        inputCount(numberChannels) {
+AD7689::AD7689(YMSPI *y, uint8_t numberChannels) : AD7689_settings (F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU, MSBFIRST, SPI_MODE0) ,
+                                                   yspi(y),
+                                                   usingYSPI(true),
+                                                   inputCount(numberChannels) {
                                                           
   finalizeInstance();
 }

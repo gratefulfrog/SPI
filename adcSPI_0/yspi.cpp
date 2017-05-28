@@ -70,7 +70,10 @@ YMSPI::YMSPI(uint8_t usartID) {
   
     UCSR0C = _BV (UMSEL00) | _BV (UMSEL01);  // Master SPI mode
     UCSR0B = _BV (TXEN0) | _BV (RXEN0);  // transmit enable and receive enable
-  
+
+    // MSB FIRST
+    // UDPRD0 = 0;
+    
     // must be done last, see page 206
     UBRR0 = 0; // full speed //3 // 2 Mhz clock rate
     break;

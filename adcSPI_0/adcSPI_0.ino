@@ -1,25 +1,33 @@
-// Written by Nick Gammon
-// January 2011
-
-
 /* SPILIB uses the following PIN definitions
- * CLK   = 13
- * MIS0  = 12
- * MOSI  = 11 
- * SS    = 10
+ * CLK   = 13 GREEN
+ * MIS0  = 12 ORANGE
+ * MOSI  = 11 BLUE
+ * SS    = 10 YELLOW
  */
 
  /* YSPI pins
-  D0 MISO (Rx)
-  D1 MOSI (Tx)
-  D4 SCK  (clock)
-  D5 SS   (slave select)  <-- this can be changed
+  D0 MISO ORANGE (Rx)
+  D1 MOSI BLUE (Tx)
+  D4 SCK  GREEN  (clock)
+  D5 SS   YELLOW (slave select)  <-- this can be changed
   */
+
+/* OTHER PINS
+ *  5V powers the AD7689
+ *  GND is also requried ont he AD7689
+ *  
+ *  HeartBeat LED 9
+ *  ID LED        8
+ *  True PIN      7
+ *  Fasle PIN     6
+ *  use YSPI PIN  2  HIGH means YES, use YSPI, LOW means NO use HW SPI  
+ */
+
 
 // this example illustrates how all ADC channels can be read with default settings:
 // unipolar configuration, 8 channels, 4.096V internal positive voltage reference, negative referenced to ground
 
-//#include <Arduino.h>
+#include <Arduino.h>
 
 #include "ad7689.h"
 #include "yspi.h"
@@ -77,7 +85,7 @@ void doSelfTest(){
     flash(true);
   } 
   else {
-    (!usingYSPI && Serial.println("Error: couldn't connect to AD7689. Check wiring."));
+    (!usingYSPI && Serial.println("Error: AD7689  self Test Failed!"));
     while (1){
       flash(false);
     }
@@ -99,6 +107,7 @@ void flashInfo(int n){
 void setup() {  
   testSetup();
   usingYSPI = digitalRead(yspiOnPin);
+  pinMode(0,INPUT);
   
   // AD7689 connected through SPI with SS specified in constructor
   // use default settings (8 channels, unipolar, referenced to 4.096V internal bandga)
