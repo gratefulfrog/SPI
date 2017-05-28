@@ -23,27 +23,32 @@
  *  use YSPI PIN  2  HIGH means YES, use YSPI, LOW means NO use HW SPI  
  */
 
-
-// this example illustrates how all ADC channels can be read with default settings:
-// unipolar configuration, 8 channels, 4.096V internal positive voltage reference, negative referenced to ground
-
 #include <Arduino.h>
-
 #include "ad7689.h"
 #include "yspi.h"
 
 const boolean useSerial = false;  
-boolean usingYSPI = true;
 
-const int hbPin         = 9,
-          idPin         = 8,
-          truePin       = 7,
-          falsePin      = 6,
-          yspiOnPin     = 2,
-          onTime        = 200,
-          falseOffTime  = 600,
-          trueOffTime   = onTime,
-          nbInfoFlashes = 5;
+const uint8_t AD7689_SS_pin = 10,
+              hbPin         = 9,
+              idPin         = 8,
+              truePin       = 7,
+              falsePin      = 6,
+              yspiOnPin     = 2,
+              onTime        = 200,
+              falseOffTime  = 600,
+              trueOffTime   = onTime,
+              nbInfoFlashes = 5,
+              nbChannels    = 2;
+
+const float chValues[] = { 0, 3.3},
+            epsilon = 0.03;
+
+AD7689 *adc;
+YMSPI  *yyy;
+uint8_t ch_cnt     = 0; // channel counter
+boolean usingYSPI  = true;  // value changed during setup based on reading of yspiOnPin
+uint32_t timeStamp = 0;    // updated by reads to the adc
 
 void testSetup(){
   pinMode(hbPin,OUTPUT);
@@ -54,12 +59,8 @@ void testSetup(){
 }
 
 void heartBeat(){
-  static int now = millis();
   static boolean on = true;
-  //if (millis()-now>=hbTime){
-    on = ! on;
-    now= millis();
-  //}
+  on = ! on;
   digitalWrite(hbPin,on ? HIGH : LOW);
 }
 
@@ -72,13 +73,6 @@ void flash(boolean tf){
       delay(tf ? trueOffTime : falseOffTime);
   }
 }
-
-AD7689 *adc;
-YMSPI *yyy;
-const uint8_t AD7689_SS_pin = 10;
-uint8_t ch_cnt = 0; // channel counter
-const uint8_t nbChannels = 2;
-
 
 void doSelfTest(){
   if (adc->selftest()){
@@ -143,11 +137,6 @@ void setup() {
   doSelfTest();
 }
 
-uint32_t timeStamp =0;
-
-const float chValues[] = { 0, 3.3},
-            epsilon = 0.03;
-
 boolean checkChannelReading(int chan, float reading){
   return (abs(reading-chValues[chan])< epsilon);
 }
@@ -172,6 +161,5 @@ void loop() {
   checkAndTell();
   ch_cnt = (ch_cnt + 1) % nbChannels;
   delay(250);
-  
 }
 
