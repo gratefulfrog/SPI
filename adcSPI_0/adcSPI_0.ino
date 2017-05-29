@@ -44,10 +44,9 @@ const uint8_t AD7689_SS_pin = 10,
               falseOffTime  = 600,
               trueOffTime   = onTime,
               nbInfoFlashes = 5,
-              nbChannels    = 2;
+              nbChannels    = 8;
 
-const float chValues[] = { 0, 3.3},
-            epsilon = 0.03;
+const float epsilon = 0.03;
 
 AD7689 *adc;
 YMSPI  *yyy;
@@ -90,9 +89,11 @@ void doSelfTest(){
   }
 }
 
-void flashInfo(int n){
+void flashInfo(int n, bool once = false){
+  const int nbReps = once ? 1 : 3;
+  
   digitalWrite(idPin,LOW);
-  for (int j = 0; j<3;j++){
+  for (int j = 0; j< nbReps;j++){
     for (int i = 0; i<n;i++){
       digitalWrite(idPin,HIGH);
       delay(200);
@@ -147,7 +148,8 @@ void setup() {
 }
 
 boolean checkChannelReading(int chan, float reading){
-  return (abs(reading-chValues[chan])< epsilon);
+  float correctVal = chan %2 ? 3.3 : 0.0;
+  return (abs(reading-correctVal)< epsilon);
 }
 
 void checkAndTell(){
@@ -161,6 +163,7 @@ void checkAndTell(){
   }
 
   digitalWrite(idPin,ch_cnt);
+  flashInfo(ch_cnt, true);
   flash(checkChannelReading(ch_cnt,reading));
 }
 

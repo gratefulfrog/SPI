@@ -59,19 +59,20 @@ YMSPI::YMSPI(uint8_t usartID) {
   case 0:
     break;
   case 1:
-    pinMode (MSPIM_SS, OUTPUT);   // SS
-  
+    //pinMode (MSPIM_SS, OUTPUT);   // MSPIM_SS is pin 5 
+    DDRD |= _BV(DDD5);
+    
     // must be zero before enabling the transmitter
     UBRR0 = 0;
   
     UCSR0A = _BV (TXC0);  // any old transmit now complete
     
-    pinMode (MSPIM_SCK, OUTPUT);   // set XCK pin as output to enable master mode
-  
+    //pinMode (MSPIM_SCK, OUTPUT);   // set XCK pin as output to enable master mode MSPIM_SCK is pin 4
+    DDRD |= _BV(DDD4);
+    
     UCSR0C = _BV (UMSEL00) | _BV (UMSEL01);  // Master SPI mode
     UCSR0B = _BV (TXEN0) | _BV (RXEN0);  // transmit enable and receive enable
 
-    
     // must be done last, see page 206
     UBRR0 = 0; // full speed //3 => 2 Mhz clock rate
     break;
@@ -83,13 +84,23 @@ YMSPI::YMSPI(uint8_t usartID) {
 }
 
 void YMSPI::setSS(int highLow){
-  digitalWrite(MSPIM_SS , highLow);
+  //digitalWrite(MSPIM_SS , highLow);
+  // MSPIM_SS is pin 5
+  if (highLow){
+    // set high, i.e. set bit
+    PORTD |= _BV(PORTD5);
+  }
+  else {
+    // set low, i.e clear bit
+    PORTD &= ~_BV(PORTD5);
+  }
 }
 void YMSPI::endTransaction(){
   // wait for all transmissions to finish
   while ((UCSR0A & _BV (TXC0)) == 0);
 
   // disable slave select
-  digitalWrite (MSPIM_SS, HIGH); 
+  //digitalWrite (MSPIM_SS, HIGH); 
+  PORTD |= _BV(PORTD5);
 }
 
