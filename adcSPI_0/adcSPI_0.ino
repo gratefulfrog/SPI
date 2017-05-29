@@ -64,7 +64,7 @@ void testSetup(){
 }
 
 void heartBeat(){
-  static boolean on = true;
+  static boolean on = false;
   on = ! on;
   digitalWrite(hbPin,on ? HIGH : LOW);
 }
@@ -88,10 +88,10 @@ void doSelfTest(){
     (!usingYSPI && useSerial && Serial.println("Error: AD7689  self Test Failed!"));
     while (1){
       flash(false);
-    }
-    
+    }    
   }
 }
+
 void flashInfo(int n){
   digitalWrite(idPin,LOW);
   for (int j = 0; j<3;j++){
@@ -104,21 +104,22 @@ void flashInfo(int n){
     delay(600);
   }
 }
+
 void setup() {  
   testSetup();
   usingYSPI = digitalRead(yspiOnPin);
-  pinMode(0,INPUT);
   
   // AD7689 connected through SPI with SS specified in constructor
   // use default settings (8 channels, unipolar, referenced to 4.096V internal bandga)
   
   if (usingYSPI){
+    // step 1: YMSPI instantiation
     flashInfo(1);
     delay(1000);
     yyy = new YMSPI(1);
     flash(yyy);
     delay(1000);
-    //while(1); 
+    // step 2: AD7689 instantiation
     flashInfo(2);
     adc = new AD7689(yyy,nbChannels);
     flash(adc);
@@ -134,12 +135,14 @@ void setup() {
         Serial.println (String("Freq:\t") + String(F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU));  // 16 000 000 == 16MHz
       }
     }
-    flashInfo(1);
+    // step 2: AD7689 instantiation
+    flashInfo(2);
     delay(1000);
     adc = new AD7689(AD7689_SS_pin,nbChannels);
     flash(adc);
     delay(1000);
   }
+  // step 3: AD7689 self-test
   flashInfo(3);
   delay(1000);
   doSelfTest();
