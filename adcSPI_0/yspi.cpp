@@ -35,16 +35,14 @@ Pins: D0 MISO (Rx)
 
 // sends/receives one byte
 byte YMSPI::MSPIMTransfer (byte data){
-  //digitalWrite (MSPIM_SS, LOW);
-
-   // wait for transmitter ready
-  while ((UCSR0A & _BV (UDRE0)) == 0);
+  // wait for transmitter ready
+  while (!(UCSR0A & _BV (UDRE0)));
     
   // send byte
   UDR0 = data;
   
   // wait for receiver ready
-  while ((UCSR0A & _BV (RXC0)) == 0);
+  while (!(UCSR0A & _BV (RXC0)));
   
   // receive byte, return it
   return UDR0;
@@ -52,9 +50,6 @@ byte YMSPI::MSPIMTransfer (byte data){
 
 
 YMSPI::YMSPI(uint8_t usartID) {
-  // set SS as output (this has been tested, works)
-  //SET_SS_OUT;
-
   switch (usartID){
   case 0:
     break;
@@ -97,7 +92,7 @@ void YMSPI::setSS(int highLow){
 }
 void YMSPI::endTransaction(){
   // wait for all transmissions to finish
-  while ((UCSR0A & _BV (TXC0)) == 0);
+  while (!(UCSR0A & _BV (TXC0)));
 
   // disable slave select
   //digitalWrite (MSPIM_SS, HIGH); 
