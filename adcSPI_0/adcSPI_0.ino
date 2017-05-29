@@ -64,9 +64,7 @@ void testSetup(){
 }
 
 void heartBeat(){
-  static boolean on = false;
-  on = ! on;
-  digitalWrite(hbPin,on ? HIGH : LOW);
+  digitalWrite(hbPin, !digitalRead(hbPin));
 }
 
 void flash(boolean tf){
