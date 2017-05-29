@@ -1,11 +1,11 @@
-/* SPILIB uses the following PIN definitions
+/* HW SPI LIB uses the following PIN definitions
  * CLK   = 13 GREEN
  * MIS0  = 12 ORANGE
  * MOSI  = 11 BLUE
  * SS    = 10 YELLOW
  */
 
- /* YSPI pins
+ /* YSPI pins (USART)
   D0 MISO ORANGE (Rx)
   D1 MOSI BLUE (Tx)
   D4 SCK  GREEN  (clock)
@@ -15,6 +15,10 @@
 /* OTHER PINS
  *  5V powers the AD7689
  *  GND is also requried ont he AD7689
+ *  
+ *  ICSP HEADER: 
+ *  pins 5 & 6 MUST BE connected together to prevent the ATmega16U from pulling MISO HIGH in USART mode!
+ *  - these are the GND and REST pins.
  *  
  *  HeartBeat LED 9
  *  ID LED        8
@@ -27,7 +31,8 @@
 #include "ad7689.h"
 #include "yspi.h"
 
-const boolean useSerial = false;  
+const boolean useSerial      = false,
+              showHWSettings = useSerial;
 
 const uint8_t AD7689_SS_pin = 10,
               hbPin         = 9,
@@ -125,6 +130,9 @@ void setup() {
       while(!Serial);
       Serial.println("let the test begin!"); 
       Serial.println("adc instance created");
+      if (showHWSettings){
+        Serial.println (String("Freq:\t") + String(F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU));  // 16 000 000 == 16MHz
+      }
     }
     flashInfo(1);
     delay(1000);
