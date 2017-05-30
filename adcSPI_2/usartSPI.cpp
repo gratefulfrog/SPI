@@ -47,7 +47,7 @@ const USARTSPI::usartRegisterStruct USARTSPI::usartRegVec[nbUARTS] = {{UDR0,UCSR
                                                                       }; 
 
 // pin reg struct: {&io,&set}
-const USARTSPI::pinRegisterStruct  USARTSPI::pinRegVec[nbUARTS]  = {{DDRE, PORTE}};   // usart 0: io: 'D', Set: 'PORTD'
+const USARTSPI::pinRegisterStruct  USARTSPI::pinRegVec[nbUARTS]  = {{DDRE, PORTE},   // usart 0: io: 'D', Set: 'PORTD'
                                                                     {DDRD, PORTD},  // usart 1
                                                                     {DDRH, PORTH},  // usart 2
                                                                     {DDRJ, PORTJ},  // usart 3
@@ -65,10 +65,10 @@ struct uartSpecificBitValueStruct {
                     portSS;  // Digital Pin Value Set bit for the specific SS pin
   };
 
-const USARTSPI::uartSpecificBitValueStruct USARTSPI::specificBitVec[nbUARTS] = {{UDRE0,RXC0,TXC0, DDD2, DDRE3, UMSEL00, UMSEL01, TXEN0, RXEN0, PORTE3},
-                                                                                {UDRE1,RXC1,TXC1, DDD5, DDRD4, UMSEL10, UMSEL11, TXEN1, RXEN1, PORTD4},
-                                                                                {UDRE2,RXC2,TXC2, DDH5, DDRH3, UMSEL20, UMSEL21, TXEN2, RXEN2, PORTH3},
-                                                                                {UDRE3,RXC3,TXC3, DDJ2, DDRJ3, UMSEL30, UMSEL31, TXEN3, RXEN3, PORTJ3}
+const USARTSPI::uartSpecificBitValueStruct USARTSPI::specificBitVec[nbUARTS] = {{UDRE0,RXC0,TXC0, DDD2, DDE3, UMSEL00, UMSEL01, TXEN0, RXEN0, PORTE3},
+                                                                                {UDRE1,RXC1,TXC1, DDD5, DDD4, UMSEL10, UMSEL11, TXEN1, RXEN1, PORTD4},
+                                                                                {UDRE2,RXC2,TXC2, DDH5, DDH3, UMSEL20, UMSEL21, TXEN2, RXEN2, PORTH3},
+                                                                                {UDRE3,RXC3,TXC3, DDJ2, DDJ3, UMSEL30, UMSEL31, TXEN3, RXEN3, PORTJ3}
                                                                                 };
 #else
 
