@@ -25,14 +25,14 @@ class App{
 class BobTestApp : public App{
   protected:
     const boolean useSerial      = false,
-                  showHWSettings = useSerial,
-                  talk           = true;
-  
+                  showHWSettings = useSerial;
+                  
     const uint8_t AD7689_SS_pin = 10,
                   hbPin         = 9,
                   idPin         = 8,
                   truePin       = 7,
                   falsePin      = 6,
+                  talkPin       = 3,
                   yspiOnPin     = 2,
                   onTime        = 200,
                   falseOffTime  = 600,

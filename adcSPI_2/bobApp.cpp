@@ -131,7 +131,7 @@ BobTestApp::BobTestApp() : App(){
 }
 
 void BobTestApp::runLoop(){
-    if (talk){
+  if (digitalRead(talkPin)){
     heartBeat();
     checkAndTell();
   }
