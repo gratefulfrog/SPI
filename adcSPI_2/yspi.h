@@ -37,8 +37,8 @@ class HWSPI : public YSPI{
 
 class USARTSPI : public YSPI{
  protected:
-  const uint8_t MSPIM_SCK = 4;
-  const uint8_t MSPIM_SS  = 5;
+  //const uint8_t MSPIM_SCK = 4;
+  //const uint8_t MSPIM_SS  = 5;
 
   struct usartRegisterStruct {
     volatile uint8_t &udr,
