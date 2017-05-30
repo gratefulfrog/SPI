@@ -195,3 +195,52 @@ void loop() {
   delay(250);
 }
 
+//********************  YANNICK TEST SETUP !!!!  *********************************
+/*
+ 
+AD7689 *adc;
+YSPI  *yyy;
+uint8_t ch_cnt     = 0; // channel counter
+uint32_t timeStamp = 0;    // updated by reads to the adc
+
+boolean usingUSARTSPI  = true;  // value changed during setup based on reading of yspiOnPin
+
+uint8_t uartChannel = 1;  // this is the channel that will be tested!
+
+void usartInit(){
+  // step 1: YSPI instantiation
+  yyy = new USARTSPI(uartChannel);  // UART SPI on uart 0
+  delay(1000);
+  // step 2: AD7689 instantiation
+  adc = new AD7689(yyy,nbChannels);
+  delay(1000);  
+}
+
+
+void setup() {  
+  Serial.begin(115200);
+  while(!Serial);
+  Serial.println("Let the test begin!"); 
+
+  
+  // AD7689 connected through SPI with SS specified in constructor
+  // use default settings (8 channels, unipolar, referenced to 4.096V internal bandga)
+  
+  if (usingUSARTSPI){
+    usartInit();
+  }
+  else{  // HW SPI
+    hwInit(); 
+  }
+  // step 3: AD7689 self-test
+  doSelfTest();
+}
+
+void loop() {
+  adc->acquireChannel(ch_cnt, &timeStamp);
+  ch_cnt = (ch_cnt + 1) % nbChannels;
+  delay(250);
+}
+
+*/
+
