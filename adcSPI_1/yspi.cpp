@@ -39,6 +39,15 @@ const YMSPI::usartRegisterStruct YMSPI::usartRegVec[nbUARTS] = {{UDR0,UCSR0A,UCS
 // pin reg struct: {&io,&set}
 const YMSPI::pinRegisterStruct  YMSPI::pinRegVec[nbUARTS] = {{DDRD,PORTD}};   
 
+/* uartSpecificBitValueStruct {
+    const uint8_t   ddCLK,   // Data Direction bit for the specific  CLK pin
+                    ddSS,    // Data Direction bit for the specific SS pin
+                    umsel0,  // USART Mode Select bit 0 for the specific USART channel 
+                    umsel1,  // USART Mode Select bit 1 for the specific USART channel 
+                    portSS;  // Digital Pin Value Set bit for the specific SS pin
+ */
+const YMSPI::uartSpecificBitValueStruct YMSPI::specificBitVec[nbUARTS] = {{DDD4, DDD5, UMSEL00, UMSEL01, PORTD5}};
+ 
 
 // sends/receives one byte
 uint8_t YMSPI::MSPIMTransfer (uint8_t data){
@@ -61,25 +70,28 @@ uint8_t YMSPI::MSPIMTransfer (uint8_t data){
 
 
 YMSPI::YMSPI(uint8_t usartID) : uID(usartID) {
-  //pinMode (MSPIM_SS, OUTPUT);   // MSPIM_SS is pin 5 
-  //DDRD |= _BV(DDD5);
-  pinRegVec[uID].io |= _BV(DDD5);
+  // pinMode (MSPIM_SS, OUTPUT);   // MSPIM_SS is pin 5 
+  // DDRD |= _BV(DDD5);
+  // pinRegVec[uID].io |= _BV(DDD5);
+  pinRegVec[uID].io |= _BV(specificBitVec[uID].ddSS);
   
   // must be zero before enabling the transmitter
-  //UBRR0 = 0;
+  // UBRR0 = 0;
   usartRegVec[uID].ubrr = 0;
 
-  //UCSR0A = _BV (TXC0);  // any old transmit now complete
+  // UCSR0A = _BV (TXC0);  // any old transmit now complete
   usartRegVec[uID].ucsrA = _BV (TXC0);
   
-  //pinMode (MSPIM_SCK, OUTPUT);   // set XCK pin as output to enable master mode MSPIM_SCK is pin 4
-  //DDRD |= _BV(DDD4);
-  pinRegVec[uID].io |= _BV(DDD4);
+  // pinMode (MSPIM_SCK, OUTPUT);   // set XCK pin as output to enable master mode MSPIM_SCK is pin 4
+  // DDRD |= _BV(DDD4);
+  // pinRegVec[uID].io |= _BV(DDD4);
+  pinRegVec[uID].io |= _BV(specificBitVec[uID].ddCLK);
   
-  //UCSR0C = _BV (UMSEL00) | _BV (UMSEL01);  // Master SPI mode
-  usartRegVec[uID].ucsrC = _BV (UMSEL00) | _BV (UMSEL01);  // Master SPI mode
+  // UCSR0C = _BV (UMSEL00) | _BV (UMSEL01);  // Master SPI mode
+  // usartRegVec[uID].ucsrC = _BV (UMSEL00) | _BV (UMSEL01);  // Master SPI mode
+  usartRegVec[uID].ucsrC = _BV (specificBitVec[uID].umsel0) | _BV (specificBitVec[uID].umsel1);  // Master SPI mode
   
-  //UCSR0B = _BV (TXEN0) | _BV (RXEN0);  // transmit enable and receive enable
+  // UCSR0B = _BV (TXEN0) | _BV (RXEN0);  // transmit enable and receive enable
   usartRegVec[uID].ucsrB = _BV (TXEN0) | _BV (RXEN0);  // transmit enable and receive enable
   
   // must be done last, see page 206
@@ -92,18 +104,20 @@ void YMSPI::setSS(uint8_t highLow){
   // MSPIM_SS is pin 5
   if (highLow){
     // set high, i.e. set bit
-    //PORTD |= _BV(PORTD5);
-    pinRegVec[uID].set |= _BV(PORTD5);
+    // PORTD |= _BV(PORTD5);
+    // pinRegVec[uID].set |= _BV(PORTD5);
+    pinRegVec[uID].set |= _BV(specificBitVec[uID].portSS);
   }
   else {
     // set low, i.e clear bit
     // PORTD &= ~_BV(PORTD5);
-    pinRegVec[uID].set &= ~_BV(PORTD5);
+    // pinRegVec[uID].set &= ~_BV(PORTD5);
+    pinRegVec[uID].set &= ~_BV(specificBitVec[uID].portSS);
   }
 }
 void YMSPI::endTransaction(){
   // wait for all transmissions to finish
-  //while (!(UCSR0A & _BV (TXC0)));
+  // while (!(UCSR0A & _BV (TXC0)));
   while (!(usartRegVec[uID].ucsrA & _BV (TXC0)));
 
   // disable slave select

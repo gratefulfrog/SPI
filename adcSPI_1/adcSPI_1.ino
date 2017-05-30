@@ -32,7 +32,8 @@
 #include "yspi.h"
 
 const boolean useSerial      = false,
-              showHWSettings = useSerial;
+              showHWSettings = useSerial,
+              talk           = false;
 
 const uint8_t AD7689_SS_pin = 10,
               hbPin         = 9,
@@ -168,9 +169,14 @@ void checkAndTell(){
 }
 
 void loop() {
-  heartBeat();
-  
-  checkAndTell();
+  if (talk){
+    heartBeat();
+    
+    checkAndTell();
+  }
+  else{
+    adc->acquireChannel(ch_cnt, &timeStamp);
+  }
   ch_cnt = (ch_cnt + 1) % nbChannels;
   delay(250);
 }
