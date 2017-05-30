@@ -47,12 +47,12 @@ const uint8_t AD7689_SS_pin = 10,
               nbInfoFlashes = 5,
               nbChannels    = 8;
 
-const float epsilon = 0.03;
+const float epsilon = 0.05;
 
 AD7689 *adc;
-YMSPI  *yyy;
+YSPI  *yyy;
 uint8_t ch_cnt     = 0; // channel counter
-boolean usingYSPI  = true;  // value changed during setup based on reading of yspiOnPin
+boolean usingUSARTSPI  = true;  // value changed during setup based on reading of yspiOnPin
 uint32_t timeStamp = 0;    // updated by reads to the adc
 
 void testSetup(){
@@ -79,11 +79,11 @@ void flash(boolean tf){
 
 void doSelfTest(){
   if (adc->selftest()){
-    (!usingYSPI && useSerial && Serial.println("AD7689 connected and ready"));
+    (!usingUSARTSPI && useSerial && Serial.println("AD7689 connected and ready"));
     flash(true);
   } 
   else {
-    (!usingYSPI && useSerial && Serial.println("Error: AD7689  self Test Failed!"));
+    (!usingUSARTSPI && useSerial && Serial.println("Error: AD7689  self Test Failed!"));
     while (1){
       flash(false);
     }    
@@ -105,42 +105,57 @@ void flashInfo(int n, bool once = false){
   }
 }
 
+void usartInit(){
+  // step 1: YSPI instantiation
+  flashInfo(1);
+  delay(1000);
+  yyy = new USARTSPI(0);  // UART SPI on uart 0
+  flash(yyy);
+  delay(1000);
+  // step 2: AD7689 instantiation
+  flashInfo(2);
+  adc = new AD7689(yyy,nbChannels);
+  flash(adc);
+  delay(1000);  
+}
+
+void hwInit(){
+  if (useSerial){
+    Serial.begin(115200);
+    while(!Serial);
+    Serial.println("Let the test begin!"); 
+    if (showHWSettings){
+      Serial.println (String("HW SPI Frequency:\t") + String(F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU));  // 16 000 000 == 16MHz
+    }
+  }
+  // step 1: YSPI instantiation
+  flashInfo(1);
+  delay(1000);
+  yyy = new HWSPI(AD7689_SS_pin,F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU, MSBFIRST, SPI_MODE0); // HW SPI
+  flash(yyy);
+  (useSerial && Serial.println("HWSPI instance created!"));
+  delay(1000);
+  // step 2: AD7689 instantiation
+  flashInfo(2);
+  delay(1000);
+  adc = new AD7689(yyy, nbChannels);
+  flash(adc);
+  (useSerial && Serial.println("AD7689 instance created!"));
+  delay(1000);  
+}
+
 void setup() {  
   testSetup();
-  usingYSPI = digitalRead(yspiOnPin);
+  usingUSARTSPI = digitalRead(yspiOnPin);
   
   // AD7689 connected through SPI with SS specified in constructor
   // use default settings (8 channels, unipolar, referenced to 4.096V internal bandga)
   
-  if (usingYSPI){
-    // step 1: YMSPI instantiation
-    flashInfo(1);
-    delay(1000);
-    yyy = new YMSPI(0);  // USART channel 0
-    flash(yyy);
-    delay(1000);
-    // step 2: AD7689 instantiation
-    flashInfo(2);
-    adc = new AD7689(yyy,nbChannels);
-    flash(adc);
-    delay(1000);
+  if (usingUSARTSPI){
+    usartInit();
   }
-  else{
-    if (useSerial){
-      Serial.begin(115200);
-      while(!Serial);
-      Serial.println("let the test begin!"); 
-      Serial.println("adc instance created");
-      if (showHWSettings){
-        Serial.println (String("Freq:\t") + String(F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU));  // 16 000 000 == 16MHz
-      }
-    }
-    // step 2: AD7689 instantiation
-    flashInfo(2);
-    delay(1000);
-    adc = new AD7689(AD7689_SS_pin,nbChannels);
-    flash(adc);
-    delay(1000);
+  else{  // HW SPI
+    hwInit(); 
   }
   // step 3: AD7689 self-test
   flashInfo(3);
@@ -155,7 +170,7 @@ boolean checkChannelReading(int chan, float reading){
 
 void checkAndTell(){
   float reading = adc->acquireChannel(ch_cnt, &timeStamp); 
-  if (!usingYSPI && useSerial){
+  if (!usingUSARTSPI && useSerial){
     Serial.print(ch_cnt==0 ?"\n" :"");
     Serial.print("AD7689 voltage input "+ String(ch_cnt)+" :");
     Serial.print(reading);
@@ -171,7 +186,6 @@ void checkAndTell(){
 void loop() {
   if (talk){
     heartBeat();
-    
     checkAndTell();
   }
   else{
