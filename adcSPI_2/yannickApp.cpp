@@ -3,10 +3,10 @@
 
 void YannickTestApp::doSelfTest(){
   if (adc->selftest()){
-    (!usingUSARTSPI && useSerial && Serial.println("AD7689 connected and ready"));
+    (useSerial && Serial.println("AD7689 connected and ready"));
   } 
   else {
-    (!usingUSARTSPI && useSerial && Serial.println("Error: AD7689  self Test Failed!"));
+    (useSerial && Serial.println("Error: AD7689  self Test Failed!"));
     while (1);
   }
 }
