@@ -25,11 +25,11 @@ void BobTestApp::flash(boolean tf) const{
 
 void BobTestApp::doSelfTest(AD7689 *adc) const{
   if (adc->selftest()){
-    (!usingUSARTSPI && useSerial && Serial.println("AD7689 connected and ready"));
+    (!usingUSARTSPI && useSerial && Serial.println("AD7689 Self-Test Passed!"));
     flash(true);
   } 
   else {
-    (!usingUSARTSPI && useSerial && Serial.println("Error: AD7689  self Test Failed!"));
+    (!usingUSARTSPI && useSerial && Serial.println("Error: AD7689  Self-Test Failed!"));
     while (1){
       flash(false);
     }    
@@ -57,9 +57,6 @@ YSPI* BobTestApp::usartInit(uint8_t id) const{
   delay(1000);
   YSPI   *yyy = new USARTSPI(id);  // UART SPI on uart 0
   flash(yyy);
-  delay(1000);
-  // step 2: AD7689 instantiation
-  flashInfo(2);
   return yyy; 
 }
 
@@ -103,11 +100,10 @@ void BobTestApp::checkAndTell(uint8_t adcID, uint8_t ch) const {
   flash(checkChannelReading(ch,reading));
 }
 
-BobTestApp::BobTestApp(uint8_t firstUart) : App(firstUart){
-  adcVec =  new AD7689*[USARTSPI::nbUARTS];
+BobTestApp::BobTestApp(const bool *adcs2Test) : App(adcs2Test){
   testSetup();
   usingUSARTSPI = digitalRead(yspiOnPin);
-
+  adcVec =  new AD7689*[USARTSPI::nbUARTS];
   instantiateADCs();
 }
 
@@ -119,10 +115,7 @@ void BobTestApp::runLoop() {
   else{
     adcVec[currentADC]->acquireChannel(ch_cnt, NULL);
   }
-  ch_cnt = (ch_cnt + 1) % nbChannels;
-  if (!ch_cnt && usingUSARTSPI){
-    currentADC = ((currentADC +1 %USARTSPI::nbUARTS) ? (currentADC +1 %USARTSPI::nbUARTS) : usartID0);
-  }
+  updateADCAndChannelCounters();
   delay(250);
 }
 

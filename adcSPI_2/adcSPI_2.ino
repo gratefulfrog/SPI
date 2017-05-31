@@ -5,7 +5,7 @@
  * SS    = 10 YELLOW
  */
 
- /* YSPI pins (USART)
+ /* YSPI pins (USART) on Arduino UNO
   D0 MISO ORANGE (Rx)
   D1 MOSI BLUE (Tx)
   D4 SCK  GREEN  (clock)
@@ -24,7 +24,7 @@
  *  ID LED        8
  *  True PIN      7
  *  Fasle PIN     6
- *  TALK pin      3  HIGH means flash results of each ADC channel query,LOW means just do it.
+ *  TALK pin      3  HIGH means flash results of each ADC channel query, LOW means just do it.
  *  use YSPI PIN  2  HIGH means YES, use YSPI, LOW means NO use HW SPI  
  */
 
@@ -32,7 +32,7 @@
 
 #include "app.h"
 
-const boolean Yannick = false;
+const boolean Yannick = true;
 
 App *app;
 void setup(){

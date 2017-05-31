@@ -32,15 +32,21 @@
 
 #include "app.h"
 
-const boolean Yannick = false;
+const boolean yADCTestVec[] = {false, true, true, true},  // i.e. test USART 1,2,3, but not USART 0.
+              bADCTestVec[] = {true}; // test only usart 0
+
+const boolean Yannick = false,
+              *adcTestVec = Yannick ? yADCTestVec
+                                    : bADCTestVec;  
+    
 
 App *app;
 void setup(){
   if (Yannick){
-    app = new YannickTestApp(1);
+    app = new YannickTestApp(adcTestVec);
   }
   else{
-    app = new BobTestApp(0);  
+    app = new BobTestApp(bADCTestVec);  
   }
 }
 void loop(){

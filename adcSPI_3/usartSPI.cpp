@@ -73,7 +73,6 @@ const USARTSPI::uartSpecificBitValueStruct USARTSPI::specificBitVec[nbUARTS] = {
 #else
 
 ///// ATMEGA 328P VALUES ////////////
-// NOTE on ATMega2560 the following must be set to 4 !!!
 static const uint8_t USARTSPI::nbUARTS =  1;
 
 // usart reg struct: {&udr,&ucsrA,&ucsrB,&ucsrC,&ubrr}

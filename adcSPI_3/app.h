@@ -7,20 +7,24 @@
 
 class App{
   protected:  
-    const boolean useSerial      = false,
+    const boolean useSerial      = true,
                   showHWSettings = useSerial;
     
     const float epsilon    = 0.05;
                   
-    const uint8_t usartID0;  // the ID of the first USART bus that you will test
-  
-    AD7689 **adcVec;
+    const uint8_t usartID0,          // the ID of the first USART bus that you will test
+                  nbChannels    = 8;  
+    
+    AD7689** adcVec;
     uint8_t ch_cnt         = 0, // channel counter
             currentADC     = 0; // ADC counter
     
     boolean usingUSARTSPI  = true;  // value changed during setup based on reading of yspiOnPin
+
+    const boolean *adc2TestVec;
     
     void instantiateADCs();
+    void  updateADCAndChannelCounters();
     virtual void flash(boolean tf) const;
     virtual void doSelfTest(AD7689 *adc) const;
     virtual void flashInfo(int n, bool once = false) const;
@@ -28,7 +32,7 @@ class App{
     virtual YSPI* hwInit() const;
     
   public:
-    App(uint8_t firstUart) : usartID0(firstUart){}
+    App(const boolean *adcs2Test) : adc2TestVec(adcs2Test){}
     virtual void runLoop() = 0;
 };
 
@@ -46,8 +50,7 @@ class BobTestApp : public App{
                   onTime        = 200,
                   falseOffTime  = 600,
                   trueOffTime   = onTime,
-                  nbInfoFlashes = 5,
-                  nbChannels    = 8;
+                  nbInfoFlashes = 5;
 
     void testSetup() const;
     void heartBeat() const;
@@ -60,7 +63,7 @@ class BobTestApp : public App{
     void checkAndTell(uint8_t adcID, uint8_t ch) const;
 
   public:
-    BobTestApp(uint8_t firstUart);
+    BobTestApp(const boolean *adcs2Test);
     virtual void runLoop();
 };
 
@@ -80,7 +83,7 @@ class YannickTestApp : public App{
     boolean checkChannelReading(uint8_t adcID, uint8_t chan, float reading) const;
     void checkAndTell(uint8_t adcID, uint8_t ch) const;
   public:
-    YannickTestApp(uint8_t firstUart);
+    YannickTestApp(const boolean *adcs2Test);
     virtual void runLoop();
 };
 #endif

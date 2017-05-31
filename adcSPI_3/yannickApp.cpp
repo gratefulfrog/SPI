@@ -3,10 +3,10 @@
 
 void YannickTestApp::doSelfTest(AD7689 *adc) const {
   if (adc->selftest()){
-    (useSerial && Serial.println("AD7689 connected and ready"));
+    (useSerial && Serial.println("AD7689 Self-Test Passed!"));
   } 
   else {
-    (useSerial && Serial.println("Error: AD7689  self Test Failed!"));
+    (useSerial && Serial.println("Error!! AD7689  Self-Test FAILED!"));
     while (1);
   }
 }
@@ -16,10 +16,10 @@ YSPI* YannickTestApp::usartInit(uint8_t id) const{
   delay(1000);
   YSPI *yyy = new USARTSPI(id);  // UART SPI on uart 0
   if(yyy){
-    (useSerial && Serial.println("USARTSPI instance created!"));
+    (useSerial && Serial.println("USARTSPI instance :\t") + String(id) + String(" created!"));
   }
   else{
-    (useSerial && Serial.println("USARTSPI instantiation failed!!"));
+    (useSerial && Serial.println("USARTSPI instantiation :\t") + String(id) + String(" failed!!"));
     while(1);
   }
   return yyy;
@@ -40,9 +40,9 @@ YSPI* YannickTestApp::hwInit() const{
 }
 
 const float YannickTestApp::correctVec[][8] = {{0, 2.85, 4.1 ,4.1 ,4.1 ,4.1 ,4.1 ,4.1},
-                                       {0, 2.85, 4.1 ,4.1 ,4.1 ,4.1 ,4.1 ,4.1},
-                                       {0, 2.85, 4.1 ,4.1 ,4.1 ,4.1 ,4.1 ,4.1},
-                                       {0, 2.85, 4.1 ,4.1 ,4.1 ,4.1 ,4.1 ,4.1}};
+                                               {0, 2.85, 4.1 ,4.1 ,4.1 ,4.1 ,4.1 ,4.1},
+                                               {0, 2.85, 4.1 ,4.1 ,4.1 ,4.1 ,4.1 ,4.1},
+                                               {0, 2.85, 4.1 ,4.1 ,4.1 ,4.1 ,4.1 ,4.1}};
 
 boolean YannickTestApp::checkChannelReading(uint8_t adcID, uint8_t chan, float reading) const{
   //float correctVal = chan %2 ? 3.3 : 0.0;
@@ -62,7 +62,7 @@ void YannickTestApp::checkAndTell(uint8_t adcID, uint8_t ch) const{
   }
 }
 
-YannickTestApp::YannickTestApp(uint8_t firstUart) : App(firstUart){
+YannickTestApp::YannickTestApp(const boolean *adcs2Test) : App(adcs2Test){
   adcVec =  new AD7689*[USARTSPI::nbUARTS]; 
   if (useSerial){
     Serial.begin(115200);
@@ -83,9 +83,6 @@ void YannickTestApp::runLoop() {
   else{
     adcVec[currentADC]->acquireChannel(ch_cnt, NULL);
   }
-  ch_cnt = (ch_cnt + 1) % nbChannels;
-  if (!ch_cnt && usingUSARTSPI){
-    currentADC = ((currentADC +1 %USARTSPI::nbUARTS) ? (currentADC +1 %USARTSPI::nbUARTS) : usartID0);
-  }
+  updateADCAndChannelCounters();
   delay(250);
 }
