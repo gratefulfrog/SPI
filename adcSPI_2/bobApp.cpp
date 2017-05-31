@@ -9,11 +9,11 @@ void BobTestApp::testSetup(){
   pinMode(yspiOnPin,INPUT);
 }
 
-void BobTestApp::heartBeat(){
+void BobTestApp::heartBeat() const{
   digitalWrite(hbPin, !digitalRead(hbPin));
 }
 
-void BobTestApp::flash(boolean tf){
+void BobTestApp::flash(boolean tf) const{
   int pin = tf ? truePin :falsePin;
   for(int i =0; i<nbInfoFlashes;i++){
       digitalWrite(pin,HIGH);
@@ -23,7 +23,7 @@ void BobTestApp::flash(boolean tf){
   }
 }
 
-void BobTestApp::doSelfTest(){
+void BobTestApp::doSelfTest() const{
   if (adc->selftest()){
     (!usingUSARTSPI && useSerial && Serial.println("AD7689 connected and ready"));
     flash(true);
@@ -36,7 +36,7 @@ void BobTestApp::doSelfTest(){
   }
 }
 
-void BobTestApp::flashInfo(int n, bool once = false){
+void BobTestApp::flashInfo(int n, bool once = false) const {
   const int nbReps = once ? 1 : 3;
   
   digitalWrite(idPin,LOW);
@@ -90,12 +90,12 @@ void BobTestApp::hwInit(){
   delay(1000);  
 }
 
-boolean BobTestApp::checkChannelReading(int chan, float reading){
+boolean BobTestApp::checkChannelReading(int chan, float reading) const{
   float correctVal = chan %2 ? 3.3 : 0.0;
   return (abs(reading-correctVal)< epsilon);
 }
 
-void BobTestApp::checkAndTell(){
+void BobTestApp::checkAndTell() const {
   float reading = adc->acquireChannel(ch_cnt, &timeStamp); 
   if (!usingUSARTSPI && useSerial){
     Serial.print(ch_cnt==0 ?"\n" :"");
@@ -130,7 +130,7 @@ BobTestApp::BobTestApp() : App(){
   doSelfTest();
 }
 
-void BobTestApp::runLoop(){
+void BobTestApp::runLoop() {
   if (digitalRead(talkPin)){
     heartBeat();
     checkAndTell();
