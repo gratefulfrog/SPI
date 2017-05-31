@@ -63,7 +63,7 @@ void YannickTestApp::checkAndTell() const{
   float reading = adc->acquireChannel(ch_cnt, &timeStamp); 
   if (useSerial){
     Serial.print(ch_cnt==0 ?"\n" :"");
-    Serial.print("AD7689 voltage input "+ String(ch_cnt)+" :");
+    Serial.print("AD7689 voltage input "+ String(ch_cnt)+" :\t");
     Serial.print(reading);
     Serial.print(String("\t") + String(checkChannelReading(ch_cnt,reading) ? "TRUE" : "FALSE"));
     Serial.println(String("\t") + String(timeStamp));
