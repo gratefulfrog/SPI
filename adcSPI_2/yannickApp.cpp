@@ -3,10 +3,10 @@
 
 void YannickTestApp::doSelfTest() const {
   if (adc->selftest()){
-    (useSerial && Serial.println("AD7689 connected and ready"));
+    (useSerial && Serial.println("AD7689 Self-Test PASSED!"));
   } 
   else {
-    (useSerial && Serial.println("Error: AD7689  self Test Failed!"));
+    (useSerial && Serial.println("Error: AD7689  Self-Test Failed!"));
     while (1);
   }
 }
@@ -104,7 +104,7 @@ YannickTestApp::YannickTestApp(){
 
 void YannickTestApp::runLoop() {
   if (talk){  
-  checkAndTell();
+    checkAndTell();
   }
   else{
     adc->acquireChannel(ch_cnt, &timeStamp);
