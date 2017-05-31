@@ -22,7 +22,7 @@ class App{
 
 class BobTestApp : public App{
   protected:
-    const boolean useSerial      = false,
+    const boolean useSerial      = true,
                   showHWSettings = useSerial;
                   
     const uint8_t AD7689_SS_pin = 10,

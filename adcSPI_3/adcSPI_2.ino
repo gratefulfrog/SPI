@@ -37,10 +37,10 @@ const boolean Yannick = false;
 App *app;
 void setup(){
   if (Yannick){
-    app = new YannickTestApp();
+    app = new YannickTestApp(1);
   }
   else{
-    app = new BobTestApp();  
+    app = new BobTestApp(0);  
   }
 }
 void loop(){

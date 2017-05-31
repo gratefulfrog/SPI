@@ -1,7 +1,7 @@
 #include "app.h"
 
 
-void BobTestApp::testSetup(){
+void BobTestApp::testSetup() const{
   pinMode(hbPin,OUTPUT);
   pinMode(truePin,OUTPUT);
   pinMode(falsePin,OUTPUT);
@@ -23,13 +23,13 @@ void BobTestApp::flash(boolean tf) const{
   }
 }
 
-void BobTestApp::doSelfTest() const{
+void BobTestApp::doSelfTest(AD7689 *adc) const{
   if (adc->selftest()){
-    (!usingUSARTSPI && useSerial && Serial.println("AD7689 Self-Test Passed!"));
+    (!usingUSARTSPI && useSerial && Serial.println("AD7689 connected and ready"));
     flash(true);
   } 
   else {
-    (!usingUSARTSPI && useSerial && Serial.println("Error: AD7689  Self-Test Failed!"));
+    (!usingUSARTSPI && useSerial && Serial.println("Error: AD7689  self Test Failed!"));
     while (1){
       flash(false);
     }    
@@ -51,21 +51,19 @@ void BobTestApp::flashInfo(int n, bool once = false) const {
   }
 }
 
-void BobTestApp::usartInit(){
+YSPI* BobTestApp::usartInit(uint8_t id) const{
   // step 1: YSPI instantiation
   flashInfo(1);
   delay(1000);
-  yyy = new USARTSPI(0);  // UART SPI on uart 0
+  YSPI   *yyy = new USARTSPI(id);  // UART SPI on uart 0
   flash(yyy);
   delay(1000);
   // step 2: AD7689 instantiation
   flashInfo(2);
-  adc = new AD7689(yyy,nbChannels);
-  flash(adc);
-  delay(1000);  
+  return yyy; 
 }
 
-void BobTestApp::hwInit(){
+YSPI* BobTestApp::hwInit() const{
   if (useSerial){
     Serial.begin(115200);
     while(!Serial);
@@ -77,17 +75,10 @@ void BobTestApp::hwInit(){
   // step 1: YSPI instantiation
   flashInfo(1);
   delay(1000);
-  yyy = new HWSPI(AD7689_SS_pin,F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU, MSBFIRST, SPI_MODE0); // HW SPI
+  YSPI   *yyy = new HWSPI(AD7689_SS_pin,F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU, MSBFIRST, SPI_MODE0); // HW SPI
   flash(yyy);
-  (useSerial && Serial.println("HWSPI instance created!"));
-  delay(1000);
-  // step 2: AD7689 instantiation
-  flashInfo(2);
-  delay(1000);
-  adc = new AD7689(yyy, nbChannels);
-  flash(adc);
-  (useSerial && Serial.println("AD7689 instance created!"));
-  delay(1000);  
+  (useSerial && Serial.println("HWSPI instance created!"));  
+  return yyy;
 }
 
 boolean BobTestApp::checkChannelReading(int chan, float reading) const{
@@ -95,50 +86,43 @@ boolean BobTestApp::checkChannelReading(int chan, float reading) const{
   return (abs(reading-correctVal)< epsilon);
 }
 
-void BobTestApp::checkAndTell() const {
-  float reading = adc->acquireChannel(ch_cnt, &timeStamp); 
+void BobTestApp::checkAndTell(uint8_t adcID, uint8_t ch) const {
+  uint32_t timeStamp = 0;    // updated by reads to the adc
+  float reading      = adcVec[adcID]->acquireChannel(ch, &timeStamp); 
+  
   if (!usingUSARTSPI && useSerial){
-    Serial.print(ch_cnt==0 ?"\n" :"");
-    Serial.print("AD7689 voltage input "+ String(ch_cnt)+" :\t");
+    Serial.print(ch==0 ? String("\nADC :\t") + String(adcID) + String("\n") :"");
+    Serial.print("AD7689 voltage input "+ String(ch_cnt) + String(" :\t"));
     Serial.print(reading);
-    Serial.print(String("\t") + String(checkChannelReading(ch_cnt,reading) ? "TRUE" : "FALSE"));
+    Serial.print(String("\t") + String(checkChannelReading(ch,reading) ? "TRUE" : "FALSE"));
     Serial.println(String("\t") + String(timeStamp));
   }
 
   digitalWrite(idPin,ch_cnt);
-  flashInfo(ch_cnt, true);
-  flash(checkChannelReading(ch_cnt,reading));
+  flashInfo(ch, true);
+  flash(checkChannelReading(ch,reading));
 }
 
-
-BobTestApp::BobTestApp() : App(){
+BobTestApp::BobTestApp(uint8_t firstUart) : App(firstUart){
+  adcVec =  new AD7689*[USARTSPI::nbUARTS];
   testSetup();
   usingUSARTSPI = digitalRead(yspiOnPin);
-  
-  // AD7689 connected through SPI with SS specified in constructor
-  // use default settings (8 channels, unipolar, referenced to 4.096V internal bandga)
-  
-  if (usingUSARTSPI){
-    usartInit();
-  }
-  else{  // HW SPI
-    hwInit(); 
-  }
-  // step 3: AD7689 self-test
-  flashInfo(3);
-  delay(1000);
-  doSelfTest();
+
+  instantiateADCs();
 }
 
 void BobTestApp::runLoop() {
   if (digitalRead(talkPin)){
     heartBeat();
-    checkAndTell();
+    checkAndTell(currentADC, ch_cnt);
   }
   else{
-    adc->acquireChannel(ch_cnt, &timeStamp);
+    adcVec[currentADC]->acquireChannel(ch_cnt, NULL);
   }
   ch_cnt = (ch_cnt + 1) % nbChannels;
+  if (!ch_cnt && usingUSARTSPI){
+    currentADC = ((currentADC +1 %USARTSPI::nbUARTS) ? (currentADC +1 %USARTSPI::nbUARTS) : usartID0);
+  }
   delay(250);
 }
 
