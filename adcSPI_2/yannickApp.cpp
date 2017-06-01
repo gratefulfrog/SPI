@@ -3,74 +3,64 @@
 
 void YannickTestApp::doSelfTest() const {
   if (adc->selftest()){
-    (useSerial && Serial.println("AD7689 Self-Test PASSED!"));
+    (useSerial && Serial.println(String("AD7689 instance ") + String(adcID) +String(" Self-Test Passed!")));
   } 
   else {
-    (useSerial && Serial.println("Error: AD7689  Self-Test Failed!"));
+    (useSerial && Serial.println(String("AD7689 instance ") + String(adcID) +String(" Self-Test FAILED!")));
     while (1);
   }
 }
 
-void YannickTestApp::usartInit(){
+YSPI* YannickTestApp::usartInit(){
   // step 1: YSPI instantiation
   delay(1000);
-  yyy = new USARTSPI(usartID);  // UART SPI on uart 0
-  if(yyy){
-    (useSerial && Serial.println("USARTSPI instance created!"));
+  YSPI* y = new USARTSPI(adcID);  // UART SPI on uart 0
+  if(y){
+    (useSerial && Serial.println(String("USARTSPI instance ") + String(adcID) + String(" created!")));
   }
   else{
-    (useSerial && Serial.println("USARTSPI instantiation failed!!"));
+    (useSerial && Serial.println(String("USARTSPI instance ") + String(adcID) + String(" failed!!"))); 
     while(1);
   }
+  return y;
 }
 
-void YannickTestApp::hwInit(){
+YSPI* YannickTestApp::hwInit(){
   // step 1: YSPI instantiation
   delay(1000);
-  yyy = new HWSPI(AD7689_SS_pin,F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU, MSBFIRST, SPI_MODE0); // HW SPI
-  if(yyy){
-    (useSerial && Serial.println("HWSPI instance created!"));
+  YSPI* y = new HWSPI(AD7689_SS_pin,F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU, MSBFIRST, SPI_MODE0); // HW SPI
+  if (y){
+    (useSerial && Serial.println(String("HWSPI instance ") + String(adcID) + String(" created!")));
   }
   else{
-    (useSerial && Serial.println("HWSPI instantiation failed!!"));
+    (useSerial && Serial.println(String("HWSPI instance ") + String(adcID) +  String(" failed!")));
     while(1);
   }
+  return y;
 }
 
-float YannickTestApp::correctChannelReading(int chan) const{
-  float res = 0;
-  switch(chan){
-    case 0:
-      res = 0;
-      break;  
-    case 1:
-      res = 2.85;
-      break;  
-    default:
-      res = 4.10;
-      break;  
-  }
-  return res;
+const float YannickTestApp::correctChannelReadingVec[4][8] =  {{0.0, 3.3 , 0.0, 3.3, 0.0, 3.3, 0.0, 3.3}, 
+                                                               {0.0, 2.85, 4.1, 4.1, 4.1, 4.1, 4.1, 4.1},
+                                                               {0.0, 2.85, 4.1, 4.1, 4.1, 4.1, 4.1, 4.1},
+                                                               {0.0, 2.85, 4.1, 4.1, 4.1, 4.1, 4.1, 4.1}};
+                                                               
+boolean YannickTestApp::checkChannelReading(uint8_t chan, float reading) const{
+  return (abs(reading-correctChannelReadingVec[adcID][chan])< epsilon);
 }
 
-boolean YannickTestApp::checkChannelReading(int chan, float reading) const{
-  //float correctVal = chan %2 ? 3.3 : 0.0;
-  //return (abs(reading-correctVal)< epsilon);
-  return (abs(reading-correctChannelReading(chan))< epsilon);
-}
-
-void YannickTestApp::checkAndTell() const{
-  float reading = adc->acquireChannel(ch_cnt, &timeStamp); 
+void YannickTestApp::checkAndTell(uint8_t channel) const{
+  uint32_t timeStamp = 0;
+  float reading = adc->acquireChannel(channel, &timeStamp); 
   if (useSerial){
-    Serial.print(ch_cnt==0 ?"\n" :"");
-    Serial.print("AD7689 voltage input "+ String(ch_cnt)+" :\t");
+    Serial.print("AD7689 voltage input "+ String(channel)+" :\t");
     Serial.print(reading);
-    Serial.print(String("\t") + String(checkChannelReading(ch_cnt,reading) ? "TRUE" : "FALSE"));
+    Serial.print(String("\t") + String(checkChannelReading(channel,reading) ? "TRUE" : "FALSE"));
     Serial.println(String("\t") + String(timeStamp));
   }
 }
 
-YannickTestApp::YannickTestApp(){    
+YannickTestApp::YannickTestApp(uint8_t id) : App(id){    
+  usingUSARTSPI  = false;
   if (useSerial){
     Serial.begin(115200);
     while(!Serial);
@@ -80,21 +70,21 @@ YannickTestApp::YannickTestApp(){
       Serial.println (String("HW SPI Frequency:\t") + String(F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU));  // 16 000 000 == 16MHz
     }
   }
-  
+  YSPI *yspi;
   if (usingUSARTSPI){
-    usartInit();
+    yspi = usartInit();
   }
   else{  // HW SPI
-    hwInit(); 
+    yspi = hwInit(); 
   }
   // step 2: AD7689 instantiation
   delay(1000); 
-  adc = new AD7689(yyy, nbChannels);
+  adc = new AD7689(yspi, nbChannels);
   if(adc){
-    (useSerial && Serial.println("AD7689 instance created!"));
+    (useSerial && Serial.println(String("AD7689 instance ") + String(adcID) + String(" created!")));
   }
   else{
-    (useSerial && Serial.println("AD7689 instantiation failed!!"));
+    (useSerial && Serial.println(String("AD7689 instance ") + String(adcID) +   String(" creation failed!")));
     while(1);
   } 
   // step 3: AD7689 self-test
@@ -103,13 +93,15 @@ YannickTestApp::YannickTestApp(){
 }
 
 void YannickTestApp::runLoop() {
-  if (talk){  
-    checkAndTell();
+  (talk && useSerial && Serial.println(String("\nADC : ") + String(adcID)));
+  for (uint8_t channel = 0; channel< nbChannels; channel++){
+    if (talk){  
+      checkAndTell(channel);
+    }
+    else{
+      adc->acquireChannel(channel, NULL);
+    }
+    delay(250);
   }
-  else{
-    adc->acquireChannel(ch_cnt, &timeStamp);
-  }
-  ch_cnt = (ch_cnt + 1) % nbChannels;
-  delay(250);
 }
 

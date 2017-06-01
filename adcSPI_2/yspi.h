@@ -82,13 +82,14 @@ class USARTSPI : public YSPI{
                     portSS;  // Digital Pin Value Set bit for the specific SS pin
   };
 
-  static const uint8_t nbUARTS;
   static const usartRegisterStruct usartRegVec[];
   static const pinRegisterStruct  pinRegVec[];
   static const uartSpecificBitValueStruct specificBitVec[];
   
   const uint8_t uID;
  public:
+  static const uint8_t nbUARTS;
+ 
   USARTSPI(uint8_t id);
   virtual uint8_t transfer (uint8_t c);
   virtual void beginTransaction();

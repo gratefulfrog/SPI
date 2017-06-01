@@ -32,18 +32,34 @@
 
 #include "app.h"
 
-const boolean Yannick = true;
+const boolean Yannick      = true,    // set to true when using Yannick's harvesting platform
+              BobLocalTest = false;   // set to true to be able to test USART 0 on Bob's platform
 
-App *app;
+
+App **appVec;
+
 void setup(){
-  if (Yannick){
-    app = new YannickTestApp();
-  }
-  else{
-    app = new BobTestApp();  
+  appVec = new App*[USARTSPI::nbUARTS];
+  
+  for(uint8_t i=0;i<USARTSPI::nbUARTS;i++){
+    if (Yannick){
+      if (i || BobLocalTest){  // if i != 0 or if we are on Bob's platform then we create and instance
+        appVec[i] =  new YannickTestApp(i);
+      }
+      else{
+        appVec[i] = NULL;  // on the harvesting platform there is no adc conected to usart 0 so we set this to NULL
+      }
+    }
+    else{
+      appVec[i] =  new BobTestApp(i);  
+    }
   }
 }
 void loop(){
-  app->runLoop();
+  for(uint8_t i=0;i<USARTSPI::nbUARTS;i++){
+    if(appVec[i]){  // check to sure the pointer is not NULL!!
+      appVec[i]->runLoop();
+    }
+  }
 }
 

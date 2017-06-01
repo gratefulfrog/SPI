@@ -11,11 +11,18 @@ class App{
     const float epsilon    = 0.05;
   
     AD7689 *adc;
-    YSPI   *yyy;
-    uint8_t ch_cnt         = 0; // channel counter
     boolean usingUSARTSPI  = true;  // value changed during setup based on reading of yspiOnPin
-    uint32_t timeStamp     = 0;    // updated by reads to the adc
+    const uint8_t adcID;
+
+    static const uint8_t nbChannels = 8;
+
+    virtual void doSelfTest() const = 0;
+    virtual YSPI* usartInit()       = 0;
+    virtual YSPI* hwInit()          = 0;
+    virtual boolean checkChannelReading(uint8_t chan, float reading) const = 0;
+    virtual void checkAndTell(uint8_t channel) const = 0;
   public:
+    App(uint8_t id) : adcID(id){}
     virtual void runLoop() = 0;
 };
 
@@ -35,22 +42,21 @@ class BobTestApp : public App{
                   onTime        = 200,
                   falseOffTime  = 600,
                   trueOffTime   = onTime,
-                  nbInfoFlashes = 5,
-                  nbChannels    = 8;
+                  nbInfoFlashes = 5;
 
-    void testSetup();
-    void heartBeat() const;
-    void flash(boolean tf) const;
-    void doSelfTest() const;
-    void flashInfo(int n, bool once = false) const;
-    void usartInit();
-    void hwInit();
-    boolean checkChannelReading(int chan, float reading) const;
-    void checkAndTell() const;
+    void    testSetup();
+    void    heartBeat() const;
+    void    flash(boolean tf) const;
+    void    doSelfTest() const;
+    void    flashInfo(int n, bool once = false) const;
+    YSPI*   usartInit();
+    YSPI*   hwInit();
+    boolean checkChannelReading(uint8_t chan, float reading) const;
+    void    checkAndTell(uint8_t channel) const;
 
   public:
-    BobTestApp();
-    virtual void runLoop();
+    BobTestApp(uint8_t id);
+    void runLoop();
 };
 
 class YannickTestApp : public App{
@@ -59,18 +65,20 @@ class YannickTestApp : public App{
                   showHWSettings = useSerial,
                   talk           = true;
                   
-    const uint8_t AD7689_SS_pin  = 10,
-                  nbChannels     = 8,
-                  usartID        = 1;  // the ID of the USART bus that you will test
-    void doSelfTest() const;
-    void usartInit();
-    void hwInit();
-    float correctChannelReading(int chan) const;
-    boolean checkChannelReading(int chan, float reading) const;
-    void checkAndTell() const;
+    const uint8_t AD7689_SS_pin  = 10;
+    
+    static const uint8_t nbUarts = 4;
+    static const float correctChannelReadingVec[nbUarts][nbChannels];
+    
+    void    doSelfTest() const;
+    YSPI*   usartInit();
+    YSPI*   hwInit();
+    float   correctChannelReading(uint8_t chan) const;
+    boolean checkChannelReading(uint8_t chan, float reading) const;
+    void    checkAndTell(uint8_t channel) const;
   public:
-    YannickTestApp();
-    virtual void runLoop();
+    YannickTestApp(uint8_t id);
+    void runLoop();
 };
 #endif
 
