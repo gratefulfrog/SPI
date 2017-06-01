@@ -83,9 +83,6 @@ struct AD7689_conf {
  */
 
 class AD7689;
-typedef void (AD7689::*voidVoidFunc)();
-typedef byte (AD7689::*byteByteFunc)(byte);
-
 
 class AD7689 {
   protected:
