@@ -43,11 +43,11 @@ void setup(){
   
   for(uint8_t i=0;i<USARTSPI::nbUARTS;i++){
     if (Yannick){
-      if (i || BobLocalTest){  // if i != 0 or if we are on Bob's platform then we create and instance
+      if (i==1 || BobLocalTest){  // USART1 or if we are on Bob's platform then we create an instance
         appVec[i] =  new YannickTestApp(i);
       }
       else{
-        appVec[i] = NULL;  // on the harvesting platform there is no adc conected to usart 0 so we set this to NULL
+        appVec[i] = NULL;  // on the harvesting platform there is no adc conected to USART's 0,2,3 so we set this to NULL
       }
     }
     else{
@@ -57,7 +57,7 @@ void setup(){
 }
 void loop(){
   for(uint8_t i=0;i<USARTSPI::nbUARTS;i++){
-    if(appVec[i]){  // check to sure the pointer is not NULL!!
+    if(appVec[i]){  // check to be sure the pointer is not NULL!!
       appVec[i]->runLoop();
     }
   }
