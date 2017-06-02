@@ -36,7 +36,7 @@ const boolean Yannick      = true,   // set to true when using Yannick's harvest
               BobLocalTest = false;   // set to true to be able to test USART 0 (as HWSPI) on Bob's platform, with Serial Monitor
 
 
-App **appVec;
+const App  **appVec ;
 
 void setup(){
   appVec = new App*[USARTSPI::nbUARTS];
