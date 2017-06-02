@@ -1,13 +1,13 @@
-  #include "app.h"
+#include "app.h"
 
-void BobTestApp::print(String s){
+void BobTestApp::print(String s) const{
   if(!usingUSARTSPI  && 
      digitalRead(talkPin)){
     App::print(s);
   }
 }
 
-void BobTestApp::testSetup(){
+void BobTestApp::testSetup() const{
   pinMode(hbPin,OUTPUT);
   pinMode(truePin,OUTPUT);
   pinMode(falsePin,OUTPUT);
@@ -64,16 +64,16 @@ void BobTestApp::flashInfo(int n, bool once = false) const {
   }
 }
 
-YSPI* BobTestApp::usartInit(){
+YSPI* BobTestApp::usartInit() const {
   // step 1: YSPI instantiation
   flashInfo(1);
   YSPI* y = new USARTSPI(adcID);  // on Arduino UNO we only have UART SPI on uart 0
   flash(y);
-  
+  while(!y);
   return y;
 }
 
-YSPI* BobTestApp::hwInit(){
+YSPI* BobTestApp::hwInit() const {
   if (useSerial){
     Serial.begin(115200);
     while(!Serial);
@@ -105,10 +105,10 @@ boolean BobTestApp::checkChannelReading(uint8_t chan, float reading) const{
 void BobTestApp::checkAndTell(uint8_t channel) const {
   uint32_t timeStamp = 0;
   float reading = adc->acquireChannel(channel, &timeStamp); 
-    print("Voltage input "+ String(channel)+" :\t");
-    print(String(reading));
-    print(String("\t") + String(checkChannelReading(channel,reading) ? "TRUE" : "FALSE"));
-    println(String("\t") + String(timeStamp));
+  print("Voltage input "+ String(channel)+" :\t");
+  print(String(reading));
+  print(String("\t") + String(checkChannelReading(channel,reading) ? "TRUE" : "FALSE"));
+  println(String("\t") + String(timeStamp));
 
   digitalWrite(idPin,channel);
   flashInfo(channel, true);
@@ -145,7 +145,7 @@ BobTestApp::BobTestApp(uint8_t id) : App(id){
   doSelfTest();
 }
 
-void BobTestApp::runLoop() {
+void BobTestApp::runLoop() const {
   println(String("\nADC : ") + String(adcID) + String(" (HWSPI)"));
   for (uint8_t channel = 0; channel< nbChannels; channel++){
     if (digitalRead(talkPin)){

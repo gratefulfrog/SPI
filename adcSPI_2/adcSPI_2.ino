@@ -32,7 +32,7 @@
 
 #include "app.h"
 
-const boolean Yannick      = false,    // set to true when using Yannick's harvesting platform
+const boolean Yannick      = true,   // set to true when using Yannick's harvesting platform
               BobLocalTest = false;   // set to true to be able to test USART 0 (as HWSPI) on Bob's platform, with Serial Monitor
 
 

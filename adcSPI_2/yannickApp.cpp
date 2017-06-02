@@ -1,5 +1,10 @@
 #include "app.h"
 
+void YannickTestApp::print(String s) const{
+  if(talk){
+    App::print(s);
+  }
+}
 
 void YannickTestApp::doSelfTest() const {
   if (adc->selftest()){
@@ -11,7 +16,7 @@ void YannickTestApp::doSelfTest() const {
   }
 }
 
-YSPI* YannickTestApp::usartInit(){
+YSPI* YannickTestApp::usartInit() const {
   // step 1: YSPI instantiation
   delay(1000);
   YSPI* y = new USARTSPI(adcID);  // UART SPI on uart 0
@@ -25,7 +30,7 @@ YSPI* YannickTestApp::usartInit(){
   return y;
 }
 
-YSPI* YannickTestApp::hwInit(){
+YSPI* YannickTestApp::hwInit() const {
   // step 1: YSPI instantiation
   delay(1000);
   YSPI* y = new HWSPI(AD7689_SS_pin,F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU, MSBFIRST, SPI_MODE0); // HW SPI
@@ -39,10 +44,10 @@ YSPI* YannickTestApp::hwInit(){
   return y;
 }
 
-const float YannickTestApp::correctChannelReadingVec[4][8] =  {{0.0, 3.3 , 0.0, 3.3, 0.0, 3.3, 0.0, 3.3}, 
-                                                               {0.0, 2.85, 4.1, 4.1, 4.1, 4.1, 4.1, 4.1},
-                                                               {0.0, 2.85, 4.1, 4.1, 4.1, 4.1, 4.1, 4.1},
-                                                               {0.0, 2.85, 4.1, 4.1, 4.1, 4.1, 4.1, 4.1}};
+const float YannickTestApp::correctChannelReadingVec[][nbChannels] =  {{0.0, 3.3 , 0.0, 3.3, 0.0, 3.3, 0.0, 3.3}, 
+                                                                       {0.0, 2.85, 4.1, 4.1, 4.1, 4.1, 4.1, 4.1},
+                                                                       {0.0, 2.85, 4.1, 4.1, 4.1, 4.1, 4.1, 4.1},
+                                                                       {0.0, 2.85, 4.1, 4.1, 4.1, 4.1, 4.1, 4.1}};
                                                                
 boolean YannickTestApp::checkChannelReading(uint8_t chan, float reading) const{
   return (abs(reading-correctChannelReadingVec[adcID][chan])< epsilon);
@@ -90,8 +95,8 @@ YannickTestApp::YannickTestApp(uint8_t id) : App(id){
   doSelfTest();
 }
 
-void YannickTestApp::runLoop() {
-  (talk && useSerial && Serial.println(String("\nADC : ") + String(adcID)));
+void YannickTestApp::runLoop() const{
+  println(String("\nADC : ") + String(adcID));
   for (uint8_t channel = 0; channel< nbChannels; channel++){
     if (talk){  
       checkAndTell(channel);
