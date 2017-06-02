@@ -7,8 +7,6 @@
 
 #include "ad7689.h"
 
-//extern void flashInfo(int);
-
 /* sends a 16 bit word to the ADC, and simultaneously captures the response
    ADC responses lag 2 frames behind on commands
    if readback is activated, 32 bits will be captured instead of 16
@@ -27,19 +25,6 @@ uint16_t AD7689::shiftTransaction(uint16_t command, bool readback, uint16_t* rb_
   if (!init_complete) {
     // give ADC time to start up
     delay(STARTUP_DELAY);
-    /*
-    // synchronize start of conversion
-    if(usingYSPI){
-      yspi->setSS(LOW);
-      delayMicroseconds(TACQ); // miniumum 10 ns
-      yspi->setSS(HIGH);
-    }
-    else{
-      digitalWrite(SS, LOW);
-      delayMicroseconds(TACQ); // miniumum 10 ns
-      digitalWrite(SS, HIGH);
-    }
-    */
     yspi->setSS(LOW);
     delayMicroseconds(TACQ); // miniumum 10 ns
     yspi->setSS(HIGH);
@@ -50,23 +35,19 @@ uint16_t AD7689::shiftTransaction(uint16_t command, bool readback, uint16_t* rb_
   // allow time to sample
   delayMicroseconds(TCONV);
 
-  //(this->*beginTransactionFunc)();
   yspi->beginTransaction();
   
-  //uint16_t data = ((this->*transferFunc)(command >> 8) << 8) | (this->*transferFunc)(command & 0xFF);
   uint16_t data = (yspi->transfer(command >> 8) << 8) | yspi->transfer(command & 0xFF);
 
   // if a readback is requested, the 16 bit frame is extended with another 16 bits to retrieve the value
   if (readback) {
     // duplicate previous command
-    //uint16_t res = ((this->*transferFunc)(command >> 8) << 8) | (this->*transferFunc)(command & 0xFF);
     uint16_t res = (yspi->transfer(command >> 8) << 8) | yspi->transfer(command & 0xFF);
     if(rb_cmd_ptr ){
       *rb_cmd_ptr = res;
     }
   }
 
-  //(this->*endTransactionFunc)();
   yspi->endTransaction();
   
   // delay to allow data acquisition for the next cycle

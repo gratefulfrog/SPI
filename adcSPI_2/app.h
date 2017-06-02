@@ -9,6 +9,9 @@
 class App{
   protected:  
     const float epsilon    = 0.05;
+
+    const boolean useSerial      = true,
+                  showHWSettings = useSerial;
   
     AD7689 *adc;
     boolean usingUSARTSPI  = true;  // value changed during setup based on reading of yspiOnPin
@@ -22,15 +25,15 @@ class App{
     virtual boolean checkChannelReading(uint8_t chan, float reading) const = 0;
     virtual void checkAndTell(uint8_t channel) const = 0;
   public:
-    App(uint8_t id) : adcID(id){}
+    virtual void print(String s);
+    virtual void println(String s);
+    App(uint8_t id);
     virtual void runLoop() = 0;
 };
 
 
 class BobTestApp : public App{
   protected:
-    const boolean useSerial      = true,
-                  showHWSettings = useSerial;
                   
     const uint8_t AD7689_SS_pin = 10,
                   hbPin         = 9,
@@ -44,6 +47,7 @@ class BobTestApp : public App{
                   trueOffTime   = onTime,
                   nbInfoFlashes = 5;
 
+    virtual void print(String s);
     void    testSetup();
     void    heartBeat() const;
     void    flash(boolean tf) const;
@@ -61,9 +65,7 @@ class BobTestApp : public App{
 
 class YannickTestApp : public App{
   protected:
-    const boolean useSerial      = true,
-                  showHWSettings = useSerial,
-                  talk           = true;
+    const boolean talk           = true;
                   
     const uint8_t AD7689_SS_pin  = 10;
     

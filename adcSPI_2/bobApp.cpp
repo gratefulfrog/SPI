@@ -1,5 +1,11 @@
   #include "app.h"
 
+void BobTestApp::print(String s){
+  if(!usingUSARTSPI  && 
+     digitalRead(talkPin)){
+    App::print(s);
+  }
+}
 
 void BobTestApp::testSetup(){
   pinMode(hbPin,OUTPUT);
@@ -28,11 +34,11 @@ void BobTestApp::flash(boolean tf) const{
 
 void BobTestApp::doSelfTest() const{
   if (adc->selftest()){
-    (!usingUSARTSPI && useSerial && digitalRead(talkPin) && Serial.println(String("AD7689 instance ") + String(adcID) +String(" Self-Test Passed!")));
+   println(String("AD7689 instance ") + String(adcID) +String(" Self-Test Passed!"));
     flash(true);
   } 
   else {
-    (!usingUSARTSPI && useSerial && digitalRead(talkPin) && Serial.println(String("AD7689 instance ") + String(adcID) +String(" Self-Test FAILED!")));
+    println(String("AD7689 instance ") + String(adcID) +String(" Self-Test FAILED!"));
     while (1){
       flash(false);
     }    
@@ -71,9 +77,9 @@ YSPI* BobTestApp::hwInit(){
   if (useSerial){
     Serial.begin(115200);
     while(!Serial);
-    (digitalRead(talkPin) && Serial.println("Let the test begin!")); 
-    if (showHWSettings && digitalRead(talkPin)){
-      Serial.println (String("HW SPI Frequency : ") + String(F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU));  // 16 000 000 == 16MHz
+    println("Let the test begin!"); 
+    if (showHWSettings){
+      println (String("HW SPI Frequency : ") + String(F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU));  // 16 000 000 == 16MHz
     }
   }
   // step 1: YSPI instantiation
@@ -81,10 +87,10 @@ YSPI* BobTestApp::hwInit(){
   YSPI* y = new HWSPI(AD7689_SS_pin,F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU, MSBFIRST, SPI_MODE0); // HW SPI
   flash(y);
   if (y){
-    (useSerial && digitalRead(talkPin) && Serial.println(String("HWSPI instance ") + String(adcID) + String(" created!")));
+    println(String("HWSPI instance ") + String(adcID) + String(" created!"));
   }
   else{
-    (useSerial && digitalRead(talkPin) && Serial.println(String("HWSPI instance ") + String(adcID) +  String(" failed!")));
+    println(String("HWSPI instance ") + String(adcID) +  String(" failed!"));
     while(1);
   }
 
@@ -99,12 +105,10 @@ boolean BobTestApp::checkChannelReading(uint8_t chan, float reading) const{
 void BobTestApp::checkAndTell(uint8_t channel) const {
   uint32_t timeStamp = 0;
   float reading = adc->acquireChannel(channel, &timeStamp); 
-  if (!usingUSARTSPI && useSerial && digitalRead(talkPin)){
-    Serial.print("Voltage input "+ String(channel)+" :\t");
-    Serial.print(reading);
-    Serial.print(String("\t") + String(checkChannelReading(channel,reading) ? "TRUE" : "FALSE"));
-    Serial.println(String("\t") + String(timeStamp));
-  }
+    print("Voltage input "+ String(channel)+" :\t");
+    print(String(reading));
+    print(String("\t") + String(checkChannelReading(channel,reading) ? "TRUE" : "FALSE"));
+    println(String("\t") + String(timeStamp));
 
   digitalWrite(idPin,channel);
   flashInfo(channel, true);
@@ -129,10 +133,10 @@ BobTestApp::BobTestApp(uint8_t id) : App(id){
   adc = new AD7689(yspi, nbChannels);
   flash(adc);
   if (adc){
-    (!usingUSARTSPI && useSerial && digitalRead(talkPin) && Serial.println(String("AD7689 instance ") + String(adcID) + String(" created!")));
+    println(String("AD7689 instance ") + String(adcID) + String(" created!"));
   }
   else{
-    (!usingUSARTSPI && useSerial && digitalRead(talkPin) && Serial.println(String("AD7689 instance ") + String(adcID) +   String(" creation failed!")));
+    println(String("AD7689 instance ") + String(adcID) +   String(" creation failed!"));
     while(1);
   }
   
@@ -142,7 +146,7 @@ BobTestApp::BobTestApp(uint8_t id) : App(id){
 }
 
 void BobTestApp::runLoop() {
-  (!usingUSARTSPI && useSerial && digitalRead(talkPin) && Serial.println(String("\nADC : ") + String(adcID) + String(" (HWSPI)")));
+  println(String("\nADC : ") + String(adcID) + String(" (HWSPI)"));
   for (uint8_t channel = 0; channel< nbChannels; channel++){
     if (digitalRead(talkPin)){
       heartBeat();

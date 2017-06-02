@@ -33,21 +33,22 @@ Pins: D0 MISO (Rx)
 
 #include "yspi.h"
 
-
+// test to see if we have an ATmega328p or an ATmega2560 MCU
 #if ( SIGNATURE_1 == 0x98 && SIGNATURE_2 == 0x01)
 
 ///// ATMEGA 2560 VALUES ////////////
 
 static const uint8_t USARTSPI::nbUARTS =  4;
+
 // usart reg struct: {&udr,&ucsrA,&ucsrB,&ucsrC,&ubrr}
-const USARTSPI::usartRegisterStruct USARTSPI::usartRegVec[nbUARTS] = {{UDR0,UCSR0A,UCSR0B,UCSR0C,UBRR0}, // usart 0
+const USARTSPI::usartRegisterStruct USARTSPI::usartRegVec[nbUARTS] = {{UDR0,UCSR0A,UCSR0B,UCSR0C,UBRR0},  // usart 0
                                                                       {UDR1,UCSR1A,UCSR1B,UCSR1C,UBRR1},  // usart 1
                                                                       {UDR2,UCSR2A,UCSR2B,UCSR2C,UBRR2},  // usart 2
                                                                       {UDR3,UCSR3A,UCSR3B,UCSR3C,UBRR3},  // usart 3
                                                                       }; 
 
 // pin reg struct: {&io,&set}
-const USARTSPI::pinRegisterStruct  USARTSPI::pinRegVec[nbUARTS]  = {{DDRE, PORTE},   // usart 0: io: 'D', Set: 'PORTD'
+const USARTSPI::pinRegisterStruct  USARTSPI::pinRegVec[nbUARTS]  = {{DDRE, PORTE},  // usart 0: io: 'D', Set: 'PORTD'
                                                                     {DDRD, PORTD},  // usart 1
                                                                     {DDRH, PORTH},  // usart 2
                                                                     {DDRJ, PORTJ},  // usart 3
@@ -73,7 +74,7 @@ const USARTSPI::uartSpecificBitValueStruct USARTSPI::specificBitVec[nbUARTS] = {
 #else
 
 ///// ATMEGA 328P VALUES ////////////
-// NOTE on ATMega2560 the following must be set to 4 !!!
+
 static const uint8_t USARTSPI::nbUARTS =  1;
 
 // usart reg struct: {&udr,&ucsrA,&ucsrB,&ucsrC,&ubrr}
@@ -99,8 +100,10 @@ const USARTSPI::uartSpecificBitValueStruct USARTSPI::specificBitVec[nbUARTS] = {
 
 #endif
 
-
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// USARTSPI Class Methods start here
+// NOTE: Please do not remove comments so we can understand what is going on!!!
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 USARTSPI::USARTSPI(uint8_t usartID) : YSPI(), uID(usartID) {
   // pinMode (MSPIM_SS, OUTPUT);   // MSPIM_SS is pin 5 
@@ -132,8 +135,6 @@ USARTSPI::USARTSPI(uint8_t usartID) : YSPI(), uID(usartID) {
   // UBRR0 = 0; // full speed //3 => 2 Mhz clock rate
   usartRegVec[uID].ubrr = 0;        
 }
-
-
 
 void USARTSPI::setSS(uint8_t highLow){
   //digitalWrite(MSPIM_SS , highLow);

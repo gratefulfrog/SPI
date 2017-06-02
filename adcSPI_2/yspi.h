@@ -22,6 +22,7 @@ class HWSPI : public YSPI{
   protected:
     const uint8_t SS;
     const SPISettings settings;
+    
   public:
     HWSPI( uint8_t SSpin, 
            uint32_t clockF, 
@@ -37,8 +38,6 @@ class HWSPI : public YSPI{
 
 class USARTSPI : public YSPI{
  protected:
-  //const uint8_t MSPIM_SCK = 4;
-  //const uint8_t MSPIM_SS  = 5;
 
   struct usartRegisterStruct {
     volatile uint8_t &udr,
@@ -87,6 +86,7 @@ class USARTSPI : public YSPI{
   static const uartSpecificBitValueStruct specificBitVec[];
   
   const uint8_t uID;
+ 
  public:
   static const uint8_t nbUARTS;
  

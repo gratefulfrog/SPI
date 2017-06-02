@@ -8,11 +8,11 @@
  */
 
 HWSPI::HWSPI(uint8_t SSpin, 
-               uint32_t clockF, 
-               uint8_t bitOrder, 
-               uint8_t dataMode) : YSPI(), 
-                                   SS(SSpin), 
-                                   settings(clockF, bitOrder,dataMode){
+             uint32_t clockF, 
+             uint8_t bitOrder, 
+             uint8_t dataMode) : YSPI(), 
+                                 SS(SSpin), 
+                                 settings(clockF, bitOrder,dataMode){
   SPI.begin();
   pinMode(SS, OUTPUT);    // configure slave select pin as output (not controlled by SPI transceiver)
   setSS(HIGH);  

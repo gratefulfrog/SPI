@@ -7,7 +7,6 @@
 #include <WProgram.h>
 #endif
 
-// required for SPI communication
 #include "yspi.h"
 
 // input configuration: bipolar/unipolar, single ended or differential
@@ -89,8 +88,6 @@ class AD7689 {
     AD7689_conf conf;                       /*!< Configuration settings for the ADC. */
     bool init_complete = false;             /*!< A value indicating if the initialization sequence has been completed. */
 
-    //const SPISettings AD7689_settings;      /*!< SPI connection settings. ADC uses CPOL = 0 and CPHA = 0 */
-    //uint8_t SS;                              /*!< MCU pin that drives the Slave Select pin of the ADC. Must be a digital IO pin. */
     float posref;                           /*!< Positive voltage reference for unipolar or bipolar mode. */
     float negref;                           /*!< Negative voltage reference, either COM or ground. */
 
