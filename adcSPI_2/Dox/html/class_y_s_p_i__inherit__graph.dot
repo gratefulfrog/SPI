@@ -1,0 +1,10 @@
+digraph "YSPI"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="YSPI",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="HWSPI",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_h_w_s_p_i.html"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="USARTSPI",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_u_s_a_r_t_s_p_i.html"];
+}

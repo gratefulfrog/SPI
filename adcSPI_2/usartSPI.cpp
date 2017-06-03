@@ -136,7 +136,7 @@ USARTSPI::USARTSPI(uint8_t usartID) : YSPI(), uID(usartID) {
   usartRegVec[uID].ubrr = 0;        
 }
 
-void USARTSPI::setSS(uint8_t highLow){
+void USARTSPI::setSS(uint8_t highLow) const{
   //digitalWrite(MSPIM_SS , highLow);
   // MSPIM_SS is pin 5
   if (highLow){
@@ -152,12 +152,12 @@ void USARTSPI::setSS(uint8_t highLow){
     pinRegVec[uID].set &= ~_BV(specificBitVec[uID].portSS);
   }
 }
-void USARTSPI::beginTransaction(){
+void USARTSPI::beginTransaction() const{
   setSS(LOW);
 }
 
 // sends/receives one byte
-uint8_t USARTSPI::transfer (uint8_t data){
+uint8_t USARTSPI::transfer (uint8_t data) const{
   // wait for transmitter ready
   // while (!(UCSR0A & _BV (UDRE0)));
   while (!(usartRegVec[uID].ucsrA & _BV (specificBitVec[uID].udre)));
@@ -175,7 +175,7 @@ uint8_t USARTSPI::transfer (uint8_t data){
   return usartRegVec[uID].udr;
 }  
 
-void USARTSPI::endTransaction(){
+void USARTSPI::endTransaction() const{
   // wait for all transmissions to finish
   // while (!(UCSR0A & _BV (TXC0)));
   while (!(usartRegVec[uID].ucsrA & _BV (specificBitVec[uID].txc)));

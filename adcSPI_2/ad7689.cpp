@@ -20,17 +20,7 @@
  * @param  rb_cmd_ptr A pointer to a variable to store the readback response.
  * @return            A 16 bit word received from the ADC, as response to the command from 2 frames ago.
  */
-uint16_t AD7689::shiftTransaction(uint16_t command, bool readback, uint16_t* rb_cmd_ptr) {
-  // one time start-up sequence
-  if (!init_complete) {
-    // give ADC time to start up
-    delay(STARTUP_DELAY);
-    yspi->setSS(LOW);
-    delayMicroseconds(TACQ); // miniumum 10 ns
-    yspi->setSS(HIGH);
-    delayMicroseconds(TCONV); // minimum 3.2 µs
-    init_complete = true;
-  }
+uint16_t AD7689::shiftTransaction(uint16_t command, bool readback, uint16_t* rb_cmd_ptr) const {
 
   // allow time to sample
   delayMicroseconds(TCONV);
@@ -277,36 +267,38 @@ void AD7689::cycleTimingBenchmark() {
 }
 
 /**
- * [AD7689::finalizeInstance does all the instance init that is common to both HW and MY SPI usage]
+ * [AD7689::constructor Create an instance of an AD7689 ADC. using YSPI]
+ * @param y               Pointer to an instance of YSPI 
+ * @param numberChannels  The highest channel in use for the application, a value between 1 and 8.
+ * @return                Instance of the ADC.
  */
-void AD7689::finalizeInstance(){
+AD7689::AD7689(const YSPI *const y, 
+               uint8_t numberChannels) : yspi(y),
+                                         inputCount(numberChannels){
   // set default configuration options
   inputConfig = INCC_UNIPOLAR_REF_GND;  // default to unipolar mode with negative reference to ground
   refConfig = INT_REF_4096;             // internal 4.096V reference
   filterConfig = false;                 // full bandwidth
 
+  // start-up sequence
+  // give ADC time to start up
+  delay(STARTUP_DELAY);
+  yspi->setSS(LOW);
+  delayMicroseconds(TACQ); // miniumum 10 ns
+  yspi->setSS(HIGH);
+  delayMicroseconds(TCONV); // minimum 3.2 µs
+
   // measure how long it takes to complete a 16-bit r/w cycle using current F_CPU for accurate sample timing
   cycleTimingBenchmark();
   
-    
   // reset sample time stamps and force an update sequence at the next read command
   initSampleTiming();
-  
-  sequencerActive = false; // sequencer disabled by default
+
+  // sequencer disabled by default
+  sequencerActive = false; 
 
   // set reference source and voltage to the most commonly used values
   setReference(REF_INTERNAL, INTERNAL_4096, UNIPOLAR_MODE, false);
-}
-
-/**
- * [AD7689::constructor Create an instance of an AD7689 ADC. using YSPI]
- * @param y               Pointer to an instance of YSPI..
- * @param numberChannels  The highest channel in use for the application, a value between 1 and 8.
- * @return                Instance of the ADC.
- */
-AD7689::AD7689(YSPI *y, uint8_t numberChannels) : yspi(y),
-                                                  inputCount(numberChannels){
-  finalizeInstance();
 }
 
 /**
@@ -418,7 +410,7 @@ float AD7689::acquireTemperature() {
  * [AD7689::selftest Verifies that the ADC is properly connected and operational]
  * @return True if the ADC works properly, False if errors were encountered. Check SPI connections if selftest fails repeatedly.
  */
-bool AD7689::selftest() {
+bool AD7689::selftest() const {
   // ADC will be tested with its readback function, which reads back a previous command
   // this process takes 3 cycles
 

@@ -86,7 +86,6 @@ class AD7689;
 class AD7689 {
   protected:
     AD7689_conf conf;                       /*!< Configuration settings for the ADC. */
-    bool init_complete = false;             /*!< A value indicating if the initialization sequence has been completed. */
 
     float posref;                           /*!< Positive voltage reference for unipolar or bipolar mode. */
     float negref;                           /*!< Negative voltage reference, either COM or ground. */
@@ -106,9 +105,9 @@ class AD7689 {
     uint8_t refConfig;                      /*!< Voltage reference configuration. */
     bool filterConfig;                      /*!< Input filter configuration. */
 
-    YSPI *yspi = NULL;                     /*!< Points to YMSPI instance to be used in all SPI comms. */             
+    const YSPI *const yspi = NULL;                     /*!< Points to YMSPI instance to be used in all SPI comms. */             
 
-    uint16_t shiftTransaction(uint16_t command, bool readback, uint16_t* rb_cmd_ptr);
+    uint16_t shiftTransaction(uint16_t command, bool readback, uint16_t* rb_cmd_ptr) const;
     uint16_t toCommand(AD7689_conf cfg) const;
     AD7689_conf getADCConfig(bool default_config = false);
     float readTemperature(void);
@@ -118,16 +117,14 @@ class AD7689 {
     float calculateTemp(uint16_t temp) const;
     uint32_t initSampleTiming(void);
     void cycleTimingBenchmark(void);
-    
-    void finalizeInstance();
 
   public:
-    AD7689(YSPI *y, uint8_t numberChannels = TOTAL_CHANNELS);
+    AD7689(const YSPI *const y, uint8_t numberChannels = TOTAL_CHANNELS);
     void setReference(uint8_t refSource, float posRef, uint8_t polarity, bool differential);
     void enableFiltering(bool onOff);
     float acquireChannel(uint8_t channel, uint32_t* timeStamp);
     float acquireTemperature();
-    bool selftest(void);
+    bool selftest(void) const;
 };
 #endif
 

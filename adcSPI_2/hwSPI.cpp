@@ -18,20 +18,20 @@ HWSPI::HWSPI(uint8_t SSpin,
   setSS(HIGH);  
 }
 
-void HWSPI::setSS(uint8_t highLow){
+void HWSPI::setSS(uint8_t highLow) const{
   digitalWrite(SS,highLow);
 }
 
-void HWSPI::beginTransaction(){
+void HWSPI::beginTransaction() const{
   SPI.beginTransaction(settings);
   setSS(LOW);
 }
 
-uint8_t HWSPI::transfer (uint8_t data){
+uint8_t HWSPI::transfer (uint8_t data) const{
   return SPI.transfer(data);
 }
 
-void HWSPI::endTransaction(){
+void HWSPI::endTransaction() const{
   setSS(HIGH);
   SPI.endTransaction();
 }

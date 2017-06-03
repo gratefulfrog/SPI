@@ -1,0 +1,15 @@
+digraph "USARTSPI"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="USARTSPI",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="YSPI",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_y_s_p_i.html"];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" usartRegVec" ,fontname="Helvetica"];
+  Node3 [label="USARTSPI::usartRegisterStruct",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$struct_u_s_a_r_t_s_p_i_1_1usart_register_struct.html"];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" pinRegVec" ,fontname="Helvetica"];
+  Node4 [label="USARTSPI::pinRegisterStruct",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$struct_u_s_a_r_t_s_p_i_1_1pin_register_struct.html"];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" specificBitVec" ,fontname="Helvetica"];
+  Node5 [label="USARTSPI::uartSpecificBit\lValueStruct",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$struct_u_s_a_r_t_s_p_i_1_1uart_specific_bit_value_struct.html"];
+}
