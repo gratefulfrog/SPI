@@ -137,9 +137,17 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>YPSI abstract class. This serves as a defintion of the <a class="el" href="class_y_s_p_i.html">YSPI</a> interface. Note: all the methods are const, thus once instatiated, the itnernal state of the <a class="el" href="class_y_s_p_i.html">YSPI</a> instance never changes. Typical Usage of the concrete children classes:</p><ol type="1">
-<li>instanciation YSPI* yspiPtr = new ChildClass(...);</li>
-<li>Transaction: yspiPtr-&gt;<a class="el" href="class_y_s_p_i.html#ab2e304638b68410d362c10b6795543ac">beginTransaction()</a>; uint8_t result = yspiPtr-&gt;transfer(outgoingByte); yspiPtr-&gt;<a class="el" href="class_y_s_p_i.html#a9ccfe275e7e716ccb1325f56b1f7ec97">endTransaction()</a>;</li>
-<li>if needed, control the Slave Select pin value yspiPtr-&gt;setSS(HIGH); // set to HIGH yspiPtr-&gt;setSS(LOW); // set to LOW </li>
+<li><p class="startli">instanciation</p>
+<p class="startli">YSPI* yspiPtr = new ChildClass(...);</p>
+</li>
+<li><p class="startli">Transaction: yspiPtr-&gt;<a class="el" href="class_y_s_p_i.html#ab2e304638b68410d362c10b6795543ac">beginTransaction()</a>;</p>
+<p class="startli">uint8_t result = yspiPtr-&gt;transfer(outgoingByte);</p>
+<p class="startli">yspiPtr-&gt;<a class="el" href="class_y_s_p_i.html#a9ccfe275e7e716ccb1325f56b1f7ec97">endTransaction()</a>;</p>
+</li>
+<li><p class="startli">if needed, control the Slave Select pin value</p>
+<p class="startli">yspiPtr-&gt;setSS(HIGH); // set to HIGH</p>
+<p class="startli">yspiPtr-&gt;setSS(LOW); // set to LOW </p>
+</li>
 </ol>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="ab2e304638b68410d362c10b6795543ac"></a>
@@ -260,7 +268,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="yspi_8h_source.html">yspi.h</a></li>
+<li>/home/bob/Desktop/temp/Yannick/PhD Support/temp/SPI/adcSPI_2/<a class="el" href="yspi_8h_source.html">yspi.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

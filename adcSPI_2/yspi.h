@@ -16,13 +16,20 @@
  *  of the YSPI instance never changes.
  *  Typical Usage of the concrete children classes:
  *  1. instanciation
+ *  
  *     YSPI* yspiPtr =  new ChildClass(...);
+ *  
  *  2. Transaction:
  *     yspiPtr->beginTransaction();
+ *     
  *     uint8_t result = yspiPtr->transfer(outgoingByte);
+ *     
  *     yspiPtr->endTransaction();
+ *  
  *  3. if needed, control the Slave Select pin value
+ *     
  *     yspiPtr->setSS(HIGH);   // set to HIGH
+ *     
  *     yspiPtr->setSS(LOW);    // set to LOW
  */
 class YSPI{
