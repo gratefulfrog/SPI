@@ -64,8 +64,9 @@
 #define STARTUP_DELAY         (100)
 
 /** Configuration settings of the ADC.
-    This should *not* be modified directly by the user.
-    Incorrect configuration combinations may lead to unpredictable results and potentially damage the ADC! */
+ *  This should *not* be modified directly by the user.
+ *  Incorrect configuration combinations may lead to unpredictable results and potentially damage the ADC! 
+ */
 struct AD7689_conf {
   bool    CFG_conf;       /*!< True if configuration command should be updated. */
   uint8_t INCC_conf;      /*!< Input channel configuration */
@@ -80,9 +81,6 @@ struct AD7689_conf {
 /**
  * Represents the Analog Devices AD7689, an ADC with 8 channels and 16 bit resolution.
  */
-
-class AD7689;
-
 class AD7689 {
   protected:
     AD7689_conf conf;                       /*!< Configuration settings for the ADC. */
