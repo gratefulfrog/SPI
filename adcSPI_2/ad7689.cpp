@@ -354,8 +354,6 @@ AD7689::AD7689(const YSPI *const y,
                                          refConfig(INT_REF_4096)
                                          {
   // set default configuration options
-  //inputConfig = INCC_UNIPOLAR_REF_GND;  // default to unipolar mode with negative reference to ground
-  //refConfig = INT_REF_4096;             // internal 4.096V reference
   filterConfig = false;                 // full bandwidth
 
   // start-up sequence
@@ -374,9 +372,6 @@ AD7689::AD7689(const YSPI *const y,
 
   // sequencer disabled by default
   sequencerActive = false; 
-
-  // set reference source and voltage to the most commonly used values
-  //setReference(REF_INTERNAL, INTERNAL_4096, UNIPOLAR_MODE, false);
 }
 
 /**
