@@ -85,8 +85,13 @@ class AD7689 {
   protected:
     AD7689_conf conf;                       /*!< Configuration settings for the ADC. */
 
-    float posref;                           /*!< Positive voltage reference for unipolar or bipolar mode. */
-    float negref;                           /*!< Negative voltage reference, either COM or ground. */
+    const YSPI *const yspi = NULL;                     /*!< Points to YMSPI instance to be used in all SPI comms. */             
+
+    const float posref;                           /*!< Positive voltage reference for unipolar or bipolar mode. */
+    const float negref;                           /*!< Negative voltage reference, either COM or ground. */
+    const uint8_t refsrc;                         /*!< Positive voltage eference source. */
+    const uint8_t inputConfig;                    /*!< Input channel configuration. */
+    const uint8_t refConfig;                      /*!< Voltage reference configuration. */
 
     uint32_t timeStamps[TOTAL_CHANNELS];    /*!< Last set of time stamps for each channel. */
     uint16_t samples[TOTAL_CHANNELS];       /*!< Last set of samples for each channel. */
@@ -94,31 +99,31 @@ class AD7689 {
     uint16_t curTemp;                       /*!< Last temperature measurement. */
     uint16_t tempTime;                      /*!< Time stamp for last temperature measurement. */
     uint32_t lastSeqEndTime;                /*!< Time stamp of the end of the last data acquisition sequence. */
-
-    bool sequencerActive;                   /*!< True when the sequencer is initialized, false at start-up or during self tests */
-
-    uint8_t refsrc;                         /*!< Positive voltage eference source. */
-    uint8_t inputConfig;                    /*!< Input channel configuration. */
     uint8_t inputCount;                     /*!< Number of input channels. Even for differential mode. */
-    uint8_t refConfig;                      /*!< Voltage reference configuration. */
+
+    bool sequencerActive;                   /*!< True when the sequencer is initialized, false at start-up or during self tests */    
     bool filterConfig;                      /*!< Input filter configuration. */
 
-    const YSPI *const yspi = NULL;                     /*!< Points to YMSPI instance to be used in all SPI comms. */             
-
-    uint16_t shiftTransaction(uint16_t command, bool readback, uint16_t* rb_cmd_ptr) const;
-    uint16_t toCommand(AD7689_conf cfg) const;
+    
+    uint16_t    shiftTransaction(uint16_t command, bool readback, uint16_t* rb_cmd_ptr) const;
+    uint16_t    toCommand(AD7689_conf cfg) const;
     AD7689_conf getADCConfig(bool default_config = false);
-    float readTemperature(void);
-    void configureSequencer();
-    void readChannels(uint8_t channels, uint8_t mode, uint16_t* data, uint16_t* temp);
-    float calculateVoltage(uint16_t sample) const;
-    float calculateTemp(uint16_t temp) const;
-    uint32_t initSampleTiming(void);
-    void cycleTimingBenchmark(void);
-
+    float       readTemperature(void);
+    void        configureSequencer();
+    void        readChannels(uint8_t channels, uint8_t mode, uint16_t* data, uint16_t* temp);
+    float       calculateVoltage(uint16_t sample) const;
+    float      calculateTemp(uint16_t temp) const;
+    uint32_t   initSampleTiming(void);
+    void       cycleTimingBenchmark(void);
+    
+    // initialisation funcitons
+    uint8_t getInputConfig(uint8_t polarity, bool differential) const;
+    float   getNegRef(float posR, uint8_t polarity) const;
+    uint8_t getRefSrc(uint8_t refS, float posR) const;
+    float   getPosRef(uint8_t refS, float posR) const;
+    
   public:
     AD7689(const YSPI *const y, uint8_t numberChannels = TOTAL_CHANNELS);
-    void setReference(uint8_t refSource, float posRef, uint8_t polarity, bool differential);
     void enableFiltering(bool onOff);
     float acquireChannel(uint8_t channel, uint32_t* timeStamp);
     float acquireTemperature();
