@@ -62,7 +62,7 @@ void YannickTestApp::checkAndTell(uint8_t channel) const{
   println(String("\t") + String(timeStamp));
 }
 
-YannickTestApp::YannickTestApp(uint8_t id) : App(id,13){    
+YannickTestApp::YannickTestApp(uint8_t id) : App(id,MEGA_HEART_BEAT_PIN){    
   usingUSARTSPI  = true;
   if (useSerial){
     Serial.begin(115200);

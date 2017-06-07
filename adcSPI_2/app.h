@@ -5,6 +5,9 @@
 #include "ad7689.h"
 #include "yspi.h"
 
+#define  UNO_HEART_BEAT_PIN   (9)
+#define MEGA_HEART_BEAT_PIN  (13)
+
 
 class App{  // each instance will manage the test of one ADC
   protected:  

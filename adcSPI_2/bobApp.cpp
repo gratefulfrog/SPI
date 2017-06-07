@@ -111,7 +111,7 @@ void BobTestApp::checkAndTell(uint8_t channel) const {
   flash(checkChannelReading(channel,reading));
 }
 
-BobTestApp::BobTestApp(uint8_t id) : App(id,9){
+BobTestApp::BobTestApp(uint8_t id) : App(id,UNO_HEART_BEAT_PIN){
   testSetup();
   usingUSARTSPI = digitalRead(yspiOnPin);
   
