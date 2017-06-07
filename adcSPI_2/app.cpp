@@ -10,6 +10,11 @@ void App::println(String s) const{
   print(s + String("\n"));
 }
 
+void App::heartBeat() const{
+  digitalWrite(hbPin, !digitalRead(hbPin));
+}
+
 // constrcutor , init the adcID
-App::App(uint8_t id) : adcID(id){
+App::App(uint8_t id,uint8_t heartBeatPin  ) : adcID(id), hbPin(heartBeatPin) {
+  pinMode(hbPin,OUTPUT);
 }

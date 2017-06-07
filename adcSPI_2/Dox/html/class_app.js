@@ -1,9 +1,10 @@
 var class_app =
 [
-    [ "App", "class_app.html#a93758d1a06732bdaa3c570c6c93cd47a", null ],
+    [ "App", "class_app.html#a9ffe93b0ce4232e4c775b824d559ec58", null ],
     [ "checkAndTell", "class_app.html#a46811f729c8a785790a614cd09a00671", null ],
     [ "checkChannelReading", "class_app.html#a3b24feb225da25cdac334274526ab57d", null ],
     [ "doSelfTest", "class_app.html#a53b1095eb14349b4167c7f6ed3f13557", null ],
+    [ "heartBeat", "class_app.html#af2706af3f4abb17ec0054c0d7f58c71b", null ],
     [ "hwInit", "class_app.html#a7eb26fdf2a49737f7aa74de2f844117c", null ],
     [ "print", "class_app.html#ac966bc6d41f0bdf02df24c150f32b5c1", null ],
     [ "println", "class_app.html#a386fb915b7aa410879011a0c02e54f93", null ],
@@ -11,6 +12,7 @@ var class_app =
     [ "usartInit", "class_app.html#aab7ae4ea2e0a6a8434aae16c2b8eeee7", null ],
     [ "adc", "class_app.html#a685c1e744b33e36b3182b81bc96376a3", null ],
     [ "adcID", "class_app.html#a36695f25f6296ac05e4b4f78ae93bf0f", null ],
+    [ "hbPin", "class_app.html#ada9728867b995a8b08806ba71aa939f2", null ],
     [ "showHWSettings", "class_app.html#a625fb0a5dd8c700ddfe67a8ec4c9f153", null ],
     [ "useSerial", "class_app.html#a9f072440e47bcb8ed12c5cedbc2335a2", null ],
     [ "usingUSARTSPI", "class_app.html#ab18682fed9279c2a46979ad9d4592c7d", null ]

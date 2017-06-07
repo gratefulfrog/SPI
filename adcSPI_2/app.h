@@ -9,7 +9,7 @@
 class App{  // each instance will manage the test of one ADC
   protected:  
     // static member variable 
-    static const uint8_t nbChannels = 8;      // adc number of channels to be tested
+    static const uint8_t nbChannels = 8;     // adc number of channels to be tested
     static const float   epsilon    = 0.05;   // used in equality testing
 
     const boolean useSerial      = true,      // for message output 
@@ -18,9 +18,10 @@ class App{  // each instance will manage the test of one ADC
     // member variables assigned during instatiation or execution
     AD7689 *adc;
     boolean usingUSARTSPI  = true;  // value may be changed during setup based on reading of yspiOnPin (BoTestApp only)
-    const uint8_t adcID;            // identifying which adc we are testing in this app instance
+    const uint8_t adcID,            // identifying which adc we are testing in this app instance
+                  hbPin;            // heart Beat pin
 
-
+    void    heartBeat()          const;    // flashes heart beat LED
     virtual void    doSelfTest() const = 0;  // runs the adc self-test and informs, blocks if failure
     virtual YSPI*   usartInit()  const = 0;  // return pointer to USARTSPI instance allocated from the heap
     virtual YSPI*   hwInit()     const = 0;  // return pointer to HWSPI instance allocated from the heap
@@ -31,7 +32,7 @@ class App{  // each instance will manage the test of one ADC
   public:
     virtual void print(String s) const;     // encapsulates Serial.print with the appropriate conditions
     virtual void println(String s) const;   // adds a \n and calls print
-    App(uint8_t id);                        // constructor inits the adc ID
+    App(uint8_t id, uint8_t heartBeatPin );  // constructor inits the adc ID & heart beat pin
     virtual void runLoop() const = 0;       // loops over all the adc channels
 };
 
@@ -40,7 +41,6 @@ class BobTestApp : public App{  // class to encapsulate exectuion envt for Bob
   protected:
                   
     const uint8_t AD7689_SS_pin = 10,      // HWSPI SS pin (output)
-                  hbPin         = 9,       // heart beat LED pin (output)
                   idPin         = 8,       // ID LED pin (output)
                   truePin       = 7,       // TRUE LED pin (output)
                   falsePin      = 6,       // FALSE LED pin (output)
@@ -53,7 +53,6 @@ class BobTestApp : public App{  // class to encapsulate exectuion envt for Bob
 
     virtual void print(String s) const;    // local version takes into account Bob test envt.
     void    testSetup()          const;    // sets pinModes
-    void    heartBeat()          const;    // flashes heart beat LED
     void    flash(boolean tf)    const;    // flashes appropriately
     void    doSelfTest()         const;    // as per parent class above
     void    flashInfo(int n,               // flash the info LED

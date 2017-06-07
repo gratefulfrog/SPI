@@ -45,9 +45,9 @@ YSPI* YannickTestApp::hwInit() const {
 }
 
 const float YannickTestApp::correctChannelReadingVec[][nbChannels] =  {{0.0, 3.3 , 0.0, 3.3, 0.0, 3.3, 0.0, 3.3}, 
-                                                                       {0.0, 2.85, 4.1, 4.1, 4.1, 4.1, 4.1, 4.1},
-                                                                       {0.0, 2.85, 4.1, 4.1, 4.1, 4.1, 4.1, 4.1},
-                                                                       {0.0, 2.85, 4.1, 4.1, 4.1, 4.1, 4.1, 4.1}};
+                                                                       {0.0, 3.3 , 0.0, 3.3, 0.0, 3.3, 0.0, 3.3}, 
+                                                                       {0.0, 3.3 , 0.0, 3.3, 0.0, 3.3, 0.0, 3.3}, 
+                                                                       {0.0, 3.3 , 0.0, 3.3, 0.0, 3.3, 0.0, 3.3}};
                                                                
 boolean YannickTestApp::checkChannelReading(uint8_t chan, float reading) const{
   return (abs(reading-correctChannelReadingVec[adcID][chan])< epsilon);
@@ -62,8 +62,8 @@ void YannickTestApp::checkAndTell(uint8_t channel) const{
   println(String("\t") + String(timeStamp));
 }
 
-YannickTestApp::YannickTestApp(uint8_t id) : App(id){    
-  usingUSARTSPI  = false;
+YannickTestApp::YannickTestApp(uint8_t id) : App(id,13){    
+  usingUSARTSPI  = true;
   if (useSerial){
     Serial.begin(115200);
     while(!Serial);
@@ -99,6 +99,7 @@ void YannickTestApp::runLoop() const{
   println(String("\nADC : ") + String(adcID));
   for (uint8_t channel = 0; channel< nbChannels; channel++){
     if (talk){  
+      heartBeat();
       checkAndTell(channel);
     }
     else{

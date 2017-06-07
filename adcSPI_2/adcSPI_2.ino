@@ -35,6 +35,7 @@
 const boolean Yannick      = true,   // set to true when using Yannick's harvesting platform
               BobLocalTest = false;   // set to true to be able to test USART 0 (as HWSPI) on Bob's platform, with Serial Monitor
 
+const uint8_t yUsart2Test = 1 ;
 
 const App  **appVec ;
 
@@ -43,7 +44,7 @@ void setup(){
   
   for(uint8_t i=0;i<USARTSPI::nbUARTS;i++){
     if (Yannick){
-      if (i==1 || BobLocalTest){  // USART1 or if we are on Bob's platform then we create an instance
+      if (i==yUsart2Test || BobLocalTest){  // USART1 or if we are on Bob's platform then we create an instance
         appVec[i] =  new YannickTestApp(i);
       }
       else{
