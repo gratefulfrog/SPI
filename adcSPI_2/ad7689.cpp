@@ -266,6 +266,78 @@ void AD7689::cycleTimingBenchmark() {
   lastSeqEndTime = startTime;
 }
 
+/** AD7689::getInputConfig returns an inputConfig value according to the following truth table
+ *  differential  polarity        inputConfig
+ *  TRUE          BIPOLAR_MODE    INCC_BIPOLAR_DIFF
+ *  TRUE          !BIPOLAR_MODE   INCC_UNIPOLAR_DIFF
+ *  FALSE         BIPOLAR_MODE    INCC_BIPOLAR_COM
+ *  FALSE         !BIPOLAR_MODE   INCC_UNIPOLAR_REF_GND
+ * 
+ * @param polarity     uint8_t polarity value 
+ * @param differential bool indcating differntial mode or not
+ * @return uint8_t inputConfig value according to truth table
+ */
+uint8_t AD7689::getInputConfig(uint8_t polarity, bool differential) const{
+  uint8_t res;
+  if (differential){
+    res = ((polarity==BIPOLAR_MODE) ? INCC_BIPOLAR_DIFF : INCC_UNIPOLAR_DIFF);
+  }
+  else {
+    res = ((polarity==BIPOLAR_MODE) ? INCC_BIPOLAR_COM : INCC_UNIPOLAR_REF_GND);
+  }
+  return res;
+}
+
+/** AD7689::getNegRef returns a negative reference value according to the following truth table
+ *  polarity        negref
+ *  BIPOLAR_MODE    posR/2.0
+ *  !BIPOLAR_MODE   0
+ *   * 
+ * @param posR  float value indicating input positive reference
+ * @param polarity     uint8_t polarity value 
+ * @return float negative reference value according to truth table
+ */
+float AD7689::getNegRef(float posR, uint8_t polarity) const{
+  return ((polarity==BIPOLAR_MODE) ? posR/2.0 : 0);
+}
+
+/** AD7689::getRefSrc returns a reference source value according to the following truth table
+ *  refS          posR            refsrc
+ *  REF_INTERNAL  INTERNAL_25     INT_REF_25;
+ *  REF_INTERNAL  INTERNAL_4096   INT_REF_4096
+ *  REF_INTERNAL  anything else   INT_REF_4096
+ *  !REF_INTERNAL anything        EXT_REF_TEMP_BUF;
+ * 
+ * @param refS     uint8_t refernece source value 
+ * @param posR float positive reference value
+ * @return uint8_t refsrc value according to truth table
+ */
+uint8_t AD7689::getRefSrc(uint8_t refS, float posR) const{
+  uint8_t  res = INT_REF_4096;
+  if(posR == INTERNAL_25){
+    res = INT_REF_25;
+  }
+  if (refS != REF_INTERNAL){
+    res = EXT_REF_TEMP_BUF;
+  }
+  return res;
+}
+ 
+/** AD7689::getPosRef returns a positive reference value according to the following truth table
+ *  refS          posR            posref
+ *  REF_INTERNAL  INTERNAL_25     INTERNAL_25;
+ *  REF_INTERNAL  INTERNAL_4096   INTERNAL_4096
+ *  REF_INTERNAL  anything else   INTERNAL_4096
+ *  !REF_INTERNAL anything        posR
+ * @param refS uint8_t reference source value
+ * @param posR  float value indicating input positive reference
+ * @return float positive reference value according to truth table
+ */
+float  AD7689::getPosRef(uint8_t refS, float posR) const{
+  float res = ((posR == INTERNAL_25)  ? posR : INTERNAL_4096);
+  return ((refS == REF_INTERNAL) ? res : posR);
+}
+
 /**
  * [AD7689::constructor Create an instance of an AD7689 ADC. using YSPI]
  * @param y               Pointer to an instance of YSPI 
@@ -274,10 +346,14 @@ void AD7689::cycleTimingBenchmark() {
  */
 AD7689::AD7689(const YSPI *const y, 
                uint8_t numberChannels) : yspi(y),
-                                         inputCount(numberChannels){
+                                         inputCount(numberChannels),
+                                         inputConfig(getInputConfig(UNIPOLAR_MODE, false)),
+                                         negref(getNegRef(INTERNAL_4096, UNIPOLAR_MODE)),
+                                         refsrc(getRefSrc(REF_INTERNAL, INTERNAL_4096)),
+                                         posref(getPosRef(REF_INTERNAL, INTERNAL_4096)),
+                                         refConfig(INT_REF_4096)
+                                         {
   // set default configuration options
-  inputConfig = INCC_UNIPOLAR_REF_GND;  // default to unipolar mode with negative reference to ground
-  refConfig = INT_REF_4096;             // internal 4.096V reference
   filterConfig = false;                 // full bandwidth
 
   // start-up sequence
@@ -296,65 +372,6 @@ AD7689::AD7689(const YSPI *const y,
 
   // sequencer disabled by default
   sequencerActive = false; 
-
-  // set reference source and voltage to the most commonly used values
-  setReference(REF_INTERNAL, INTERNAL_4096, UNIPOLAR_MODE, false);
-}
-
-/**
- * [AD7689::setReference Configure the voltage references.]
- * @param refSource    Reference source: REF_INTERNAL, REF_EXTERNAL, REF_GND or REF_COM.
- * @param posRef       Positive reference voltage.
- * @param polarity     Polarity of the signal source: UNIPOLAR_MODE, BIPOLAR_MODE or DIFFERENTIAL_MODE.
- * @param differential Indicates if the inputs are differential.
- */
-void AD7689::setReference(uint8_t refSource, float posRef, uint8_t polarity, bool differential) {
-
-    // set input configuration and negative reference
-    if (differential) {
-      if (polarity == BIPOLAR_MODE) {
-        // bipolar differential pairs, INx- referenced to Vref/2
-        inputConfig = INCC_BIPOLAR_DIFF;
-        negref = posRef / 2;
-      }  else {
-        // unipolar differential pairs, INx- referenced to GND
-        inputConfig = INCC_UNIPOLAR_DIFF; // default differential
-        negref = 0;
-      }
-
-    } else { // single ended
-      if (polarity == BIPOLAR_MODE) {
-        // bipolar single ended, INx referenced to COM = Vref/2
-        inputConfig = INCC_BIPOLAR_COM;
-        negref = posRef / 2;
-
-      } else { // unipolar
-        // unipolar, Inx referenced to GND
-        inputConfig = INCC_UNIPOLAR_REF_GND;
-        negref = 0;
-      }
-    }
-
-    // set positive reference
-    if (refSource == REF_INTERNAL)
-    {
-      if (posRef == INTERNAL_25) {
-        refsrc = INT_REF_25;
-        posref = INTERNAL_25;
-      }
-      else if (posRef == INTERNAL_4096) {
-        refsrc = INT_REF_4096;
-        posref = INTERNAL_4096;
-      }
-      else {
-        posref = INTERNAL_4096;
-        refsrc = INT_REF_4096; // default to 4.096V internal voltage reference
-      }
-    } else { // external reference
-      refsrc = EXT_REF_TEMP_BUF;
-      posref = posRef;
-    }
-
 }
 
 /**

@@ -63,7 +63,7 @@ class HWSPI : public YSPI{
   public:
      /**
      * Class constructor.
-     * @param SSPin the Slave Select pin ID
+     * @param SSpin the Slave Select pin ID
      * @param clockF the clock frequency to us
      * @param bitOrder either MSBFIRST or LSBFIRST
      * @param dataMode theSPI mode to use eg SPI_MODE0
@@ -75,19 +75,19 @@ class HWSPI : public YSPI{
            uint8_t dataMode);
      
     /**
-     * @see virtual void setSS(uint8_t highLow) const = 0;
+     * @see virtual void YSPI::setSS(uint8_t highLow) const = 0;
      */
     virtual void setSS(uint8_t highLow)     const;
     /**
-     * @see virtual void beginTransaction() const = 0;
+     * @see virtual void YSPI::beginTransaction() const = 0;
      */
     virtual void beginTransaction()         const;
     /**
-     * @see virtual uint8_t transfer(uint8_t data) const = 0;
+     * @see virtual uint8_t YSPI::transfer(uint8_t data) const = 0;
      */
     virtual uint8_t transfer (uint8_t data) const;
     /**
-     * @see virtual void endTransaction() const = 0;
+     * @see virtual void YSPI::endTransaction() const = 0;
      */
     virtual void endTransaction()           const;
 };
@@ -182,19 +182,19 @@ class USARTSPI : public YSPI{
      */   
   USARTSPI(uint8_t id);
   /**
-   * @see virtual void setSS(uint8_t highLow) const = 0;
+   * @see virtual void YSPI::setSS(uint8_t highLow) const = 0;
    */
   virtual void setSS(uint8_t highLow)     const;
   /**
-   * @see virtual void beginTransaction() const = 0;
+   * @see virtual void YSPI::beginTransaction() const = 0;
    */  
   virtual void beginTransaction()         const;
   /**
-   * @see virtual uint8_t transfer(uint8_t data) const = 0;
+   * @see virtual uint8_t YSPI::transfer(uint8_t data) const = 0;
    */
   virtual uint8_t transfer (uint8_t data) const;
   /**
-   * @see virtual void endTransaction() const = 0;
+   * @see virtual void YSPI::endTransaction() const = 0;
    */
   virtual void endTransaction()           const;
 };

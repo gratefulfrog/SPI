@@ -15,10 +15,6 @@ void BobTestApp::testSetup() const{
   pinMode(yspiOnPin,INPUT);
 }
 
-void BobTestApp::heartBeat() const{
-  digitalWrite(hbPin, !digitalRead(hbPin));
-}
-
 void BobTestApp::flash(boolean tf) const{
   if(!digitalRead(talkPin)){
     return;
@@ -115,7 +111,7 @@ void BobTestApp::checkAndTell(uint8_t channel) const {
   flash(checkChannelReading(channel,reading));
 }
 
-BobTestApp::BobTestApp(uint8_t id) : App(id){
+BobTestApp::BobTestApp(uint8_t id) : App(id,9){
   testSetup();
   usingUSARTSPI = digitalRead(yspiOnPin);
   
