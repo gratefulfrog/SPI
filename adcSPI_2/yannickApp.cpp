@@ -62,7 +62,7 @@ void YannickTestApp::checkAndTell(uint8_t channel) const{
   println(String("\t") + String(timeStamp));
 }
 
-YannickTestApp::YannickTestApp(uint8_t id) : App(id,13){    
+YannickTestApp::YannickTestApp(uint8_t id) : App(id){    
   usingUSARTSPI  = true;
   if (useSerial){
     Serial.begin(115200);
@@ -99,7 +99,7 @@ void YannickTestApp::runLoop() const{
   println(String("\nADC : ") + String(adcID));
   for (uint8_t channel = 0; channel< nbChannels; channel++){
     if (talk){  
-      heartBeat();
+      //heartBeat();
       checkAndTell(channel);
     }
     else{
