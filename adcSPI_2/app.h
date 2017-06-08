@@ -5,10 +5,6 @@
 #include "ad7689.h"
 #include "yspi.h"
 
-#define  UNO_HEART_BEAT_PIN   (9)
-#define MEGA_HEART_BEAT_PIN  (13)
-
-
 class App{  // each instance will manage the test of one ADC
   protected:  
     // static member variable 
@@ -21,10 +17,8 @@ class App{  // each instance will manage the test of one ADC
     // member variables assigned during instatiation or execution
     AD7689 *adc;
     boolean usingUSARTSPI  = true;  // value may be changed during setup based on reading of yspiOnPin (BoTestApp only)
-    const uint8_t adcID,            // identifying which adc we are testing in this app instance
-                  hbPin;            // heart Beat pin
+    const uint8_t adcID;            // identifying which adc we are testing in this app instance
 
-    void    heartBeat()          const;    // flashes heart beat LED
     virtual void    doSelfTest() const = 0;  // runs the adc self-test and informs, blocks if failure
     virtual YSPI*   usartInit()  const = 0;  // return pointer to USARTSPI instance allocated from the heap
     virtual YSPI*   hwInit()     const = 0;  // return pointer to HWSPI instance allocated from the heap
@@ -35,19 +29,19 @@ class App{  // each instance will manage the test of one ADC
   public:
     virtual void print(String s) const;     // encapsulates Serial.print with the appropriate conditions
     virtual void println(String s) const;   // adds a \n and calls print
-    App(uint8_t id, uint8_t heartBeatPin );  // constructor inits the adc ID & heart beat pin
+    App(uint8_t id);                        // constructor inits the adc ID 
     virtual void runLoop() const = 0;       // loops over all the adc channels
 };
-
 
 class BobTestApp : public App{  // class to encapsulate exectuion envt for Bob
   protected:
                   
     const uint8_t AD7689_SS_pin = 10,      // HWSPI SS pin (output)
+                  hbPin         = 9,       // heart Beat pin
                   idPin         = 8,       // ID LED pin (output)
                   truePin       = 7,       // TRUE LED pin (output)
                   falsePin      = 6,       // FALSE LED pin (output)
-                  talkPin       = 3,       // used to decide if we will talk (input)
+                  talkPin       = 4,       // used to decide if we will talk (input)
                   yspiOnPin     = 2,       // indicates if we will use usart Spi or not (input)
                   onTime        = 200,     // LED time delay for on (ms)
                   falseOffTime  = 600,     // LED time delay for FALSE off (ms)
@@ -55,6 +49,7 @@ class BobTestApp : public App{  // class to encapsulate exectuion envt for Bob
                   nbInfoFlashes = 5;       // nb of times to flash LED when giving info 
 
     virtual void print(String s) const;    // local version takes into account Bob test envt.
+    void    heartBeat()          const;    // flashes heart beat LED
     void    testSetup()          const;    // sets pinModes
     void    flash(boolean tf)    const;    // flashes appropriately
     void    doSelfTest()         const;    // as per parent class above

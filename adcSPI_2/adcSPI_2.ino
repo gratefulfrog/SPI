@@ -16,44 +16,72 @@
  *  5V powers the AD7689
  *  GND is also requried ont he AD7689
  *  
- *  ICSP HEADER: 
+ *  Arduino UNO ICSP HEADER: 
  *  pins 5 & 6 MUST BE connected together to prevent the ATmega16U from pulling MISO HIGH in USART mode!
  *  - these are the GND and REST pins.
+ *  
+ *  Iteaduino Mega XU2 ICSP HEADER: 
+ *  pins 5 & 6 MUST BE connected together to prevent the ATmega16U from pulling MISO HIGH on USART0!
+ *  - these are the GND and REST pins and are the ones farthest from the edge of the board with the USB Connector:
+ *    
+ *    USB     |
+ *            |
+ *    R x x   |
+ *    G x x   |
+ *    --------
  *  
  *  HeartBeat LED 9
  *  ID LED        8
  *  True PIN      7
  *  Fasle PIN     6
- *  TALK pin      3  HIGH means flash results of each ADC channel query, LOW means just do it.
- *  use YSPI PIN  2  HIGH means YES, use YSPI, LOW means NO use HW SPI  
+ *  TALK pin      4  HIGH means flash results of each ADC channel query, LOW means just do it.
+ *  use YSPI PIN  3  HIGH means YES, use YSPI, LOW means NO use HW SPI  
  */
 
 #include <Arduino.h>
 
 #include "app.h"
 
-const boolean Yannick      = true,   // set to true when using Yannick's harvesting platform
-              BobLocalTest = false;   // set to true to be able to test USART 0 (as HWSPI) on Bob's platform, with Serial Monitor
-
-const uint8_t yUsart2Test = 1 ;
+const boolean Yannick = true;   // set to true when using Yannick's harvesting platform
+              
+const uint8_t nbUsarts2Test              = 1,          // this is how many USARTs we will test, GET IT RIGHT!!
+              Usarts2Test[nbUsarts2Test] = {0} ;       // this is the vector of USART id that will be tested!
 
 const App  **appVec ;
+
+/** is2Test returns true if the id in argument is to be tested, false otherwise
+ *  @param id : the id to be tested for testing
+ *  @return   : true if id should be tested, false otherwise
+ */
+boolean is2Test(uint8_t uID){
+  for (uint8_t i=0;i< nbUsarts2Test;i++){
+    if(i == uID){
+      return true;
+    }
+  }
+  return false;
+}
+/** getApp returns a pointer to an appropriate App instance
+ *  @param isYannick : if true will return a pointer to a YannickTestApp, otherwise a BobTestApp
+ *  @param id        : the id to pass to the App instance constructor
+ *  @return          : pointer to the heap allocated App instance.
+ */
+App* getApp(boolean isYannick, uint8_t id){
+  App* res = (isYannick ?  static_cast<App*>(new YannickTestApp(id)) 
+                        :  static_cast<App*>(new BobTestApp(id)));
+  return res;
+}
 
 void setup(){
   appVec = new App*[USARTSPI::nbUARTS];
   
   for(uint8_t i=0;i<USARTSPI::nbUARTS;i++){
-    if (Yannick){
-      if (i==yUsart2Test || BobLocalTest){  // USART1 or if we are on Bob's platform then we create an instance
-        appVec[i] =  new YannickTestApp(i);
+    if (is2Test(i)){  
+        appVec[i] = getApp(Yannick,i);
       }
       else{
-        appVec[i] = NULL;  // on the harvesting platform there is no adc conected to USART's 0,2,3 so we set this to NULL
+        appVec[i] = NULL;  // if not to be tested, we set this to NULL 
       }
-    }
-    else{
-      appVec[i] =  new BobTestApp(i);  
-    }
   }
 }
 void loop(){

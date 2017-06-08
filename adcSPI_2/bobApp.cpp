@@ -7,6 +7,10 @@ void BobTestApp::print(String s) const{
   }
 }
 
+void BobTestApp::heartBeat() const{
+  digitalWrite(hbPin, !digitalRead(hbPin));
+}
+
 void BobTestApp::testSetup() const{
   pinMode(hbPin,OUTPUT);
   pinMode(truePin,OUTPUT);
@@ -111,7 +115,7 @@ void BobTestApp::checkAndTell(uint8_t channel) const {
   flash(checkChannelReading(channel,reading));
 }
 
-BobTestApp::BobTestApp(uint8_t id) : App(id,UNO_HEART_BEAT_PIN){
+BobTestApp::BobTestApp(uint8_t id) : App(id){
   testSetup();
   usingUSARTSPI = digitalRead(yspiOnPin);
   
