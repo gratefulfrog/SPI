@@ -171,7 +171,9 @@ Static Protected Attributes</h2></td></tr>
 <tr class="memitem:a628a47d21fd8f3cdc3e9e107a865b2dc"><td class="memItemLeft" align="right" valign="top">static const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_app.html#a628a47d21fd8f3cdc3e9e107a865b2dc">epsilon</a> = 0.05</td></tr>
 <tr class="separator:a628a47d21fd8f3cdc3e9e107a865b2dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="class_app.html">App</a> is the pure abstrace class that provides the interface to all test running sublcasses. This is used because Yannick tests on a harvester board, whereas Bob tests on an Iteaduino Mega. Configurations differ but share some common methods and variales </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a93758d1a06732bdaa3c570c6c93cd47a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -185,6 +187,13 @@ Static Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p><a class="el" href="class_app.html">App</a> instance constructor inits the adc ID </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>ADC id </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>an instance of <a class="el" href="class_app.html">App</a> </dd></dl>
 
 </div>
 </div>
@@ -210,6 +219,12 @@ Static Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>checkChannelReading pure virtual checks the channel tells if it's ok The type of telling depends on the memeber varaibles </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">channel</td><td>the channel to check and on which to inform </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="class_yannick_test_app.html#aec5c9842035bb648b92e22a7f882ad63">YannickTestApp</a>, and <a class="el" href="class_bob_test_app.html#a8f1e35547a28a6ea927e66971ac0ba4d">BobTestApp</a>.</p>
 
@@ -246,6 +261,14 @@ Static Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>checkChannelReading pure virtual </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">chan</td><td>the channel to be checked </td></tr>
+    <tr><td class="paramname">reading</td><td>the reading that is to be compared to the expected value </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if channel reading is as expected, false otherwise </dd></dl>
 
 <p>Implemented in <a class="el" href="class_yannick_test_app.html#a966ec9e725ac8a00e0eb070cf2aa370f">YannickTestApp</a>, and <a class="el" href="class_bob_test_app.html#a99bb2e4d7b5fa31a4040773e25246833">BobTestApp</a>.</p>
 
@@ -271,6 +294,7 @@ Static Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>doSelfTest pure virtual exectues the ADC self test runs the adc self-test and informs, blocks if failure </p>
 
 <p>Implemented in <a class="el" href="class_yannick_test_app.html#a762b22267dd61e531dda0ee6ce74fe51">YannickTestApp</a>, and <a class="el" href="class_bob_test_app.html#a3afc112c49b127e7bc64b8916746be54">BobTestApp</a>.</p>
 
@@ -296,6 +320,7 @@ Static Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>hwInit pure virtual creates a <a class="el" href="class_h_w_s_p_i.html">HWSPI</a> instance </p><dl class="section return"><dt>Returns</dt><dd>pointer to <a class="el" href="class_h_w_s_p_i.html">HWSPI</a> instance allocated from the heap </dd></dl>
 
 <p>Implemented in <a class="el" href="class_yannick_test_app.html#a0707753a105c32ac7dbcbf20c5d5e457">YannickTestApp</a>, and <a class="el" href="class_bob_test_app.html#a8ae971a187cae92c4a0b380db22c594b">BobTestApp</a>.</p>
 
@@ -322,6 +347,7 @@ Static Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>print encapsulates Serial.print with the appropriate conditions </p>
 
 <p>Reimplemented in <a class="el" href="class_yannick_test_app.html#a0469e0f4e20f21ed814edf62e11abb9f">YannickTestApp</a>, and <a class="el" href="class_bob_test_app.html#a2abdac0f586546ed7086084f731d54cc">BobTestApp</a>.</p>
 
@@ -348,6 +374,7 @@ Static Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>println encapsulates Serial.println with the appropriate conditions </p>
 
 </div>
 </div>
@@ -371,6 +398,7 @@ Static Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>runLoop pure virtual loops over all the adc channels </p>
 
 <p>Implemented in <a class="el" href="class_yannick_test_app.html#a2f660e1b94189baa25b327474d41d42f">YannickTestApp</a>, and <a class="el" href="class_bob_test_app.html#a8e31db0089c532c88dbe50570c916a3f">BobTestApp</a>.</p>
 
@@ -396,6 +424,7 @@ Static Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>usartInit pure virtual creates a <a class="el" href="class_u_s_a_r_t_s_p_i.html">USARTSPI</a> instance </p><dl class="section return"><dt>Returns</dt><dd>pointer to <a class="el" href="class_u_s_a_r_t_s_p_i.html">USARTSPI</a> instance allocated from the heap </dd></dl>
 
 <p>Implemented in <a class="el" href="class_yannick_test_app.html#aae156d0f25e95a67ecd8d5f8871db4d9">YannickTestApp</a>, and <a class="el" href="class_bob_test_app.html#a93d4baaea7249a676deaba7ad6a87724">BobTestApp</a>.</p>
 
@@ -419,6 +448,7 @@ Static Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>pointer to instance of ADC that will be tested </p>
 
 </div>
 </div>
@@ -439,6 +469,7 @@ Static Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>identifying which adc (or USART channel) we are testing in this app instance </p>
 
 </div>
 </div>
@@ -459,6 +490,7 @@ Static Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>used in equality testing </p>
 
 </div>
 </div>
@@ -479,6 +511,7 @@ Static Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>adc number of channels to be tested </p>
 
 </div>
 </div>
@@ -499,6 +532,7 @@ Static Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>if true, test will inform as to Frequency used in <a class="el" href="class_h_w_s_p_i.html">HWSPI</a> </p>
 
 </div>
 </div>
@@ -519,6 +553,7 @@ Static Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>for message output </p>
 
 </div>
 </div>
@@ -539,6 +574,7 @@ Static Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>value may be changed during setup based on reading of yspiOnPin (<a class="el" href="class_bob_test_app.html">BobTestApp</a> only) </p>
 
 </div>
 </div>
