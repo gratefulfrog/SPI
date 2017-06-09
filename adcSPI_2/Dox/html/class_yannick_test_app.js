@@ -10,5 +10,6 @@ var class_yannick_test_app =
     [ "runLoop", "class_yannick_test_app.html#a2f660e1b94189baa25b327474d41d42f", null ],
     [ "usartInit", "class_yannick_test_app.html#aae156d0f25e95a67ecd8d5f8871db4d9", null ],
     [ "AD7689_SS_pin", "class_yannick_test_app.html#a6a7e32559a1bd943cd8ec32428cb30cf", null ],
+    [ "correctChannelReadingVec", "class_yannick_test_app.html#aa5ee581e44646dbc2f9e9df9e0144dae", null ],
     [ "talk", "class_yannick_test_app.html#a89ffd2177969b8732835778757f2e16e", null ]
 ];

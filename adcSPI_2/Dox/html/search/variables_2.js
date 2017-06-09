@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['ddclk',['ddCLK',['../struct_u_s_a_r_t_s_p_i_1_1uart_specific_bit_value_struct.html#a7d4e922945d6118d321cdc9aae41d5ed',1,'USARTSPI::uartSpecificBitValueStruct']]],
-  ['ddss',['ddSS',['../struct_u_s_a_r_t_s_p_i_1_1uart_specific_bit_value_struct.html#a607ace9102e195e426b9620a5f80a1a9',1,'USARTSPI::uartSpecificBitValueStruct']]]
+  ['cfg_5fconf',['CFG_conf',['../struct_a_d7689__conf.html#a1bf0a608c2e37f6312f95a3b0c7d5de2',1,'AD7689_conf']]],
+  ['conf',['conf',['../class_a_d7689.html#af2fa3af5535a45b15a05271b5f2eb0f5',1,'AD7689']]],
+  ['correctchannelreadingvec',['correctChannelReadingVec',['../class_yannick_test_app.html#aa5ee581e44646dbc2f9e9df9e0144dae',1,'YannickTestApp']]],
+  ['curtemp',['curTemp',['../class_a_d7689.html#a11abb0798bfc9b3ad1ea84291d33b9a7',1,'AD7689']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['filterconfig',['filterConfig',['../class_a_d7689.html#a4a588ab4017c7b10ed754a57b21fa2c0',1,'AD7689']]],
-  ['frameperiod',['framePeriod',['../class_a_d7689.html#a2eead42fa3f24d78ec361288bf7ad675',1,'AD7689']]]
+  ['ddclk',['ddCLK',['../struct_u_s_a_r_t_s_p_i_1_1uart_specific_bit_value_struct.html#a7d4e922945d6118d321cdc9aae41d5ed',1,'USARTSPI::uartSpecificBitValueStruct']]],
+  ['ddss',['ddSS',['../struct_u_s_a_r_t_s_p_i_1_1uart_specific_bit_value_struct.html#a607ace9102e195e426b9620a5f80a1a9',1,'USARTSPI::uartSpecificBitValueStruct']]]
 ];

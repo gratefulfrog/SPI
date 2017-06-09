@@ -1,18 +1,18 @@
-/* HW SPI LIB uses the following PIN definitions
+/** HW SPI LIB uses the following PIN definitions
  * CLK   = 13 GREEN
  * MIS0  = 12 ORANGE
  * MOSI  = 11 BLUE
  * SS    = 10 YELLOW
  */
 
- /* YSPI pins (USART) on Arduino UNO
+ /** YSPI pins (USART) on Arduino UNO
   D0 MISO ORANGE (Rx)
   D1 MOSI BLUE (Tx)
   D4 SCK  GREEN  (clock)
   D5 SS   YELLOW (slave select)  <-- this can be changed
   */
 
-/* OTHER PINS
+/** OTHER PINS
  *  5V powers the AD7689
  *  GND is also requried ont he AD7689
  *  

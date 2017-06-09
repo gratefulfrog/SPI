@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['usartspi',['USARTSPI',['../class_u_s_a_r_t_s_p_i.html#a0b70117f4c98729c402f54dfc807299b',1,'USARTSPI']]]
+  ['print',['print',['../class_app.html#ac966bc6d41f0bdf02df24c150f32b5c1',1,'App::print()'],['../class_bob_test_app.html#a2abdac0f586546ed7086084f731d54cc',1,'BobTestApp::print()'],['../class_yannick_test_app.html#a0469e0f4e20f21ed814edf62e11abb9f',1,'YannickTestApp::print()']]],
+  ['println',['println',['../class_app.html#a386fb915b7aa410879011a0c02e54f93',1,'App']]]
 ];
