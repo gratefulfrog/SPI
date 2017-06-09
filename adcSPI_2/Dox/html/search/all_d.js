@@ -1,13 +1,9 @@
 var searchData=
 [
-  ['samples',['samples',['../class_a_d7689.html#a1e6c0a263002ab444381b1aac6d2df37',1,'AD7689']]],
-  ['selftest',['selftest',['../class_a_d7689.html#a5a779022a677cc06a37f522dc37453a3',1,'AD7689']]],
-  ['seq_5fconf',['SEQ_conf',['../struct_a_d7689__conf.html#ab47a25238b90f905090e1c45a464aae6',1,'AD7689_conf']]],
-  ['sequenceractive',['sequencerActive',['../class_a_d7689.html#a8c2c26d5571812cad79e609e09294fc3',1,'AD7689']]],
-  ['set',['set',['../struct_u_s_a_r_t_s_p_i_1_1pin_register_struct.html#a1b15e3760ad295a0674196b3f910ca88',1,'USARTSPI::pinRegisterStruct']]],
-  ['setss',['setSS',['../class_y_s_p_i.html#ae48e79e08ea401598f29a5724fd30a92',1,'YSPI::setSS()'],['../class_h_w_s_p_i.html#aad167bc84f5a2eaacb8b2d4ef3da7605',1,'HWSPI::setSS()'],['../class_u_s_a_r_t_s_p_i.html#ae5016667be8b1ca1cfdd4e265caff3d9',1,'USARTSPI::setSS()']]],
-  ['settings',['settings',['../class_h_w_s_p_i.html#a016eade55436e7b1d2fdeaa5fcb4bcf2',1,'HWSPI']]],
-  ['shifttransaction',['shiftTransaction',['../class_a_d7689.html#ab60113efe315d377dde72b0c693ba486',1,'AD7689']]],
-  ['specificbitvec',['specificBitVec',['../class_u_s_a_r_t_s_p_i.html#ad0a720085781b2881eec2659cecff2ff',1,'USARTSPI']]],
-  ['ss',['SS',['../class_h_w_s_p_i.html#a8d67b28b4cf80418e34260cf354e5f72',1,'HWSPI']]]
+  ['pinregisterstruct',['pinRegisterStruct',['../struct_u_s_a_r_t_s_p_i_1_1pin_register_struct.html',1,'USARTSPI']]],
+  ['pinregvec',['pinRegVec',['../class_u_s_a_r_t_s_p_i.html#a1e5956f4369a5f493cf0ca3c71c2366b',1,'USARTSPI']]],
+  ['portss',['portSS',['../struct_u_s_a_r_t_s_p_i_1_1uart_specific_bit_value_struct.html#ad9239ce146be620cd841a8b2f6c3c859',1,'USARTSPI::uartSpecificBitValueStruct']]],
+  ['posref',['posref',['../class_a_d7689.html#a4a71bcf76bac9b53301ae68a3c2cb85e',1,'AD7689']]],
+  ['print',['print',['../class_app.html#ac966bc6d41f0bdf02df24c150f32b5c1',1,'App::print()'],['../class_bob_test_app.html#a2abdac0f586546ed7086084f731d54cc',1,'BobTestApp::print()'],['../class_yannick_test_app.html#a0469e0f4e20f21ed814edf62e11abb9f',1,'YannickTestApp::print()']]],
+  ['println',['println',['../class_app.html#a386fb915b7aa410879011a0c02e54f93',1,'App']]]
 ];

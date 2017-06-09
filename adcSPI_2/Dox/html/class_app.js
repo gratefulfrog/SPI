@@ -11,6 +11,8 @@ var class_app =
     [ "usartInit", "class_app.html#aab7ae4ea2e0a6a8434aae16c2b8eeee7", null ],
     [ "adc", "class_app.html#a685c1e744b33e36b3182b81bc96376a3", null ],
     [ "adcID", "class_app.html#a36695f25f6296ac05e4b4f78ae93bf0f", null ],
+    [ "epsilon", "class_app.html#a628a47d21fd8f3cdc3e9e107a865b2dc", null ],
+    [ "nbChannels", "class_app.html#a67bcde7ebfd9293d7732a8536928dc1a", null ],
     [ "showHWSettings", "class_app.html#a625fb0a5dd8c700ddfe67a8ec4c9f153", null ],
     [ "useSerial", "class_app.html#a9f072440e47bcb8ed12c5cedbc2335a2", null ],
     [ "usingUSARTSPI", "class_app.html#ab18682fed9279c2a46979ad9d4592c7d", null ]
