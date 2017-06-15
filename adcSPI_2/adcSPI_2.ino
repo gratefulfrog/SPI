@@ -55,7 +55,7 @@ const App  **appVec ;
  */
 boolean is2Test(uint8_t uID){
   for (uint8_t i=0;i< nbUsarts2Test;i++){
-    if(i == uID){
+    if(Usarts2Test[i] == uID){
       return true;
     }
   }
@@ -77,9 +77,10 @@ void setup(){
   
   for(uint8_t i=0;i<USARTSPI::nbUARTS;i++){
     if (is2Test(i)){  
-        appVec[i] = getApp(Yannick,i);
+        appVec[i] = getApp(Yannick,Usarts2Test[i]);
+        
       }
-      else{
+      else{ 
         appVec[i] = NULL;  // if not to be tested, we set this to NULL 
       }
   }

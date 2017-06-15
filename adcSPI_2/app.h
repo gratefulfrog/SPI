@@ -86,7 +86,7 @@ class BobTestApp : public App{  // class to encapsulate exectuion envt for Bob
                   hbPin         = 9,       /**< heart Beat pin                                    */
                   idPin         = 8,       /**< ID LED pin (output)                               */
                   truePin       = 7,       /**< TRUE LED pin (output)                             */
-                  falsePin      = 6,       /**< FALSE LED pin (output)                            */
+                  falsePin      = 11,       /**< FALSE LED pin (output)                            */
                   talkPin       = 4,       /**< used to decide if we will talk (input)            */
                   yspiOnPin     = 2,       /**< indicates if we will use usart Spi or not (input) */
                   onTime        = 200,     /**< LED time delay for on (ms)                        */
