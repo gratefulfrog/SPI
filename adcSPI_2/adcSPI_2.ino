@@ -44,8 +44,8 @@
 
 const boolean Yannick = true;   // set to true when using Yannick's harvesting platform
               
-const uint8_t nbUsarts2Test              = 1,          // this is how many USARTs we will test, GET IT RIGHT!!
-              Usarts2Test[nbUsarts2Test] = {0} ;       // this is the vector of USART id that will be tested!
+const uint8_t nbUsarts2Test              = 2,          // this is how many USARTs we will test, GET IT RIGHT!!
+              Usarts2Test[nbUsarts2Test] = {1,2} ;       // this is the vector of USART id that will be tested!
 
 const App  **appVec ;
 
@@ -77,7 +77,7 @@ void setup(){
   
   for(uint8_t i=0;i<USARTSPI::nbUARTS;i++){
     if (is2Test(i)){  
-        appVec[i] = getApp(Yannick,Usarts2Test[i]);
+        appVec[i] = getApp(Yannick,i);
         
       }
       else{ 
