@@ -67,9 +67,8 @@ boolean is2Test(uint8_t uID){
  *  @return          : pointer to the heap allocated App instance.
  */
 App* getApp(boolean isYannick, uint8_t id){
-  App* res = (isYannick ?  static_cast<App*>(new YannickTestApp(id)) 
+  return (isYannick ?  static_cast<App*>(new YannickTestApp(id)) 
                         :  static_cast<App*>(new BobTestApp(id)));
-  return res;
 }
 
 void setup(){
