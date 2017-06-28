@@ -44,8 +44,8 @@
 
 const boolean Yannick = true;   // set to true when using Yannick's harvesting platform
               
-const uint8_t nbUsarts2Test              = 2,          // this is how many USARTs we will test, GET IT RIGHT!!
-              Usarts2Test[nbUsarts2Test] = {1,2} ;       // this is the vector of USART id that will be tested!
+const uint8_t nbUsarts2Test              = 1,          // this is how many USARTs we will test, GET IT RIGHT!!
+              Usarts2Test[nbUsarts2Test] = {1} ;       // this is the vector of USART id that will be tested!
 
 const App  **appVec ;
 
@@ -62,14 +62,13 @@ boolean is2Test(uint8_t uID){
   return false;
 }
 /** getApp returns a pointer to an appropriate App instance
- *  @param isYannick : if true will return a pointer to a YannickTestApp, otherwise a BobTestApp
+ *  @param isYannick : if true will return a pointer to a YTestApp, otherwise a BTestApp
  *  @param id        : the id to pass to the App instance constructor
  *  @return          : pointer to the heap allocated App instance.
  */
 App* getApp(boolean isYannick, uint8_t id){
-  App* res = (isYannick ?  static_cast<App*>(new YannickTestApp(id)) 
-                        :  static_cast<App*>(new BobTestApp(id)));
-  return res;
+  return (isYannick ?  static_cast<App*>(new YTestApp(id)) 
+                    :  static_cast<App*>(new BTestApp(id)));
 }
 
 void setup(){

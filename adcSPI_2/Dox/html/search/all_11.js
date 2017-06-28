@@ -11,7 +11,7 @@ var searchData=
   ['umsel0',['umsel0',['../struct_u_s_a_r_t_s_p_i_1_1uart_specific_bit_value_struct.html#a7e2fa7f7623a57fb7f0a41a8b7ce6acd',1,'USARTSPI::uartSpecificBitValueStruct']]],
   ['umsel1',['umsel1',['../struct_u_s_a_r_t_s_p_i_1_1uart_specific_bit_value_struct.html#ab5aee4fd67cd4818e76e8f6bafa38a5c',1,'USARTSPI::uartSpecificBitValueStruct']]],
   ['unipolar_5fmode',['UNIPOLAR_MODE',['../ad7689_8h.html#a5880fa6d0e959f583ae2626c4cb64e42',1,'ad7689.h']]],
-  ['usartinit',['usartInit',['../class_app.html#aab7ae4ea2e0a6a8434aae16c2b8eeee7',1,'App::usartInit()'],['../class_bob_test_app.html#a93d4baaea7249a676deaba7ad6a87724',1,'BobTestApp::usartInit()'],['../class_yannick_test_app.html#aae156d0f25e95a67ecd8d5f8871db4d9',1,'YannickTestApp::usartInit()']]],
+  ['usartinit',['usartInit',['../class_app.html#aab7ae4ea2e0a6a8434aae16c2b8eeee7',1,'App::usartInit()'],['../class_b_test_app.html#a9df24b6f2ae447fe3ac4218e530e2b04',1,'BTestApp::usartInit()'],['../class_y_test_app.html#ae53ce42c4b3c77a87435e17dc5948469',1,'YTestApp::usartInit()']]],
   ['usartregisterstruct',['usartRegisterStruct',['../struct_u_s_a_r_t_s_p_i_1_1usart_register_struct.html',1,'USARTSPI']]],
   ['usartregvec',['usartRegVec',['../class_u_s_a_r_t_s_p_i.html#aae333af7a006b8aa80073ccfcf1dc3b9',1,'USARTSPI']]],
   ['usarts2test',['Usarts2Test',['../adc_s_p_i__2_8ino.html#a9747784911fa8fe1c3d2c42801bc96f4',1,'adcSPI_2.ino']]],

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['yannicktestapp',['YannickTestApp',['../class_yannick_test_app.html#a3e91a89729eed8914ed1518aa812153a',1,'YannickTestApp']]]
+  ['ytestapp',['YTestApp',['../class_y_test_app.html#a5bc8c453a4a93eedc28c72e7c5872ffb',1,'YTestApp']]]
 ];

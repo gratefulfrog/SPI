@@ -1,12 +1,12 @@
 #include "app.h"
 
-void YannickTestApp::print(String s) const{
+void YTestApp::print(String s) const{
   if(talk){
     App::print(s);
   }
 }
 
-void YannickTestApp::doSelfTest() const {
+void YTestApp::doSelfTest() const {
   if (adc->selftest()){
     println(String("AD7689 instance ") + String(adcID) +String(" Self-Test Passed!"));
   } 
@@ -16,7 +16,7 @@ void YannickTestApp::doSelfTest() const {
   }
 }
 
-YSPI* YannickTestApp::usartInit() const {
+YSPI* YTestApp::usartInit() const {
   // step 1: YSPI instantiation
   delay(1000);
   YSPI* y = new USARTSPI(adcID);  // UART SPI on uart 0
@@ -30,7 +30,7 @@ YSPI* YannickTestApp::usartInit() const {
   return y;
 }
 
-YSPI* YannickTestApp::hwInit() const {
+YSPI* YTestApp::hwInit() const {
   // step 1: YSPI instantiation
   delay(1000);
   YSPI* y = new HWSPI(AD7689_SS_pin,F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU, MSBFIRST, SPI_MODE0); // HW SPI
@@ -44,16 +44,16 @@ YSPI* YannickTestApp::hwInit() const {
   return y;
 }
 
-const float YannickTestApp::correctChannelReadingVec[][nbChannels] =  {{0.0, 3.3 , 0.0, 3.3, 0.0, 3.3, 0.0, 3.3}, 
+const float YTestApp::correctChannelReadingVec[][nbChannels] =  {{0.0, 3.3 , 0.0, 3.3, 0.0, 3.3, 0.0, 3.3}, 
                                                                        {0.0, 3.3 , 0.0, 3.3, 0.0, 3.3, 0.0, 3.3}, 
                                                                        {0.0, 3.3 , 0.0, 3.3, 0.0, 3.3, 0.0, 3.3}, 
                                                                        {0.0, 3.3 , 0.0, 3.3, 0.0, 3.3, 0.0, 3.3}};
                                                                
-boolean YannickTestApp::checkChannelReading(uint8_t chan, float reading) const{
+boolean YTestApp::checkChannelReading(uint8_t chan, float reading) const{
   return (abs(reading-correctChannelReadingVec[adcID][chan])< epsilon);
 }
 
-void YannickTestApp::checkAndTell(uint8_t channel) const{
+void YTestApp::checkAndTell(uint8_t channel) const{
   uint32_t timeStamp = 0;
   float reading = adc->acquireChannel(channel, &timeStamp); 
   print("AD7689 voltage input "+ String(channel)+" :\t");
@@ -62,7 +62,7 @@ void YannickTestApp::checkAndTell(uint8_t channel) const{
   println(String("\t") + String(timeStamp));
 }
 
-YannickTestApp::YannickTestApp(uint8_t id) : App(id){    
+YTestApp::YTestApp(uint8_t id) : App(id){    
   usingUSARTSPI  = true;
   if (useSerial){
     Serial.begin(115200);
@@ -95,7 +95,7 @@ YannickTestApp::YannickTestApp(uint8_t id) : App(id){
   doSelfTest();
 }
 
-void YannickTestApp::runLoop() const{
+void YTestApp::runLoop() const{
   println(String("\nADC : ") + String(adcID));
   for (uint8_t channel = 0; channel< nbChannels; channel++){
     if (talk){  

@@ -1,17 +1,17 @@
 #include "app.h"
 
-void BobTestApp::print(String s) const{
+void BTestApp::print(String s) const{
   if(!usingUSARTSPI  && 
      digitalRead(talkPin)){
     App::print(s);
   }
 }
 
-void BobTestApp::heartBeat() const{
+void BTestApp::heartBeat() const{
   digitalWrite(hbPin, !digitalRead(hbPin));
 }
 
-void BobTestApp::testSetup() const{
+void BTestApp::testSetup() const{
   pinMode(hbPin,OUTPUT);
   pinMode(truePin,OUTPUT);
   pinMode(falsePin,OUTPUT);
@@ -19,7 +19,7 @@ void BobTestApp::testSetup() const{
   pinMode(yspiOnPin,INPUT);
 }
 
-void BobTestApp::flash(boolean tf) const{
+void BTestApp::flash(boolean tf) const{
   if(!digitalRead(talkPin)){
     return;
   }
@@ -32,7 +32,7 @@ void BobTestApp::flash(boolean tf) const{
   }
 }
 
-void BobTestApp::doSelfTest() const{
+void BTestApp::doSelfTest() const{
   if (adc->selftest()){
    println(String("AD7689 instance ") + String(adcID) +String(" Self-Test Passed!"));
     flash(true);
@@ -45,7 +45,7 @@ void BobTestApp::doSelfTest() const{
   }
 }
 
-void BobTestApp::flashInfo(int n, bool once = false) const {
+void BTestApp::flashInfo(int n, bool once = false) const {
   if(!digitalRead(talkPin)){
     return;
   }
@@ -64,7 +64,7 @@ void BobTestApp::flashInfo(int n, bool once = false) const {
   }
 }
 
-YSPI* BobTestApp::usartInit() const {
+YSPI* BTestApp::usartInit() const {
   // step 1: YSPI instantiation
   flashInfo(1);
   YSPI* y = new USARTSPI(adcID);  // on Arduino UNO we only have UART SPI on uart 0
@@ -73,7 +73,7 @@ YSPI* BobTestApp::usartInit() const {
   return y;
 }
 
-YSPI* BobTestApp::hwInit() const {
+YSPI* BTestApp::hwInit() const {
   if (useSerial){
     Serial.begin(115200);
     while(!Serial);
@@ -97,12 +97,12 @@ YSPI* BobTestApp::hwInit() const {
   return y;
 }
 
-boolean BobTestApp::checkChannelReading(uint8_t chan, float reading) const{
+boolean BTestApp::checkChannelReading(uint8_t chan, float reading) const{
   float correctVal = chan %2 ? 3.3 : 0.0;
   return (abs(reading-correctVal)< epsilon);
 }
 
-void BobTestApp::checkAndTell(uint8_t channel) const {
+void BTestApp::checkAndTell(uint8_t channel) const {
   uint32_t timeStamp = 0;
   float reading = adc->acquireChannel(channel, &timeStamp); 
   print("Voltage input "+ String(channel)+" :\t");
@@ -115,7 +115,7 @@ void BobTestApp::checkAndTell(uint8_t channel) const {
   flash(checkChannelReading(channel,reading));
 }
 
-BobTestApp::BobTestApp(uint8_t id) : App(id){
+BTestApp::BTestApp(uint8_t id) : App(id){
   testSetup();
   usingUSARTSPI = digitalRead(yspiOnPin);
   
@@ -145,7 +145,7 @@ BobTestApp::BobTestApp(uint8_t id) : App(id){
   doSelfTest();
 }
 
-void BobTestApp::runLoop() const {
+void BTestApp::runLoop() const {
   println(String("\nADC : ") + String(adcID) + String(" (HWSPI)"));
   for (uint8_t channel = 0; channel< nbChannels; channel++){
     if (digitalRead(talkPin)){

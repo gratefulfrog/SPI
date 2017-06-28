@@ -6,7 +6,7 @@ var searchData=
   ['ad7689_2ecpp',['ad7689.cpp',['../ad7689_8cpp.html',1,'']]],
   ['ad7689_2eh',['ad7689.h',['../ad7689_8h.html',1,'']]],
   ['ad7689_5fconf',['AD7689_conf',['../struct_a_d7689__conf.html',1,'']]],
-  ['ad7689_5fss_5fpin',['AD7689_SS_pin',['../class_bob_test_app.html#a3422e70697f888228e773a0b0a55f735',1,'BobTestApp::AD7689_SS_pin()'],['../class_yannick_test_app.html#a6a7e32559a1bd943cd8ec32428cb30cf',1,'YannickTestApp::AD7689_SS_pin()']]],
+  ['ad7689_5fss_5fpin',['AD7689_SS_pin',['../class_b_test_app.html#a0ee4f9b4b1c207fe7c54796a108f7de0',1,'BTestApp::AD7689_SS_pin()'],['../class_y_test_app.html#a77ec5d2d0ed7d63807bee9ed25c7ed51',1,'YTestApp::AD7689_SS_pin()']]],
   ['adc',['adc',['../class_app.html#a685c1e744b33e36b3182b81bc96376a3',1,'App']]],
   ['adcid',['adcID',['../class_app.html#a36695f25f6296ac05e4b4f78ae93bf0f',1,'App']]],
   ['adcspi_5f2_2eino',['adcSPI_2.ino',['../adc_s_p_i__2_8ino.html',1,'']]],

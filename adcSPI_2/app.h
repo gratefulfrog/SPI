@@ -23,7 +23,7 @@ class App{  // each instance will manage the test of one ADC
 
     // member variables assigned during instatiation or execution
     AD7689 *adc;                     /**< pointer to instance of ADC that will be tested */
-    boolean usingUSARTSPI  = true;   /**< value may be changed during setup based on reading of yspiOnPin (BobTestApp only) */
+    boolean usingUSARTSPI  = true;   /**< value may be changed during setup based on reading of yspiOnPin (BTestApp only) */
     const uint8_t adcID;             /**< identifying which adc (or USART channel) we are testing in this app instance */
 
     /** doSelfTest pure virtual exectues the ADC self test
@@ -76,10 +76,10 @@ class App{  // each instance will manage the test of one ADC
     virtual void runLoop() const = 0;       
 };
 
-/** BobTestApp concrete sublcass of App
- *  implements test framework on Bob's platform
+/** BTestApp concrete sublcass of App
+ *  implements test framework on platform B
  */
-class BobTestApp : public App{  // class to encapsulate exectuion envt for Bob
+class BTestApp : public App{  // class to encapsulate exectuion envt for Bob
   protected:
                   
     const uint8_t AD7689_SS_pin = 10,      /**< HWSPI SS pin (output)                             */
@@ -145,10 +145,10 @@ class BobTestApp : public App{  // class to encapsulate exectuion envt for Bob
     void    checkAndTell(uint8_t channel) const;
 
   public:
-    /** BobTestApp instance creation as per parent class
+    /** BTestApp instance creation as per parent class
      *  @see App::App
      */
-    BobTestApp(uint8_t id); // instance constructor
+    BTestApp(uint8_t id); // instance constructor
 
     /** runLoop  as per parent class
      *  @see App::runLoop
@@ -156,10 +156,10 @@ class BobTestApp : public App{  // class to encapsulate exectuion envt for Bob
     void runLoop() const;  
 };
 
-/** YannickTestApp concrete sublcass of App
- *  implements test framework on Yannick's harvester board platform
+/** YTestApp concrete sublcass of App
+ *  implements test framework on harvester board platform Y
  */
-class YannickTestApp : public App{
+class YTestApp : public App{
   protected:
     static const float correctChannelReadingVec[][nbChannels];  /**< Array (ADC, Channel) of expected values for the ADC's */ 
     const boolean talk = true;            /** > talk if true the user will be informed of results, otherwise no output */
@@ -197,10 +197,10 @@ class YannickTestApp : public App{
     void    checkAndTell(uint8_t channel) const;
     
   public:
-    /** YannickTestApp instance creation as per parent class
+    /** YTestApp instance creation as per parent class
      *  @see App::App
      */
-    YannickTestApp(uint8_t id);
+    YTestApp(uint8_t id);
 
     /** runLoop  as per parent class
      *  @see App::runLoop
