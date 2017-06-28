@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['idpin',['idPin',['../class_bob_test_app.html#ab842f1e3cfe6498db96e885d55fa112c',1,'BobTestApp']]],
+  ['idpin',['idPin',['../class_b_test_app.html#a96f4529cb5349abbc8aaae6a07665144',1,'BTestApp']]],
   ['incc',['INCC',['../ad7689_8h.html#a97007f30f7b5cc8ef1aad1e955abad18',1,'ad7689.h']]],
   ['incc_5fbipolar_5fcom',['INCC_BIPOLAR_COM',['../ad7689_8h.html#ab031308534de1e5f18f37e381b43f181',1,'ad7689.h']]],
   ['incc_5fbipolar_5fdiff',['INCC_BIPOLAR_DIFF',['../ad7689_8h.html#a9142f6ccf022f45b9e914bc07cf0a406',1,'ad7689.h']]],

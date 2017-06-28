@@ -13,7 +13,7 @@ var searchData=
   ['ref_5fvoltage',['REF_voltage',['../struct_a_d7689__conf.html#afa7cab435f4302f48c7e475ddb500b8b',1,'AD7689_conf']]],
   ['refconfig',['refConfig',['../class_a_d7689.html#a0afada03aa00eacb5043570c0191d308',1,'AD7689']]],
   ['refsrc',['refsrc',['../class_a_d7689.html#a00a34e257d6446a257a20294bee99b30',1,'AD7689']]],
-  ['runloop',['runLoop',['../class_app.html#af4200bed4e7b25c64991d4cdb2ecd479',1,'App::runLoop()'],['../class_bob_test_app.html#a8e31db0089c532c88dbe50570c916a3f',1,'BobTestApp::runLoop()'],['../class_yannick_test_app.html#a2f660e1b94189baa25b327474d41d42f',1,'YannickTestApp::runLoop()']]],
+  ['runloop',['runLoop',['../class_app.html#af4200bed4e7b25c64991d4cdb2ecd479',1,'App::runLoop()'],['../class_b_test_app.html#ad618602c070a10574c5dd128afa01355',1,'BTestApp::runLoop()'],['../class_y_test_app.html#a8dd6c6acaacc4a53fdb08577db7c54f1',1,'YTestApp::runLoop()']]],
   ['rxc',['rxc',['../struct_u_s_a_r_t_s_p_i_1_1uart_specific_bit_value_struct.html#a9ea032242ea7ce3d229752fbb97374f4',1,'USARTSPI::uartSpecificBitValueStruct']]],
   ['rxen',['rxen',['../struct_u_s_a_r_t_s_p_i_1_1uart_specific_bit_value_struct.html#aaec1bfd43bc36fb79d5abfef94d1b369',1,'USARTSPI::uartSpecificBitValueStruct']]]
 ];

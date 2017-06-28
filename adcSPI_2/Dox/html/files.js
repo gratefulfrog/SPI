@@ -6,8 +6,8 @@ var files =
     [ "app.cpp", "app_8cpp.html", null ],
     [ "app.h", "app_8h.html", [
       [ "App", "class_app.html", "class_app" ],
-      [ "BobTestApp", "class_bob_test_app.html", "class_bob_test_app" ],
-      [ "YannickTestApp", "class_yannick_test_app.html", "class_yannick_test_app" ]
+      [ "BTestApp", "class_b_test_app.html", "class_b_test_app" ],
+      [ "YTestApp", "class_y_test_app.html", "class_y_test_app" ]
     ] ],
     [ "bobApp.cpp", "bob_app_8cpp.html", null ],
     [ "hwSPI.cpp", "hw_s_p_i_8cpp.html", null ],
