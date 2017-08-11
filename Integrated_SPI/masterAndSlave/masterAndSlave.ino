@@ -1,4 +1,11 @@
+
 #include "app.h"
+
+/*
+ * USING USAARTS 1 and 2
+ * informer pin is 7
+ */
+
 
 /** HW SPI LIB uses the following PIN definitions
  * CLK   = 13 GREEN

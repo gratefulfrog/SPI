@@ -2,9 +2,8 @@
 
 
 
-ADCMgr::ADCMgr(uint8_t id, Q<timeValStruct_t> *qq,Informer *inf) : adcID(id), 
-                                                                   q(qq),
-                                                                   informer(inf){}              
+ADCMgr::ADCMgr(uint8_t id, Q<timeValStruct_t> *qq) : adcID(id), 
+                                                                   q(qq){}              
 
 void ADCMgr::serialPrintTVS(timeValStruct_t &tvs){
   Serial.print("ADC_ID    : ");
@@ -19,35 +18,44 @@ void ADCMgr::serialPrintTVS(timeValStruct_t &tvs){
 
 void YADCMgr::doSelfTest() const {
   if (adc->selftest()){
-    informer->informOnce(3);
+    //informer->informOnce(3);
+    Serial.println(String("AD7689 instance ") + String(adcID) +String(" Self-Test Passed!"));
   }
   else{
-    informer->informForever(3);
+    Serial.println(String("AD7689 instance ") + String(adcID) +String(" Self-Test FAILED!"));
+    while(1);
+    //informer->informForever(3);
   }
 }
 
 YSPI* YADCMgr::usartInit() const {
   // step 1: YSPI instantiation
-  delay(1000);
+  //delay(1000);
   YSPI* y = new USARTSPI(adcID);  // UART SPI on uart 0
   if(y){
-    informer->informOnce(1);
+    Serial. println(String("USARTSPI instance ") + String(adcID) + String(" created!"));
+    //informer->informOnce(1);
   }
   else{
-    informer->informForever(1);
+    Serial.println(String("USARTSPI instance ") + String(adcID) + String(" failed!!"));
+    while(1);
+    //informer->informForever(1);
   }
   return y;
 }
 
 YSPI* YADCMgr::hwInit() const {
   // step 1: YSPI instantiation
-  delay(1000);
+  //delay(1000);
   YSPI* y = new HWSPI(AD7689_SS_pin,F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU, MSBFIRST, SPI_MODE0); // HW SPI
   if(y){
-    informer->informOnce(1);
+    Serial.println(String("HWSPI instance ") + String(adcID) + String(" created!"));
+    //informer->informOnce(1);
   }
   else{
-    informer->informForever(1);
+    Serial.println(String("HWSPI instance ") + String(adcID) +  String(" failed!"));
+    while(1);
+    //informer->informForever(1);
   }
   return y;
 }
@@ -68,9 +76,10 @@ void YADCMgr::checkAndPush(uint8_t channel) const{
   noInterrupts();
   q->push(tvs);
   interrupts();
+  ADCMgr::serialPrintTVS(*tvs);
 }
 
-YADCMgr::YADCMgr(uint8_t id, Q<timeValStruct_t> *q, Informer *inf) : ADCMgr(id,q,inf){    
+YADCMgr::YADCMgr(uint8_t id, Q<timeValStruct_t> *q) : ADCMgr(id,q){    
   usingUSARTSPI  = true;
   
   YSPI *yspi;
@@ -82,20 +91,23 @@ YADCMgr::YADCMgr(uint8_t id, Q<timeValStruct_t> *q, Informer *inf) : ADCMgr(id,q
     yspi = hwInit(); 
   }
   // step 2: AD7689 instantiation
-  delay(1000); 
+  //delay(1000); 
   adc = new AD7689(yspi, nbChannels);
   if(adc){
-    informer->informOnce(2);
+    Serial.println(String("AD7689 instance ") + String(adcID) + String(" created!"));
+    //informer->informOnce(2);
   }
   else{
-    informer->informForever(2);
+    Serial.println(String("AD7689 instance ") + String(adcID) +   String(" creation failed!"));
+    while(1);
+    //informer->informForever(2);
   }  // step 3: AD7689 self-test
-  delay(1000);
+  //delay(1000);
   doSelfTest();
 }
 
 void YADCMgr::runLoop() const{
-  //println(String("\nADC : ") + String(adcID));
+  // Serial.println(String("\nADC : ") + String(adcID));
   for (uint8_t channel = 0; channel< nbChannels; channel++){
     checkAndPush(channel);  
   }

@@ -53,7 +53,7 @@ class SlaveApp: public App{
 
     volatile byte *outPtr;
     volatile int sendI;
-    volatile boolean init = false;
+    volatile boolean init = false  ;
 
     unsigned int lim ;
 

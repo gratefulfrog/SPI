@@ -6,7 +6,7 @@
 #include "q.h"
 #include "timeStamper.h"
 #include "yspi.h"
-#include "informer.h"
+//#include "informer.h"
 
 /** App is the pure abstract class that provides the interface 
  *  to all test running sublcasses.
@@ -44,7 +44,7 @@ class ADCMgr{  // each instance will manage the test of one ADC
     const uint8_t adcID;             /**< identifying which adc (or USART channel) we are testing in this app instance */
 
     //const TimeStamper *ts;
-    const Informer *informer;
+    //const Informer *informer;
 
     const Q<timeValStruct_t> *q;  // pointer to the board's q for pushing data structs onto it
 
@@ -91,7 +91,7 @@ class ADCMgr{  // each instance will manage the test of one ADC
      *  @param id  ADC id
      *  @return an instance of App
      */    
-    ADCMgr(uint8_t id, Q<timeValStruct_t> *q,Informer *inf);              
+    ADCMgr(uint8_t id, Q<timeValStruct_t> *q);              
 
     /** runLoop pure virtual loops over all the adc channels
      */              
@@ -145,7 +145,7 @@ class YADCMgr : public ADCMgr{
     /** YTestApp instance creation as per parent class
      *  @see App::App
      */
-    YADCMgr(uint8_t id,Q<timeValStruct_t> *q,Informer *inf);
+    YADCMgr(uint8_t id,Q<timeValStruct_t> *q);
 
     /** runLoop  as per parent class
      *  @see App::runLoop

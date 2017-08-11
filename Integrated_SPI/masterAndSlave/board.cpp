@@ -3,7 +3,9 @@
 
 const uint8_t Board::boardNbOfADCS[] = {2};  // board 0 has 2 adcs
 
-const uint8_t Board::boardInformerPin[] = {7}; // board 0 informs on pin 7
+//const uint8_t Board::boardInformerPin[] = {7}; // board 0 informs on pin 7
+
+const uint8_t Board::boardUSARTChannels[] = {1,2}; // do not usart channel 0
 
 const timeValStruct_t Board::nullReturn = {ADCMgr::nullADCID,0,0};
     
@@ -33,13 +35,12 @@ void Board::updateSensorData(){
 */
 Board::Board(boardID iid) : nbDataGets(OUTPUT_BURST_LENGTH),
                             guid(iid),
-                            nbADCs(Board::boardNbOfADCS[guid]),
-                            informer(new Informer(Board::boardInformerPin[guid])){
+                            nbADCs(Board::boardNbOfADCS[guid]){
   q = new Q<timeValStruct_t>;
   
   adcMgrVec = new ADCMgr*[nbADCs];
   for (uint8_t  i=0;i<nbADCs;i++){
-    adcMgrVec[i] = new YADCMgr(i,q,informer);  
+    adcMgrVec[i] = new YADCMgr(boardUSARTChannels[i],q);  
   }
 }
 
@@ -63,6 +64,7 @@ boardID Board::getGUID() const{
 void Board::loop(){  
    if (counter<nbADCs){
     //updateADCData();
+    //Serial.println(String("Board Loop, counter : ") + String(counter));
     adcMgrVec[counter]->runLoop();
   }
   counter = (counter + 1) % SLAVE_LOOP_ITERATIONS;
