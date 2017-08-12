@@ -22,11 +22,14 @@ void App::serialEvent(){
   #endif
 }
 
-void App::printReply(unsigned long &v, boolean isTime){
+void App::processReply(uint32_t v, boolean isTime){
   /*
   if (!consoleInput){
     return;
   }
+  2517618817
+   254010717
+  
   consoleInput = false;
   */
   if (isTime){
@@ -35,21 +38,19 @@ void App::printReply(unsigned long &v, boolean isTime){
   else{
     Serial.print("Board ID: ");
   }
-  Serial.println(v);
+  (*pFuncPtrUint32)(v);
 }
 
-void App::printReply(timeValStruct_t &tvs){
-  
+void App::processReply(timeValStruct_t &tvs){
+  /*
   if (consoleInput && (tvs.aid != ADCMgr::nullADCID)){
     ADCMgr::serialPrintTVS(tvs);
     consoleInput = false; 
   }
-  
+  */
   if (tvs.aid != ADCMgr::nullADCID){
-    ADCMgr::serialPrintTVS(tvs);
-    //delay(100);
+    (*pFuncPtrTVS)(tvs);
   }
-  
 }
 
 

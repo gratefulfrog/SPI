@@ -6,7 +6,6 @@
 #include "q.h"
 #include "timeStamper.h"
 #include "yspi.h"
-//#include "informer.h"
 
 /** App is the pure abstract class that provides the interface 
  *  to all test running sublcasses.
@@ -42,9 +41,6 @@ class ADCMgr{  // each instance will manage the test of one ADC
     AD7689 *adc;                     /**< pointer to instance of ADC that will be tested */
     boolean usingUSARTSPI  = true;   /**< value may be changed during setup based on reading of yspiOnPin (BTestApp only) */
     const uint8_t adcID;             /**< identifying which adc (or USART channel) we are testing in this app instance */
-
-    //const TimeStamper *ts;
-    //const Informer *informer;
 
     const Q<timeValStruct_t> *q;  // pointer to the board's q for pushing data structs onto it
 
@@ -97,8 +93,8 @@ class ADCMgr{  // each instance will manage the test of one ADC
      */              
     virtual void runLoop() const = 0; 
 
-    static void serialPrintTVS(timeValStruct_t &tvs);
-    static boolean ADCMgr::isFirstADCCID(timeValStruct_t &tvs);
+    //static void serialPrintTVS(timeValStruct_t &tvs);
+    //static boolean ADCMgr::isFirstADCCID(timeValStruct_t &tvs);
 };
 
 

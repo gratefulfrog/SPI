@@ -3,41 +3,15 @@
 
 const uint8_t Board::boardNbOfADCS[] = {2};  // board 0 has 2 adcs
 
-//const uint8_t Board::boardInformerPin[] = {7}; // board 0 informs on pin 7
-
 const uint8_t Board::boardUSARTChannels[] = {1,2}; // do not usart channel 0
 
 const timeValStruct_t Board::nullReturn = {ADCMgr::nullADCID,0,0};
     
-/*
-Board::Board(boardID iid, 
-             int nbSen, 
-             Sensor ** sVec) :  nbDataGets(OUTPUT_BURST_LENGTH),
-                                guid(iid), 
-                                nbSensors(nbSen) {
-  sensorVec = sVec;
-  q = new Q<timeValStruct_t>;
-  ts = new TimeStamper(micros());
-}
-*/
-/*
-void Board::updateSensorData(){
-  static byte j = 0;
-  timeValStruct_t *tvs = new timeValStruct_t;
 
-  sensorVec[j]->getValue(*tvs);
-  tvs->t = ts->getTimeStamp();
-  noInterrupts();
-  q->push(tvs);
-  interrupts();
-  j = (j+1) % nbSensors;
-}
-*/
 Board::Board(boardID iid) : nbDataGets(OUTPUT_BURST_LENGTH),
                             guid(iid),
                             nbADCs(Board::boardNbOfADCS[guid]){
   q = new Q<timeValStruct_t>;
-  ts = new TimeStamper(micros());
   
   adcMgrVec = new ADCMgr*[nbADCs];
   for (uint8_t  i=0;i<nbADCs;i++){
@@ -45,27 +19,12 @@ Board::Board(boardID iid) : nbDataGets(OUTPUT_BURST_LENGTH),
   }
 }
 
-void Board::getData(){
-  for (int i=0;i< nbDataGets;i++){
-    timeValStruct_t *tvs = q->pop();
-    if (tvs){   // we got one!!
-      ADCMgr::serialPrintTVS(*tvs);  // this is where the tvs data struct should be saved to disk prepended with board ID!!!
-      delete tvs;                    // but skip the write if the sensorID is the nullSensorID
-    }
-    else{
-      break;
-    }
-  }
-  Serial.println("EOQ !");
-}
 boardID Board::getGUID() const{
   return guid;
 }
 
 void Board::loop(){  
    if (counter<nbADCs){
-    //updateADCData();
-    //Serial.println(String("Board Loop, counter : ") + String(counter));
     adcMgrVec[counter]->runLoop();
   }
   counter = (counter + 1) % SLAVE_LOOP_ITERATIONS;
@@ -94,11 +53,6 @@ timeValStruct_t *Board::pop(){
 void Board::showQSize() const{
   Serial.print("Q nbObjects: ");
   Serial.println(q->qNbObjects());
-}
-
-void Board::setT0(timeStamp_t time0){
-  //Serial.println("setting timestamper..");
-  ts->setTime0(time0);
 }
 
 void Board::clearQ(){

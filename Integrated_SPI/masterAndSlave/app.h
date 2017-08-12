@@ -6,11 +6,14 @@
 
 #include "SPI_anything.h"
 #include "board.h"
+#include "processingFuncs.h"
 
 //#define DEBUG
 
 class App{
   protected:
+    static const processingUint32FuncPtr  pFuncPtrUint32 = &serialPrintUint32;
+    static const processingUintTVSFuncPtr pFuncPtrTVS    = &serialPrintTVS;
     static const char initChar    = 'i',
                       bidChar     = 'b',
                       acquireChar = 'a';
@@ -23,8 +26,8 @@ class App{
 
     volatile boolean consoleInput = false;
 
-    void printReply(unsigned long &v, boolean isTime);
-    void printReply(timeValStruct_t &tvs);
+    void processReply(uint32_t v, boolean isTime);
+    void processReply(timeValStruct_t &tvs);
     
 
   public:

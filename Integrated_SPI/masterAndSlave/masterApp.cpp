@@ -30,26 +30,28 @@ MasterApp::MasterApp():App(){
 }
 
 void MasterApp::readReplyAndSendNext(char command, char nextCommand){
-  boardID inBoardID;
-  unsigned long slaveTime;
-  timeValStruct_t inTVS;
+  static uint32_t inBoardID;
+  static uint32_t slaveTime;
+  static timeValStruct_t inTVS;
   
   switch (command){
     case initChar:
       // set time to zero and clear the board Q
       SPI_readAnything_reprime(slaveTime, (byte)nextCommand);
       Serial.println("Command : initChar");
-      printReply(slaveTime, true);
+      //Serial.println(slaveTime);
+      processReply(slaveTime, true);
       break;
     case bidChar:
       SPI_readAnything_reprime(inBoardID, (byte)nextCommand);
       Serial.println("Command : bidChar");
-      printReply(inBoardID,false);
+      //Serial.println(inBoardID);
+      processReply(inBoardID,false);
       break;
     default:      
       SPI_readAnything_reprime(inTVS, (byte)nextCommand);
       //Serial.println("Command : otherChar");
-      printReply(inTVS);
+      processReply(inTVS);
       break;
   }
 }

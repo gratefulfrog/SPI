@@ -17,10 +17,10 @@ SlaveApp::SlaveApp(): App(){
 
 void SlaveApp::loop(){
   //Serial.println("Slave loop");
-  static unsigned long time0;
-  static unsigned int maxQ =0;
+  //static uint32_t time0;
+  static uint16_t maxQ =0;
   if (init){
-    //Serial.println("about to boar loop");
+    //Serial.println("about to board loop");
     board->loop();
     if(board->getQSize() > maxQ){
       maxQ = board->getQSize();
@@ -28,21 +28,20 @@ void SlaveApp::loop(){
       Serial.println(maxQ);
     }
   }
-  else if (command == initChar){
-    time0 =  micros();
-    board->setT0(time0);
+  /*else if (command == initChar){
+    TimeStamper::theTimeStamper->setTime0(micros());
     board->clearQ();
 
-    lim = sizeof(unsigned long);
-    outPtr = (byte *) &time0;
-    Serial.print("init t0: ");
-    Serial.println(time0);
+    lim = sizeof(uint32_t);
+    outPtr = (byte *) &TimeStamper::theTimeStamper->t0;
+    Serial.print("init t0 : ");
+    Serial.println(TimeStamper::theTimeStamper->t0,DEC);
     init=true;
     //delay(5000);
   }
+  */
   else{
     Serial.println("waiting for init call");
-    //delay(500);
   }
 }
 
@@ -53,7 +52,15 @@ void SlaveApp::fillStruct(byte inCar){
   
   switch (inCar){
     case initChar:
-      init = false;
+      //init = false;
+      TimeStamper::theTimeStamper->setTime0(micros());
+      board->clearQ();
+  
+      lim = sizeof(uint32_t);
+      outPtr = (byte *) &TimeStamper::theTimeStamper->t0;
+      Serial.print("init t0 : ");
+      Serial.println(TimeStamper::theTimeStamper->t0);
+      init=true;
       break;
     case bidChar:
       lim = sizeof (boardID);
@@ -89,6 +96,8 @@ void SlaveApp::SPI_ISR(){
 
 void SlaveApp::newBoard(){
   const uint8_t bid = 0;
+  
+  TimeStamper::theTimeStamper = new TimeStamper(micros());
   
   board = new Board(bid);
 }

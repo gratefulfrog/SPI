@@ -3,7 +3,7 @@
 
 /*
  * USING USAARTS 1 and 2
- * informer pin is 7
+ * getting 50-80 microseconds between adc channel reads!!!
  */
 
 
@@ -23,30 +23,7 @@
 
 /** OTHER PINS
  *  5V powers the AD7689
- *  GND is also requried ont he AD7689
- *  
- *  pin 7 : a led to flash for information! on the 2650 only
- *  
- *  Arduino UNO ICSP HEADER: 
- *  pins 5 & 6 MUST BE connected together to prevent the ATmega16U from pulling MISO HIGH in USART mode!
- *  - these are the GND and REST pins.
- *  
- *  Iteaduino Mega XU2 ICSP HEADER: 
- *  pins 5 & 6 MUST BE connected together to prevent the ATmega16U from pulling MISO HIGH on USART0!
- *  - these are the GND and REST pins and are the ones farthest from the edge of the board with the USB Connector:
- *    
- *    USB     |
- *            |
- *    R x x   |
- *    G x x   |
- *    --------
- *  
- *  HeartBeat LED 9
- *  ID LED        8
- *  True PIN      7
- *  False PIN     6
- *  TALK pin      4  HIGH means flash results of each ADC channel query, LOW means just do it.
- *  use YSPI PIN  3  HIGH means YES, use YSPI, LOW means NO use HW SPI  
+ *  GND is also requried on the AD7689
  */
 
 
