@@ -108,3 +108,4 @@ unsigned int Board::getQSize() const{
   return q->qNbObjects();
 }
 
+

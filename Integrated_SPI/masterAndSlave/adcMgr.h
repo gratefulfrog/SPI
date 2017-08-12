@@ -98,6 +98,7 @@ class ADCMgr{  // each instance will manage the test of one ADC
     virtual void runLoop() const = 0; 
 
     static void serialPrintTVS(timeValStruct_t &tvs);
+    static boolean ADCMgr::isFirstADCCID(timeValStruct_t &tvs);
 };
 
 
@@ -153,4 +154,5 @@ class YADCMgr : public ADCMgr{
     void runLoop() const;
 };
 #endif
+
 

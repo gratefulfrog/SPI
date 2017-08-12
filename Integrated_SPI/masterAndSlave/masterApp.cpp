@@ -10,6 +10,9 @@ char MasterApp::nextChar2Send() const{
   if (++nextIndex >5){
     nextIndex = 5;
   }
+  else{
+    delay(20);
+  }
   return res;
 }
 
@@ -26,7 +29,7 @@ MasterApp::MasterApp():App(){
   transferAndWait(outgoing);  // ignore this reply!  
 }
 
-void MasterApp::readReply(char command, char nextCommand){
+void MasterApp::readReplyAndSendNext(char command, char nextCommand){
   boardID inBoardID;
   unsigned long slaveTime;
   timeValStruct_t inTVS;
@@ -35,18 +38,18 @@ void MasterApp::readReply(char command, char nextCommand){
     case initChar:
       // set time to zero and clear the board Q
       SPI_readAnything_reprime(slaveTime, (byte)nextCommand);
+      Serial.println("Command : initChar");
       printReply(slaveTime, true);
-      Serial.println("initChar");
       break;
     case bidChar:
       SPI_readAnything_reprime(inBoardID, (byte)nextCommand);
+      Serial.println("Command : bidChar");
       printReply(inBoardID,false);
-      Serial.println("bidChar");
       break;
     default:      
       SPI_readAnything_reprime(inTVS, (byte)nextCommand);
+      //Serial.println("Command : otherChar");
       printReply(inTVS);
-      //Serial.println("otherChar");
       break;
   }
 }
@@ -66,7 +69,7 @@ void MasterApp::loop(){
   // enable Slave Select
   digitalWrite(SS, LOW);   
   delayMicroseconds (pauseBetweenSends);
-  readReply(outgoing,nextOutgoing);
+  readReplyAndSendNext(outgoing,nextOutgoing);
   outgoing = nextOutgoing;
   
   // disable Slave Select
@@ -81,4 +84,5 @@ void MasterApp::serialEvent(){
   }
 }
  
+
 

@@ -38,7 +38,7 @@ void SlaveApp::loop(){
     Serial.print("init t0: ");
     Serial.println(time0);
     init=true;
-    delay(5000);
+    //delay(5000);
   }
   else{
     Serial.println("waiting for init call");
@@ -92,4 +92,5 @@ void SlaveApp::newBoard(){
   
   board = new Board(bid);
 }
+
 

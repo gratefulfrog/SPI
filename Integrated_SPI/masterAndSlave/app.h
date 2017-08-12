@@ -42,7 +42,7 @@ class App{
     char nextChar2Send() const,
          outgoing;
 
-    void readReply(char command, char nextCommand);
+    void readReplyAndSendNext(char command, char nextCommand);
     
   public:
     MasterApp();
@@ -73,3 +73,4 @@ class SlaveApp: public App{
 };
 
 #endif
+

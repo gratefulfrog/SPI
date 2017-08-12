@@ -20,3 +20,4 @@ void Informer::informOnce (uint8_t nbFlashes) const {
   }
 }
 
+

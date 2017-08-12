@@ -23,10 +23,12 @@ void App::serialEvent(){
 }
 
 void App::printReply(unsigned long &v, boolean isTime){
+  /*
   if (!consoleInput){
     return;
   }
   consoleInput = false;
+  */
   if (isTime){
     Serial.print("Slave time: ");
   }
@@ -42,11 +44,12 @@ void App::printReply(timeValStruct_t &tvs){
     ADCMgr::serialPrintTVS(tvs);
     consoleInput = false; 
   }
-  /*
+  
   if (tvs.aid != ADCMgr::nullADCID){
     ADCMgr::serialPrintTVS(tvs);
-    delay(100);
+    //delay(100);
   }
-  */
+  
 }
+
 

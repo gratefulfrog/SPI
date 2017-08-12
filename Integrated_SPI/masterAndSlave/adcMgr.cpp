@@ -5,7 +5,14 @@
 ADCMgr::ADCMgr(uint8_t id, Q<timeValStruct_t> *qq) : adcID(id), 
                                                                    q(qq){}              
 
+boolean ADCMgr::isFirstADCCID(timeValStruct_t &tvs){
+  return ((tvs.aid == 1)&&(tvs.cid ==0));
+}
+
 void ADCMgr::serialPrintTVS(timeValStruct_t &tvs){
+  if(isFirstADCCID(tvs)){
+    Serial.println("-------------------");
+  }
   Serial.print("ADC_ID    : ");
   Serial.println(tvs.aid);
   Serial.print("CID_ID    : ");  
@@ -114,4 +121,5 @@ void YADCMgr::runLoop() const{
     checkAndPush(channel);  
   }
 }
+
 
