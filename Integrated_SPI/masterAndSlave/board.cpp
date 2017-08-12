@@ -37,6 +37,7 @@ Board::Board(boardID iid) : nbDataGets(OUTPUT_BURST_LENGTH),
                             guid(iid),
                             nbADCs(Board::boardNbOfADCS[guid]){
   q = new Q<timeValStruct_t>;
+  ts = new TimeStamper(micros());
   
   adcMgrVec = new ADCMgr*[nbADCs];
   for (uint8_t  i=0;i<nbADCs;i++){
@@ -96,6 +97,7 @@ void Board::showQSize() const{
 }
 
 void Board::setT0(timeStamp_t time0){
+  //Serial.println("setting timestamper..");
   ts->setTime0(time0);
 }
 

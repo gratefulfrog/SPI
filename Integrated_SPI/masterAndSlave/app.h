@@ -7,10 +7,14 @@
 #include "SPI_anything.h"
 #include "board.h"
 
-// #define DEBUG
+//#define DEBUG
 
 class App{
   protected:
+    static const char initChar    = 'i',
+                      bidChar     = 'b',
+                      acquireChar = 'a';
+                      
     static const int bigBuffSize         = 50, // enough space for a long string
                      slaveProcessingTime = 0; // millisecs  with 6 it is too slow for the slave and the slave overfills its q !
 

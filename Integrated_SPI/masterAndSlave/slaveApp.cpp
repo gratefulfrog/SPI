@@ -9,7 +9,6 @@ SlaveApp::SlaveApp(): App(){
 
   // now turn on interrupts
   SPI.attachInterrupt();  
-  Serial.begin(115200);
   while(!Serial);
   Serial.println("Slave");
   
@@ -17,9 +16,11 @@ SlaveApp::SlaveApp(): App(){
 }
 
 void SlaveApp::loop(){
+  //Serial.println("Slave loop");
   static unsigned long time0;
   static unsigned int maxQ =0;
   if (init){
+    //Serial.println("about to boar loop");
     board->loop();
     if(board->getQSize() > maxQ){
       maxQ = board->getQSize();
@@ -27,7 +28,7 @@ void SlaveApp::loop(){
       Serial.println(maxQ);
     }
   }
-  else if (command == 't'){
+  else if (command == initChar){
     time0 =  micros();
     board->setT0(time0);
     board->clearQ();
@@ -37,7 +38,11 @@ void SlaveApp::loop(){
     Serial.print("init t0: ");
     Serial.println(time0);
     init=true;
-    delay(1000);
+    delay(5000);
+  }
+  else{
+    Serial.println("waiting for init call");
+    //delay(500);
   }
 }
 
@@ -47,10 +52,10 @@ void SlaveApp::fillStruct(byte inCar){
   sendI = 0;
   
   switch (inCar){
-    case 't':
+    case initChar:
       init = false;
       break;
-    case 'i':
+    case bidChar:
       lim = sizeof (boardID);
       outPtr = (byte *) &outBID;
       break;

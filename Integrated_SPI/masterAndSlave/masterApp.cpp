@@ -2,14 +2,18 @@
 
 char MasterApp::nextChar2Send() const{
   static byte nextIndex = 0;
-  const static char letters[] = "tia"; //bcdefghijklmnopqrstuvwxyz";
+  const static char letters[] = {initChar,initChar,initChar,initChar,
+                                 bidChar,
+                                 acquireChar}; //bcdefghijklmnopqrstuvwxyz";
   char res = letters[nextIndex];
-  nextIndex = (nextIndex == 0) ? 1 : 2;  // set this to 2 to send an 'a'
+  //nextIndex = (nextIndex == 0) ? 1 : 2;  // set this to 2 to send an acquireChar
+  if (++nextIndex >5){
+    nextIndex = 5;
+  }
   return res;
 }
 
 MasterApp::MasterApp():App(){
-  Serial.begin (115200);
   SPI.begin ();
   while(!Serial);
   Serial.println("Master");
@@ -28,18 +32,21 @@ void MasterApp::readReply(char command, char nextCommand){
   timeValStruct_t inTVS;
   
   switch (command){
-    case 't':
+    case initChar:
       // set time to zero and clear the board Q
       SPI_readAnything_reprime(slaveTime, (byte)nextCommand);
       printReply(slaveTime, true);
+      Serial.println("initChar");
       break;
-    case 'i':
+    case bidChar:
       SPI_readAnything_reprime(inBoardID, (byte)nextCommand);
       printReply(inBoardID,false);
+      Serial.println("bidChar");
       break;
     default:      
       SPI_readAnything_reprime(inTVS, (byte)nextCommand);
       printReply(inTVS);
+      //Serial.println("otherChar");
       break;
   }
 }
@@ -51,7 +58,7 @@ void MasterApp::loop(){
      // print outgoing character that was just sent
     Serial.print("Sent: ");
     Serial.println(outgoing);
-    Serial.print("Received: ");
+    //Serial.print("Received: ");
   #endif
   
   char nextOutgoing  = nextChar2Send();

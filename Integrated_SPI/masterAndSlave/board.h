@@ -13,7 +13,7 @@
 //   * 10 loop iters makes for a loop time for the 2 sensors of 1827 microseconds
 //   * 5  looper iters = 1032 microseconds!
 //   * 4  is too fast and does not work!
-#define SLAVE_LOOP_ITERATIONS (100)  // 5 // 10 // 20 // 40  // 80 //160  
+#define SLAVE_LOOP_ITERATIONS (100000)  // 5 // 10 // 20 // 40  // 80 //160  
 
 typedef unsigned long boardID; // GUID
 

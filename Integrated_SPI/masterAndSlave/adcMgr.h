@@ -17,7 +17,7 @@
 
 #define NULL_ADC_ID (255)
 
-typedef float ADC_value_t;
+typedef float   ADC_value_t;
 typedef uint8_t channelID_t;
 typedef uint8_t ADCID_t;
 

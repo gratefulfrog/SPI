@@ -72,11 +72,13 @@ boolean YADCMgr::checkChannelReading(uint8_t chan, float reading) const{
 void YADCMgr::checkAndPush(uint8_t channel) const{
   //uint32_t timeStamp = 0;
   timeValStruct_t *tvs = new timeValStruct_t;
-  tvs->v = adc->acquireChannel(channel, &tvs->t);
+  tvs->aid = adcID;
+  tvs->cid = channel;
+  tvs->v = adc->acquireChannel(channel, &(tvs->t));
   noInterrupts();
   q->push(tvs);
+  //ADCMgr::serialPrintTVS(*tvs);
   interrupts();
-  ADCMgr::serialPrintTVS(*tvs);
 }
 
 YADCMgr::YADCMgr(uint8_t id, Q<timeValStruct_t> *q) : ADCMgr(id,q){    

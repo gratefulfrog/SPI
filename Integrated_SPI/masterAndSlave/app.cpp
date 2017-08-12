@@ -1,6 +1,8 @@
 #include "app.h"
 
-App::App(){}
+App::App(){
+  Serial.begin(115200);
+}
 
 void App::printSendCount() const{
   static int sendCount = 0;
@@ -35,9 +37,16 @@ void App::printReply(unsigned long &v, boolean isTime){
 }
 
 void App::printReply(timeValStruct_t &tvs){
+  
   if (consoleInput && (tvs.aid != ADCMgr::nullADCID)){
     ADCMgr::serialPrintTVS(tvs);
     consoleInput = false; 
   }
+  /*
+  if (tvs.aid != ADCMgr::nullADCID){
+    ADCMgr::serialPrintTVS(tvs);
+    delay(100);
+  }
+  */
 }
 
