@@ -120,10 +120,10 @@ $(document).ready(function(){initNavTree('class_time_stamper.html','');});
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a5cdcaccd4272186d996250f34c43a6ef"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_time_stamper.html#a5cdcaccd4272186d996250f34c43a6ef">TimeStamper</a> (<a class="el" href="utilities_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a> tInit)</td></tr>
 <tr class="separator:a5cdcaccd4272186d996250f34c43a6ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad02ebcd00c2ee117792cd89c6575d0c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="utilities_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_time_stamper.html#aad02ebcd00c2ee117792cd89c6575d0c">getTimeStamp</a> () const </td></tr>
-<tr class="separator:aad02ebcd00c2ee117792cd89c6575d0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fee59381edeefc1d20dee3b98373663"><td class="memItemLeft" align="right" valign="top"><a class="el" href="utilities_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_time_stamper.html#a0fee59381edeefc1d20dee3b98373663">getCompensatedTimeStamp</a> (<a class="el" href="utilities_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a> uTime) const </td></tr>
-<tr class="separator:a0fee59381edeefc1d20dee3b98373663"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd5475279026a3efa138a26e9ae382de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="utilities_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_time_stamper.html#abd5475279026a3efa138a26e9ae382de">getTimeStamp</a> ()</td></tr>
+<tr class="separator:abd5475279026a3efa138a26e9ae382de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a604f62c92b612b7e9c0a3cf2a74b85d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="utilities_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_time_stamper.html#a604f62c92b612b7e9c0a3cf2a74b85d7">getCompensatedTimeStamp</a> (const <a class="el" href="utilities_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a> &amp;uTime)</td></tr>
+<tr class="separator:a604f62c92b612b7e9c0a3cf2a74b85d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e6c062656f468cba82cf79d356a5f88"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_time_stamper.html#a7e6c062656f468cba82cf79d356a5f88">setTime0</a> (<a class="el" href="utilities_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a> t)</td></tr>
 <tr class="separator:a7e6c062656f468cba82cf79d356a5f88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -141,7 +141,7 @@ Static Public Attributes</h2></td></tr>
 <div class="textblock"><p><a class="el" href="class_time_stamper.html">TimeStamper</a> class provides time services at instanciation, or after by a call to setTime0, the time0, i.e. the reference time that should be called 0 microseconds can be set.</p>
 <p>All members are public, but should not be abused!</p>
 <p>The services are:</p>
-<p><a class="el" href="class_time_stamper.html#aad02ebcd00c2ee117792cd89c6575d0c">getTimeStamp()</a> returns time in micro secs since t0</p>
+<p><a class="el" href="class_time_stamper.html#abd5475279026a3efa138a26e9ae382de">getTimeStamp()</a> returns time in micro secs since t0</p>
 <p>getCompensatedTimeStamp(timeStamp_t uTime) returns the uTime (uncompensated time) minus t0, thus the compensated value.</p>
 <p><a class="el" href="class_time_stamper.html#a7e6c062656f468cba82cf79d356a5f88">setTime0(timeStamp_t t)</a> sets t0 to the arg.</p>
 <p>The class provides a public static instance via the pointer <a class="el" href="class_time_stamper.html#aabae549b991789d8601c667469dec521">TimeStamper::theTimeStamper</a>. This should be the only instance created. </p>
@@ -169,20 +169,20 @@ Static Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a0fee59381edeefc1d20dee3b98373663"></a>
+<a class="anchor" id="a604f62c92b612b7e9c0a3cf2a74b85d7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="utilities_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a> TimeStamper::getCompensatedTimeStamp </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="utilities_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="utilities_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a> &amp;&#160;</td>
           <td class="paramname"><em>uTime</em></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>gets the compensated timestamp of the argument </p><dl class="params"><dt>Parameters</dt><dd>
+<p>gets the compensated timestamp of the argument, if the argument is less than t0, resets t0 to 0 micro seconds </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">uTime</td><td>a time value </td></tr>
   </table>
@@ -192,7 +192,7 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aad02ebcd00c2ee117792cd89c6575d0c"></a>
+<a class="anchor" id="abd5475279026a3efa138a26e9ae382de"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -200,11 +200,11 @@ Static Public Attributes</h2></td></tr>
           <td class="memname"><a class="el" href="utilities_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a> TimeStamper::getTimeStamp </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>gets the current timestamp, i.e. current time - t0 in microsecs </p><dl class="section return"><dt>Returns</dt><dd>timeStamp time </dd></dl>
+<p>gets the current timestamp, i.e. current time - t0 in microsecs if time is less than t0, resets t0 to 0 </p><dl class="section return"><dt>Returns</dt><dd>timeStamp time </dd></dl>
 
 </div>
 </div>
