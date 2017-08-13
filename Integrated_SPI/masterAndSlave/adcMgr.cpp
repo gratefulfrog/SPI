@@ -2,7 +2,7 @@
 
 
 
-ADCMgr::ADCMgr(uint8_t id, Q<timeValStruct_t> *qq) : adcID(id), q(qq){}              
+ADCMgr::ADCMgr(uint8_t id, Q<timeValStruct_t> *qq) : adcID(id), q(qq), nbChannels(NB_CHANNELS){}              
 
 void YADCMgr::doSelfTest() const {
   if (adc->selftest()){

@@ -3,20 +3,18 @@
 
 const uint8_t Board::boardNbOfADCS[] = {2};  // board 0 has 2 adcs
 
-const uint8_t Board::boardUSARTChannels[] = {1,2}; // do not usart channel 0
-
 const timeValStruct_t Board::nullReturn = {ADCMgr::nullADCID,0,0};
     
-
-Board::Board(boardID iid) : nbDataGets(OUTPUT_BURST_LENGTH),
-                            guid(iid),
-                            nbADCs(Board::boardNbOfADCS[guid]){
+Board::Board() : nbDataGets(OUTPUT_BURST_LENGTH),
+                 guid(BOARD_ID),
+                 nbADCs(Board::boardNbOfADCS[guid]){  
   q = new Q<timeValStruct_t>;
   
   adcMgrVec = new ADCMgr*[nbADCs];
   for (uint8_t  i=0;i<nbADCs;i++){
-    adcMgrVec[i] = new YADCMgr(boardUSARTChannels[i],q);  
-  }
+    boardUSARTChannels[i] = i+1; // init UART channel vec
+    adcMgrVec[i] = new YADCMgr(boardUSARTChannels[i],q);  // init adcMgr vec
+  } 
 }
 
 boardID Board::getGUID() const{
@@ -38,7 +36,6 @@ timeValStruct_t *Board::pop(){
   static timeValStruct_t *resPtr;
   if (tvs){
     res.aidcid = tvs->aidcid;
-    //res.cid = tvs->cid;
     res.t  = tvs->t;
     res.v  = tvs->v;
     delete tvs;

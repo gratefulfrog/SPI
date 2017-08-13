@@ -12,14 +12,15 @@ SlaveApp::SlaveApp(): App(){
   while(!Serial);
   Serial.println("Slave");
   
-  newBoard();
+  TimeStamper::theTimeStamper = new TimeStamper(micros());
+  
+  board = new Board();
   outBID = board->getGUID();
 }
 
 void SlaveApp::loop(){
-  //Serial.println("Slave loop");
-  //static uint32_t time0;
   static unsigned int maxQ = 0;
+  static uint32_t     count = 0;
   if (init){
     if (showInitMsg){
       Serial.print("init t0 : ");
@@ -37,12 +38,17 @@ void SlaveApp::loop(){
   else{
     Serial.println("waiting for init call");
   }
+  // debug tracing counts the loops
+  if(!(count++ % 100000)){
+    Serial.println(count);
+  }
 }
 
-void SlaveApp::fillStruct(byte inCar){
+void SlaveApp::fillStruct(){
+  // NOTE: no allocations or calls to functions that allocate memory, i.e. do not call Serial.print !
   sendI = 0;
   
-  switch (inCar){
+  switch (command){
     case initChar:
       TimeStamper::theTimeStamper->setTime0(micros());
       board->clearQ();
@@ -72,22 +78,14 @@ void SlaveApp::fillStruct(byte inCar){
 }
 
 void SlaveApp::SPI_ISR(){
+  // NOTE: no allocations or calls to functions that allocate memory, i.e. do not call Serial.print !
   if (SPDR != nullChar) {
     command = SPDR;
-    fillStruct(command);  // will take some time, but can't see how to make it faster because outPtr must be set here!
+    fillStruct();  // will take some time, but can't see how to make it faster because outPtr must be set here!
   }
-  
   if (sendI++<lim){
     SPDR = (*outPtr++);
   }
-}
-
-void SlaveApp::newBoard(){
-  const uint8_t bid = 0;
-  
-  TimeStamper::theTimeStamper = new TimeStamper(micros());
-  
-  board = new Board(bid);
 }
 
 

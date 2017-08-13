@@ -71,12 +71,14 @@ void MasterApp::loop(){
   delay (slaveProcessingTime);
 }
 
+#ifdef DEBUG  
 void MasterApp::serialEvent(){
   if (Serial.available()){
     Serial.read();
     consoleInput = true;
   }
 }
+  #endif
  
 
 

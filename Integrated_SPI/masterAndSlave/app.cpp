@@ -4,12 +4,6 @@ App::App(){
   Serial.begin(115200);
 }
 
-void App::printSendCount() const{
-  static int sendCount = 0;
-  String s = "Send: " + String(sendCount++) + "\n";
-  Serial.print(s);
-}
-
 byte App::transferAndWait (const byte what) const{
   byte res = SPI.transfer (what);
   delayMicroseconds (pauseBetweenSends);
@@ -33,12 +27,6 @@ void App::processReply(uint32_t v, boolean isTime){
 }
 
 void App::processReply(timeValStruct_t &tvs){
-  /*
-  if (consoleInput && (tvs.aid != ADCMgr::nullADCID)){
-    ADCMgr::serialPrintTVS(tvs);
-    consoleInput = false; 
-  }
-  */
   if (tvs.aidcid != ADCMgr::nullADCID){
     (*pFuncPtrTVS)(tvs);
   }

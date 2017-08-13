@@ -8,6 +8,8 @@
 #include "yspi.h"
 #include "utilities.h"
 
+#define NB_CHANNELS (8)  // this may need modification in real life
+
 /** App is the pure abstract class that provides the interface 
  *  to all test running sublcasses.
  *  This is used because Yannick tests on a harvester board, whereas Bob tests
@@ -20,7 +22,7 @@
 class ADCMgr{  // each instance will manage the test of one ADC
   protected:  
     // static member variable 
-    static const uint8_t nbChannels = 8;      /**< adc number of channels to be tested  */
+    const uint8_t nbChannels;      /**< adc number of channels to be polled  */
     //static const float   epsilon    = 0.05;   /**< used in equality testing  */
 
     //const boolean useSerial      = false,      /**< for message output  */
@@ -31,7 +33,7 @@ class ADCMgr{  // each instance will manage the test of one ADC
     boolean usingUSARTSPI  = true;   /**< value may be changed during setup based on reading of yspiOnPin (BTestApp only) */
     const uint8_t adcID;             /**< identifying which adc (or USART channel) we are testing in this app instance */
 
-    const Q<timeValStruct_t> *q;  // pointer to the board's q for pushing data structs onto it
+    const Q<timeValStruct_t> *q;  /**< pointer to the board's q for pushing data structs onto it */
 
     /** doSelfTest pure virtual exectues the ADC self test
      *  runs the adc self-test and informs, blocks if failure  
