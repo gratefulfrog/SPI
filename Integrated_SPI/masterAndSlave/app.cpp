@@ -23,15 +23,6 @@ void App::serialEvent(){
 }
 
 void App::processReply(uint32_t v, boolean isTime){
-  /*
-  if (!consoleInput){
-    return;
-  }
-  2517618817
-   254010717
-  
-  consoleInput = false;
-  */
   if (isTime){
     Serial.print("Slave time: ");
   }
