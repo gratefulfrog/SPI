@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['acquirechannel',['acquireChannel',['../class_a_d7689.html#a90e16fc80e09479dba9b16f97d58bc9b',1,'AD7689']]],
+  ['acquirechar',['acquireChar',['../class_app.html#acf514ca7223769e4bbf2c4e491549a70',1,'App']]],
+  ['acquiretemperature',['acquireTemperature',['../class_a_d7689.html#a390ada9d245ada58ac687d6d646167d5',1,'AD7689']]],
+  ['ad7689',['AD7689',['../class_a_d7689.html',1,'AD7689'],['../class_a_d7689.html#a9e69f0eab337d626c5239166fa39d20f',1,'AD7689::AD7689()']]],
+  ['ad7689_2ecpp',['ad7689.cpp',['../ad7689_8cpp.html',1,'']]],
+  ['ad7689_2eh',['ad7689.h',['../ad7689_8h.html',1,'']]],
+  ['ad7689_5fconf',['AD7689_conf',['../struct_a_d7689__conf.html',1,'']]],
+  ['ad7689_5fss_5fpin',['AD7689_SS_pin',['../class_y_a_d_c_mgr.html#aede246000fd15952e1125c7af5203518',1,'YADCMgr']]],
+  ['adc',['adc',['../class_a_d_c_mgr.html#a20999c29cae5cd48af23721b0cff2f8f',1,'ADCMgr']]],
+  ['adc_5fvalue_5ft',['ADC_value_t',['../utilities_8h.html#af14686474a4001808372fdca11bf5a8e',1,'utilities.h']]],
+  ['adccid_5ft',['ADCCID_t',['../utilities_8h.html#a12a9e4652c2f4e9192edf6e2500db8bd',1,'utilities.h']]],
+  ['adcid',['adcID',['../class_a_d_c_mgr.html#ab237bdca16f606bf4d8ca44fc3c9b112',1,'ADCMgr']]],
+  ['adcmgr',['ADCMgr',['../class_a_d_c_mgr.html',1,'ADCMgr'],['../class_a_d_c_mgr.html#aa430506645c6772dd36ddecf7bb9acaf',1,'ADCMgr::ADCMgr()']]],
+  ['adcmgr_2ecpp',['adcMgr.cpp',['../adc_mgr_8cpp.html',1,'']]],
+  ['adcmgr_2eh',['adcMgr.h',['../adc_mgr_8h.html',1,'']]],
+  ['adcmgrvec',['adcMgrVec',['../class_board.html#a38cd8d7ac19055110176fce5124f2f2e',1,'Board']]],
+  ['aidcid',['aidcid',['../structtime_val_struct__t.html#a9c6efe9da9794350d28d5a1a022419cf',1,'timeValStruct_t']]],
+  ['app',['App',['../class_app.html',1,'App'],['../class_app.html#acb8cbf3e285b91d0170ffe87df5989c5',1,'App::App()'],['../master_and_slave_8ino.html#a6cfe6d6cdc983749aa58f047ccd38210',1,'app():&#160;masterAndSlave.ino']]],
+  ['app_2ecpp',['app.cpp',['../app_8cpp.html',1,'']]],
+  ['app_2eh',['app.h',['../app_8h.html',1,'']]]
+];
