@@ -28,15 +28,13 @@ class TimeStamper {
     /** constructor
      * @param tInit the value to be used to initialize t0  */
     TimeStamper(timeStamp_t tInit);  
-    /** gets the current timestamp, i.e. current time - t0 in microsecs
-     *  @return timeStamp time
-     */
-    timeStamp_t getTimeStamp() const;  
-    /** gets the compensated timestamp of the argument
+    /** gets the current timestamp, i.e. current time - t0 in microsecs if time is less than t0, resets t0 to 0
+     *  @return timeStamp time  */
+    timeStamp_t getTimeStamp();  
+    /** gets the compensated timestamp of the argument, if the argument is less than t0, resets t0 to 0 micro seconds
      *  @param uTime a time value
-     *  @return , uTime- t0 in microsecs
-     */
-    timeStamp_t getCompensatedTimeStamp(timeStamp_t uTime) const;
+     *  @return , uTime- t0 in microsecs */
+    timeStamp_t getCompensatedTimeStamp(const timeStamp_t &uTime);
     /** Resets the value of t0 to the arg
      *  @param t the new value of t0
      */
