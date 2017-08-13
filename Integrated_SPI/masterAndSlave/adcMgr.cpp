@@ -53,8 +53,9 @@ boolean YADCMgr::checkChannelReading(uint8_t chan, float reading) const{
 */
 void YADCMgr::checkAndPush(uint8_t channel) const{
   timeValStruct_t *tvs = new timeValStruct_t;
-  tvs->aid = adcID;
-  tvs->cid = channel;
+  encode(tvs->aidcid,adcID,channel);
+  //tvs->aid = adcID;
+  //tvs->cid = channel;
   tvs->v = adc->acquireChannel(channel, &(tvs->t));
   // need to fix the time to compensate the init time!
   tvs->t = TimeStamper::theTimeStamper->getCompensatedTimeStamp(tvs->t);

@@ -6,6 +6,7 @@
 #include "q.h"
 #include "timeStamper.h"
 #include "yspi.h"
+#include "utilities.h"
 
 /** App is the pure abstract class that provides the interface 
  *  to all test running sublcasses.
@@ -15,18 +16,6 @@
  */
 
 #define NULL_ADC_ID (255)
-
-typedef float   ADC_value_t;
-typedef uint8_t channelID_t;
-typedef uint8_t ADCID_t;
-
-typedef struct timeValStruct_t {
-  ADCID_t       aid;
-  channelID_t   cid;
-  timeStamp_t   t;
-  ADC_value_t   v;
-};
-
 
 class ADCMgr{  // each instance will manage the test of one ADC
   protected:  

@@ -26,20 +26,29 @@
  *  GND is also requried on the AD7689
  */
 
+/* USAGE:
+ *  1. connect the master and slave boards via SPI
+ *  2. power up the 2 boards
+ *  3. open serial monitors to both board (needed in current version with Serial Output!
+ *  3. reset the MEGA, and IMMEDIATLY hold down reset on the UNO
+ *  4. when the MEGA montor shows "waiting for init call", release the rest button on the UNO;
+ *  5. processing and comms begin !
+ */
 
 
 /*
- * This version is Master polls slave with commands 't' 'i' or 'a' via SPI: 
- **  t: sets slave time to zero, clears q, then ready to go!
- **  i: identify expets a GUID in repsonse 
- **  a: acquire expects a timeValStruct_t in respnse
+ * This version is Master polls slave with commands  corrsponding to App::initChar, App::bidChar, App::acquireChar via SPI: 
+ **  initChar: sets slave time to zero, clears q, then ready to go!
+ **  bidChar: identify expects a GUID in repsonse 
+ **  acquireChar: acquire expects a timeValStruct_t in respnse, ALWAYS, so even if no data is available a Null Response must be sent!
  * Slave repsonds apprpriately.
  * Slave will crash if Q over flows!
  * Slave needs to pause between reading sensors or the q will over flow since the Master cannot get the replies fast enough...
  * if no slave data is available at poll, the nullReturn is sent.
  * 
- * Tuniing the Timing : This is needed to avoid board Q overflow and catastrophic failures. It seems that the fastest we 
- *                    : do is a sensor reading every 1032 microseconds, which is not so great... 
+ * The variables below are needed to:
+ * TUNE the TIMING : This is needed to avoid board Q overflow and catastrophic failures. It seems that the fastest we 
+ *                 : do is an ADC channel reading around every 50 microseconds, but some channels seem to take 10x longer!,  
  * 
  * SPI_anything.h:  
  **  const int pauseBetweenSends : is the time in micro-seconds that is waited after an SPI.transfer or a digitalWrite(SS, LOW); 
@@ -52,8 +61,8 @@
  *                         : i.e. 1 time in SLAVE_LOOP_ITERATIONS; value 1 would be every loop, but then the q will overflow!
  *  
  * Output : 
- **  Master : will Serial.print the latest data struct if the user provides a character as serial input.
- **  Slave  : will Serial.print the longest length of the Q each time the lenght increases.
+ **  Master : will Serial.print the data structs
+ **  Slave  : will Serial.print the longest length of the Q each time the lenght increases, as well as some init messages.
  */
 
 App *app;

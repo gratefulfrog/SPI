@@ -48,7 +48,7 @@ void App::processReply(timeValStruct_t &tvs){
     consoleInput = false; 
   }
   */
-  if (tvs.aid != ADCMgr::nullADCID){
+  if (tvs.aidcid != ADCMgr::nullADCID){
     (*pFuncPtrTVS)(tvs);
   }
 }

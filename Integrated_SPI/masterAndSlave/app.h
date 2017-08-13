@@ -6,7 +6,7 @@
 
 #include "SPI_anything.h"
 #include "board.h"
-#include "processingFuncs.h"
+#include "utilities.h"
 
 //#define DEBUG
 
@@ -56,13 +56,18 @@ class App{
 
 class SlaveApp: public App{
   protected:
-    volatile byte command = 0;
+    volatile boardID outBID ;
+    
+    volatile timeValStruct_t outTVS,
+                            *tempTVS = NULL;
+    
+    volatile byte command = 0,
+                  *outPtr;
+    volatile int   sendI;
+    volatile boolean init = false,
+                     showInitMsg = false;
 
-    volatile byte *outPtr;
-    volatile int sendI;
-    volatile boolean init = false  ;
-
-    unsigned int lim ;
+    volatile unsigned int lim ;
 
     Board *board;
     

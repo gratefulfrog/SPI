@@ -2,8 +2,7 @@
 #define TIMESTAMPER_H
 
 #include <Arduino.h>
-
-typedef uint32_t timeStamp_t;
+#include "utilities.h"
   
 class TimeStamper {
   protected:

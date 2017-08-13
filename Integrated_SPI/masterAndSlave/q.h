@@ -14,9 +14,9 @@
 template <class T> 
 class Q{
   protected:
-    unsigned int pptr   = 0,
-                 gptr   = 0,
-                 qNbObj = 0;
+    volatile unsigned int pptr   = 0,
+                          gptr   = 0,
+                          qNbObj = 0;
     static const unsigned int qLen   = Q_LENGTH;
     static const boolean overrunDeleteOldest = (boolean) OVERRUN_DELETE_OLDEST;
     T *q[qLen];
@@ -36,6 +36,7 @@ class Q{
           // in this case delete the oldest and continue with the enqueing of the current elt.
           Serial.println("************************** Q Full! deleting oldest! *******************************");
           delete pop();
+          qNbObj--;
         }
         else{
           // in this case delete the elt that we are attempted to enqueue and return!

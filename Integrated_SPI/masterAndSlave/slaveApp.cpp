@@ -13,54 +13,43 @@ SlaveApp::SlaveApp(): App(){
   Serial.println("Slave");
   
   newBoard();
+  outBID = board->getGUID();
 }
 
 void SlaveApp::loop(){
   //Serial.println("Slave loop");
   //static uint32_t time0;
-  static uint16_t maxQ =0;
+  static unsigned int maxQ = 0;
   if (init){
-    //Serial.println("about to board loop");
+    if (showInitMsg){
+      Serial.print("init t0 : ");
+      Serial.println(TimeStamper::theTimeStamper->t0);
+      showInitMsg = false;
+    }
     board->loop();
-    if(board->getQSize() > maxQ){
-      maxQ = board->getQSize();
+    unsigned int qS = board->getQSize();
+    if(qS > maxQ){
+      maxQ = qS;
       Serial.print("Max Q size: ");
       Serial.println(maxQ);
     }
   }
-  /*else if (command == initChar){
-    TimeStamper::theTimeStamper->setTime0(micros());
-    board->clearQ();
-
-    lim = sizeof(uint32_t);
-    outPtr = (byte *) &TimeStamper::theTimeStamper->t0;
-    Serial.print("init t0 : ");
-    Serial.println(TimeStamper::theTimeStamper->t0,DEC);
-    init=true;
-    //delay(5000);
-  }
-  */
   else{
     Serial.println("waiting for init call");
   }
 }
 
 void SlaveApp::fillStruct(byte inCar){
-  static boardID outBID = board->getGUID();
-  static timeValStruct_t outTVS;
   sendI = 0;
   
   switch (inCar){
     case initChar:
-      //init = false;
       TimeStamper::theTimeStamper->setTime0(micros());
       board->clearQ();
-  
+      
       lim = sizeof(uint32_t);
       outPtr = (byte *) &TimeStamper::theTimeStamper->t0;
-      Serial.print("init t0 : ");
-      Serial.println(TimeStamper::theTimeStamper->t0);
-      init=true;
+      showInitMsg=init=true;
       break;
     case bidChar:
       lim = sizeof (boardID);
@@ -68,10 +57,9 @@ void SlaveApp::fillStruct(byte inCar){
       break;
     default:
       lim = sizeof (timeValStruct_t);
-      timeValStruct_t *tempTVS = board->pop(); 
+      tempTVS = board->pop(); 
       if(tempTVS){
-        outTVS.aid = tempTVS->aid;
-        outTVS.cid = tempTVS->cid;
+        outTVS.aidcid = tempTVS->aidcid;
         outTVS.t  = tempTVS->t;
         outTVS.v  = tempTVS->v;
         outPtr = (byte *) &outTVS;

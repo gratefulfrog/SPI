@@ -37,8 +37,8 @@ timeValStruct_t *Board::pop(){
   static timeValStruct_t res;
   static timeValStruct_t *resPtr;
   if (tvs){
-    res.aid = tvs->aid;
-    res.cid = tvs->cid;
+    res.aidcid = tvs->aidcid;
+    //res.cid = tvs->cid;
     res.t  = tvs->t;
     res.v  = tvs->v;
     delete tvs;
@@ -59,6 +59,7 @@ void Board::clearQ(){
   while(pop());
 }
 unsigned int Board::getQSize() const{
+  //Serial.println("getQSize");
   return q->qNbObjects();
 }
 
