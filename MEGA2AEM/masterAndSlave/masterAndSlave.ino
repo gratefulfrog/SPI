@@ -1,9 +1,13 @@
 
 #include "app.h"
 
-/*
- * USING USAARTS 1 and 2
- * getting 50-80 microseconds between adc channel reads!!!
+/* Version uses the Iteaduino MEGA as master and the AEMvibrations board as slave
+ *  Be sure to set Iteaduino to 3.3v for use, but as 5v for sw uploading.
+ *  
+ *  Compile for SLAVE by setting SLAVE to 1
+ *  Compile for MASTER by setting SLAVE to 0
+ *  
+ *  NEVER cross MOSI and MISO !!! 
  */
 
 
@@ -65,13 +69,13 @@
  **  Slave  : will Serial.print the longest length of the Q each time the lenght increases, as well as some init messages.
  */
 
-//#define SLAVE (1)
+#define SLAVE (1)
 
 App *app;
 
 // test to see if we have an ATmega328p or an ATmega2560 MCU
-#if ( SIGNATURE_1 == 0x98 && SIGNATURE_2 == 0x01)
-//#if ( SLAVE)
+//#if ( SIGNATURE_1 == 0x98 && SIGNATURE_2 == 0x01)
+#if ( SLAVE)
   ///// we have an ATMEGA 2560: so it's the Slave
   
   const boolean isMaster = false;
