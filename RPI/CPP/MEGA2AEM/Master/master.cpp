@@ -1,5 +1,5 @@
 
-#include "app.h"
+#include "master.h"
 
 /* Version uses the RPI  as master and the AEM vibrations board as slave
  *  

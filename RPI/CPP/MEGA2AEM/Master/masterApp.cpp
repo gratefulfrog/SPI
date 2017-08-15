@@ -1,18 +1,20 @@
 #include "app.h"
 
-char MasterApp::nextChar2Send() const{
+using namespace std;
+
+unsigned char MasterApp::nextChar2Send() const{
   static int8_t nextIndex = 0;
   const int8_t nbChars = 3;
-  const static char letters[] = {initChar,
-                                 bidChar,
-                                 acquireChar}; 
+  const static unsigned char letters[] = {initChar,
+					  bidChar,
+					  acquireChar}; 
   char res = letters[nextIndex];
   nextIndex = (nextIndex == nbChars -1) ? nbChars -1 : nextIndex+1;  
   return res;
 }
 
 MasterApp::MasterApp():App(){  
-  Serial.println("Master");
+  cout << "Master" << endl;
 
   /* prime the pump for the 1st character */
   outgoing  = nextChar2Send();   
@@ -27,17 +29,17 @@ void MasterApp::readReplyAndSendNext(char command, char nextCommand){
   switch (command){
     case initChar:
       // set time to zero and clear the board Q
-      SPI_readAnything_reprime(slaveTime, (byte)nextCommand);
+      SPI_readAnything_reprime(channel,slaveTime, (uint8_t)nextCommand);
       cout << "Command : initChar" << endl;
       processReply(slaveTime, true);
       break;
     case bidChar:
-      SPI_readAnything_reprime(inBoardID, (byte)nextCommand);
+      SPI_readAnything_reprime(channel,inBoardID, (uint8_t)nextCommand);
       cout << "Command : bidChar" << endl;
       processReply(inBoardID,false);
       break;
     default:      
-      SPI_readAnything_reprime(inTVS, (byte)nextCommand);
+      SPI_readAnything_reprime(channel, inTVS, (uint8_t)nextCommand);
       processReply(inTVS);
       break;
   }

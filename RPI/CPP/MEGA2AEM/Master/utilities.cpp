@@ -1,5 +1,6 @@
 #include "utilities.h"
 
+using namespace std;
 
 // define functions here for various forms of processing of the data coming from the boards
 
@@ -7,7 +8,7 @@ void serialPrintUint32(uint32_t &v){
   cout << v << endl;
 }
 
-boolean isFirstADCCID(const uint8_t &aid,const uint8_t &cid){
+bool isFirstADCCID(const uint8_t &aid,const uint8_t &cid){
   return ((aid == 1)&&(cid ==0));
 }
 

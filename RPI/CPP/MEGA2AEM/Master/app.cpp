@@ -2,16 +2,20 @@
 
 using namespace std;
 
-const struct timespec App::slaveProcessingTime = {slaveDelay,0};
+const processingUint32FuncPtr  App::pFuncPtrUint32 = &serialPrintUint32;
+const processingUintTVSFuncPtr App::pFuncPtrTVS    = &serialPrintTVS;
+//const struct timespec App::slaveProcessingTime = {slaveDelay,0};
 
 App::App():channel(APP_SPI_CHANNEL){}
 
+/*
 void App::outgoingMsg(char* buf) const{
   // puts a char[] into the arg buf,
 
   static int sendCount = 0;
   sprintf(buf, "Send: %d\n", sendCount++);
 }
+*/
 
 void App::transferAndWait (unsigned char &inOut) const{
   wiringPiSPIDataRW(channel,&inOut, 1);
@@ -19,7 +23,7 @@ void App::transferAndWait (unsigned char &inOut) const{
 } 
 
 
-void App::processReply(uint32_t v, boolean isTime){
+void App::processReply(uint32_t v, bool isTime){
   if (isTime){
     cout << "Slave time: ";
   }

@@ -8,7 +8,7 @@ OBJ = master.o app.o masterApp.o utilities.o
 
 all: master
 
-exp: $(OBJ)
+master: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 .PHONY: clean

@@ -41,8 +41,8 @@ unsigned int SPI_readAnything(int channel, T& value){
 }
 
 template <typename T> 
-unsigned int SPI_readAnything_reprime(int channel, T& value, byte prime){
-  uint8_t * p = (byte*) &value;
+unsigned int SPI_readAnything_reprime(int channel, T& value, uint8_t prime){
+  uint8_t * p = (uint8_t*) &value;
   unsigned int i =0,
                limLessOne = (sizeof value) -1;
   for (; i < limLessOne; i++){

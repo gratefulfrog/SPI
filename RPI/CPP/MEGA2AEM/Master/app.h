@@ -20,21 +20,20 @@ class App{
   static const uint8_t nullADCID = APP_NULL_AIDCID;
 
   /** pFuncPtrUint32 points to a function that will process any uint32_t values read from the Slave */
-  static const processingUint32FuncPtr  pFuncPtrUint32 = &serialPrintUint32;
+  static const processingUint32FuncPtr  pFuncPtrUint32;
     
   /** pFuncPtrTVS points to a function that will process any tvs read from the Slave */
-  static const processingUintTVSFuncPtr pFuncPtrTVS    = &serialPrintTVS;
+  static const processingUintTVSFuncPtr pFuncPtrTVS;
     
   /**  initChar,bidChar,acquireChar are character constants for use by both Master and Slave */
-  static const char initChar    = 'i',
-                    bidChar     = 'b',
-                    acquireChar = 'a';
+  static const unsigned char initChar    = 'i',
+    bidChar     = 'b',
+    acquireChar = 'a';
   /** bigBuffSize is used to allocate space for Serial printing outputs, */
   static const int bigBuffSize         = APP_BIG_BUFF_SIZE, // enough space for a long string
     /**  slaveProcessingTime defines how long to wait to give the slave time to do stuff */                  
-    slaveProcessingTime = APP_SLAVE_PROCESSING_TIME; // millisecs  with 6 it is too slow for the slave and the slave overfills its q !
-     
-    
+    slaveProcessingTime = APP_SLAVE_PROCESSING_TIME; // millisecs  
+        
   /** transferAndWait SPI transfers a byte and waits pauseBetweenSends microseconds before returning the
    * reply from the transfer which is placed in the argument
    * @param &inOut a reference to an unsigned char which will be sent, then filled by the reply
@@ -46,7 +45,7 @@ class App{
    * @param v the value to process,
    * @param isTime a boolean telling if it should be interepreted as a microsecond time value or not
    */
-  void processReply(uint32_t v, boolean isTime);
+  void processReply(uint32_t v, bool isTime);
   /** processReply is overloaded method which will call the functions pointed by pFuncPtrUint32 or pFuncPtrTVS to do the processing
    *  of data read from the Slave. 
    * @param &tvs is a reference to the timeValStruct_t to be preocessed
@@ -57,7 +56,7 @@ class App{
 
  public:
   /** nullChar is shared betzeen Master and Slave, used as white noise to allow for SPI transfers */
-  static const byte nullChar =  '#';
+  static const uint8_t nullChar =  SPI_A_NULL_CHAR;
   /** pauseBetweenSends is the microseconds that will be delayed after an SPI transfer of a byte */
   static const int pauseBetweenSends   = APP_PAUSE_BETWEEN_SENDS;  // microseconds
   /** App instance constructor simply turns on Serial output */
@@ -72,9 +71,9 @@ class MasterApp: public App{
  protected:
   /** nextChar2Send method computes the next character to send to the slave 
    * @return the next character.  */
-  char nextChar2Send() const,
-       /** outgoing variable contains the character to send out */
-       outgoing;
+  unsigned char nextChar2Send() const,
+    /** outgoing variable contains the character to send out */
+    outgoing;
   
   /** readReplyAndSendNext method reads the current reply and then sends the nextCommand
    * @param command the current command for which the method will process the reply

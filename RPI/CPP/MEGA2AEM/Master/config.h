@@ -27,7 +27,8 @@ typedef uint8_t ADCCID_t;    /*!< typedef for ADC AID and CID encoded onto 8 bit
  *  t: is the timestamp value of the data
  *  
  *  v: is the reading from the ADC channel */
-typedef struct timeValStruct_t {
+/*typedef*/
+struct timeValStruct_t {
   ADCCID_t      aidcid;
   timeStamp_t   t;
   ADC_value_t   v;
