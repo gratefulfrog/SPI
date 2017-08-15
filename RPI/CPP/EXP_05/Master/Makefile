@@ -3,7 +3,7 @@ CFLAGS=-lwiringPi
 DEPS = app.h exp.h SPI_anything.h 
 OBJ = exp.o app.o masterApp.o
 
-%.o: %.c $(DEPS)
+%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 all: exp

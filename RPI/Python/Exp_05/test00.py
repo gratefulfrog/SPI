@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import spidev
 import time
 
@@ -31,4 +32,7 @@ def run():
             time.sleep(1) # sleep for 0.1 seconds
     except KeyboardInterrupt: # Ctrl+C pressed, so
         spi.close() # close the port before exit
-  
+        
+if __name__ == "__main__":
+    run()
+    

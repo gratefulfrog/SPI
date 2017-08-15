@@ -14,6 +14,7 @@ const struct timespec pauseStruct = {
 
 const uint8_t nullChar = '#';
 
+
 template <typename T>
 unsigned int SPI_writeAnything (int channel, const T& value) {
   const uint8_t * p = (const uint8_t*) &value;
@@ -21,6 +22,8 @@ unsigned int SPI_writeAnything (int channel, const T& value) {
   for (i = 0; i < sizeof value; i++){
     wiringPiSPIDataRW(channel, p++, 1);
     nanosleep(&pauseStruct,NULL);
+    //SPI.transfer(*p++);
+    //delay(pauseBetweenSends);
   }
   return i;
 } 
@@ -32,6 +35,7 @@ unsigned int SPI_readAnything(int channel, T& value){
   for (i = 0; i < sizeof value; i++){
     *p++ = wiringPiSPIDataRW(channel,&nullChar, 1);
     nanosleep(&pauseStruct,NULL);
+    //*p++ = SPI.transfer (0);
   }
   return i;
 }  

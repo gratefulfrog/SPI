@@ -2,18 +2,12 @@
 #define APP_H
 
 #include <stdint.h>
-#include <unistd.h>
 #include <stdio.h>
 #include <iostream>
 #include <time.h>
 #include <wiringPiSPI.h>
-#include <wiringPi.h>
 
 #include "SPI_anything.h"
-
-#define SS   (24)
-//#define HIGH (1)
-//#define LOW  (0)
 
 class App{
   protected:
