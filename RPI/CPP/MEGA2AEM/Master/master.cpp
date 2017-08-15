@@ -1,10 +1,7 @@
 
 #include "app.h"
 
-/* Version uses the RPI  as master and the AEMvibrations board as slave
- *  
- *  Compile for SLAVE by setting SLAVE to 1
- *  Compile for MASTER by setting SLAVE to 0
+/* Version uses the RPI  as master and the AEM vibrations board as slave
  *  
  *  NEVER cross MOSI and MISO !!! 
  */

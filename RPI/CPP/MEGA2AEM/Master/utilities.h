@@ -1,11 +1,7 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
-#include <Arduino.h>
-
 #include "config.h"
-
-
 
 // define functions here for various forms of processing of the data coming from the boards
 

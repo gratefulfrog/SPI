@@ -1,13 +1,10 @@
 #include "utilities.h"
 
-//typedef void (processingFuncPtr*)(uint32_t sz, uint8_t *bPtr);
-
-const uint32_t printEvery = 1000;
 
 // define functions here for various forms of processing of the data coming from the boards
 
 void serialPrintUint32(uint32_t &v){
-  Serial.println(v);
+  cout << v << endl;
 }
 
 boolean isFirstADCCID(const uint8_t &aid,const uint8_t &cid){
@@ -19,8 +16,13 @@ void serialPrintTVS(timeValStruct_t &tvs){
           cid;
   decode(tvs.aidcid,aid,cid);
   if(isFirstADCCID(aid,cid)){
-    Serial.println("-------------------");
+    cout << "-------------------" << endl;
   }
+  cout << "ADC_ID     : " << aid   << endl;
+  cout << "CHANNEL_ID : " << cid   << endl;
+  cout << "Timestamp  : " << tvs.t << endl;
+  cout << "Value      : " << tvs.v << endl;
+  /*
   Serial.print("ADC_ID     : ");
   Serial.println(aid,DEC);    
   Serial.print("CHANNEL_ID : ");  
@@ -29,6 +31,7 @@ void serialPrintTVS(timeValStruct_t &tvs){
   Serial.println(tvs.t,DEC);
   Serial.print("Value      : ");  
   Serial.println(tvs.v,DEC);
+  */
 }
 
 // encodes bits LLLL, RRRR to LLLLRRRR , max value to encode is 15

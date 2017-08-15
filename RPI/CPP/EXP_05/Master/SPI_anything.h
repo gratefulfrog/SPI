@@ -30,7 +30,7 @@ unsigned int SPI_readAnything(int channel, T& value){
   uint8_t * p = (uint8_t*) &value;
   unsigned int i;
   for (i = 0; i < sizeof value; i++){
-    *p++ = wiringPiSPIDataRW(channel,&nullChar, 1);
+    wiringPiSPIDataRW(channel,p++, 1);
     nanosleep(&pauseStruct,NULL);
   }
   return i;

@@ -21,16 +21,16 @@ void App::transferAndWait (unsigned char &inOut) const{
 
 void App::processReply(uint32_t v, boolean isTime){
   if (isTime){
-    Serial.print("Slave time: ");
+    cout << "Slave time: ";
   }
   else{
-    Serial.print("Board ID: ");
+    cout << "Board ID: ";
   }
   (*pFuncPtrUint32)(v);
 }
 
 void App::processReply(timeValStruct_t &tvs){
-  if (tvs.aidcid != ADCMgr::nullADCID){
+  if (tvs.aidcid != nullADCID){
     (*pFuncPtrTVS)(tvs);
   }
 }

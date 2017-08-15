@@ -1,6 +1,13 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+
+#include <stdint.h>
+#include <stdio.h>
+#include <iostream>
+#include <time.h>
+
+
 /*************************************************************/
 /** General Values */
 /*************************************************************/
@@ -37,8 +44,7 @@ typedef void (*processingUintTVSFuncPtr)(timeValStruct_t &v); /*!< typedef for f
 #define APP_SLAVE_PROCESSING_TIME      (0)    // milli seconds
 #define APP_PAUSE_BETWEEN_SENDS        (10)   // 10 micro seconds
 #define APP_SPI_CHANNEL                (0)    // channel for SPI
-
-
+#define APP_NULL_AIDCID                (255)  // meaning that the tvs should be ignored
 /*************************************************************/
 /** SPI_Anything config */
 /*************************************************************/

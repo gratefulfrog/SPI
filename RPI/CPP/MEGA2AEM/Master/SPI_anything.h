@@ -6,13 +6,16 @@
 #include <time.h>
 #include <wiringPiSPI.h>
 
-const int pauseBetweenSends   = 20;  // microseconds
+#include "config.h"
+
+
+const char nullChar =         SPI_A_NULL_CHAR;
+const int pauseBetweenSends = SPI_A_PAUSE_BETWEEN_SENDS; //20; //us
+
 const struct timespec pauseStruct = {
   0,
   pauseBetweenSends*1000
 };
-
-const uint8_t nullChar = '#';
 
 
 template <typename T>
@@ -22,8 +25,6 @@ unsigned int SPI_writeAnything (int channel, const T& value) {
   for (i = 0; i < sizeof value; i++){
     wiringPiSPIDataRW(channel, p++, 1);
     nanosleep(&pauseStruct,NULL);
-    //SPI.transfer(*p++);
-    //delay(pauseBetweenSends);
   }
   return i;
 } 
@@ -33,12 +34,28 @@ unsigned int SPI_readAnything(int channel, T& value){
   uint8_t * p = (uint8_t*) &value;
   unsigned int i;
   for (i = 0; i < sizeof value; i++){
-    *p++ = wiringPiSPIDataRW(channel,&nullChar, 1);
+    wiringPiSPIDataRW(channel,p++, 1);
     nanosleep(&pauseStruct,NULL);
-    //*p++ = SPI.transfer (0);
   }
   return i;
-}  
+}
+
+template <typename T> 
+unsigned int SPI_readAnything_reprime(int channel, T& value, byte prime){
+  uint8_t * p = (byte*) &value;
+  unsigned int i =0,
+               limLessOne = (sizeof value) -1;
+  for (; i < limLessOne; i++){
+    wiringPiSPIDataRW(channel,p++, 1);
+    nanosleep(&pauseStruct,NULL);
+    
+  }
+  *p = prime;
+  wiringPiSPIDataRW(channel,p++, 1);
+  nanosleep(&pauseStruct,NULL);
+  return i;
+}
+
   
 /* This one seems unfeasible on rpi;
  * it is only used when in slave mode so let's forget it!  
