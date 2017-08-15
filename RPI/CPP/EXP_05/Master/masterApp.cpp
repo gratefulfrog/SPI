@@ -4,7 +4,7 @@ using namespace std;
 
 
 char MasterApp::nextChar2Send() const{
-  static byte nextIndex = 0;
+  static uint8_t nextIndex = 0;
   const static char letters[] = "abcdefghijklmnopqrstuvwxyz";
   char res = letters[nextIndex++];
   nextIndex = nextIndex == 26 ? 0 : nextIndex;
@@ -13,59 +13,45 @@ char MasterApp::nextChar2Send() const{
 
 MasterApp::MasterApp():App(){
     
-  cout << "Master";
+  cout << "Master\n";
 
   // prime the pump
   char buff[bigBuffSize];
-  outgointMsg(buff);
-  cout << buf;
-  //Serial.print(buff);
-  
-  char outgoing  = nextChar2Send();
+  outgoingMsg(buff);
+  cout << buff;
+    
+  unsigned char outgoing  = nextChar2Send();
 
   // print outgoing character
-  cout "Sent: " << outgoing;
-  //Serial.print("Sent: ");
-  //Serial.println(outgoing);
-  
-  // enable Slave Select
-  //digitalWrite(SS, LOW);
-  //delayMicroseconds(20);    
+  cout << "Sent: " << outgoing << endl;
+    
 
   // send outgoing character, ignore resonse, this primes the pump
   transferAndWait (outgoing);  
-  
-  // disable Slave Select
-  //digitalWrite(SS, HIGH);
-  //delayMicroseconds(20);
+  //wiringPiSPIDataRW(channel,&outgoing, 1);
+  nanosleep(&pauseStruct,NULL);
 }
 
 void MasterApp::loop(){  
-  char outgoing  = nextChar2Send();
-  //Serial.print("Received: ");
-  cout << "Received: " << (char)transferAndWait (outgoing) << endl;
+  unsigned char
+    outgoing  = nextChar2Send(),
+    sent      = outgoing;
   
-  // enable Slave Select
-  //digitalWrite(SS, LOW);   
-  //delayMicroseconds(20); 
- 
-  // send next outgoing character, receive resonse to previous send
-  //Serial.println((char)transferAndWait (outgoing));  
+  transferAndWait (outgoing);
+  //char rec = wiringPiSPIDataRW(channel,&outgoing, 1);
+  nanosleep(&pauseStruct,NULL);
 
-  // disable Slave Select
-  //digitalWrite(SS, HIGH);
+  
+  cout << "Received: " << outgoing << endl;
 
+  // wait for the user to read the screen!
   nanosleep(&slaveProcessingTime,NULL);
   
   // print heading and send count
   char buff[bigBuffSize];
-  outgointMsg(buff);
-  //Serial.print(buff);
-  cout << buff << "Sent: " << outgoing << endl;
-  
-  // print outgoing character that was just sent
-  //Serial.print("Sent: ");
-  //Serial.println(outgoing);
+  outgoingMsg(buff);
+
+  cout << buff << "Sent: " << sent << endl;
 }
 
 

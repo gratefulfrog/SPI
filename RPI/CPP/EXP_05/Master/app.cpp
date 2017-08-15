@@ -1,6 +1,10 @@
 #include "app.h"
 
-App::App(){}
+using namespace std;
+
+const struct timespec App::slaveProcessingTime = {slaveDelay,0};
+
+App::App():channel(0){}
 
 void App::outgoingMsg(char* buf) const{
   // puts a char[] into the arg buf,
@@ -9,8 +13,7 @@ void App::outgoingMsg(char* buf) const{
   sprintf(buf, "Send: %d\n", sendCount++);
 }
 
-byte App::transferAndWait (const byte what) const{
-  uint8_t res = wiringPiSPIDataRW(channel,&what, 1);
+void App::transferAndWait (unsigned char &inOut) const{
+  wiringPiSPIDataRW(channel,&inOut, 1);
   nanosleep(&pauseStruct,NULL);
-  return res;
 } 

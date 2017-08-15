@@ -2,6 +2,7 @@
 #define SPI_anything_h
 
 //#include <Arduino.h>
+#include <stdint.h>
 #include <unistd.h>
 #include <time.h>
 #include <wiringPiSPI.h>
