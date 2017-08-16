@@ -83,7 +83,7 @@ App *app;
   // we have an ATMEGA 328p: it's the Master
   const boolean isMaster = true;
 #endif
-
+  
 void setup() {
     app = isMaster ? static_cast<App*>(new MasterApp()) 
                    : static_cast<App*>(new SlaveApp());

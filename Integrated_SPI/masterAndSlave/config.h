@@ -53,7 +53,7 @@ typedef void (*processingUintTVSFuncPtr)(timeValStruct_t &v); /*!< typedef for f
 #define BOARD_BOARD_0_ID                 (0)  /*!< Board 0 id */
 #define BOARD_BOARD_1_ID                 (1)  /*!< Board 1 id */
 
-#define BOARD_BOARD_ID                   (BOARD_BOARD_0_ID)  /*!< this is how the board knows its id in test code, in real code the guid chip will be polled to obtain this number */
+#define BOARD_BOARD_ID                   (BOARD_BOARD_1_ID)  /*!< this is how the board knows its id in test code, in real code the guid chip will be polled to obtain this number */
 #define BOARD_OUTPUT_BURST_LENGTH        (Q_Q_LENGTH)  /*!< How many data structs will be sent back to the Master at every ACQUIRE query*/
 #define BOARD_BOARD_0_NB_ADCS            (2)    /*!< nb of adcs connected to board  */
 #define BOARD_BOARD_1_NB_ADCS            (1)    /*!< nb of adcs connected to board  */
