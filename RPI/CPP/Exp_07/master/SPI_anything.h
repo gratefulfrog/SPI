@@ -15,7 +15,7 @@ template <typename T>
 unsigned int SPI_writeAnything (SPI &spi, const T& value) {
   const uint8_t * p = (const uint8_t*) &value;
   unsigned int i  = 0,
-              lim = sizeof value;
+    lim = (sizeof value);
   for (; i < lim; i++){
     spi.transfer(*p++);
     delayMicroseconds(pauseBetweenSends);
@@ -28,7 +28,7 @@ template <typename T>
 unsigned int SPI_readAnything(SPI &spi,T& value){
   uint8_t * p = (uint8_t*) &value;
   unsigned int i = 0,
-    lim = sizeof value;
+    lim = sizeof (value);
   for (; i < lim; i++){
     *p++ = spi.transfer (nullChar);
     delayMicroseconds (pauseBetweenSends);
@@ -52,10 +52,11 @@ unsigned int SPI_readAnything_reprime(SPI &spi, T& value, const uint8_t prime){
   
 template <typename T> unsigned int SPI_readAnything_ISR(SPI &spi,T& value){
   uint8_t * p = (uint8_t*) &value;
-  unsigned int i;
+  unsigned int i =1,
+    lim = sizeof(value);
   *p++ = spi.getSPDR();  // get first uint8_t
 
-  for (i = 1; i < sizeof value; i++){
+  for (; i < lim; i++){
     *p++ = spi.transfer (nullChar);
     delayMicroseconds (pauseBetweenSends);
   }

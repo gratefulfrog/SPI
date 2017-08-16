@@ -5,7 +5,7 @@
 /*
  * This version sends lowercase characters and receives upper case characters in response.
  * It is interesting to monitor both Master and Slave in a ternminal
- * 2017 08 16 @ 14:43 This works on RPI! 
+ * 2017 08 16 @ 17:25 This works on RPI with tight data structs! 
  * NOTE:
  **  SPI Speed has been slowed to 100000
  */

@@ -50,7 +50,7 @@ void MasterApp::loop(){
   
   readReplyAndSendNext(outgoing,nextOutgoing);
   outgoing = nextOutgoing;
-  delay (slaveProcessingTime);
+  delaySeconds (slaveProcessingTime);
 }
 
 

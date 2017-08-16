@@ -7,13 +7,21 @@ using namespace std;
 /*******************************/
 
 void  delay(time_t millisecs){
-  delayMicroseconds(millisecs*1000);
-  //struct timespec delayTime = {secs,0};
-  //nanosleep(&delayTime,NULL);
+  delayFull(millisecs/1000.0,0);
 }
 
 void  delayMicroseconds(long microsecs){
   struct timespec delayTime = {0,microsecs*1000};
+  nanosleep(&delayTime,NULL);
+}
+
+void delaySeconds(time_t secs){
+  struct timespec delayTime = {secs,0};
+  nanosleep(&delayTime,NULL);
+}
+
+void delayFull(time_t secs, long micros){
+  struct timespec delayTime = {secs,micros};
   nanosleep(&delayTime,NULL);
 }
 
@@ -34,8 +42,8 @@ void serialPrintTVS(timeValStruct_t &tvs){
   if(isFirstADCCID(aid,cid)){
     cout << "-------------------" << endl;
   }
-  cout << "ADC_ID     : " << aid   << endl;
-  cout << "CHANNEL_ID : " << cid   << endl;
+  cout << "ADC_ID     : " << (unsigned)aid   << endl;
+  cout << "CHANNEL_ID : " << (unsigned)cid   << endl;
   cout << "Timestamp  : " << tvs.t << endl;
   cout << "Value      : " << tvs.v << endl;
   /*

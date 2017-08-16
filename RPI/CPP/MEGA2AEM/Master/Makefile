@@ -1,9 +1,9 @@
 CC=g++
-CFLAGS=-lwiringPi
+CFLAGS=-lwiringPi -MD
 DEPS = master.h app.h  spi.h SPI_anything.h confg.h utilities.h 
 OBJ = app.o master.o masterApp.o spi.o utilities.o
 
-%.o: %.cpp $(DEPS)
+%.o: %.cpp 
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 all: master
@@ -15,3 +15,6 @@ master: $(OBJ)
 
 clean:
 	rm -f *.o
+	rm -f *.d
+
+-include $(OBJ:.o=.d)

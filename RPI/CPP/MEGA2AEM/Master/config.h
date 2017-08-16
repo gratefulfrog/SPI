@@ -29,22 +29,22 @@ typedef uint8_t ADCCID_t;    /*!< typedef for ADC AID and CID encoded onto 8 bit
 /*typedef*/
 struct timeValStruct_t {
   ADCCID_t      aidcid;
-  timeStamp_t   t;
+  timeStamp_t   t;  
   ADC_value_t   v;
-};
+}__attribute__((__packed__));
 
 typedef void (*processingUint32FuncPtr)(uint32_t &v);         /*!< typedef for funciton pointer to a function that will process a uint32_t value*/
 typedef void (*processingUintTVSFuncPtr)(timeValStruct_t &v); /*!< typedef for funciton pointer to a function that will process a timeValStruct_t */
 
 
 /*************************************************************/
-/** App Config */
+/** App Config */ 
 /*************************************************************/
 #define APP_BIG_BUFF_SIZE              (50)     // bytes
-#define APP_SLAVE_PROCESSING_TIME      (0)      // milli seconds
-#define APP_PAUSE_BETWEEN_SENDS        (10)     // 10 micro seconds
+#define APP_SLAVE_PROCESSING_TIME      (0)      // seconds
+#define APP_PAUSE_BETWEEN_SENDS        (20)     // 10 micro seconds
 #define APP_SPI_CHANNEL                (0)      // channel for SPI
-#define APP_SPI_SPEED                  (500000) // speed for SPI
+#define APP_SPI_SPEED                  (100000) // speed for SPI
 #define APP_NULL_AIDCID                (255)    // meaning that the tvs should be ignored
 /*************************************************************/
 /** SPI_Anything config */

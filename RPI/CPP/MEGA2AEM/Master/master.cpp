@@ -67,10 +67,16 @@
 using namespace std;
 
 int main() {
+  cout << "sizeof(timeValStruct_t): " << sizeof(timeValStruct_t) << endl;
+  
   if (sizeof (float) != 4){
     cout << "float size wrong" << endl;
     return (-1);
   }
+  else if (sizeof(timeValStruct_t) != 9){
+    cout << "timeValStruct_t size  wrong" << endl;
+    return (-1);
+  } 
   App *app = new MasterApp(APP_SPI_CHANNEL,APP_SPI_SPEED);  
   while(1){
     app->loop();
