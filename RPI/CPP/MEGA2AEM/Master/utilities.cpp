@@ -2,6 +2,21 @@
 
 using namespace std;
 
+/*******************************/
+// some arduino compatible stuff
+/*******************************/
+
+void  delay(time_t millisecs){
+  delayMicroseconds(millisecs*1000);
+  //struct timespec delayTime = {secs,0};
+  //nanosleep(&delayTime,NULL);
+}
+
+void  delayMicroseconds(long microsecs){
+  struct timespec delayTime = {0,microsecs*1000};
+  nanosleep(&delayTime,NULL);
+}
+
 // define functions here for various forms of processing of the data coming from the boards
 
 void serialPrintUint32(uint32_t &v){

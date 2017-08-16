@@ -4,9 +4,11 @@ using namespace std;
 
 const processingUint32FuncPtr  App::pFuncPtrUint32 = &serialPrintUint32;
 const processingUintTVSFuncPtr App::pFuncPtrTVS    = &serialPrintTVS;
-//const struct timespec App::slaveProcessingTime = {slaveDelay,0};
 
-App::App():channel(APP_SPI_CHANNEL){}
+App::App(int chan, int sped){
+  spi = new SPI(chan,sped);
+}
+
 
 /*
 void App::outgoingMsg(char* buf) const{
@@ -17,11 +19,12 @@ void App::outgoingMsg(char* buf) const{
 }
 */
 
-void App::transferAndWait (unsigned char &inOut) const{
-  wiringPiSPIDataRW(channel,&inOut, 1);
-  nanosleep(&pauseStruct,NULL);
-} 
 
+uint8_t App::transferAndWait (const uint8_t what) const{
+  uint8_t res = spi->transfer(what);
+  delayMicroseconds(pauseBetweenSends);
+  return res;
+} 
 
 void App::processReply(uint32_t v, bool isTime){
   if (isTime){

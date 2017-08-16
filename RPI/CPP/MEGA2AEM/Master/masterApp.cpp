@@ -13,7 +13,7 @@ unsigned char MasterApp::nextChar2Send() const{
   return res;
 }
 
-MasterApp::MasterApp():App(){  
+MasterApp::MasterApp(int ch, int sp):App(ch,sp){
   cout << "Master" << endl;
 
   /* prime the pump for the 1st character */
@@ -29,17 +29,17 @@ void MasterApp::readReplyAndSendNext(char command, char nextCommand){
   switch (command){
     case initChar:
       // set time to zero and clear the board Q
-      SPI_readAnything_reprime(channel,slaveTime, (uint8_t)nextCommand);
+      SPI_readAnything_reprime(*spi,slaveTime, (uint8_t)nextCommand);
       cout << "Command : initChar" << endl;
       processReply(slaveTime, true);
       break;
     case bidChar:
-      SPI_readAnything_reprime(channel,inBoardID, (uint8_t)nextCommand);
+      SPI_readAnything_reprime(*spi,inBoardID, (uint8_t)nextCommand);
       cout << "Command : bidChar" << endl;
       processReply(inBoardID,false);
       break;
     default:      
-      SPI_readAnything_reprime(channel, inTVS, (uint8_t)nextCommand);
+      SPI_readAnything_reprime(*spi, inTVS, (uint8_t)nextCommand);
       processReply(inTVS);
       break;
   }
@@ -50,8 +50,7 @@ void MasterApp::loop(){
   
   readReplyAndSendNext(outgoing,nextOutgoing);
   outgoing = nextOutgoing;
-
-  nanosleep(&pauseStruct,NULL);
+  delay (slaveProcessingTime);
 }
 
 

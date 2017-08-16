@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-lwiringPi
-DEPS = master.h app.h  SPI_anything.h confg.h utilities.h 
-OBJ = master.o app.o masterApp.o utilities.o
+DEPS = master.h app.h  spi.h SPI_anything.h confg.h utilities.h 
+OBJ = app.o master.o masterApp.o spi.o utilities.o
 
 %.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)

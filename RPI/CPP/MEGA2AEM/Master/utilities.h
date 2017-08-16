@@ -5,6 +5,9 @@
 
 // define functions here for various forms of processing of the data coming from the boards
 
+extern void  delay(time_t millisecs);
+extern void  delayMicroseconds(long microsecs);
+
 extern void serialPrintUint32(uint32_t &v);
 extern void serialPrintTVS(timeValStruct_t &tvs);
 

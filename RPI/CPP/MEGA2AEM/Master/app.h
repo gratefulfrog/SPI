@@ -4,12 +4,11 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <iostream>
-#include <time.h>
-#include <wiringPiSPI.h>
 
 #include "config.h"
 #include "SPI_anything.h"
 #include "utilities.h"
+#include "spi.h"
 
 
 /** App is the pure abstrace class that provides the interface 
@@ -30,15 +29,19 @@ class App{
     bidChar     = 'b',
     acquireChar = 'a';
   /** bigBuffSize is used to allocate space for Serial printing outputs, */
-  static const int bigBuffSize         = APP_BIG_BUFF_SIZE, // enough space for a long string
+  static const int bigBuffSize = APP_BIG_BUFF_SIZE, // enough space for a long string
     /**  slaveProcessingTime defines how long to wait to give the slave time to do stuff */                  
     slaveProcessingTime = APP_SLAVE_PROCESSING_TIME; // millisecs  
         
   /** transferAndWait SPI transfers a byte and waits pauseBetweenSends microseconds before returning the
    * reply from the transfer which is placed in the argument
-   * @param &inOut a reference to an unsigned char which will be sent, then filled by the reply
+   * @param what byte will be sent, 
+   * @return the resulting byte
    */
-  void transferAndWait (unsigned char &inOut) const;
+  //void transferAndWait (unsigned char &inOut) const;
+  uint8_t transferAndWait (const uint8_t what) const;
+
+  SPI *spi;  /*!< a pointer to an SPI instance used for comms */
     
   /** processReply is overloaded method which will call the functions pointed by pFuncPtrUint32 or pFuncPtrTVS to do the processing
    *  of data read from the Slave. 
@@ -52,15 +55,16 @@ class App{
    */
   void processReply(timeValStruct_t &tvs);
   
-  const int channel;  /*!< rpi SPI Channel either 0 or  1 */
 
  public:
   /** nullChar is shared betzeen Master and Slave, used as white noise to allow for SPI transfers */
   static const uint8_t nullChar =  SPI_A_NULL_CHAR;
   /** pauseBetweenSends is the microseconds that will be delayed after an SPI transfer of a byte */
   static const int pauseBetweenSends   = APP_PAUSE_BETWEEN_SENDS;  // microseconds
-  /** App instance constructor simply turns on Serial output */
-  App();
+  /** App instance constructor simply turns on Serial output 
+   * @param chan  the spi channel to use
+   * @param speed the spi speed to use */
+  App(int chan, int speed);
   /** pure virtual loop method will be called repeatedly by the main program */
   virtual void loop() = 0;  
 };
@@ -82,8 +86,11 @@ class MasterApp: public App{
   void readReplyAndSendNext(char command, char nextCommand);
     
  public:
-  /** MasterApp instance constructor */
-  MasterApp();
+  /** MasterApp instance constructor as per parent class
+   * @param ch  the spi channel to use
+   * @param sp the spi speed to use */
+  MasterApp(int ch, int sp);
+  
   /** loop as per parent class */
   void loop();        
 };
