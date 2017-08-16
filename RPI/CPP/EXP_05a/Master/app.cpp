@@ -10,7 +10,7 @@ void App::outgoingMsg(char* buf) const{
 }
 
 uint8_t App::transferAndWait (const uint8_t what) const{
-  uint8_t res = spi.transfer(what);
+  uint8_t res = spi->transfer(what);
   delayMicroseconds(pauseBetweenSends);
   return res;
 } 

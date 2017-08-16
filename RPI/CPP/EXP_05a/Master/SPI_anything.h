@@ -8,7 +8,7 @@
 #include "spi.h"
 
 const int pauseBetweenSends   = 20;  // microseconds
-const uint8_t nullChar = '#';
+//const uint8_t nullChar = '#';
 
 
 template <typename T>

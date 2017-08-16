@@ -1,9 +1,11 @@
 #include "spi.h"
+#include <iostream>
 
 using namespace std;
 
 SPI::SPI(int chan,int speed) : channel(chan), SPDR(0){
-  wiringPiSPISetup(channel,speed);
+  int fd = wiringPiSPISetup(channel,speed);
+  cout << "spi fd: " <<fd << endl;
 }
 
 void  SPI::transferInPlace(uint8_t &inOut){ // not const since SPDR is updated
@@ -13,10 +15,12 @@ void  SPI::transferInPlace(uint8_t &inOut){ // not const since SPDR is updated
 
 uint8_t SPI::transfer(const uint8_t what){
   SPDR = what;
-  wiringPiSPIDataRW(channel,&SPDR, 1);
+  //cout << "what: " << what << endl;
+  wiringPiSPIDataRW(channel,(unsigned char*) &SPDR,1);
+  //cout << "SPDR: " << SPDR << endl;
   return SPDR;
 }
-uint8_t getSPDR() const{
+uint8_t SPI::getSPDR() const{
   return SPDR;
 }
 

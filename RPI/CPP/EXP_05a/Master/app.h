@@ -13,12 +13,12 @@ class App{
   protected:
     static const int pauseBetweenSends   = 20,  //10 // microseconds
                      bigBuffSize         = 20, // enough space for a long string
-                     slaveProcessingTime = 1000; // millisecs
+                     slaveProcessingTime = 1; // sec
 
     void outgoingMsg(char* buf) const;
     uint8_t transferAndWait (const uint8_t what) const;
 
-    SPI spi;
+    SPI *spi;
 
   public:
     App(int chan, int speed);
