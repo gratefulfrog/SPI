@@ -44,7 +44,7 @@ typedef void (*processingUintTVSFuncPtr)(timeValStruct_t &v); /*!< typedef for f
 #define APP_SLAVE_PROCESSING_TIME      (0)      // seconds
 #define APP_PAUSE_BETWEEN_SENDS        (20)     // 10 micro seconds
 #define APP_SPI_CHANNEL                (0)      // channel for SPI
-#define APP_SPI_SPEED                  (100000) // speed for SPI
+#define APP_SPI_SPEED                  (200000) // speed for SPI
 #define APP_NULL_AIDCID                (255)    // meaning that the tvs should be ignored
 /*************************************************************/
 /** SPI_Anything config */
