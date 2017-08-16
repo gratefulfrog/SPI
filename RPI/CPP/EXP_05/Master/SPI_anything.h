@@ -14,6 +14,9 @@ const struct timespec pauseStruct = {
 
 const uint8_t nullChar = '#';
 
+/* The problem may be that the slave expects a nullChar 
+ */
+
 template <typename T>
 unsigned int SPI_writeAnything (int channel, const T& value) {
   const uint8_t * p = (const uint8_t*) &value;
