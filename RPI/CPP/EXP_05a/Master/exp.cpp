@@ -5,6 +5,7 @@
 /*
  * This version sends lowercase characters and receives upper case characters in response.
  * It is interesting to monitor both Master and Slave in a ternminal
+ * 2017 08 16: This works!
  */
 
 using namespace std;
