@@ -1,8 +1,6 @@
 #include "app.h"
-#include <endian.h>
 
 using namespace std;
-
 
 char MasterApp::nextChar2Send() const{
   static uint8_t nextIndex = 0;
