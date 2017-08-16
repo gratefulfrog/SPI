@@ -67,11 +67,13 @@
 using namespace std;
 
 int main() {
-  int fd = wiringPiSPISetup(0,500000);
-  cout << "wiring spi setup result: " << fd << endl;
-  
-  App *app = new MasterApp();  
+  if (sizeof (float) != 4){
+    cout << "float size wrong" << endl;
+    return (-1);
+  }
+  App *app = new MasterApp(APP_SPI_CHANNEL,APP_SPI_SPEED);  
   while(1){
     app->loop();
   }
+  return (0);
 }
