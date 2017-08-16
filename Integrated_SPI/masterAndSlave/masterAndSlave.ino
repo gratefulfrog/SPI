@@ -87,6 +87,10 @@ App *app;
 void setup() {
     app = isMaster ? static_cast<App*>(new MasterApp()) 
                    : static_cast<App*>(new SlaveApp());
+    Serial.print("\nsizeof(timeValStruct_t): ");
+    Serial.println(sizeof(timeValStruct_t));
+    Serial.println("starting up...");
+    delay(5000);
 }
 
 void loop() {
