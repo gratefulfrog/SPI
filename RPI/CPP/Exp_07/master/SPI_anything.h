@@ -4,12 +4,11 @@
 #include <stdint.h>
 #include <unistd.h>
 
-#include "config.h"
 #include "utilities.h"
 #include "spi.h"
 
-const char nullChar =         SPI_A_NULL_CHAR;
-const int pauseBetweenSends = SPI_A_PAUSE_BETWEEN_SENDS; //20; //us
+const char nullChar         = '#'; // SPI_A_NULL_CHAR;
+const int pauseBetweenSends = 5; // 10 works // SPI_A_PAUSE_BETWEEN_SENDS; 
 
 
 template <typename T>
@@ -46,7 +45,7 @@ unsigned int SPI_readAnything_reprime(SPI &spi, T& value, const uint8_t prime){
     *p++ = spi.transfer (nullChar);
     delayMicroseconds (pauseBetweenSends);
   }
-  *p++ = spi.transfer (prime);
+  *p = spi.transfer (prime);
   delayMicroseconds (pauseBetweenSends);
   return i;
 }
