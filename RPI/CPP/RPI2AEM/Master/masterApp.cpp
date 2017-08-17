@@ -13,7 +13,7 @@ unsigned char MasterApp::nextChar2Send() const{
   return res;
 }
 
-MasterApp::MasterApp(int ch, int sp):App(ch,sp){
+MasterApp::MasterApp(int ch, int sp,uint8_t nbADCChannels):App(ch,sp,nbADCChannels){
   cout << "Master" << endl;
 
   /* prime the pump for the 1st character */

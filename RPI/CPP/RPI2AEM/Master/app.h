@@ -26,9 +26,9 @@ class App{
   /** pFuncPtrTVS points to a function that will process any tvs read from the Slave */
   static const processingTVSFuncPtr pFuncPtrTVS;
 
-  const diskProcessingUint32FuncPtr bidWriterFunc;
-  const diskProcessingVoidFuncPtr tidWriterFunc;
-  const diskProcessingTVSFuncPtr tvsWriterFunc;
+  diskProcessingUint32FuncPtr bidWriterFunc;
+  diskProcessingVoidFuncPtr tidWriterFunc;
+  diskProcessingTVSFuncPtr tvsWriterFunc;
 
   FileMgr *fm;
     

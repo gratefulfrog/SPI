@@ -19,10 +19,6 @@
 /** one FileMgr instance handles one board */
 class FileMgr{
 protected:
-  static const uint8_t BoardID;
-  static const uint8_t BoardChannelVec[];
-  static const uint8_t nbBoardChannels;
-
   static const uint8_t nbHeaders;
   static const char * const headerVec[];
   static const char *fileNameMask;
@@ -45,15 +41,19 @@ protected:
   void putDataElt(csvfile &f, const timeValStruct_t &tvs) const;
   void writeRows();
 public:
+  static const uint8_t BoardID;
+  static const uint8_t BoardChannelVec[];
+  static const uint8_t nbBoardChannels;
+
   FileMgr(uint8_t nbChannels); // total nb of channels , ie the sum of the nb of channels on each adc of the board
-  void setBID(boardID bd);
+  void setBID(const uint32_t &bd);
   void setTID();
   void addTVS(const timeValStruct_t &tvs);
 };
 
-typedef void (FileMgr::*diskProcessingUint32FuncPtr)(uint32_t &v); /*!< typedef for funciton pointer to a function that will write to disk uint32_t value*/
+typedef void (FileMgr::*diskProcessingUint32FuncPtr)(const uint32_t &bd); /*!< typedef for funciton pointer to a function that will write to disk uint32_t value*/
 typedef void (FileMgr::*diskProcessingVoidFuncPtr)(); /*!< typedef for funciton pointer to a function that will write to disk void  value*/
-typedef void (FileMgr::*diskProcessingTVSFuncPtr)(timeValStruct_t &v); /*!< typedef for funciton pointer to a function that will write to disk  a timeValStruct_t */
+typedef void (FileMgr::*diskProcessingTVSFuncPtr)(const timeValStruct_t &v); /*!< typedef for funciton pointer to a function that will write to disk  a timeValStruct_t */
 
 
 

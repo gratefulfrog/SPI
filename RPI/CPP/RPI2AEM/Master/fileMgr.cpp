@@ -84,8 +84,9 @@ FileMgr::FileMgr(uint8_t nbChannels):
   writeCount(0){ 
   
   writeBufferVec = new timeValStruct_t[maxWrites];
+  cout << "init file mgr!" << endl;
 }
-void FileMgr::setBID(boardID bd){
+void FileMgr::setBID(const uint32_t &bd){
   bid = bd;
   bOK = true;
   //cout << "setBID !" << endl;
@@ -102,6 +103,7 @@ void FileMgr::setTID(){
   }
 }
 void FileMgr::addTVS(const timeValStruct_t &tvs){
+  //cout << "writing a tvs" << endl;
   writeBufferVec[nextWriteIndex++] = tvs;
   if (nextWriteIndex == maxWrites){
     writeRows();
