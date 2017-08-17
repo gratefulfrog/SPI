@@ -46,6 +46,28 @@ typedef void (*processingUintTVSFuncPtr)(timeValStruct_t &v); /*!< typedef for f
 #define APP_SPI_CHANNEL                (0)      // channel for SPI
 #define APP_SPI_SPEED                  (200000) // speed for SPI
 #define APP_NULL_AIDCID                (255)    // meaning that the tvs should be ignored
+
+/*************************************************************/
+/** FileMgr config */
+/*************************************************************/
+typedef uint32_t boardID; /*!< defines a type for the GUID */
+
+#define BOARD_BOARD_0_ID                 (0)  /*!< Board 0 id */
+#define BOARD_BOARD_1_ID                 (1)  /*!< Board 1 id */
+
+#define BOARD_BOARD_ID                   (BOARD_BOARD_1_ID)  /*!< this is how the board knows its id in test code, in real code the guid chip will be polled to obtain this number */
+#define BOARD_BOARD_0_NB_ADCS            (2)    /*!< nb of adcs connected to board  */
+#define BOARD_BOARD_1_NB_ADCS            (1)    /*!< nb of adcs connected to board  */
+
+#define BOARD_BOARD_0_ADC_0_NB_CHANNELS  (8)    /*!< nb of channels for the board_adc  */
+#define BOARD_BOARD_0_ADC_1_NB_CHANNELS  (8)    /*!< nb of channels for the board_adc  */
+#define BOARD_BOARD_1_ADC_0_NB_CHANNELS  (8)    /*!< nb of channels for the board_adc  */
+
+#define HEADER_0                         ("ADC")
+#define HEADER_1                         ("Channel")
+#define HEADER_2                         ("TimeStamp")
+#define HEADER_3                         ("Value")
+
 /*************************************************************/
 /** SPI_Anything config */
 /*************************************************************/
@@ -54,5 +76,6 @@ typedef void (*processingUintTVSFuncPtr)(timeValStruct_t &v); /*!< typedef for f
 
 /*************************************************************/
 /*************************************************************/
+
 #endif
 
