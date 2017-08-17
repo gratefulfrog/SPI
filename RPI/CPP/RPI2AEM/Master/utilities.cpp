@@ -46,16 +46,6 @@ void serialPrintTVS(timeValStruct_t &tvs){
   cout << "CHANNEL_ID : " << (unsigned)cid   << endl;
   cout << "Timestamp  : " << tvs.t << endl;
   cout << "Value      : " << tvs.v << endl;
-  /*
-  Serial.print("ADC_ID     : ");
-  Serial.println(aid,DEC);    
-  Serial.print("CHANNEL_ID : ");  
-  Serial.println(cid,DEC);
-  Serial.print("Timestamp  : ");  
-  Serial.println(tvs.t,DEC);
-  Serial.print("Value      : ");  
-  Serial.println(tvs.v,DEC);
-  */
 }
 
 // encodes bits LLLL, RRRR to LLLLRRRR , max value to encode is 15
@@ -68,3 +58,17 @@ void decode(const uint8_t &coded, uint8_t &left, uint8_t &right){
   left = (coded >> 4) & 0xF;
   right = coded & 0xF;
 }
+
+/*
+void bid2Disk(FileMgr * fm, boardID &bid){
+  fm->setBID(bid);
+}
+
+void tid2Disk(FileMgr * fm, timeStamp_t){
+  fm->setTID();
+}
+
+void tvs2Disk(FileMgr * fm, timeValStruct_t &tvs){
+  fm->addTVS(tvs);
+}
+*/

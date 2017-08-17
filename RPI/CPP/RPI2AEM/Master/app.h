@@ -9,6 +9,8 @@
 #include "SPI_anything.h"
 #include "utilities.h"
 #include "spi.h"
+#include "fileMgr.h"
+
 
 
 /** App is the pure abstrace class that provides the interface 
@@ -22,7 +24,13 @@ class App{
   static const processingUint32FuncPtr  pFuncPtrUint32;
     
   /** pFuncPtrTVS points to a function that will process any tvs read from the Slave */
-  static const processingUintTVSFuncPtr pFuncPtrTVS;
+  static const processingTVSFuncPtr pFuncPtrTVS;
+
+  const diskProcessingUint32FuncPtr bidWriterFunc;
+  const diskProcessingVoidFuncPtr tidWriterFunc;
+  const diskProcessingTVSFuncPtr tvsWriterFunc;
+
+  FileMgr *fm;
     
   /**  initChar,bidChar,acquireChar are character constants for use by both Master and Slave */
   static const unsigned char initChar    = 'i',
@@ -63,8 +71,9 @@ class App{
   static const int pauseBetweenSends   = APP_PAUSE_BETWEEN_SENDS;  // microseconds
   /** App instance constructor simply turns on Serial output 
    * @param chan  the spi channel to use
-   * @param speed the spi speed to use */
-  App(int chan, int speed);
+   * @param speed the spi speed to use 
+   * @param total nb of ADC channels for the board */
+  App(int chan, int speed, uint8_t nbADCChannels);
   /** pure virtual loop method will be called repeatedly by the main program */
   virtual void loop() = 0;  
 };
@@ -88,8 +97,9 @@ class MasterApp: public App{
  public:
   /** MasterApp instance constructor as per parent class
    * @param ch  the spi channel to use
-   * @param sp the spi speed to use */
-  MasterApp(int ch, int sp);
+   * @param sp the spi speed to use 
+   * @param total nb of ADC channels for the board */
+  MasterApp(int ch, int sp, uint8_t nbADCChannels);
   
   /** loop as per parent class */
   void loop();        

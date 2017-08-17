@@ -3,6 +3,9 @@
 
 #include "config.h"
 
+
+//class FileMgr;
+
 // define functions here for various forms of processing of the data coming from the boards
 
 
@@ -25,5 +28,23 @@ extern void encode(uint8_t &coded, const uint8_t &left, const uint8_t &right);
  *  @param &left  : reference to variable for the left 4 decoded bits 
  *  @param &right : reference to variable for the right 4 decoded bits  */
 extern void decode(const uint8_t &coded, uint8_t &left, uint8_t &right);
+
+
+/** writes the board id to the file manager 
+ * @param pointer to a file manager instance 
+ * @param &bid a refernce to a boardID for the current board */
+//extern void bid2Disk(FileMgr * fm, boardID &bid);
+
+/** updates the file manager, timestamp value is unused
+ * @param pointer to a file manager instance 
+ * @param &unused a refernce to a boardID for the current board */
+//extern void tid2Disk(FileMgr * fm, timeStamp_t);
+
+/** writes the tvs to the file manager, this will go to disk when
+ *  the file manager decides to do it. 
+ * @param pointer to a file manager instance 
+ * @param &tvs a refernce to a timeValStruct  */
+//extern void tvs2Disk(FileMgr * fm, timeValStruct_t &tvs);
+
 
 #endif

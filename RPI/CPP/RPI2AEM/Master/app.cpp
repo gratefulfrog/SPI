@@ -5,8 +5,14 @@ using namespace std;
 const processingUint32FuncPtr  App::pFuncPtrUint32 = &serialPrintUint32;
 const processingUintTVSFuncPtr App::pFuncPtrTVS    = &serialPrintTVS;
 
-App::App(int chan, int sped){
+App::App(int chan, int sped, uint8_t nbADCChannels:)
+  bidWriterFunc(&FileMgr::setBID),
+  tidWriterFunc(&FileMgr::SetTID),
+  tvsWriterFunc(&FileMgr::addTVS),{
   spi = new SPI(chan,sped);
+  // XXXX NOT COMPLETE !!!!!!
+  fm = new FileMgr(nbADCChannels);
+  
 }
 
 
@@ -29,9 +35,11 @@ uint8_t App::transferAndWait (const uint8_t what) const{
 void App::processReply(uint32_t v, bool isTime){
   if (isTime){
     cout << "Slave time: ";
+    (fm->*tidWriterFunc)();
   }
   else{
     cout << "Board ID: ";
+    (fm->*bidWriterFunc)(v);
   }
   (*pFuncPtrUint32)(v);
 }
@@ -39,6 +47,7 @@ void App::processReply(uint32_t v, bool isTime){
 void App::processReply(timeValStruct_t &tvs){
   if (tvs.aidcid != nullADCID){
     (*pFuncPtrTVS)(tvs);
+    (fm->*tvsWriterFunc)(tvs);
   }
 }
 

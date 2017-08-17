@@ -77,7 +77,7 @@ int main() {
     cout << "timeValStruct_t size  wrong" << endl;
     return (-1);
   } 
-  App *app = new MasterApp(APP_SPI_CHANNEL,APP_SPI_SPEED);  
+  App *app = new MasterApp(APP_SPI_CHANNEL,APP_SPI_SPEED,FileMgr::nbBoardChannels);  
   while(1){
     app->loop();
   }
