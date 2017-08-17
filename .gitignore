@@ -8,4 +8,4 @@ __py*__
 __pycache__/*
 *.pyc
 .#*
-*/Data/*.csv
+*.csv
