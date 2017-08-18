@@ -77,7 +77,7 @@ void FileMgr::writeRows(){
 
 bool FileMgr::isValid(const timeValStruct_t &tvs) const{
   static timeStamp_t lastTimeStamp= tvs.t;
-  const static timeStamp_t  maxOverFlowTimeStamp = 100000;
+  const static timeStamp_t  maxOverFlowTimeStamp = 500000;
   uint8_t aid,cid;
   decode(tvs.aidcid,aid,cid);
   bool aidOK = (aid == 1),
