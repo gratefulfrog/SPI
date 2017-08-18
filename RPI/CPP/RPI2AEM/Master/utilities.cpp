@@ -27,7 +27,7 @@ void delayFull(time_t secs, long micros){
 
 // define functions here for various forms of processing of the data coming from the boards
 
-void serialPrintUint32(uint32_t &v){
+void serialPrintUint32(const uint32_t &v){
   cout << v << endl;
 }
 
@@ -35,7 +35,7 @@ bool isFirstADCCID(const uint8_t &aid,const uint8_t &cid){
   return ((aid == 1)&&(cid ==0));
 }
 
-void serialPrintTVS(timeValStruct_t &tvs){
+void serialPrintTVS(const timeValStruct_t &tvs){
   uint8_t aid, 
           cid;
   decode(tvs.aidcid,aid,cid);

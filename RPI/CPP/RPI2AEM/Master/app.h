@@ -17,20 +17,22 @@
  *  to all concrete sublcasses, e.g. MasterApp and SlaveApp */
 class App{
  protected:
-  /** used for filtering the replies from the slave */
-  static const uint8_t nullADCID = APP_NULL_AIDCID;
+  
+  static const uint8_t nullADCID = APP_NULL_AIDCID; /*!< used for filtering the replies from the slave */
 
-  /** pFuncPtrUint32 points to a function that will process any uint32_t values read from the Slave */
+  /** pFuncPtrUint32 points to a function that will process any uint32_t values read from the Slave,
+   *  this is left over from initial versions displaying to the screen. */
   static const processingUint32FuncPtr  pFuncPtrUint32;
     
-  /** pFuncPtrTVS points to a function that will process any tvs read from the Slave */
+  /** pFuncPtrTVS points to a function that will process any tvs read from the Slave 
+   *  this is left over from initial versions displaying to the screen. */
   static const processingTVSFuncPtr pFuncPtrTVS;
 
-  diskProcessingUint32FuncPtr bidWriterFunc;
-  diskProcessingVoidFuncPtr tidWriterFunc;
-  diskProcessingTVSFuncPtr tvsWriterFunc;
+  diskProcessingUint32FuncPtr bidWriterFunc; /*!< points to function for disk writing, handling the BID */
+  diskProcessingVoidFuncPtr tidWriterFunc;  /*!< points to function for disk writing, handling the TID */
+  diskProcessingTVSFuncPtr tvsWriterFunc;   /*!< points to function for disk writing, handling the TVS */
 
-  FileMgr *fm;
+  FileMgr *fm;  /*!< points to instance of FileMgr that handles all disk writing  */
     
   /**  initChar,bidChar,acquireChar are character constants for use by both Master and Slave */
   static const unsigned char initChar    = 'i',
@@ -72,7 +74,7 @@ class App{
   /** App instance constructor simply turns on Serial output 
    * @param chan  the spi channel to use
    * @param speed the spi speed to use 
-   * @param total nb of ADC channels for the board */
+   * @param total nb of ADC channels for the board, needed for the FileMgr constructor */
   App(int chan, int speed, uint8_t nbADCChannels);
   /** pure virtual loop method will be called repeatedly by the main program */
   virtual void loop() = 0;  
@@ -98,7 +100,7 @@ class MasterApp: public App{
   /** MasterApp instance constructor as per parent class
    * @param ch  the spi channel to use
    * @param sp the spi speed to use 
-   * @param total nb of ADC channels for the board */
+   * @param total nb of ADC channels for the board, needed for the FileMgr constructor */
   MasterApp(int ch, int sp, uint8_t nbADCChannels);
   
   /** loop as per parent class */

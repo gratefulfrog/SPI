@@ -3,6 +3,12 @@
 #include <iostream>
 #include <fstream>
 
+
+/** Class to manage csv files.
+ * this file was taken from rudolfovich's gist
+ * https://gist.github.com/rudolfovich/f250900f1a833e715260a66c87369d15 
+ * and the close method was added.
+ */
 class csvfile;
 
 inline static csvfile& endrow(csvfile& file);

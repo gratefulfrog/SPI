@@ -9,13 +9,13 @@
 // define functions here for various forms of processing of the data coming from the boards
 
 
-extern void delay(time_t millisecs);
-extern void delayMicroseconds(long microsecs);
-extern void delaySeconds(time_t secs);
-extern void delayFull(time_t secs, long micros);
+extern void delay(time_t millisecs);            /*!< emulates Arduino 'delay' function, but will not work if arg is too big!, use 'delaySeconds' instead */
+extern void delayMicroseconds(long microsecs);  /*!< emulates Arduino 'delayMicroseconds' function */
+extern void delaySeconds(time_t secs);          /*!< emulates Arduino 'delay' function, but for seconds not millis */
+extern void delayFull(time_t secs, long micros); /*!< encapsulates the call to nanosleep, with seconds and micro-seconds */
 
-extern void serialPrintUint32(uint32_t &v);
-extern void serialPrintTVS(timeValStruct_t &tvs);
+extern void serialPrintUint32(const uint32_t &v);       /*!< emulates serial printing of a uint32, ie print to stdout */
+extern void serialPrintTVS(const timeValStruct_t &tvs); /*!< emulates serial printing of a tvs, ie print to stdout */
 
 /** encodes bits LLLL, RRRR to LLLLRRRR , max value to encode is 15
  *  @param &coded : a reference the encoded value that the function will create 
@@ -28,23 +28,5 @@ extern void encode(uint8_t &coded, const uint8_t &left, const uint8_t &right);
  *  @param &left  : reference to variable for the left 4 decoded bits 
  *  @param &right : reference to variable for the right 4 decoded bits  */
 extern void decode(const uint8_t &coded, uint8_t &left, uint8_t &right);
-
-
-/** writes the board id to the file manager 
- * @param pointer to a file manager instance 
- * @param &bid a refernce to a boardID for the current board */
-//extern void bid2Disk(FileMgr * fm, boardID &bid);
-
-/** updates the file manager, timestamp value is unused
- * @param pointer to a file manager instance 
- * @param &unused a refernce to a boardID for the current board */
-//extern void tid2Disk(FileMgr * fm, timeStamp_t);
-
-/** writes the tvs to the file manager, this will go to disk when
- *  the file manager decides to do it. 
- * @param pointer to a file manager instance 
- * @param &tvs a refernce to a timeValStruct  */
-//extern void tvs2Disk(FileMgr * fm, timeValStruct_t &tvs);
-
 
 #endif

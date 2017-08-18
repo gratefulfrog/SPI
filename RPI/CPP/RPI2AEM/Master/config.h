@@ -56,16 +56,16 @@ typedef uint32_t boardID; /*!< defines a type for the GUID */
 #define BOARD_BOARD_0_NB_CHANNELS  (16)   /*!< total nb of adc channels for the board  */
 #define BOARD_BOARD_1_NB_CHANNELS  (8)    /*!< total nb of adc channels for the board  */
 
-#define HEADER_0                         ("ADC")
-#define HEADER_1                         ("Channel")
-#define HEADER_2                         ("TimeStamp")
-#define HEADER_3                         ("Value")
+#define HEADER_0                         ("ADC")        /*!< CSV data file header  */
+#define HEADER_1                         ("Channel")    /*!< CSV data file header  */
+#define HEADER_2                         ("TimeStamp")  /*!< CSV data file header  */
+#define HEADER_3                         ("Value")      /*!< CSV data file header  */
 
 /*************************************************************/
 /** SPI_Anything config */
 /*************************************************************/
-#define SPI_A_NULL_CHAR             ('#')
-#define SPI_A_PAUSE_BETWEEN_SENDS   (20)
+#define SPI_A_NULL_CHAR             ('#')  /*!< null character is used to allow slave to send multi-byte responses to master  */
+#define SPI_A_PAUSE_BETWEEN_SENDS   (20)   /*!< microsecond delay to allow the slave to react to the byte sent by master */
 
 /*************************************************************/
 /*************************************************************/
