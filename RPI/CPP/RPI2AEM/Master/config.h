@@ -30,8 +30,8 @@ struct timeValStruct_t {
   ADC_value_t   v;
 }__attribute__((__packed__));
 
-typedef void (*processingUint32FuncPtr)(uint32_t &v);         /*!< typedef for funciton pointer to a function that will process a uint32_t value*/
-typedef void (*processingTVSFuncPtr)(timeValStruct_t &v); /*!< typedef for funciton pointer to a function that will process a timeValStruct_t */
+typedef void (*processingUint32FuncPtr)(const uint32_t &v);         /*!< typedef for funciton pointer to a function that will process a uint32_t value*/
+typedef void (*processingTVSFuncPtr)(const timeValStruct_t &v); /*!< typedef for funciton pointer to a function that will process a timeValStruct_t */
 
 /*************************************************************/
 /** App Config */ 
