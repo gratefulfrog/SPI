@@ -41,7 +41,7 @@ class App{
   /** bigBuffSize is used to allocate space for Serial printing outputs, */
   static const int bigBuffSize = APP_BIG_BUFF_SIZE, // enough space for a long string
     /**  slaveProcessingTime defines how long to wait to give the slave time to do stuff */                  
-    slaveProcessingTime = APP_SLAVE_PROCESSING_TIME; // seconds  
+    slaveProcessingTime = APP_SLAVE_PROCESSING_TIME; // milliseconds  
         
   /** transferAndWait SPI transfers a byte and waits pauseBetweenSends microseconds before returning the
    * reply from the transfer which is placed in the argument

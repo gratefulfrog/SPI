@@ -37,7 +37,7 @@ typedef void (*processingTVSFuncPtr)(const timeValStruct_t &v); /*!< typedef for
 /** App Config */ 
 /*************************************************************/
 #define APP_BIG_BUFF_SIZE              (50)     // bytes
-#define APP_SLAVE_PROCESSING_TIME      (0)      // seconds
+#define APP_SLAVE_PROCESSING_TIME      (0)     // milli seconds
 #define APP_PAUSE_BETWEEN_SENDS        (20)     // 10 micro seconds
 #define APP_SPI_CHANNEL                (0)      // channel for SPI
 #define APP_SPI_SPEED                  (100000) // speed for SPI
