@@ -57,6 +57,9 @@ void encode(uint8_t &coded, const uint8_t &left, const uint8_t &right){
 void decode(const uint8_t &coded, uint8_t &left, uint8_t &right){
   left = (coded >> 4) & 0xF;
   right = coded & 0xF;
+  if (left !=1){
+    cout << "Decode failure, coded: " << (int) coded << endl;
+  }
 }
 
 /*

@@ -59,13 +59,13 @@ public:
   /** called to set the time0  */
   void setTID();
   /** adds a tvs to the writeBufferVec and writes the entire buffer to disk when full
-   * @param &tvs a ref to a const tvs that will be COPIED to the write buffer */
-  void addTVS(const timeValStruct_t &tvs);
+   * @param tvs a const tvs that will be COPIED to the write buffer */
+  void addTVS(const timeValStruct_t tvs);
 };
 
 typedef void (FileMgr::*diskProcessingUint32FuncPtr)(const uint32_t &bd); /*!< typedef for funciton pointer to a function that will write to disk uint32_t value*/
 typedef void (FileMgr::*diskProcessingVoidFuncPtr)(); /*!< typedef for funciton pointer to a function that will write to disk void  value*/
-typedef void (FileMgr::*diskProcessingTVSFuncPtr)(const timeValStruct_t &v); /*!< typedef for funciton pointer to a function that will write to disk  a timeValStruct_t */
+typedef void (FileMgr::*diskProcessingTVSFuncPtr)(const timeValStruct_t v); /*!< typedef for funciton pointer to a function that will write to disk  a timeValStruct_t */
 
 
 

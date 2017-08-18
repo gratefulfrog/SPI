@@ -38,9 +38,9 @@ typedef void (*processingTVSFuncPtr)(const timeValStruct_t &v); /*!< typedef for
 /*************************************************************/
 #define APP_BIG_BUFF_SIZE              (50)     // bytes
 #define APP_SLAVE_PROCESSING_TIME      (0)     // milli seconds
-#define APP_PAUSE_BETWEEN_SENDS        (20)     // 10 micro seconds
+#define APP_PAUSE_BETWEEN_SENDS        (30)     // 10 micro seconds
 #define APP_SPI_CHANNEL                (0)      // channel for SPI
-#define APP_SPI_SPEED                  (100000) // speed for SPI
+#define APP_SPI_SPEED                  (10000) // 500kHz  is min speed for SPI
 #define APP_NULL_AIDCID                (255)    // meaning that the tvs should be ignored
 
 /*************************************************************/
@@ -65,7 +65,7 @@ typedef uint32_t boardID; /*!< defines a type for the GUID */
 /** SPI_Anything config */
 /*************************************************************/
 #define SPI_A_NULL_CHAR             ('#')  /*!< null character is used to allow slave to send multi-byte responses to master  */
-#define SPI_A_PAUSE_BETWEEN_SENDS   (20)   /*!< microsecond delay to allow the slave to react to the byte sent by master */
+#define SPI_A_PAUSE_BETWEEN_SENDS   (APP_PAUSE_BETWEEN_SENDS)   /*!< microsecond delay to allow the slave to react to the byte sent by master */
 
 /*************************************************************/
 /*************************************************************/

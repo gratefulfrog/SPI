@@ -46,7 +46,7 @@ unsigned int SPI_readAnything_reprime(SPI &spi, T& value, const uint8_t prime){
     *p++ = spi.transfer (nullChar);
     delayMicroseconds (pauseBetweenSends);
   }
-  *p++ = spi.transfer (prime);
+  *p = spi.transfer (prime);
   delayMicroseconds (pauseBetweenSends);
   return i;
 }

@@ -80,26 +80,22 @@ bool FileMgr::isValid(const timeValStruct_t &tvs) const{
   const static timeStamp_t  maxOverFlowTimeStamp = 500000;
   uint8_t aid,cid;
   decode(tvs.aidcid,aid,cid);
-  bool aidOK = (aid == 1),
-    cidOK =  (cid < 8),
-    tsOK =  ((tvs.t >= lastTimeStamp) || (tvs.t < maxOverFlowTimeStamp)),
-    valOK = (tvs.v >=0) && (tvs.v < 3.5),
-    ok = aidOK && cidOK && tsOK && valOK;
-  if (!ok){
-    cout << "\n\n****************************** TVS Rejected!";
-    if (! aidOK){
-      cout << "  bad ADC ID: " << (int)aid;
-    }
-    if (! cidOK){
-      cout << "  bad Channel ID: " << (int)cid ;
-    }
-    if (! tsOK){
-      cout << "  bad TimeStamp: " << tvs.t ;
-    }
-    if (! valOK){
-      cout << "  bad Value: " << tvs.v ;
-    }
-    cout << endl << endl << endl;
+  bool  ok = true;
+  if (aid !=1){
+    cout << "  bad ADC ID: " << (int)aid  << endl;
+    ok = false;
+  }
+  else if (cid >7){
+    cout << "  bad Channel ID: " << (int)cid  << endl;
+    ok = false;
+  }
+  else if ((tvs.t < lastTimeStamp) && (tvs.t > maxOverFlowTimeStamp)){
+    cout << "  bad TimeStamp: " << tvs.t  << endl;
+    ok = false;
+  }
+  else if ((tvs.v > 0.0 && tvs.v <0.000001) || (tvs.v > 3.5)){
+    cout << "  bad Value: " << tvs.v << endl ;
+    ok =false;
   }
   return ok;
 }
@@ -133,7 +129,7 @@ void FileMgr::setTID(){
   }
 }
     
-void FileMgr::addTVS(const timeValStruct_t &tvs){
+void FileMgr::addTVS(const timeValStruct_t tvs){
   //cout << "writing a tvs" << endl;
   if (isValid (tvs)){
     writeBufferVec[nextWriteIndex++] = tvs;
