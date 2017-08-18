@@ -113,10 +113,15 @@ class YADCMgr : public ADCMgr{
      */
     //boolean checkChannelReading(uint8_t chan,
     //                            float reading) const;
+    
+    /** check the validitiy of a timeValStruct, currently only for testing on ADC 1, 8 Channels
+     * @param &tvs the const tvs to check
+     * @return true if ok, false if not, stdout gets a message if not ok */
+    bool isValid(const timeValStruct_t &tvs) const;
     /** checkAndTell as per parent class
      *  @see App::checkAndTell
      */
-    void    checkAndPush(uint8_t channel) const;
+    void checkAndPush(uint8_t channel) const;
     
   public:
     /** YTestApp instance creation as per parent class
