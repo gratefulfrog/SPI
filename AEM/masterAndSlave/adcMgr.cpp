@@ -51,38 +51,6 @@ boolean YADCMgr::checkChannelReading(uint8_t chan, float reading) const{
   return (abs(reading-correctChannelReadingVec[adcID][chan])< epsilon);
 }
 */
-bool YADCMgr::isValid(const timeValStruct_t &tvs) const{
-  static timeStamp_t lastTimeStamp= tvs.t;
-  const static timeStamp_t  maxOverFlowTimeStamp = 500000;
-  uint8_t aid,cid;
-  decode(tvs.aidcid,aid,cid);
-  bool aidOK = (aid == 1),
-    cidOK =  (cid < 8),
-    tsOK =  ((tvs.t >= lastTimeStamp) || (tvs.t < maxOverFlowTimeStamp)),
-    valOK = (tvs.v >=0) && (tvs.v < 3.5),
-    ok = aidOK && cidOK && tsOK && valOK;
-  if (!ok){
-    Serial.print("\n\n****************************** TVS Rejected!");
-    if (! aidOK){
-      Serial.print("  bad ADC ID: ");
-      Serial.print((int)aid);
-    }
-    if (! cidOK){
-      Serial.print("  bad Channel ID: ");
-      Serial.print((int)cid);
-    }
-    if (! tsOK){
-      Serial.print("  bad TimeStamp: ");
-      Serial.print(tvs.t) ;
-    }
-    if (! valOK){
-      Serial.print("  bad Value: ");
-      Serial.print(tvs.v) ;
-    }
-    Serial.print('\n');
-  }
-  return ok;
-}
 
 void YADCMgr::checkAndPush(uint8_t channel) const{
   timeValStruct_t *tvs = new timeValStruct_t;

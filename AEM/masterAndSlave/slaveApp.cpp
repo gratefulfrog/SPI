@@ -87,6 +87,7 @@ void SlaveApp::fillStruct(){
       }
       break;
   } 
+  
 }
 
 void SlaveApp::SPI_ISR(){

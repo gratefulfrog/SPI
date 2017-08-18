@@ -24,4 +24,10 @@ extern void encode(uint8_t &coded, const uint8_t &left, const uint8_t &right);
  *  @param &right : reference to variable for the right 4 decoded bits  */
 extern void decode(const uint8_t &coded, uint8_t &left, uint8_t &right);
 
+
+/** check the validitiy of a timeValStruct, currently only for testing on ADC 1, 8 Channels
+ * @param &tvs the const tvs to check
+ * @return true if ok, false if not, stdout gets a message if not ok */
+extern bool isValid(const timeValStruct_t &tvs);
+
 #endif
