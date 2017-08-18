@@ -36,10 +36,15 @@ protected:
   char* csvFilename;                     /*!< the name of the csv file, used for writing */
   
   bool ok2Create() const;                /*!< returns TRUE if it is ok to create the csv file */
+  unisgned in badData;                   /*!< keeps count of bad data elts received from masterApp */
   void createFilename ();                /*!< creates the filename and writes it to csvFilename (allocates memory)  */
   void createFile();                     /*!< creates the csv file and writes the header row */
   void putDataElt(csvfile &f, const timeValStruct_t &tvs) const;  /*!< puts a tvs into the writeBufferVec and if it's time to write to disk calls writeRows()  */
   void writeRows();                     /*!< writes the content of writeBufferVec to the csv file and resets the nextWriteIndex  */
+  /** check the validitiy of a timeValStruct, currently only for testing on ADC 1, 8 Channels
+   * @param &tvs the const tvs to check
+   * @return true if ok, false if not, stdout gets a message if not ok */
+  bool isValid(const const timeValStruct_t &tvs) const;
 public:
   static const uint8_t BoardID;           /*!< configuration parameter for the application, used to determine number of board channels */
   static const uint8_t BoardChannelVec[]; /*!< configuration parameter for the application, contains nb of channels for the boardID index */

@@ -407,13 +407,14 @@ AD7689::AD7689(const YSPI *const y,
                uint8_t numberChannels) : yspi(y),
                                          inputCount(numberChannels),
                                          inputConfig(getInputConfig(UNIPOLAR_MODE, false)),
-                                         negref(getNegRef(INTERNAL_4096, UNIPOLAR_MODE)),
-                                         //refsrc(getRefSrc(REF_INTERNAL, INTERNAL_25)),
-                                         //posref(getPosRef(REF_INTERNAL, INTERNAL_25)),
-                                         //refConfig(INT_REF_25)
-                                         refsrc(getRefSrc(REF_INTERNAL, INTERNAL_4096)),
-                                         posref(getPosRef(REF_INTERNAL, INTERNAL_4096)),
-                                         refConfig(INT_REF_4096)
+                                         negref(getNegRef(INTERNAL_25, UNIPOLAR_MODE)),
+                                         refsrc(getRefSrc(REF_INTERNAL, INTERNAL_25)),
+                                         posref(getPosRef(REF_INTERNAL, INTERNAL_25)),
+                                         refConfig(INT_REF_25)
+                                         //negref(getNegRef(INTERNAL_4096, UNIPOLAR_MODE)),
+                                         //refsrc(getRefSrc(REF_INTERNAL, INTERNAL_4096)),
+                                         //posref(getPosRef(REF_INTERNAL, INTERNAL_4096)),
+                                         //refConfig(INT_REF_4096)
                                          {
   // set default configuration options
   filterConfig = false;                 // full bandwidth

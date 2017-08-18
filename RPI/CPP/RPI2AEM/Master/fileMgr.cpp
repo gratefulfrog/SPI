@@ -62,7 +62,7 @@ void FileMgr::writeRows(){
     cout << "call to writeRows with wOK == false!" << endl;
     exit (EXIT_FAILURE);;
   }
-  cout << "Writing to disk..." << writeCount++ << endl;
+  cout << "Writing to disk... " << writeCount++ << " Bad data elts: " << badData << endl;
   try {
     csvfile csv(csvFilename); //will create or open in append mode
     for(uint8_t i=0;i < maxWrites ;i++){
@@ -74,14 +74,43 @@ void FileMgr::writeRows(){
     std::cout << "Exception was thrown: " << ex.what() << std::endl;
   }
 }
-  
+
+bool FileMgr::isValid(const const timeValStruct_t &tvs) const{
+  static timeStamp_t lastTimeStamp= tvs.t;
+  const statictimeStamp_t  maxOverFlowTimeStamp = 100000;
+  uint8_t aid,cid;
+  decode(tvs.aidcid,aid,cid);
+  bool aidOK = (aid == 0),
+    cidOK =  (cid < 8),
+    tsOK =  ((tvs.t >= lastTimeStamp) || (tvs.t < maxOverFlowTimeStamp)),
+    valOK = (tvs.v >=0) && (tsv.v < 3.5),
+    ok = aidOK && cidOK && tsOK && valOK;
+  if (!ok){
+    cout << "TVS Rejected!" << endl;
+    if (! aidOK){
+      cout << "bad ADC ID: " << aid << endl;
+    }
+    if (! cidOK){
+      cout << "bad Channel ID: " << cid << endl;
+    }
+    if (! tsOK){
+      cout << "bad TimeStamp: " << tvs.t << endl;
+    }
+    if (! valOK){
+      cout << "bad Value: " << ts.v << endl;
+    }
+  }
+  return ok;
+}
+
 FileMgr::FileMgr(uint8_t nbChannels):
   nextWriteIndex(0),
   bOK(false),
   tOK(false),
   wOK(false),
   maxWrites(nbChannels),
-  writeCount(0){ 
+  writeCount(0),
+  badData(0){ 
   
   writeBufferVec = new timeValStruct_t[maxWrites];
   cout << "init file mgr!" << endl;
@@ -102,11 +131,17 @@ void FileMgr::setTID(){
     createFile();
   }
 }
+    
 void FileMgr::addTVS(const timeValStruct_t &tvs){
   //cout << "writing a tvs" << endl;
-  writeBufferVec[nextWriteIndex++] = tvs;
-  if (nextWriteIndex == maxWrites){
-    writeRows();
+  if (isValid (tvs)){
+    writeBufferVec[nextWriteIndex++] = tvs;
+    if (nextWriteIndex == maxWrites){
+      writeRows();
+    }
+  }
+  else{
+    badData++:
   }
 }
 

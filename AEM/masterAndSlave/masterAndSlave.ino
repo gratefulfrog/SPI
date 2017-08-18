@@ -2,8 +2,7 @@
 #include "app.h"
 
 /*
- * USING USAARTS 1 and 2
- * getting 50-80 microseconds between adc channel reads!!!
+ * This is the AEM SLAVE VERSION !!!
  */
 
 
