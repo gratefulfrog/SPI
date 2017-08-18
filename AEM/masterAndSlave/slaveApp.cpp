@@ -40,7 +40,9 @@ void SlaveApp::loop(){
   }
   // debug tracing counts the loops
   if(!(count++ % 100000)){
-    Serial.println(count);
+    Serial.print(count);
+    Serial.print("   Q size: ");
+    Serial.println(board->getQSize());
     //Serial.print("Board ADC ID : ");
     //Serial.println(board->getGUID());
     //Serial.print("outTVS.aid, cid : ");

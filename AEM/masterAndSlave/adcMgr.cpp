@@ -60,12 +60,18 @@ void YADCMgr::checkAndPush(uint8_t channel) const{
   tvs->v = adc->acquireChannel(channel, &(tvs->t));
   // need to fix the time to compensate the init time!
   tvs->t = TimeStamper::theTimeStamper->getCompensatedTimeStamp(tvs->t);
-  if(isValid(*tvs)){
-    noInterrupts();
+  noInterrupts();
+  if(isValid(*tvs)){  
     q->push(tvs);
     //ADCMgr::serialPrintTVS(*tvs);
-    interrupts();
   }
+  else{
+    delete tvs;
+    Serial.println("Bad tvs created!, not enqueued..");
+    Serial.print("adccid :");
+    Serial.println((int)tvs->aidcid);
+  }
+  interrupts();
 }
 
 YADCMgr::YADCMgr(uint8_t id, Q<timeValStruct_t> *q) : ADCMgr(id,q){    

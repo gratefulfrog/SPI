@@ -43,6 +43,7 @@ timeValStruct_t *Board::pop(){
     resPtr = &res;
     if (!isValid(*resPtr)){
       Serial.println("Bad outgoing TVS!");
+      resPtr = NULL;
     }
   }
   else {
