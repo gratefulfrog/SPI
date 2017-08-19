@@ -66,7 +66,7 @@
 
 //#define SLAVE (1)
 
- #define SLOW_CLOCK
+//#define SLOW_CLOCK
 
 
 App *app;

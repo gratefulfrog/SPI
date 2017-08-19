@@ -1,5 +1,5 @@
 
-#include "app.h"
+// This is a working UNO master for debugging to compare with RPI version
 
 /*
  * USING USAARTS 1 and 2
@@ -64,29 +64,14 @@
  **  Master : will Serial.print the data structs
  **  Slave  : will Serial.print the longest length of the Q each time the lenght increases, as well as some init messages.
  */
-
-//#define SLAVE (1)
+ 
+#include "app.h"
 
 App *app;
 
-// test to see if we have an ATmega328p or an ATmega2560 MCU
-#if ( SIGNATURE_1 == 0x98 && SIGNATURE_2 == 0x01)
-//#if ( SLAVE)
-  ///// we have an ATMEGA 2560: so it's the Slave
-  
-  const boolean isMaster = false;
-  // SPI interrupt routine must be defined in the Slave, only
-  ISR (SPI_STC_vect){
-    app->SPI_ISR ();
-  }
-#else
-  // we have an ATMEGA 328p: it's the Master
-  const boolean isMaster = true;
-#endif
   
 void setup() {
-    app = isMaster ? static_cast<App*>(new MasterApp()) 
-                   : static_cast<App*>(new SlaveApp());
+    app = new MasterApp();
     Serial.print("\nsizeof(timeValStruct_t): ");
     Serial.println(sizeof(timeValStruct_t));
     Serial.println("starting up...");

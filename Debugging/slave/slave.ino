@@ -1,9 +1,5 @@
-
-#include "app.h"
-
 /*
- * USING USAARTS 1 and 2
- * getting 50-80 microseconds between adc channel reads!!!
+ * This is the DEBUGGING SLAVE VERSION !!!
  */
 
 
@@ -65,32 +61,30 @@
  **  Slave  : will Serial.print the longest length of the Q each time the lenght increases, as well as some init messages.
  */
 
-//#define SLAVE (1)
+#include "app.h"
+
+//#define SLOW_CLOCK
 
 App *app;
-
-// test to see if we have an ATmega328p or an ATmega2560 MCU
-#if ( SIGNATURE_1 == 0x98 && SIGNATURE_2 == 0x01)
-//#if ( SLAVE)
-  ///// we have an ATMEGA 2560: so it's the Slave
   
-  const boolean isMaster = false;
-  // SPI interrupt routine must be defined in the Slave, only
-  ISR (SPI_STC_vect){
-    app->SPI_ISR ();
-  }
-#else
-  // we have an ATMEGA 328p: it's the Master
-  const boolean isMaster = true;
-#endif
+const boolean isMaster = false;
+// SPI interrupt routine must be defined in the Slave, only
+ISR (SPI_STC_vect){
+  app->SPI_ISR ();
+}
   
 void setup() {
-    app = isMaster ? static_cast<App*>(new MasterApp()) 
-                   : static_cast<App*>(new SlaveApp());
+#ifdef SLOW_CLOCK
+    noInterrupts();
+    CLKPR = _BV(CLKPCE);  // enable change of the clock prescaler
+    CLKPR = _BV(CLKPS0);  // divide frequency by 2
+    interrupts();
+#endif
+    app = new SlaveApp();
     Serial.print("\nsizeof(timeValStruct_t): ");
     Serial.println(sizeof(timeValStruct_t));
     Serial.println("starting up...");
-    //delay(5000);
+    delay(5000);
 }
 
 void loop() {

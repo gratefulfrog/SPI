@@ -1,9 +1,9 @@
 
-#include "app.h"
+#include "master.h"
 
-/*
- * USING USAARTS 1 and 2
- * getting 50-80 microseconds between adc channel reads!!!
+/* Version uses the RPI  as master and the AEM vibrations board as slave
+ *  
+ *  NEVER cross MOSI and MISO !!! 
  */
 
 
@@ -21,10 +21,7 @@
   D5 SS   YELLOW (slave select)  <-- this can be changed
   */
 
-/** OTHER PINS
- *  5V powers the AD7689
- *  GND is also requried on the AD7689
- */
+
 
 /* USAGE:
  *  1. connect the master and slave boards via SPI
@@ -65,40 +62,24 @@
  **  Slave  : will Serial.print the longest length of the Q each time the lenght increases, as well as some init messages.
  */
 
-//#define SLAVE (1)
+#include "master.h"
 
-App *app;
+using namespace std;
 
-// test to see if we have an ATmega328p or an ATmega2560 MCU
-#if ( SIGNATURE_1 == 0x98 && SIGNATURE_2 == 0x01)
-//#if ( SLAVE)
-  ///// we have an ATMEGA 2560: so it's the Slave
+int main() {
+  cout << "sizeof(timeValStruct_t): " << sizeof(timeValStruct_t) << endl;
   
-  const boolean isMaster = false;
-  // SPI interrupt routine must be defined in the Slave, only
-  ISR (SPI_STC_vect){
-    app->SPI_ISR ();
+  if (sizeof (float) != 4){
+    cout << "float size wrong" << endl;
+    return (-1);
   }
-#else
-  // we have an ATMEGA 328p: it's the Master
-  const boolean isMaster = true;
-#endif
-  
-void setup() {
-    app = isMaster ? static_cast<App*>(new MasterApp()) 
-                   : static_cast<App*>(new SlaveApp());
-    Serial.print("\nsizeof(timeValStruct_t): ");
-    Serial.println(sizeof(timeValStruct_t));
-    Serial.println("starting up...");
-    //delay(5000);
+  else if (sizeof(timeValStruct_t) != 9){
+    cout << "timeValStruct_t size  wrong" << endl;
+    return (-1);
+  } 
+  App *app = new MasterApp(APP_SPI_CHANNEL,APP_SPI_SPEED,FileMgr::nbBoardChannels);  
+  while(1){
+    app->loop();
+  }
+  return (0);
 }
-
-void loop() {
-  app->loop();
-}
-
-void serialEvent(){
-  app->serialEvent();
-}
-
-
