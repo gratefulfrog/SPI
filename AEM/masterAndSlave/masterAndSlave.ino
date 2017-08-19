@@ -66,6 +66,9 @@
 
 //#define SLAVE (1)
 
+ #define SLOW_CLOCK
+
+
 App *app;
 
 // test to see if we have an ATmega328p or an ATmega2560 MCU
@@ -84,6 +87,12 @@ App *app;
 #endif
   
 void setup() {
+#ifdef SLOW_CLOCK
+    noInterrupts();
+    CLKPR = _BV(CLKPCE);  // enable change of the clock prescaler
+    CLKPR = _BV(CLKPS0);  // divide frequency by 2
+    interrupts();
+#endif
     app = isMaster ? static_cast<App*>(new MasterApp()) 
                    : static_cast<App*>(new SlaveApp());
     Serial.print("\nsizeof(timeValStruct_t): ");
