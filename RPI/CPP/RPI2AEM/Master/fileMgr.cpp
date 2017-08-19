@@ -97,6 +97,14 @@ bool FileMgr::isValid(const timeValStruct_t &tvs) const{
     cout << "  bad Value: " << tvs.v << endl ;
     ok =false;
   }
+  else if (((cid % 2) == 0) && (tvs.v >0.5)){
+    cout << "  bad value for channel : " << cid << " value : " << tvs.v << endl;
+    ok = false;
+  }
+  else if ((cid % 2) && (tvs.v < 2 )){
+    cout << "  bad value for channel : " << cid << " value : " << tvs.v << endl;
+    ok = false;
+  }
   return ok;
 }
 
@@ -139,6 +147,7 @@ void FileMgr::addTVS(const timeValStruct_t tvs){
   }
   else{
     badData++;
+    cout << "bad data incremented!" << endl;
   }
 }
 
