@@ -1,6 +1,6 @@
 #include "app.h"
 
-App::App(){
+App::App(): badCounter(0){
   Serial.begin(115200);
 }
 
@@ -28,7 +28,8 @@ void App::processReply(uint32_t v, boolean isTime){
 
 void App::processReply(timeValStruct_t &tvs){
   if (tvs.aidcid != ADCMGR_NULL_ADC_ID){
-    (*pFuncPtrTVS)(tvs);
+    (*pFuncPtrTVS)(tvs,badCounter);
+    delay(APP_PAUSE_AFTER_GOOD_TVS);  //what happens during this time?
   }
 }
 

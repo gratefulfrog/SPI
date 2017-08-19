@@ -57,6 +57,14 @@ void MasterApp::loop(){
     Serial.println(outgoing);
     //Serial.print("Received: ");
   #endif
+  static uint32_t loopCount = 0;
+
+  if (!(loopCount++%100000)){
+    Serial.print("loop count: ");
+    Serial.print(loopCount);
+    Serial.print("    bad count: ");
+    Serial.println(badCounter);
+  }  
   
   char nextOutgoing  = nextChar2Send();
   
@@ -65,6 +73,8 @@ void MasterApp::loop(){
   delayMicroseconds (pauseBetweenSends);
   readReplyAndSendNext(outgoing,nextOutgoing);
   outgoing = nextOutgoing;
+  
+  
   
   // disable Slave Select
   digitalWrite(SS, HIGH);

@@ -84,7 +84,7 @@ void setup() {
     Serial.print("\nsizeof(timeValStruct_t): ");
     Serial.println(sizeof(timeValStruct_t));
     Serial.println("starting up...");
-    delay(5000);
+    delay(1000);
 }
 
 void loop() {

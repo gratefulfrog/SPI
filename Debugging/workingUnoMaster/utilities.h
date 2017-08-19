@@ -9,8 +9,10 @@
 
 // define functions here for various forms of processing of the data coming from the boards
 
+extern bool isFirstADCCID(const uint8_t &aid,const uint8_t &cid);
+extern bool isValid(const timeValStruct_t &tvs);
 extern void serialPrintUint32(uint32_t &v);
-extern void serialPrintTVS(timeValStruct_t &tvs);
+extern void serialPrintTVS(const timeValStruct_t &tvs, uint32_t &badCount);
 
 /** encodes bits LLLL, RRRR to LLLLRRRR , max value to encode is 15
  *  @param &coded : a reference the encoded value that the function will create 

@@ -14,6 +14,8 @@
  *  to all concrete sublcasses, e.g. MasterApp and SlaveApp */
 class App{
   protected:
+    uint32_t badCounter;
+    
     /** pFuncPtrUint32 points to a function that will process any uint32_t values read from the Slave */
     static const processingUint32FuncPtr  pFuncPtrUint32 = &serialPrintUint32;
     

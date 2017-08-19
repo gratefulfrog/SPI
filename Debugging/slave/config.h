@@ -60,7 +60,7 @@ typedef void (*processingUintTVSFuncPtr)(timeValStruct_t &v); /*!< typedef for f
 
 /**  BOARD_SLAVE_LOOP_ITERATIONS determines how many times the slave will loop betwenn polls of the ADCs.
  *   set the value to (1) for maximum slave speed! */
-#define BOARD_SLAVE_LOOP_ITERATIONS     (2500) //(2150) // for AEM board (750) //(1000) // for MEGA as slave (2150)  //(10150)  // working values // 2150 // 2500 // 5000 
+#define BOARD_SLAVE_LOOP_ITERATIONS     (700) //(1000) // (2500) //(2150) // for AEM board (750) //(1000) // for MEGA as slave (2150)  //(10150)  // working values // 2150 // 2500 // 5000 
 
 typedef uint32_t boardID; /*!< defines a type for the GUID */
 

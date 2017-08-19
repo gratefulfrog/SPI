@@ -32,7 +32,7 @@ typedef struct timeValStruct_t {
 } __attribute__((__packed__));
 
 typedef void (*processingUint32FuncPtr)(uint32_t &v);         /*!< typedef for funciton pointer to a function that will process a uint32_t value*/
-typedef void (*processingUintTVSFuncPtr)(timeValStruct_t &v); /*!< typedef for funciton pointer to a function that will process a timeValStruct_t */
+typedef void (*processingUintTVSFuncPtr)(const timeValStruct_t &v, uint32_t badcounts); /*!< typedef for funciton pointer to a function that will process a timeValStruct_t */
 
 
 /*************************************************************/
@@ -46,6 +46,7 @@ typedef void (*processingUintTVSFuncPtr)(timeValStruct_t &v); /*!< typedef for f
 #define APP_BIG_BUFF_SIZE              (50)   // bytes
 #define APP_SLAVE_PROCESSING_TIME      (0)    // milli seconds
 #define APP_PAUSE_BETWEEN_SENDS        (10)   // 10 micro seconds
+#define APP_PAUSE_AFTER_GOOD_TVS       (1)    // milliseconds
 
 /*************************************************************/
 /** Board config */
