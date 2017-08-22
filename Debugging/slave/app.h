@@ -5,7 +5,7 @@
 #include <SPI.h>
 
 #include "config.h"
-#include "SPI_anything.h"
+
 #include "board.h"
 #include "utilities.h"
 
@@ -26,12 +26,12 @@ class App{
                       bidChar     = 'b',
                       acquireChar = 'a';
     /** bigBuffSize is used to allocate space for Serial printing outputs, */
-    static const int bigBuffSize         = APP_BIG_BUFF_SIZE, // enough space for a long string
+    static const int bigBuffSize         = APP_BIG_BUFF_SIZE; // enough space for a long string
     /**  slaveProcessingTime defines how long to wait to give the slave time to do stuff */                  
-                     slaveProcessingTime = APP_SLAVE_PROCESSING_TIME; // millisecs  with 6 it is too slow for the slave and the slave overfills its q !
+                     //slaveProcessingTime = APP_SLAVE_PROCESSING_TIME; // millisecs  with 6 it is too slow for the slave and the slave overfills its q !
     
     /** transferAndWait SPI transfers a byte and waits pauseBetweenSends microseconds before returning the reply from the transfer */
-    byte transferAndWait (const byte what) const;
+    //byte transferAndWait (const byte what) const;
 
     #ifdef DEBUG
     volatile boolean consoleInput = false;
@@ -54,7 +54,7 @@ class App{
     /** nullChar is shared betzeen Master and Slave, used as white noise to allow for SPI transfers */
     static const byte nullChar =  SPI_A_NULL_CHAR;
     /** pauseBetweenSends is the microseconds that will be delayed after an SPI transfer of a byte */
-    static const int pauseBetweenSends   = APP_PAUSE_BETWEEN_SENDS;  // microseconds
+    //static const int pauseBetweenSends   = APP_PAUSE_BETWEEN_SENDS;  // microseconds
     /** App instance constructor simply turns on Serial output */
     App();
     /** pure virtual loop method will be called repeatedly by the main program */
@@ -70,10 +70,10 @@ class App{
 /** SlaveApp class implements the cuntionalities of the MEGA to collect data from the ADCs and respond to commands from the Master */
 class SlaveApp: public App{
   protected:
-    /** outBid is used to send the Board's ID to the Master. It must be volatile due to itnerrupt handling */
-    volatile boardID outBID ;
+    /** outBid is used to send the Board's ID to the Master. Not volatile since never written in itnerrupt handler */
+    /*volatile */ boardID outBID ;
     /** outTVS is used to send the Board's data to the Master. It must be volatile due to itnerrupt handling */        
-    volatile timeValStruct_t outTVS,
+    /*volatile*/ timeValStruct_t outTVS,
     /** tempTVS is used to send the Board's data to the Master. It must be volatile due to itnerrupt handling */        
                             *tempTVS = NULL;
     /** command is used to read from the Master. It must be volatile due to itnerrupt handling */        
@@ -98,6 +98,10 @@ class SlaveApp: public App{
      *  
      *  A new data send is triggered when a new command is received. */
     void fillStruct();
+
+    static const uint8_t sizeU32 = sizeof(uint32_t),
+                         sizeBID = sizeof(boardID),
+                         sizeTVS = sizeof(timeValStruct_t);
     
   public:
     /** Instance constructor:  

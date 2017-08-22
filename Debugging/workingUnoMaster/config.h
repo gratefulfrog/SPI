@@ -45,7 +45,7 @@ typedef void (*processingUintTVSFuncPtr)(const timeValStruct_t &v, uint32_t badc
 /*************************************************************/
 #define APP_BIG_BUFF_SIZE              (50)   // bytes
 #define APP_SLAVE_PROCESSING_TIME      (0)    // milli seconds
-#define APP_PAUSE_BETWEEN_SENDS        (10)   // 10 micro seconds
+#define APP_PAUSE_BETWEEN_SENDS        (100)   // 10 micro seconds
 #define APP_PAUSE_AFTER_GOOD_TVS       (1)    // milliseconds
 
 /*************************************************************/
@@ -76,7 +76,7 @@ typedef uint32_t boardID; /*!< defines a type for the GUID */
 /** SPI_Anything config */
 /*************************************************************/
 #define SPI_A_NULL_CHAR             ('#')
-#define SPI_A_PAUSE_BETWEEN_SENDS   (20)
+#define SPI_A_PAUSE_BETWEEN_SENDS   (APP_PAUSE_BETWEEN_SENDS)
 
 /*************************************************************/
 /** YSPI config */

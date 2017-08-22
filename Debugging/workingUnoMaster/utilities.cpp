@@ -15,8 +15,8 @@ bool isFirstADCCID(const uint8_t &aid,const uint8_t &cid){
 }
 
 bool isValid(const timeValStruct_t &tvs){
-  static uint32_t lastTimeStamp= tvs.t;
-  const static timeStamp_t  maxOverFlowTimeStamp = 100000;
+  static uint32_t lastTimeStamp= 0;
+  const static timeStamp_t  maxOverFlowTimeStamp = 1000000;
   uint8_t aid,cid;
   decode(tvs.aidcid,aid,cid);
   bool  ok = true;
@@ -32,7 +32,7 @@ bool isValid(const timeValStruct_t &tvs){
     Serial.println((int)cid);
     ok = false;
   }
-  else if ((tvs.t < lastTimeStamp) && (tvs.t > maxOverFlowTimeStamp)){
+  /*else if ((tvs.t < lastTimeStamp) && (tvs.t > maxOverFlowTimeStamp)){
     //cout << "  bad TimeStamp: " << tvs.t  << endl;
     Serial.print("  bad TimeStamp: ");
     Serial.print(tvs.t);
@@ -41,7 +41,7 @@ bool isValid(const timeValStruct_t &tvs){
     Serial.print("  difference: ");
     Serial.println(lastTimeStamp-tvs.t);
     ok = false;
-  }
+  }*/
   else if (((cid % 2) == 0) && (tvs.v >0.1)){
     //cout << "  bad value for channel : " << (int)cid << " value : " << tvs.v << endl;
     Serial.print("  bad value for channel : ");
@@ -65,13 +65,17 @@ bool isValid(const timeValStruct_t &tvs){
 }
 
 void serialPrintTVS(const timeValStruct_t &tvs, uint32_t &badCount){
+  static uint32_t counter = 0;
   uint8_t aid, 
           cid;
   decode(tvs.aidcid,aid,cid);
   badCount = isValid(tvs) ? badCount : badCount +1;
   //delay(1);
-  return;
-  
+  //return;
+  counter = (counter+1) % 997;
+  if(counter){
+    return;
+  }
   
   if(isFirstADCCID(aid,cid)){
     Serial.println("-------------------");

@@ -1,6 +1,8 @@
 
 // This is a working UNO master for debugging to compare with RPI version
 
+// 2017 08 21, add clock slow down!
+
 /*
  * USING USAARTS 1 and 2
  * getting 50-80 microseconds between adc channel reads!!!

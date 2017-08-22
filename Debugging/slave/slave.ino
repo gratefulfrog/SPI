@@ -67,7 +67,6 @@
 
 App *app;
   
-const boolean isMaster = false;
 // SPI interrupt routine must be defined in the Slave, only
 ISR (SPI_STC_vect){
   app->SPI_ISR ();

@@ -13,6 +13,9 @@ char MasterApp::nextChar2Send() const{
 
 MasterApp::MasterApp():App(){
   SPI.begin ();
+  // Slow down the master a bit
+  SPI.setClockDivider(SPI_CLOCK_DIV8);
+
   while(!Serial);
   Serial.println("Master");
 

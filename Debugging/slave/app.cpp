@@ -3,13 +3,13 @@
 App::App(){
   Serial.begin(115200);
 }
-
+/*
 byte App::transferAndWait (const byte what) const{
   byte res = SPI.transfer (what);
   delayMicroseconds (pauseBetweenSends);
   return res;
 } 
-
+*/
 void App::serialEvent(){
   #ifdef DEBUG
   Serial.println("App.serialEvent...");

@@ -44,8 +44,6 @@ typedef void (*processingUintTVSFuncPtr)(timeValStruct_t &v); /*!< typedef for f
 /** App Config */
 /*************************************************************/
 #define APP_BIG_BUFF_SIZE              (50)   // bytes
-#define APP_SLAVE_PROCESSING_TIME      (0)    // milli seconds
-#define APP_PAUSE_BETWEEN_SENDS        (20)   // 10 micro seconds
 
 /*************************************************************/
 /** Board config */
@@ -60,7 +58,7 @@ typedef void (*processingUintTVSFuncPtr)(timeValStruct_t &v); /*!< typedef for f
 
 /**  BOARD_SLAVE_LOOP_ITERATIONS determines how many times the slave will loop betwenn polls of the ADCs.
  *   set the value to (1) for maximum slave speed! */
-#define BOARD_SLAVE_LOOP_ITERATIONS     (700) //(1000) // (2500) //(2150) // for AEM board (750) //(1000) // for MEGA as slave (2150)  //(10150)  // working values // 2150 // 2500 // 5000 
+#define BOARD_SLAVE_LOOP_ITERATIONS     (1200) // (2500) //(2150) // for AEM board (750) //(1000) // for MEGA as slave (2150)  //(10150)  // working values // 2150 // 2500 // 5000 
 
 typedef uint32_t boardID; /*!< defines a type for the GUID */
 
@@ -75,7 +73,6 @@ typedef uint32_t boardID; /*!< defines a type for the GUID */
 /** SPI_Anything config */
 /*************************************************************/
 #define SPI_A_NULL_CHAR             ('#')
-#define SPI_A_PAUSE_BETWEEN_SENDS   (APP_PAUSE_BETWEEN_SENDS)
 
 /*************************************************************/
 /** YSPI config */

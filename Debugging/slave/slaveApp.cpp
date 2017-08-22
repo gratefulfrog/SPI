@@ -67,26 +67,32 @@ void SlaveApp::fillStruct(){
       TimeStamper::theTimeStamper->setTime0(micros());
       board->clearQ();
       
-      lim = sizeof(uint32_t);
+      lim = sizeU32; //sizeof(uint32_t);
       outPtr = (byte *) &TimeStamper::theTimeStamper->t0;
       showInitMsg=init=true;
       break;
     case bidChar:
-      lim = sizeof (boardID);
+      lim = sizeBID; // sizeof (boardID);
       outPtr = (byte *) &outBID;
       break;
     default:
-      lim = sizeof (timeValStruct_t);
+      lim = sizeTVS; //sizeof (timeValStruct_t);
       tempTVS = board->pop(); 
+      outTVS = tempTVS ? *tempTVS : Board::nullReturn;
+      /*
       if(tempTVS){
+        outTVS = *tempTVS;
         outTVS.aidcid = tempTVS->aidcid;
         outTVS.t  = tempTVS->t;
         outTVS.v  = tempTVS->v;
+       
         outPtr = (byte *) &outTVS;
       }
       else{
         outPtr = (byte *) &Board::nullReturn;
       }
+      */
+      outPtr = (byte *) &outTVS;
       break;
   } 
   

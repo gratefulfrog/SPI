@@ -52,7 +52,7 @@ bool isValid(const timeValStruct_t &tvs){
     tsOK =  ((tvs.t >= lastTimeStamp) || (tvs.t < maxOverFlowTimeStamp)),
     valOK = (tvs.v >=0) && (tvs.v < 3.5),
     ok = aidOK && cidOK && tsOK && valOK;
-  if (!ok){
+  /*if (!ok){
     Serial.print("\n\n****************************** TVS Rejected!");
     if (! aidOK){
       Serial.print("  bad ADC ID: ");
@@ -72,6 +72,8 @@ bool isValid(const timeValStruct_t &tvs){
     }
     Serial.print('\n');
   }
+  */
+  lastTimeStamp = ok ?  tvs.t : lastTimeStamp;
   return ok;
 }
 

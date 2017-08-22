@@ -30,19 +30,20 @@ void Board::loop(){
 }
 
 timeValStruct_t *Board::pop(){
-  noInterrupts();
-  timeValStruct_t *tvs = q->pop();
-  interrupts();
+  //noInterrupts();
+  timeValStruct_t *tvsPtr = q->pop();
+  //interrupts();
   static timeValStruct_t res;
   static timeValStruct_t *resPtr;
-  if (tvs){
-    res.aidcid = tvs->aidcid;
-    res.t  = tvs->t;
-    res.v  = tvs->v;
-    delete tvs;
+  if (tvsPtr){
+    res = *tvsPtr;
+    //res.aidcid = tvs->aidcid;
+    //res.t  = tvs->t;
+    //res.v  = tvs->v;
+    delete tvsPtr;
     resPtr = &res;
     if (!isValid(*resPtr)){
-      Serial.println("Bad outgoing TVS!");
+      //Serial.println("Bad outgoing TVS!");
       resPtr = NULL;
     }
   }
@@ -58,7 +59,9 @@ void Board::showQSize() const{
 }
 
 void Board::clearQ(){
+  noInterrupts();
   while(pop());
+  interrupts();
 }
 unsigned int Board::getQSize() const{
   //Serial.println("getQSize");
