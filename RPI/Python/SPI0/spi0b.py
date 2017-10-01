@@ -25,19 +25,22 @@ def go():
     sendCount=0
     try:
         while True:
+            # iteaduino values :
+            # resp = spi.xfer([index],1000000, 2)
+            # AEM values:
             resp = spi.xfer([index],1000000, 2)
             # xfer args: list of bytes,
             #            Hz freq of clck,
             #            uSec delay before releasing SS
             time.sleep(pause)
-            #if ((sendCount % 10000) == 0):
-            #    print (sendCount, ': ', [index]+ resp)
+            if ((sendCount % 10000) == 0):
+                print (sendCount, ': ', [index]+ resp)
             #print (sendCount, ': ', [index]+ resp)
             sendCount+=1
             # check reply w.r.t. previous send
             if (init and
                 (resp[0] != (0 if index == 0 else 256-index))):
-                print(index, resp[0], 'Error!')
+                print([index, resp[0]], 'Error!')
                 raise KeyboardInterrupt
             #input()
             index=(index+1)%256
