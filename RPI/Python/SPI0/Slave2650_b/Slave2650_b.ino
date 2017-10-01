@@ -5,7 +5,7 @@
  * It is interesting to monitor both Master and Slave in a ternminal
  */
 
-App *app;
+SlaveApp *app;
 
 ISR (SPI_STC_vect){
   app->SPI_ISR ();
