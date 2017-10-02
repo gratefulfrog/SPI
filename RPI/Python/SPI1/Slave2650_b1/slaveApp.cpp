@@ -1,14 +1,6 @@
 #include "app.h"
 
 SlaveApp::SlaveApp() /* :App() */{
-  Serial.begin(115200);
-  /* Set MISO output, all others input */
-  pinMode(MISO,OUTPUT);
-  //DDR_SPI = (1<<DD_MISO);  // need to set DDR_SPI and DD_MISO to appropriate values from data sheet, good luck!
-  /* Enable SPI */
-  SPCR = (1<<SPE);
-
-/*
   // have to send on master in, *slave out*
   pinMode(MISO, OUTPUT);
   
@@ -17,17 +9,18 @@ SlaveApp::SlaveApp() /* :App() */{
 
   // turn on interrupts
   SPCR |= _BV(SPIE);
-*/
+  // or use the following...
+  // now turn on interrupts
+  //SPI.attachInterrupt();  
+  
 }
 
+void SlaveApp::SlaveApp::loop(){
+}
 
-void SlaveApp::SPI_SlaveReceive(void){
-  /* Wait for reception complete */
-  while(!(SPSR & (1<<SPIF)));
-
-  // now wait for a message from master
+void SlaveApp::SPI_ISR(){
   if(!isSlaveMsg(SPDR)){
-    SPDR = response(SPDR);  
+    SPDR = response(SPDR);
   }
 }
 
@@ -54,9 +47,3 @@ void SlaveApp::incOutgoing(){
 boolean SlaveApp::isSlaveMsg(byte msg) const{
   return msg & 0b1111;
 }
-    
-void SlaveApp::SlaveApp::loop(){
-  SPI_SlaveReceive();
-}
-
-
