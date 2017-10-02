@@ -8,7 +8,7 @@ Nb Errors :  10
 percent   :  1.996725210916081e-05
 
 Without itnerrupts on slave, no loop delay (Slave2650_c):
-Nb Sends  :  50078939
+Nb Sends  :  50 078 939 (50 millio)
 Nb Errors :  12
 percent   :  2.396216900681542e-05
 
