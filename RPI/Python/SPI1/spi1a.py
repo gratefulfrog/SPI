@@ -23,7 +23,7 @@ Blue   : MISO     : 21              : D3
 Orange : MOSI     : 19              : D2
 """
 
-import spidev,time, sys
+import spidev,time
 
 # xfer args: list of bytes,
 #            Hz freq of clck,
