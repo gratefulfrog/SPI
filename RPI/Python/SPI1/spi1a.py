@@ -2,20 +2,11 @@
 
 """
 **** AEM Results ****
-With interrupts on slave (Slave2650_b):
+With interrupts on slave (Slave2650_b1):
 
-Without interrupts on slave, no loop delay (Slave2650_c):
+Without interrupts on slave, no loop delay (Slave2650_c1):
 
-**** Iteaduino Results ****
-With interrupts on slave (Slave2650_b):
-5V logic:
 
-3.3V Logic:
-
-Without interrupts on slave, no loop delay (Slave2650_c):
-5V logic:
-
-3.3V Logic:
 """
 
 # wiring of SPI 0,0:
