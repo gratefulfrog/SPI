@@ -3,14 +3,15 @@
 """
 **** AEM Results ****
 With interrupts on slave (Slave2650_b):
-Nb Sends  :  5 037 564  (5 million)
-Nb Errors :  11
-percent   :  21.835950868316512e-05
+Nb Sends  :  50 082 004 (50 million)
+Nb Errors :  10
+percent   :  1.996725210916081e-05
 
 Without itnerrupts on slave, no loop delay (Slave2650_c):
-Nb Sends  :  5 039 102 (5 million)
-Nb Errors :  4
-percent   :  7.937922272658899e-05
+Nb Sends  :  50078939
+Nb Errors :  12
+percent   :  2.396216900681542e-05
+
 
 **** Iteaduino Results ****
 With interrupts on slave (Slave2650_b):
