@@ -1,0 +1,85 @@
+#!/usr/bin/python3
+
+"""
+**** AEM Results ****
+With interrupts on slave (Slave2650_b):
+
+Without interrupts on slave, no loop delay (Slave2650_c):
+
+**** Iteaduino Results ****
+With interrupts on slave (Slave2650_b):
+5V logic:
+
+3.3V Logic:
+
+Without interrupts on slave, no loop delay (Slave2650_c):
+5V logic:
+
+3.3V Logic:
+"""
+
+# wiring of SPI 0,0:
+"""
+Color  : Function : RPI pin (SPI0)  : Smartscope
+Yellow : SS       : 24              : D0     NOTE: RPI SPI0-CS1 is  RPI Pin 26
+White  : SCK      : 23              : D1
+Blue   : MISO     : 21              : D3
+Orange : MOSI     : 19              : D2
+"""
+
+import spidev,time, sys
+
+# xfer args: list of bytes,
+#            Hz freq of clck,
+#            uSec delay before releasing SS
+
+# time after each transfer to observe results
+pause   = 0.0000   # seconds
+# SPI config
+channel = 0
+device  = 0
+
+def masterMsg(rightHalfByte):
+    return [(0b1111 & rightHalfByte)<<4]
+
+def isMasterMsg(byte):
+    return (byte & (0b1111<<4))
+
+def go():
+    spi = spidev.SpiDev()
+    spi.open(channel,device)
+    outVec = [0b1000,1,2]
+    try:
+        while True:
+            outIndex = 0
+            # send the type and ignore left over value of SPDR 
+            spi.xfer(masterMsg(outVec[outIndex]),1000000,2)
+
+            time.sleep(pause)
+            outIndex +=1
+            r1 = spi.xfer(masterMsg(outVec[outIndex]),1000000,2)
+            while(isMasterMsg(r1):
+                  r1 = spi.xfer(masterMsg(outVec[outIndex]),1000000,2)
+            # here we have a good value in r1
+
+            time.sleep(pause)
+            outIndex +=1
+            r2 = spi.xfer(masterMsg(outVec[outIndex]),1000000,2)
+            while(isMasterMsg(r2):
+                  r2 = spi.xfer(masterMsg(outVec[outIndex]),1000000,2)
+            # here we have a good value in r2
+                  
+            time.sleep(pause)
+            print(r1<<4 | r2)
+            input()
+    except KeyboardInterrupt:
+        #print('\nNb Sends  : ',sendCount)
+        #print(  'Nb Errors : ',errorCount)
+        #print(  'percent   : ',100*errorCount/sendCount)
+        print('\nbye...')
+    finally:
+        spi.close()
+
+if __name__ == '__main__':
+    # if arg given, then do letters, else do numbers!
+    go()
