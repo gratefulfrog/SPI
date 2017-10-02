@@ -3,9 +3,14 @@
 """
 **** AEM Results ****
 With interrupts on slave (Slave2650_b1):
+Nb Sends  :  5 097 860
+Nb Errors :  0
+percent   :  0.0
 
 Without interrupts on slave, no loop delay (Slave2650_c1):
-
+Nb Sends  :  5 036 291
+Nb Errors :  0
+percent   :  0.0
 
 """
 
@@ -73,7 +78,14 @@ def go():
                 lastResponse = 255 if currentResponse==0 else currentResponse-1
                 init = True;
             if ((sendCount % 10000) == 0):
-                print(sendCount,' : ', currentResponse)
+                print(sendCount,
+                      ':',
+                      currentResponse,
+                      '  ' if  currentResponse<10 else
+                      ' ' if currentResponse<100 else
+                      '',
+                      ': Errors :',
+                      errorCount)
             # check relative to previous
             if (currentResponse!= (lastResponse +1)%256):
                 errorCount+=1
