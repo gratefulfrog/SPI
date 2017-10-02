@@ -3,7 +3,7 @@
 """
 **** AEM Results ****
 With interrupts on slave (Slave2650_b1):
-Nb Sends  :  5 097 860
+Nb Sends  :  165 166 659
 Nb Errors :  0
 percent   :  0.0
 
