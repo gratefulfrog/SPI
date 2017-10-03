@@ -52,7 +52,7 @@ void SlaveApp::incOutgoing(){
 }
     
 boolean SlaveApp::isSlaveMsg(byte msg) const{
-  return msg & 0b1111;
+  return !(msg & (0b1111<<4));
 }
     
 void SlaveApp::SlaveApp::loop(){

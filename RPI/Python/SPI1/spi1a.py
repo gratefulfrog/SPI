@@ -48,6 +48,7 @@ def go():
     outVec = [0b1000,1,2]
     sendCount  = 0
     errorCount = 0
+    correctedCount = 0
     lastResponse = -1
     currentRepsonse = 0
     init = False
@@ -56,19 +57,23 @@ def go():
             outIndex = 0
             # send the type and ignore left over value of SPDR 
             spi.xfer(masterMsg(outVec[outIndex]),1000000,2)
-
+            
             time.sleep(pause)
             outIndex +=1
             [r1] = spi.xfer(masterMsg(outVec[outIndex]),1000000,2)
             while(isMasterMsg(r1)):
-                  [r1] = spi.xfer(masterMsg(outVec[outIndex]),1000000,2)
+                correctedCount +=1
+                print('Error Corrected :',correctedCount)
+                [r1] = spi.xfer(masterMsg(outVec[outIndex]),1000000,2)
             # here we have a good value in r1
 
             time.sleep(pause)
-            outIndex +=1
+            Outindex +=1
             [r2] = spi.xfer(masterMsg(outVec[outIndex]),1000000,2)
             while(isMasterMsg(r2)):
-                  [r2] = spi.xfer(masterMsg(outVec[outIndex]),1000000,2)
+                correctedCount +=1
+                print('Error Corrected :',correctedCount)
+                [r2] = spi.xfer(masterMsg(outVec[outIndex]),1000000,2)
             # here we have a good value in r2
                   
             time.sleep(pause)
@@ -85,7 +90,10 @@ def go():
                       ' ' if currentResponse<100 else
                       '',
                       ': Errors :',
-                      errorCount)
+                      errorCount,
+                      ': Corrected :',
+                      correctedCount)
+
             # check relative to previous
             if (currentResponse!= (lastResponse +1)%256):
                 errorCount+=1
@@ -95,7 +103,7 @@ def go():
                       'Error :',
                       errorCount,
                       '!********************')
-                input()
+                #input()
             else:
                 lastResponse = r1<<4 | r2
             
@@ -103,6 +111,7 @@ def go():
         print('\nNb Sends  : ','{:,}'.format(sendCount).replace(',',' '))
         print(  'Nb Errors : ',errorCount)
         print(  'percent   : ',100*errorCount/sendCount)
+        print(  'Corrected : ',correctedCount)
         print('\nbye...')
     finally:
         spi.close()
