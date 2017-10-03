@@ -105,10 +105,10 @@ def go():
             #input()
             transferCount+= 1  # note we are now counting transfers not bytes
             correctedCount += correctedInc
-            if not init:
+            if (not init or currentResponse == 0):
                 lastResponse = currentResponse-0.01; 
                 init = True;
-            if ((transferCount % 10000) == 0):
+            if ((transferCount % 10001) == 0):
                 print(transferCount,
                       ':',
                       "{:.2f}".format(round(currentResponse,2)),
@@ -121,7 +121,7 @@ def go():
                       correctedCount)
             #input()
             # check relative to previous
-            if (abs(currentResponse- lastResponse) > 0.011):
+            if (abs(currentResponse- lastResponse) > 0.015):
                 errorCount+=1
                 print(transferCount,
                       ' : ',
