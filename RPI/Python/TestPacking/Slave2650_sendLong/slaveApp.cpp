@@ -1,6 +1,8 @@
 #include "app.h"
 
 SlaveApp::SlaveApp() /* :App() */{
+  //Serial.begin(11520);
+  
   /* Set MISO output, all others input */
   pinMode(MISO,OUTPUT);
   
@@ -19,6 +21,8 @@ void SlaveApp::SlaveApp::loop(){
 #else    
 void SlaveApp::SlaveApp::loop(){
   SPI_SlaveReceive();
+  //byte res = response()
+  //Serial.println(SPDR,DEC);
 }
 #endif
 
@@ -53,10 +57,13 @@ byte SlaveApp::response(byte incoming){
   // if we get a new Type, i.e. 1000 0000, then we start a new send of outgoing
   if (incoming & 0b10000000){
     bytePtr = (uint8_t*) & outgoing;
-    res = *(bytePtr+i++);
+    res = (*(bytePtr+i))>>4 & 0b1111; // send 1st 1/2 byte of outgoing
   }
   else if (incoming == 0b10000){ // send second 1/2 byte of outgoing
-    res = *(bytePtr+i++);
+    res = (*(bytePtr+i++) & 0b1111);
+  }
+  else if (incoming == 0b100000){ // send 1st 1/2 byte of outgoing
+    res = (*(bytePtr+i))>>4 & 0b1111; // send 1st 1/2 byte of outgoing
   }
   else { // we got filler 
     incOutgoing();
