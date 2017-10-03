@@ -2,15 +2,17 @@
 
 """
 **** AEM Results ****
-With interrupts on slave (Slave2650_b1):
-Nb Sends  :  165 166 659
-Nb Errors :  0
-percent   :  0.0
+With interrupts on slave (Slave2650_sendLong):
+Nb Transfers  :  330 187
+Nb Errors     :  0
+percent       :  0.0
+Corrected     :  0
 
-Without interrupts on slave, no loop delay (Slave2650_c1):
-Nb Sends  :  5 036 291
-Nb Errors :  0
-percent   :  0.0
+Without interrupts on slave, no loop delay (Slave2650_sendLong):
+Nb Transfers  :  1 482 073
+Nb Errors     :  0
+percent       :  0.0
+Corrected     :  0
 
 """
 
