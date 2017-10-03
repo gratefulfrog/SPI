@@ -2,7 +2,9 @@
 #include <Arduino.h>
 
 const uint32_t maxu32 = 4294967295;
-uint32_t val = maxu32 -1;
+//uint32_t val = maxu32 -1;
+
+float val = 1.9;
 
 /* some data:
 
@@ -18,6 +20,9 @@ lowest Byte, next lowest byte, next lowest byte, most significant byte
 
 But each byte is in noraml MSBF order!
 
+What about a float?
+
+
  */
 
 void setup() {
@@ -25,9 +30,10 @@ void setup() {
   uint8_t *bytePtr = (uint8_t*) & val;
 
   uint8_t nbBytes =  sizeof (val);
-
+  Serial.println(val);
   Serial.println (String("NbBytes : ") + String(nbBytes));
   for (int i=0;i<nbBytes;i++){
+  
     Serial.print   (String("Byte : ") + 
                     String(i)         + 
                     String(" : "));
