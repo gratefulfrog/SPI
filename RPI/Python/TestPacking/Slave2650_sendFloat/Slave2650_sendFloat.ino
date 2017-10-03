@@ -5,7 +5,7 @@
 
 #include "app.h"
 
-//#define USE_INTERRUPTS
+  #define USE_INTERRUPTS
 
 /*
  * This version sends lowercase characters and receives upper case characters in response.

@@ -7,7 +7,7 @@
 class SlaveApp/* : public App */{
   protected:
     float outgoing = 0;
-    const float maxOutgoing = 100.0;
+    const float maxOut = 100.0;
     uint8_t *bytePtr;
 
     // protected methods

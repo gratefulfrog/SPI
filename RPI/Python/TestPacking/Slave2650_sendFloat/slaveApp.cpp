@@ -44,6 +44,9 @@ void SlaveApp::SPI_SlaveReceive(void){
 
 void SlaveApp::incOutgoing(){
   outgoing += 0.01;
+  if (outgoing >= maxOut){
+    outgoing=0.0;
+  }
 }
     
 boolean SlaveApp::isSlaveMsg(byte msg) const{
