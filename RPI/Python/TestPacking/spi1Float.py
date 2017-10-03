@@ -3,16 +3,17 @@
 """
 **** AEM Results ****
 With interrupts on slave (Slave2650_sendLong):
-Nb Transfers  :  330 187
+Nb Transfers  :  330 157
 Nb Errors     :  0
 percent       :  0.0
 Corrected     :  0
 
 Without interrupts on slave, no loop delay (Slave2650_sendLong):
-Nb Transfers  :  1 482 073
+Nb Transfers  :  516 405
 Nb Errors     :  0
 percent       :  0.0
 Corrected     :  0
+
 
 """
 
@@ -26,7 +27,7 @@ Orange : MOSI     : 19              : D2
 """
 
 import spidev,time
-from struct import pack
+from struct import pack,unpack
 
 # xfer args: list of bytes,
 #            Hz freq of clck,
@@ -43,14 +44,14 @@ afterXferDelay = 2
 def bytes2unint32(byteVec):
     return int.from_bytes(byteVec,byteorder='little', signed=False)
 
-def bytes2float(byteVec):
+def packedBytes2float(byteVec):
     return unpack('f',byteVec)[0]
 
 def floatBytes2ByteVec (bytes):
     return pack('4B', *bytes)
 
-def doFloat(listOfCBytes):
-    return bytes2float(floatBytes2ByteVec(listOfCBytes))
+def bytes2float(listOfCBytes):
+    return packedBytes2float(floatBytes2ByteVec(listOfCBytes))
 
 
 def masterMsg(rightHalfByte):
@@ -93,25 +94,24 @@ def go():
     transferCount  = 0
     errorCount = 0
     correctedCount = 0
-    lastResponse = -1
+    lastResponse = -0.01
     init = False
-    maxLong = pow(2,32)-1
     try:
         while True:
             [currentResponseLis,correctedInc] = transferLis(outVec,spi)
-            currentResponse = doFloat(currentResponseLis)
+            currentResponse = bytes2float(currentResponseLis)
             #print(currentResponseLis)
             #print(currentResponse)
             #input()
             transferCount+= 1  # note we are now counting transfers not bytes
             correctedCount += correctedInc
             if not init:
-                lastResponse = -.01 if currentResponse==0 else currentResponse-0.01
+                lastResponse = currentResponse; # = -.01 if currentResponse==0 else currentResponse-0.01
                 init = True;
             if ((transferCount % 10000) == 0):
                 print(transferCount,
                       ':',
-                      currentResponse,
+                      "{:.2f}".format(round(currentResponse,2)),
                       '  ' if  currentResponse<10 else
                       ' ' if currentResponse<100 else
                       '',
@@ -119,9 +119,9 @@ def go():
                       errorCount,
                       ': Corrected :',
                       correctedCount)
-            
+            #input()
             # check relative to previous
-            if (abs(currentResponse- lastResponse) > 0.001):
+            if (abs(currentResponse- lastResponse) > 0.011):
                 errorCount+=1
                 print(transferCount,
                       ' : ',
