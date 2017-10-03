@@ -63,12 +63,14 @@ def transferLis(outLis,spi):
         while(isMasterMsg(responseLis[-1])):
             correctedCount +=1
             print('Error Corrected :',correctedCount)
+            responseLis = responseLis[:-1]
             responseLis += spi.xfer(masterMsg(outByte),frequency,afterXferDelay)
             # here we have a good value in r1
         time.sleep(pause)
     # here we have the response list filled with good values
 
     resLis = []
+    #print(responseLis)
     for i in range(0, len(responseLis), 2):
         resLis += [responseLis[i]<<4 | responseLis[i+1]]
     return resLis,correctedCount
@@ -76,35 +78,39 @@ def transferLis(outLis,spi):
 def go():
     spi = spidev.SpiDev()
     spi.open(channel,device)
-    outVec = [0b1000,1,1,1,1,1,1,1,2]
+    outVec = [0b1000,1,2,1,2,1,2,1,3]
     transferCount  = 0
     errorCount = 0
     correctedCount = 0
     lastResponse = -1
     init = False
+    maxLong = pow(2,32)-1
     try:
         while True:
             [currentResponseLis,correctedInc] = transferLis(outVec,spi)
             currentResponse = bytes2unint32(currentResponseLis)
+            #print(currentResponseLis)
+            #print(currentResponse)
+            #input()
             transferCount+= 1  # note we are now counting transfers not bytes
             correctedCount += correctedInc
             if not init:
-                lastResponse = pow(2,32)-1 if currentResponse==0 else currentResponse-1
+                lastResponse = -1 if currentResponse==0 else currentResponse-1
                 init = True;
-            #if ((transferCount % 10000) == 0):
-            print(transferCount,
-                  ':',
-                  currentResponse,
-                  '  ' if  currentResponse<10 else
-                  ' ' if currentResponse<100 else
-                  '',
-                  ': Errors :',
-                  errorCount,
-                  ': Corrected :',
-                  correctedCount)
+            if ((transferCount % 10000) == 0):
+                print(transferCount,
+                      ':',
+                      currentResponse,
+                      '  ' if  currentResponse<10 else
+                      ' ' if currentResponse<100 else
+                      '',
+                      ': Errors :',
+                      errorCount,
+                      ': Corrected :',
+                      correctedCount)
             
             # check relative to previous
-            if (currentResponse!= (lastResponse +1)%(pow(2,32)-1)):
+            if (currentResponse!= (lastResponse +1)%maxLong):
                 errorCount+=1
                 print(transferCount,
                       ' : ',
