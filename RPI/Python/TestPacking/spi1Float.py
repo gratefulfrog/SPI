@@ -106,7 +106,7 @@ def go():
             transferCount+= 1  # note we are now counting transfers not bytes
             correctedCount += correctedInc
             if not init:
-                lastResponse = currentResponse; # = -.01 if currentResponse==0 else currentResponse-0.01
+                lastResponse = currentResponse-0.01; 
                 init = True;
             if ((transferCount % 10000) == 0):
                 print(transferCount,
@@ -130,8 +130,9 @@ def go():
                       errorCount,
                       '!********************')
                 #input()
-            else:
-                
+                init=True
+                raise KeyboardInterrupt
+            else:                
                 lastResponse = currentResponse
             
     except KeyboardInterrupt:
