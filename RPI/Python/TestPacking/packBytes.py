@@ -50,6 +50,55 @@ def floatBytes2ByteVec (bytes):
 def doFloat(listOfCBytes):
     return bytes2float(floatBytes2ByteVec(listOfCBytes))
 
+def packNbytes(bytes):
+    """ This will pack unsigned bytes
+    """
+    return pack('B'*len(bytes),*bytes)
+
+def unpackStruct( format, packed):
+    """This will return a list of values
+    after unpacking the packed bytes.
+    Some formats:
+    b/B : signed/unsigned byte 1
+    h/H : signed/unsigned short int 2
+    i/I : signed/unsigned int 4
+    f   : float 4
+    d   : double 8
+    size and byte order:
+    find the system byteorder by examining 
+    sys.byteorder
+    on Intel and RPI it is 'little'
+    @ native order native size, native alignment (needs examination)
+    = native order, standard size, no alignment
+    </> little/big endian, standard size, no alignment
+    !   big endian, standard size, no alignment
+    """
+    return unpack(format,packed)
+
+"""
+Examples (run on intel pc):
+# vector of 2 bytes
+>>> bytes2 = [7,255]
+# unpack as signed bytes
+>>> unpackStruct('bb',packNbytes(bytes2))
+(7, -1)
+# unpack as unsigned bytes
+>>> unpackStruct('BB',packNbytes(bytes2))
+(7, 255)
+# vector of 4 bytes
+>>> bytes4 = [1,0,0,0]
+# concatenate and unpack as 2 unsigned 4 byte ints
+>>> unpackStruct('II',packNbytes(bytes4+bytes4))
+(1, 1)
+# vector of 4 bytes
+>>> bytes4 = [255,255,255,255]
+# unpack as unsigned ints
+>>> unpackStruct('II',packNbytes(bytes4+bytes4))
+(4294967295, 4294967295)
+#unpack as signed ints
+>>> unpackStruct('ii',packNbytes(bytes4+bytes4))
+(-1, -1)
+"""
 
 def go():
     for v in range(pow(2,32)-1):

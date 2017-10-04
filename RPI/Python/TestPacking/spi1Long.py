@@ -40,9 +40,34 @@ device         = 0
 frequency      = 1000000
 afterXferDelay = 2
 
-def bytes2unint32(byteVec):
-    return int.from_bytes(byteVec,byteorder='little', signed=False)
+def packNbytes(bytes):
+    """ This will pack unsigned bytes.
+    """
+    return pack('B'*len(bytes),*bytes)
 
+def unpackStruct( format, packed):
+    """This will return a list of values
+    after unpacking the packed bytes.
+    Some formats:
+    b/B : signed/unsigned byte 1
+    h/H : signed/unsigned short int 2
+    i/I : signed/unsigned int 4
+    f   : float 4
+    d   : double 8
+    size and byte order:
+    find the system byteorder by examining 
+    sys.byteorder
+    on Intel and RPI it is 'little'
+    @ native order native size, native alignment (needs examination)
+    = native order, standard size, no alignment
+    </> little/big endian, standard size, no alignment
+    !   big endian, standard size, no alignment
+    """
+    return unpack(format,packed)
+
+def bytes2unint32(byteVec):
+    #return int.from_bytes(byteVec,byteorder='little', signed=False)
+    return unpackStruct('I',packNbytes(byteVec))[0]
 
 def masterMsg(rightHalfByte):
     return [(0b1111 & rightHalfByte)<<4]
