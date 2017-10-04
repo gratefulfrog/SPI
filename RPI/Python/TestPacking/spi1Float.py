@@ -82,7 +82,7 @@ def bytes2unint32(byteVec):
 
 def bytes2float(listOfCBytes):
     #return packedBytes2float(floatBytes2ByteVec(listOfCBytes))
-    return  unpackStruct('f',packNbytes(byteVec))[0]
+    return  unpackStruct('f',packNbytes(listOfCBytes))[0]
 
 def masterMsg(rightHalfByte):
     return [(0b1111 & rightHalfByte)<<4]
