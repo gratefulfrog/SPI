@@ -1,11 +1,6 @@
 
 #include <Arduino.h>
 
-const uint32_t maxu32 = 4294967295;
-//uint32_t val = maxu32 -1;
-
-float val = 1.9;
-
 /* some data:
 
 val = maxu32 -1;
@@ -22,22 +17,37 @@ But each byte is in noraml MSBF order!
 
 What about a float?
 
+what about a struct?
 
  */
 
+struct byteUint32Float {
+  uint8_t    b8;
+  uint32_t  b32;
+  float     f;
+} __attribute__((__packed__));
+
+const uint32_t maxu32 = 4294967295;
+//uint32_t val = maxu32 -1;
+
+float val = 1.9;
+
+byteUint32Float s = {1,10,1.5};
+
 void setup() {
   Serial.begin(115200);
-  uint8_t *bytePtr = (uint8_t*) & val;
+  uint8_t *bytePtr = (uint8_t*) & s;
 
-  uint8_t nbBytes =  sizeof (val);
-  Serial.println(val);
+  uint8_t nbBytes =  sizeof (s);
+  Serial.print("byteUint32Float: ");
+  Serial.println(String(s.b8)  + String(", ") + String(s.b32) + String(", ") + String(s.f) );
   Serial.println (String("NbBytes : ") + String(nbBytes));
   for (int i=0;i<nbBytes;i++){
   
     Serial.print   (String("Byte : ") + 
                     String(i)         + 
                     String(" : "));
-    Serial.println(*(bytePtr+i),BIN);
+    Serial.println(*(bytePtr+i),DEC);
   }
   // put your setup code here, to run once:
 

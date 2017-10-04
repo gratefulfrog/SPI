@@ -98,7 +98,23 @@ Examples (run on intel pc):
 #unpack as signed ints
 >>> unpackStruct('ii',packNbytes(bytes4+bytes4))
 (-1, -1)
+
+>>> unpackStruct('<bIf',packNbytes(sss))
+(1, 10, 1.5)
+
+It fucking works!!!
+
 """
+
+sss = [1,  
+       10, 
+       0,  
+       0,  
+       0,  
+       0,  
+       0,  
+       192,
+       63]
 
 def goL():
     for v in range(pow(2,32)-1):
@@ -125,4 +141,27 @@ def gof():
         v+=0.01
 
               
-        
+""" 
+the timeValStruct used in the AEM board is defined as:
+* byte, 
+* uin32_t, 
+* float
+which looks like 1 + 4 + 4 = 9 bytes.
+
+But lets see what the arduino says about that!
+Yes!!
+
+byteUint32Float: 1, 10, 1.50
+NbBytes : 9
+Byte : 0 : 1
+Byte : 1 : 10
+Byte : 2 : 0
+Byte : 3 : 0
+Byte : 4 : 0
+Byte : 5 : 0
+Byte : 6 : 0
+Byte : 7 : 192
+Byte : 8 : 63 
+
+
+"""
