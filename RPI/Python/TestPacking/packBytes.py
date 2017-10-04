@@ -100,7 +100,7 @@ Examples (run on intel pc):
 (-1, -1)
 """
 
-def go():
+def goL():
     for v in range(pow(2,32)-1):
         byteList  =  list(pack('I',v))
         print('Value :',
@@ -108,9 +108,21 @@ def go():
               ' Bytes :',
               byteList,
               ' Reassembled :',
-              bytes2unint32(byteList))
+              unpackStruct( 'I',packNbytes(byteList))[0])
         #input()
         
+def gof():
+    v =0.0
+    while (True):
+        byteList  =  list(pack('f',v))
+        print('Value :',
+              v,
+              ' Bytes :',
+              byteList,
+              ' Reassembled :',
+              unpackStruct( 'f',packNbytes(byteList))[0])
+        #input()
+        v+=0.01
 
               
         
