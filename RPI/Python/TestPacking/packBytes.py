@@ -140,6 +140,26 @@ def gof():
         #input()
         v+=0.01
 
+def goS():
+    try:
+        v=[1,1,1.0]
+        lims = [256, pow(2,32)-1, 5.0]
+        while (True):
+            byteList  =  list(pack('<BIf',*v))
+            res =  unpackStruct( '<BIf',packNbytes(byteList))
+            ok =  all(map(lambda x,y:abs(x-y)<0.05,v,res))
+            print('OK:' if ok else 'NOK:',
+                  'Value :',
+                  [round(x,2) for x in v],
+                  'Bytes :',
+                  byteList,
+                  ' Reassembled :',
+                  [round(x,2) for x in res])
+            if (not ok):
+                break
+            v = list(map(lambda x,l:(x+1)%l,v,lims))
+    except KeyboardInterrupt:
+        print('bye...')
               
 """ 
 the timeValStruct used in the AEM board is defined as:
