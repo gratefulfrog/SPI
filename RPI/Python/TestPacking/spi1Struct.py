@@ -2,14 +2,16 @@
 
 """
 **** AEM Results ****
-With interrupts on slave (Slave2650_sendFloat):
-Nb Transfers  :  7 881 286
-Nb Errors     :  0
-percent       :  0.0
-Corrected     :  0
+With interrupts on slave (Slave2650_sendStruct):
+Type of Transfers : 11
+Nb Transfers      : 4 346 249
+Nb Errors         : 0
+percent           : 0.0
+Corrected         : 0
 
-Without interrupts on slave, no loop delay (Slave2650_sendFloat):
-Nb Transfers  :  9 020 970
+
+Without interrupts on slave, no loop delay (Slave2650_sendStruct):
+Nb Transfers  :  2 479 766
 Nb Errors     :  0
 percent       :  0.0
 Corrected     :  0
@@ -27,7 +29,6 @@ Orange : MOSI     : 19              : D2
 
 import spidev,time
 from struct import pack,unpack
-from packBytes import packNbytes, unpackStruct
 
 # xfer args: list of bytes,
 #            Hz freq of clck,
@@ -43,62 +44,117 @@ afterXferDelay = 2
 
 maxTestFloat = 10.0
 
-u8_t  = 0b1000
-u32_t = 0b1001
-f_t   = 0b1010
-s_t   = 0b1011
+u8_t  = 0b1000  # DEC  8
+u32_t = 0b1001  # DEC  9
+f_t   = 0b1010  # DEC 10
+s_t   = 0b1011  # DEC 11
 
 typeDict = { # key=type : value=[ngBytes, formatString]
-    u8_t  : [1,'<B'],   # type 1000, 1 byte, i.e. one unsigned byte  i.e. uint8_t
-    u32_t : [4,'<I'],   # type 1001, 4 bytes, i.e. one unsigned Long i.e. uint32_t
-    f_t   : [4,'<f'],   # type 1010, 4 bytes, i.e. one float         i.e. float
-    s_t   : [9,'<BIf']} # type 1011, 9 bytes struct,                 i.e. uint8_t,uint32_t float
+    u8_t  : [1,'<B'],   # type 1000, 1 byte,  i.e. one unsigned byte  i.e. uint8_t
+    u32_t : [4,'<I'],   # type 1001, 4 bytes, i.e. one unsigned Long  i.e. uint32_t
+    f_t   : [4,'<f'],   # type 1010, 4 bytes, i.e. one float          i.e. float
+    s_t   : [9,'<BIf']} # type 1011, 9 bytes struct,                  i.e. uint8_t,uint32_t,float
+
+########### packing/unpacking routines ##############
+def packNbytes(bytes):
+    """ 
+    This will return a pack of unsigned bytes, suitable for unpacking into their
+    original values.
+    the argument: bytes : is a list of any length of 
+    unsigned byte values.
+    [255, 0, 1, ...]
+    returns packed bytes of the form:
+    >>> packNbytes(sss)
+    b'\x01\n\x00\x00\x00\x00\x00\xc0?'
+    """
+    return pack('B'*len(bytes),*bytes)
+
+def unpackStruct( format, packed):
+    """This will return a list of values
+    after unpacking the packed bytes.
+    Some formats:
+    b/B : signed/unsigned byte 1
+    h/H : signed/unsigned short int 2
+    i/I : signed/unsigned int 4
+    f   : float 4
+    d   : double 8
+    size and byte order:
+    find the system byteorder by examining 
+    sys.byteorder
+    on Intel and RPI it is 'little'
+    @ native order native size, native alignment (needs examination)
+    = native order, standard size, no alignment
+    </> little/big endian, standard size, no alignment
+    !   big endian, standard size, no alignment
+    the correct choice is '<' to get little endian, which is what is needed 
+    for Arduino and RPI and PC/Intel
+    Will return a list of things corresponding to format spec.
+    Ex:
+    if we have an unsigned byte, unsigned long, float = 9bytes
+    >>> unpack('<BIf' packNbytes([<9 numbers that are on [0,255]])
+    [uint8_t, uint32_t, f]
+    """
+    return unpack(format,packed)
+
+########################################################################
+
 
 def getOutVec(type,nbBytesExpected):
-    return [type,] + [1,2]*(nbBytesExpected-1) +  [1,3]
+    return [type,] + [1,2]*(nbBytesExpected-1) +  [1,3] 
 
-def show(transferCount,errorCount,correctedCount,currentResponseLis):
+def show(transferCount,errorCount,correctedCount,currentResponseLis,type):
     if ((transferCount % 10001) == 0):
         print(transferCount,
               ':',
-              [round(v,2) for v in currentRepsonseLis],
+              [round(v,2) for v in currentResponseLis] if type == s_t else round(currentResponseLis[0],2),
               ': Errors :',
               errorCount,
               ': Corrected :',
               correctedCount)
 
-def tell(errorCount,currentResponseLis,lastResponseLis,type):
-    """
-    type is one of 'u8','u32','f', 's'    
-    return [init, errorCount, lastResponseLis]
-    """
-    if type == 's':
-        for (t,ind) in map(lambda x,y: ['u8','u32','f'], range(3)):
-            [i,e,lr] = tell(errorCount,currentResponseLis,lastResponseLis[ind],v)
-            init = init || i
-            errorCount += e
-            lastRepsonse[ind] = lr
-        return [init, errorCount,lastResponseLis]
-        
-    takeAway = 0.01 if type =='f' else 1
+def getModV(type):
+    modV = maxTestFloat
     if (type == u8_t):
         modV = 256
     elif (type == u32_t):
         modV = pow(2,32)
-    else:
-        modV = maxTestFloat 
-    if not init:
+    return modV
+    
+        
+def tell(init, transferCount,errorCount,currentResponseLis,lastResponseLis,type):
+    """
+    type is one of u8_t, u32_t, f_t,s_t
+    return [init, errorCount, lastResponseLis]
+    """
+    tempLRL = lastResponseLis
+    if type == s_t:
+        for (t,ind) in map(lambda x,y:(x,y), [u8_t,u32_t,f_t], range(3)):
+            lrl = tempLRL if not init else [tempLRL[ind]]
+            [i,e,lr] = tell(init,transferCount,errorCount,[currentResponseLis[ind]],lrl,t)
+            errorCount += e
+            if not init:
+                lastResponseLis += lr
+            else:
+                lastResponseLis[ind] = lr[0]
+        return [True, errorCount,lastResponseLis]
+        
+    takeAway = 0.01 if type == f_t else 1
+    modV = getModV(type)
+    if (not init) or (round(currentResponseLis[0],2) == 0):
         lastResponseLis = [currentResponseLis[0] - takeAway]
         init = True;
-    if (currentResponse[0] != (lastResponseLis[0] + takeAway) % modV):
+    if type != f_t:
+        errorCond = (currentResponseLis[0] != (lastResponseLis[0] + takeAway) % modV)
+    else:
+        errorCond = abs(currentResponseLis[0] - lastResponseLis[0]) > takeAway+ 0.005
+    if errorCond:
         errorCount+=1
         print(transferCount,
               ' : ',
-              [currentResponse[0],lastResponseLis[0]],
+              [currentResponseLis[0],lastResponseLis[0]],
               'Error :',
               errorCount,
               '!********************')
-        #input()
         init=True  # leave this here if not using keyboardInterrupt exception
         raise KeyboardInterrupt
     else:
@@ -133,11 +189,9 @@ def transferLis(outLis,spi):
     # here we have the response list filled with good values
 
     resLis = []
-    #print(responseLis)
     for i in range(0, len(responseLis), 2):
         resLis += [responseLis[i]<<4 | responseLis[i+1]]
     return resLis,correctedCount
-
 
 def go(type):
     spi = spidev.SpiDev()
@@ -147,28 +201,36 @@ def go(type):
     transferCount  = 0
     errorCount = 0
     correctedCount = 0
-    lastResponse = -0.01
+    lastResponseLis = [] #-0.01
     init = False
+    # first one is ignored, just to clear the air!
+    transferLis(outVec,spi)
     try:
         while True:
             [currentResponseLis,correctedInc] = transferLis(outVec,spi)
             transferCount+= 1  # note we are now counting transfers not bytes
             correctedCount += correctedInc
 
-            currentResponseLis = unpackStruct(typeDict[type][1],packNbytes(byteList))
+            currentResponseLis = unpackStruct(typeDict[type][1],packNbytes(currentResponseLis))
             #currentResponse = bytes2float(currentResponseLis)
             #print(currentResponseLis)
-            #print(currentResponse)
             #input()
 
-            show(transferCount,errorCount,correctedCount,currentResponseLis)
-            [init, errorCount,lastResponseLis] = tell(errorCount,currentResponseLis,lastResponseLis,type)
+            show(transferCount,errorCount,correctedCount,currentResponseLis,type)
+            #input()
+            [init, errorCount,lastResponseLis] = tell(init,
+                                                      transferCount,
+                                                      errorCount,
+                                                      currentResponseLis,
+                                                      lastResponseLis,
+                                                      type)
             
     except KeyboardInterrupt:
-        print('\nNb Transfers  : ','{:,}'.format(transferCount).replace(',',' '))
-        print(  'Nb Errors     : ',errorCount)
-        print(  'percent       : ',100*errorCount/transferCount)
-        print(  'Corrected     : ',correctedCount)
+        print('\nType of Transfers :', type)
+        print(  'Nb Transfers      :','{:,}'.format(transferCount).replace(',',' '))
+        print(  'Nb Errors         :',errorCount)
+        print(  'percent           :',100*errorCount/transferCount)
+        print(  'Corrected         :',correctedCount)
         print('\nbye...')
     finally:
         spi.close()
@@ -177,25 +239,9 @@ import sys
 
 if __name__ == '__main__':
     # if arg given, then do letters, else do numbers!
+    if len(sys.argv)<2:
+        print('Usage: $ ./spi1Struct.py <type>')
+        print('where <type> is one of: u8_t, u32_t, f_t, s_t')
+        print('Note: the AEM board must be running the appropriate software, corresponding to the <type>')
+        sys.exit(0)
     go(eval(sys.argv[1]))
-
-
-################ OBSOLETE STUFF not yet deleted #################
-    
-def bytes2unint32(byteVec):
-    """
-    returns single value.
-    """
-    return unpackStruct('<I',packNbytes(byteVec))[0]
-
-def bytes2float(listOfCBytes):
-    """
-    returns single value.
-    """
-    return  unpackStruct('<f',packNbytes(listOfCBytes))[0]
-
-def bytes2Struct(listOfCBytes):
-    """ 
-    returns list of values!
-    """
-    return  unpackStruct( '<BIf',packNbytes(byteList))
