@@ -43,11 +43,11 @@ void SlaveApp::SPI_SlaveReceive(void){
 }
 
 void SlaveApp::incOutgoing(){
-  outgoing.u8++;
-  outgoing.u32++;
-  outgoing.f += 0.01;
-  if (outgoing.f >= maxFloat){
-    outgoing.f=0.0;
+  outgoing->u8++;
+  outgoing->u32++;
+  outgoing->f += 0.01;
+  if (outgoing->f >= maxFloat){
+    outgoing->f=0.0;
   }
 }
     
@@ -55,15 +55,15 @@ boolean SlaveApp::isSlaveMsg(byte msg) const{
   return !(msg & (0b1111<<4));
 }
 
-u8u32f_struct& SlaveApp::getOutgoing(uint8_t type) {
+u8u32f_struct* SlaveApp::getOutgoing(uint8_t type) {
   if (type == init8){
-    return initResponseStruct;
+    return &initResponseStruct;
   }
   else if (type == bid8){
-    return bidResponseStruct;
+    return &bidResponseStruct;
   }
   else{
-    return payload;
+    return &payload;
   }
 }
 
@@ -74,7 +74,7 @@ byte SlaveApp::response(uint8_t incoming){
   // if we get a new Type, i.e. 1000 0000, then we start a new send of outgoing
   if (incoming & 0b10000000){
     outgoing = getOutgoing(incoming);
-    bytePtr = (uint8_t*) & outgoing;
+    bytePtr = (uint8_t*)  outgoing;
     res = (*(bytePtr+i))>>4 & 0b1111; // send 1st 1/2 byte of outgoing
   }
   else if (incoming == 0b10000){ // send second 1/2 byte of outgoing
@@ -84,7 +84,7 @@ byte SlaveApp::response(uint8_t incoming){
     res = (*(bytePtr+i))>>4 & 0b1111; // send 1st 1/2 byte of outgoing
   }
   else { // we got filler 
-    if (&outgoing == &payload){
+    if (outgoing == &payload){
       incOutgoing();
     }
     i=0;
