@@ -1,3 +1,5 @@
+
+
 """
 Some stuff:
 >>> list(pack('I', 4294967295))
@@ -34,24 +36,18 @@ Byte : 3 : 111111
 
 """
 
-v1 = [0,0,0b100100, 0b1000001]
-v2 = [0b110011,0b110011, 0b11110011, 0b111111]
 from struct import pack,unpack
 
-def bytes2unint32(byteVec):
-    return int.from_bytes(byteVec,byteorder='little', signed=False)
-
-def bytes2float(byteVec):
-    return unpack('f',byteVec)[0]
-
-def floatBytes2ByteVec (bytes):
-    return pack('4B', *bytes)
-
-def doFloat(listOfCBytes):
-    return bytes2float(floatBytes2ByteVec(listOfCBytes))
-
 def packNbytes(bytes):
-    """ This will pack unsigned bytes
+    """ 
+    This will return a pack of unsigned bytes, suitable for unpacking into their
+    original values.
+    the argument: bytes : is a list of any length of 
+    unsigned byte values.
+    [255, 0, 1, ...]
+    returns packed bytes of the form:
+    >>> packNbytes(sss)
+    b'\x01\n\x00\x00\x00\x00\x00\xc0?'
     """
     return pack('B'*len(bytes),*bytes)
 
@@ -72,8 +68,31 @@ def unpackStruct( format, packed):
     = native order, standard size, no alignment
     </> little/big endian, standard size, no alignment
     !   big endian, standard size, no alignment
+    the correct choice is '<' to get little endian, which is what is needed 
+    for Arduino and RPI and PC/Intel
+    Will return a list of things corresponding to format spec.
+    Ex:
+    if we have an unsigned byte, unsigned long, float = 9bytes
+    >>> unpack('<BIf' packNbytes([<9 numbers that are on [0,255]])
+    [uint8_t, uint32_t, f]
     """
     return unpack(format,packed)
+
+
+"""
+**************** experimantal stuff follows ********************
+
+v1 = [0,0,0b100100, 0b1000001]
+v2 = [0b110011,0b110011, 0b11110011, 0b111111]
+
+
+typeDict = {0b1000:[1,'<B'],   # type 1000, 1 byte, i.e. one unsigned byte  i.e. uint8_t
+            0b1001:[4,'<I'],   # type 1001, 4 bytes, i.e. one unsigned Long i.e. uint32_t
+            0b1010:[4,'<f'],   # type 1010, 4 bytes, i.e. one float         i.e. float
+            0b1011:[9,'<BIf']} # type 1011, 9 bytes struct,                 i.e. uint8_t,uint32_t float
+
+
+"""
 
 """
 Examples (run on intel pc):
@@ -124,7 +143,7 @@ def goL():
               ' Bytes :',
               byteList,
               ' Reassembled :',
-              unpackStruct( 'I',packNbytes(byteList))[0])
+              unpackStruct( '<I',packNbytes(byteList))[0])
         #input()
         
 def gof():
@@ -136,7 +155,7 @@ def gof():
               ' Bytes :',
               byteList,
               ' Reassembled :',
-              unpackStruct( 'f',packNbytes(byteList))[0])
+              unpackStruct( '<f',packNbytes(byteList))[0])
         #input()
         v+=0.01
 
@@ -184,4 +203,31 @@ Byte : 7 : 192
 Byte : 8 : 63 
 
 
+"""
+
+
+"""  obsolete
+
+def bytes2unint32(byteVec):
+    return int.from_bytes(byteVec,byteorder='little', signed=False)
+
+def bytes2float(byteVec):
+    return unpack('f',byteVec)[0]
+
+def floatBytes2ByteVec (bytes):
+    return pack('4B', *bytes)
+
+def doFloat(listOfCBytes):
+    #take a list of bytes of length 4 
+    #and return the corresponding float value
+    return bytes2float(floatBytes2ByteVec(listOfCBytes))
+"""
+"""
+#!/usr/local/bin/python3
+import sys
+
+toto = 27
+if __name__ == '__main__':
+    # if arg given, then do letters, else do numbers!
+    print(eval(sys.argv[1]))
 """
