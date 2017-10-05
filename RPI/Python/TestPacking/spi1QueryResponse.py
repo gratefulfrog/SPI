@@ -105,7 +105,7 @@ def show(transferCount,errorCount,correctedCount,currentResponseLis,type):
     #if ((transferCount % 10001) == 0):
         print(transferCount,
               ':',
-              [round(v,2) for v in currentResponseLis] if type == s_t else round(currentResponseLis[0],2),
+              [round(v,2) for v in currentResponseLis], #if type == s_payload_t else round(currentResponseLis[0],2),
               ': Errors :',
               errorCount,
               ': Corrected :',
@@ -241,7 +241,7 @@ if __name__ == '__main__':
     # if arg given, then do letters, else do numbers!
     if len(sys.argv)<2:
         print('Usage: $ ./spi1Struct.py <type>')
-        print('where <type> is one of:  s_init, s_bid, s_payload ')
+        print('where <type> is one of: s_init_t, s_bid_t, s_payload_t')
         print('Note: the AEM board must be running the appropriate software, corresponding to the <type>')
         sys.exit(0)
     go(eval(sys.argv[1]))
