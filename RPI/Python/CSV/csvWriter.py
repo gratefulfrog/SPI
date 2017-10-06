@@ -6,7 +6,10 @@ import queue
 import time
 import sys
 import os.path
-    
+
+import spi1StructWriter as comms
+
+
 outFile = './DATA/data.csv'
 
 class WriterThread(threading.Thread):
@@ -92,9 +95,12 @@ def main(numThreads, nbItems):
         threads =  createThreads(numThreads,csvfile,q,lock)
 
         t = time.time()
-        enq(q,nbItems)
-        stopAll(q,threads)
-        print('Elapsed Time :',time.time()-t)
+        #enq(q,nbItems)
+        try:
+            coms.go(coms.s_t,nbItems)
+        finally:
+            stopAll(q,threads)
+            print('Elapsed Time :',time.time()-t)
 
 if __name__ == '__main__':
     try:
