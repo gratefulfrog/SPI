@@ -1,23 +1,18 @@
-#!/usr/bin/python3.6
+#!/usr/bin/python3
+
 import queue
 import threading
-
-
-itemCount = 0
-nbItems = 10000
-num_worker_threads = 20
+import time, sys
 
 q = queue.Queue()
-threads = []
-def getItem():
-    global itemCount
-    res = [itemCount]
-    itemCount +=1
-    return res
+
+def getItem(itemCount):
+    return [itemCount]
+
 
 def do_work(name,thing):
-    print('\t\t', name,
-          'Dequeue :', thing)
+    pass
+    #print('\t\t', name,'Dequeue :', thing)
 
 def worker(nm):
     while True:
@@ -27,41 +22,43 @@ def worker(nm):
         do_work(nm,item)
         q.task_done()
 
-def createThreads():
-    global threads
-    for i in range(num_worker_threads):
+def createThreads(num):
+    thrs = []
+    for i in range(num):
         t = threading.Thread(args=["w-" + str(i)], target=worker)
         t.start()
-        threads.append(t)
+        thrs.append(t)
+    return thrs
 
-def enq():
+def enq(nbItems):
     for i in range(nbItems):
-        item = getItem()
-        print('enqueue :', item)
+        item = getItem(i)
+        #print('enqueue :', item)
         q.put(item)
 
-def stopAll():
+def stopAll(num,thr):
     # block until all tasks are done
     q.join()
 
     # stop workers
-    for i in range(num_worker_threads):
+    for i in range(num):
         q.put(None)
-    for t in threads:
+    for t in thr:
         t.join()
 
-def cycle():
+def cycle(num,nbItems):
     #threading.getIdent()
     #exit()
-    if not threads:
-        createThreads()
-    enq()
-    stopAll()
-
+    threads =  createThreads(num)
+    t = time.time()
+    enq(nbItems)
+    stopAll(num,threads)
+    print(num, time.time() -t)
 
 if __name__ == '__main__':
-    # if arg given, then do letters, else do numbers!
-    cycle()
+    cycle(int(sys.argv[1]),10000)
+
+    
 
 
     
