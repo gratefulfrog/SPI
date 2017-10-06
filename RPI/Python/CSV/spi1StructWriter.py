@@ -103,7 +103,7 @@ def getOutVec(type,nbBytesExpected):
     return [type,] + [1,2]*(nbBytesExpected-1) +  [1,3] 
 
 def show(transferCount,errorCount,correctedCount,currentResponseLis,type):
-    if ((transferCount % 10001) == 0):
+    #if ((transferCount % 10001) == 0):
         print(transferCount,
               ':',
               [round(v,2) for v in currentResponseLis] if type == s_t else round(currentResponseLis[0],2),
@@ -215,8 +215,8 @@ def go(type,nbGos,q):
             #currentResponse = bytes2float(currentResponseLis)
             #print(currentResponseLis)
             #input()
-            q.put(currentResponseLis)
-
+            #print(list(currentResponseLis))
+            #input()
             show(transferCount,errorCount,correctedCount,currentResponseLis,type)
             #input()
             [init, errorCount,lastResponseLis] = tell(init,
@@ -225,6 +225,7 @@ def go(type,nbGos,q):
                                                       currentResponseLis,
                                                       lastResponseLis,
                                                       type)
+            q.put(list(currentResponseLis))
             
     except KeyboardInterrupt:
         print('\nType of Transfers :', type)

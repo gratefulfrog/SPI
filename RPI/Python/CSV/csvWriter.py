@@ -24,6 +24,7 @@ class WriterThread(threading.Thread):
         writer = csv.writer(self.csvfile, delimiter=',',
                             quotechar='"', quoting=csv.QUOTE_MINIMAL)
         self.lock.acquire()
+        print(thing)
         outgoing = [self.name] + thing
         writer.writerow(outgoing)
         print(outgoing)
@@ -97,7 +98,9 @@ def main(numThreads, nbItems):
         t = time.time()
         #enq(q,nbItems)
         try:
-            coms.go(coms.s_t,nbItems)
+            comms.go(comms.s_t,nbItems,q)
+        except:
+            pass
         finally:
             stopAll(q,threads)
             print('Elapsed Time :',time.time()-t)
@@ -106,5 +109,5 @@ if __name__ == '__main__':
     try:
         main(int(sys.argv[1]),int(sys.argv[2]))
     except:
-        print('arguments: number_threads, number_items_generated')
+        print('arguments: number_threads, number_structs_to_get_via_spi')
         
