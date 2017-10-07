@@ -105,7 +105,7 @@ def main(typeLis,numThreads=3):
         try:
             comms.go(typeLis,q)
         except Exception as e:
-            print(e.message,e.args)
+            print(e) #.message,e.args)
         finally:
             stopAll(q,threads)
             print('Elapsed Time :',time.time()-t)

@@ -108,15 +108,17 @@ def unpackStruct( format, packed):
 def getOutVec(type,nbBytesExpected):
     return [type,] + [1,2]*(nbBytesExpected-1) +  [1,3] 
 
-def show(transferCount,errorCount,correctedCount,currentResponseLis,type):
+def show(transferCount,#errorCount,correctedCount,
+         currentResponseLis,
+         type):
     #if ((transferCount % 10001) == 0):
         print(transferCount,
               ':',
-              [round(v,2) for v in currentResponseLis], #if type == s_payload_t else round(currentResponseLis[0],2),
-              ': Errors :',
-              errorCount,
-              ': Corrected :',
-              correctedCount)
+              [round(v,2) for v in currentResponseLis])
+              #': Errors :',
+              #errorCount,
+              #': Corrected :',
+              #correctedCount)
 
 def getModV(type):
     modV = maxTestFloat
@@ -235,7 +237,9 @@ def doOneCom(type,spi,q):
             #print(currentResponseLis)
             #input()
 
-            show(transferCount,errorCount,correctedCount,currentResponseLis,type)
+            show(transferCount,#errorCount,correctedCount,
+                 currentResponseLis,
+                 type)
             #input()
             """
             tell cannot work with query response
