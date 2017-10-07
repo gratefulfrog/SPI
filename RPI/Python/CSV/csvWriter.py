@@ -7,7 +7,8 @@ import time
 import sys
 import os.path
 
-import spi1StructWriter as comms
+#import spi1StructWriter as comms
+import spi1QueryRepsonse as comms
 
 
 outFile = './DATA/data.csv'
