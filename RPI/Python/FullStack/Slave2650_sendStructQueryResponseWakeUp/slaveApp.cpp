@@ -46,7 +46,8 @@ void SlaveApp::SlaveApp::loop(){
   if (changed){
     currentState = ((currentState == State::bidSent) ? State::working : currentState);
   }
-  else  if (currentState == State::working && saidWorking){
+  //else 
+  if (currentState == State::working && saidWorking){
     doWork();
   }
 }
