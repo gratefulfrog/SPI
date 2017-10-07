@@ -1,5 +1,9 @@
 #!/usr/bin/python3
 
+# example call
+# ./main.py s_init_t s_bid_t s_wakeup_t s_payload_t s_wakeup_t s_payload_t s_wakeup_t s_payload_t s_wakeup_t s_payload_t s_wakeup_t s_payload_t
+
+
 import csv
 import threading
 import queue
