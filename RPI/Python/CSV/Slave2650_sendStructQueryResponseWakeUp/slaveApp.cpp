@@ -1,7 +1,7 @@
 #include "app.h"
 
 SlaveApp::SlaveApp() /* :App() */{
-  Serial.begin(11520);
+  Serial.begin(115200);
   
   /* Set MISO output, all others input */
   pinMode(MISO,OUTPUT);
@@ -20,11 +20,17 @@ void SlaveApp::SlaveApp::loop(){
   if (workFlag){
     doWork();
   }
+  else {
+    doNoWork();
+  }
 }
 #else    
 void SlaveApp::SlaveApp::loop(){
   if (workFlag){
     doWork();
+  }
+  else {
+    doNoWork();
   }
   
   SPI_SlaveReceive();
@@ -118,10 +124,17 @@ byte SlaveApp::response(uint8_t incoming){
 }
 
 void SlaveApp::doWork(){
-  Serial.println("Working...");
-  for (uint32_t i = 0; i < NB_WORK_LOOPS;){
-    i++;
+  Serial.print("Working... : ");
+  uint32_t i = 0;
+  for (; i < NB_WORK_LOOPS;){
+  i++;
   }
+  Serial.println(String(i));
 }
+
+void SlaveApp::doNoWork(){
+  Serial.println("Not Working!");
+}
+
 
 

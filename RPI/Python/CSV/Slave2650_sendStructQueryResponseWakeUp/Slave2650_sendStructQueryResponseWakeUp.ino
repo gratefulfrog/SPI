@@ -5,8 +5,6 @@
 
 #include "app.h"
 
-#define USE_INTERRUPTS
-
 /*
  * This version sends lowercase characters and receives upper case characters in response.
  * It is interesting to monitor both Master and Slave in a ternminal

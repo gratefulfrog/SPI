@@ -2,8 +2,9 @@
 #define APP_H
 
 #include <Arduino.h>
+#define USE_INTERRUPTS
 
-#define NB_WORK_LOOPS      (10000)
+#define NB_WORK_LOOPS      (1000000)
 #define NB_STRUCTS_2_SEND  (5)
 
 struct u8u32f_struct{
@@ -39,6 +40,7 @@ class SlaveApp{
     u8u32f_struct* getOutgoing(uint8_t type) ;
     byte response(byte incoming);
     void doWork();
+    void doNoWork();
     
   public:
     SlaveApp();
