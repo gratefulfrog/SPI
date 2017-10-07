@@ -36,7 +36,6 @@ void SlaveApp::sayState(){
   Serial.println(String("Current State : ") + msg);
 }
 
-#ifdef  USE_INTERRUPTS
 void SlaveApp::SlaveApp::loop(){
   boolean changed = false;
   if (previousState != currentState){
@@ -51,32 +50,11 @@ void SlaveApp::SlaveApp::loop(){
     doWork();
   }
 }
-#else    
-void SlaveApp::SlaveApp::loop(){
-  if (workFlag){
-    doWork();
-  }
-  else {
-    doNoWork();
-  }
-  
-  SPI_SlaveReceive();
-}
-#endif
+
 
 void SlaveApp::SPI_ISR(){
   if(!isSlaveMsg(SPDR)){
     SPDR = response(SPDR);
-  }
-}
-
-void SlaveApp::SPI_SlaveReceive(void){
-  /* Wait for reception complete */
-  while(!(SPSR & (1<<SPIF)));
-
-  // now wait for a message from master
-  if(!isSlaveMsg(SPDR)){
-    SPDR = response(SPDR);  
   }
 }
 
@@ -161,10 +139,14 @@ void SlaveApp::doWork(){
   Serial.println(String("...")+String(i));
 }
 
-void SlaveApp::doNoWork(){
-  static uint32_t counter = 0;
-  Serial.println(String("Not Working!") + String(counter++));
+// obsolete code
+void SlaveApp::SPI_SlaveReceive(void){
+  /* Wait for reception complete */
+  while(!(SPSR & (1<<SPIF)));
+
+  // now wait for a message from master
+  if(!isSlaveMsg(SPDR)){
+    SPDR = response(SPDR);  
+  }
 }
-
-
 

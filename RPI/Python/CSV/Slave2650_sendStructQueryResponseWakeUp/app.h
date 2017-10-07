@@ -32,10 +32,8 @@ class SlaveApp{
 
     uint8_t *bytePtr;
 
-    volatile boolean workFlag = true;
     boolean noMorePayloads = false;
 
-   
     enum class State  {unstarted,started,initialized,bidSent,working,sendingStructs};
     volatile State currentState = State::started;
     State previousState = State::unstarted;
@@ -50,7 +48,7 @@ class SlaveApp{
     u8u32f_struct* getOutgoing(uint8_t type) ;
     byte response(byte incoming);
     void doWork();
-    void doNoWork();
+ 
     
   public:
     SlaveApp();

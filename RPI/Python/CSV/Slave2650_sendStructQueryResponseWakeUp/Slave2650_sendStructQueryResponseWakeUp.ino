@@ -1,22 +1,15 @@
 /* 
- *  This version has #define to either use interrupts or not.
+ *  This version uses interrupts only!.
  */
 
 
 #include "app.h"
 
-/*
- * This version sends lowercase characters and receives upper case characters in response.
- * It is interesting to monitor both Master and Slave in a ternminal
- */
-
 SlaveApp *app;
 
-#ifdef  USE_INTERRUPTS
 ISR (SPI_STC_vect){
   app->SPI_ISR ();
 }
-#endif
 
 void setup() {
   app = new SlaveApp();
