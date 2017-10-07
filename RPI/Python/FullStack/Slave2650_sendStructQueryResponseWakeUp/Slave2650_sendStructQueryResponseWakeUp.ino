@@ -2,6 +2,7 @@
  *  This version uses interrupts only!.
  */
 
+// use serial monitor to observe satatus
 
 #include "app.h"
 
