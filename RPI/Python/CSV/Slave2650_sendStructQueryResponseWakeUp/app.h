@@ -5,7 +5,7 @@
 #define USE_INTERRUPTS
 
 #define NB_WORK_LOOPS      (1000000)
-#define NB_STRUCTS_2_SEND  (5)
+#define NB_STRUCTS_2_SEND  (50)
 
 struct u8u32f_struct{
   uint8_t  u8;
@@ -13,6 +13,7 @@ struct u8u32f_struct{
   float    f;
 } __attribute__((__packed__));
 
+ 
 
 class SlaveApp{
   protected:
@@ -24,7 +25,7 @@ class SlaveApp{
     u8u32f_struct initResponseStruct =  {init8,init32,0},
                    bidResponseStruct  = {bid8, bid32, 0},
                    payload = {0,0,0.0},
-                   nullStruct = {255,0,0.2};
+                   nullStruct = {255,0,0.0};
     
     const float maxFloat = 10.0;
     u8u32f_struct *outgoing;
@@ -32,8 +33,17 @@ class SlaveApp{
     uint8_t *bytePtr;
 
     volatile boolean workFlag = true;
+    boolean noMorePayloads = false;
+
+   
+    enum class State  {unstarted,started,initialized,bidSent,working,sendingStructs};
+    volatile State currentState = State::started;
+    State previousState = State::unstarted;
+
+    boolean saidWorking = false;
     
     // protected methods
+    void sayState();
     void SPI_SlaveReceive(void);
     boolean incOutgoing();
     boolean isSlaveMsg(byte msg) const;

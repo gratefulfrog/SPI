@@ -15,13 +15,40 @@ SlaveApp::SlaveApp() /* :App() */{
 #endif
 }
 
+void SlaveApp::sayState(){
+  String msg = "started";
+  switch (currentState){
+    case State::initialized:
+      msg = "initialized";
+      break;
+    case State::bidSent:
+      msg = "bidSent";
+      break;
+    case State::working:
+      msg = "working";
+      saidWorking=true;
+      break;
+    case State::sendingStructs:
+      saidWorking = false;
+      msg = "sendingStructs";
+      break;
+  }
+  Serial.println(String("Current State : ") + msg);
+}
+
 #ifdef  USE_INTERRUPTS
 void SlaveApp::SlaveApp::loop(){
-  if (workFlag){
-    doWork();
+  boolean changed = false;
+  if (previousState != currentState){
+    previousState = currentState;
+    sayState();
+    changed=true;
   }
-  else {
-    doNoWork();
+  if (changed){
+    currentState = ((currentState == State::bidSent) ? State::working : currentState);
+  }
+  else  if (currentState == State::working && saidWorking){
+    doWork();
   }
 }
 #else    
@@ -77,17 +104,24 @@ boolean SlaveApp::isSlaveMsg(byte msg) const{
 
 u8u32f_struct* SlaveApp::getOutgoing(uint8_t type) {
   if (type == init8){
+    currentState = State::initialized;
     return &initResponseStruct;
   }
   else if (type == bid8){
+    currentState = State::bidSent;
     return &bidResponseStruct;
   }
   else if (type == wakeUp8){
     // stop working and get ready to send all the data back
-    workFlag = false;
+    currentState = State::sendingStructs;
     return &nullStruct;
   }
   else{
+    if (noMorePayloads){
+      currentState = State::working;
+      noMorePayloads = false;
+      return &nullStruct;
+    }
     return &payload;
   }
 }
@@ -108,15 +142,9 @@ byte SlaveApp::response(uint8_t incoming){
   else if (incoming == 0b100000){ // send 1st 1/2 byte of outgoing
     res = (*(bytePtr+i))>>4 & 0b1111; // send 1st 1/2 byte of outgoing
   }
-  else { // we got filler 
-    if (outgoing == &payload){
-      boolean moreDataAvailable = incOutgoing();
-      if (!moreDataAvailable){
-        outgoing=&nullStruct;
-      }
-    }
-    else if (outgoing == &nullStruct){
-      workFlag = true;
+  else { // it's filler
+    if (outgoing == &payload){ ;  // true if we just sent a paylodtrue;
+      noMorePayloads = !incOutgoing();
     }
     i=0;
   }
@@ -124,16 +152,18 @@ byte SlaveApp::response(uint8_t incoming){
 }
 
 void SlaveApp::doWork(){
-  Serial.print("Working... : ");
+  static uint32_t counter = 0;   
+  Serial.print(String("Working :") + String(counter++));
   uint32_t i = 0;
   for (; i < NB_WORK_LOOPS;){
   i++;
   }
-  Serial.println(String(i));
+  Serial.println(String("...")+String(i));
 }
 
 void SlaveApp::doNoWork(){
-  Serial.println("Not Working!");
+  static uint32_t counter = 0;
+  Serial.println(String("Not Working!") + String(counter++));
 }
 
 
