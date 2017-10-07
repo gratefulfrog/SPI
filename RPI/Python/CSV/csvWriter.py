@@ -8,7 +8,7 @@ import sys
 import os.path
 
 #import spi1StructWriter as comms
-import spi1QueryRepsonse as comms
+import spi1QueryResponse as comms
 
 
 outFile = './DATA/data.csv'
@@ -25,10 +25,10 @@ class WriterThread(threading.Thread):
         writer = csv.writer(self.csvfile, delimiter=',',
                             quotechar='"', quoting=csv.QUOTE_MINIMAL)
         self.lock.acquire()
-        print(thing)
+        #print(thing)
         outgoing = [self.name] + thing
         writer.writerow(outgoing)
-        print(outgoing)
+        #print(outgoing)
         self.lock.release()
         
 
@@ -55,7 +55,7 @@ def createThreads(num,fil,que,lok):
     for i in range(num):
         name='WriterThread-' + str(i)
         t = WriterThread(name,fil,que,lok)
-        print(name)
+        #print(name)
         t.start()
         thrs.append(t)
     return thrs
@@ -83,7 +83,8 @@ def createDataFile():
                             quotechar='"', quoting=csv.QUOTE_MINIMAL)
         writer.writerow(headers)        
 
-def main(numThreads, nbItems):
+#def main(numThreads, nbItems):
+def main(typeLis,numThreads=3):
     lock = threading.Lock()
     q = queue.Queue()
 
@@ -97,18 +98,25 @@ def main(numThreads, nbItems):
         threads =  createThreads(numThreads,csvfile,q,lock)
 
         t = time.time()
-        #enq(q,nbItems)
         try:
-            comms.go(comms.s_t,nbItems,q)
-        except:
-            pass
+            comms.go(typeLis,q)
+        except Exception as e:
+            print(e.message,e.args)
         finally:
             stopAll(q,threads)
             print('Elapsed Time :',time.time()-t)
 
 if __name__ == '__main__':
-    try:
-        main(int(sys.argv[1]),int(sys.argv[2]))
-    except:
-        print('arguments: number_threads, number_structs_to_get_via_spi')
+    if len(sys.argv) < 2:
+        print('Usage: $ ./spi1Struct.py <type>')
+        print('where <type> is one of:   s_init_t, s_bid_t, s_payload_t,  s_wakeup_t'  )
+        print('Note: the AEM board must be running the appropriate software, corresponding to the <type>')
+        sys.exit(0)
+
+    #main(int(sys.argv[1]),int(sys.argv[2]))
+    #main(eval('comms.'+sys.argv[1]))
+    tyLis = list(map(lambda s:eval('comms.'+s),sys.argv[1:]))
+    main(tyLis)
+    
+                 
         

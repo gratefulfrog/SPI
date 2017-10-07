@@ -47,21 +47,19 @@ maxTestFloat = 10.0
 s_init_t      = 0b1000  # DEC  8
 s_bid_t       = 0b1001  # DEC  9
 s_payload_t   = 0b1010  # DEC 10
-s_wakup_t     = 0b1011  # DEC 11
-#s_t   = 0b1011  # DEC 11
+s_wakeup_t     = 0b1011  # DEC 11
 
-typeDict = { # key=type : value=[ngBytes, formatString]
-    s_init_t    : [9,'<BIf'], # type 1000, 9 bytes struct,                  i.e. uint8_t,uint32_t,float
-    s_bid_t     : [9,'<BIf'], # type 1001, 9 bytes struct,                  i.e. uint8_t,uint32_t,float
-    s_payload_t : [9,'<BIf'], # type 1010, 9 bytes struct,                  i.e. uint8_t,uint32_t,float
-    s_wakeup_t  : [9,'<BIf']} # type 1011, 9 bytes struct,                  i.e. uint8_t,uint32_t,float
 
-nullResponse = [255,0,0.0]  # used as sentinal value
-pauseAfterNullResponse = 1  # second
+typeDict = { # key=type : value=[ngBytes, formatString, wait time in seconds before next communciation]
+    s_init_t    : [9,'<BIf',1], # type 1000, 9 bytes struct,delay 0.1
+    s_bid_t     : [9,'<BIf',1], # type 1001, 9 bytes struct,              
+    s_payload_t : [9,'<BIf',2],   # type 1010, 9 bytes struct, wait 1 second before next communication
+    s_wakeup_t  : [9,'<BIf',1]} # type 1011, 9 bytes struct,                  
+
+nullResponse = [255,0,0.0]  # used as sentinel value
 
 def isNullReturn(responseLis):
     return responseLis[0] == nullResponse[0]
-
 
 ########### packing/unpacking routines ##############
 def packNbytes(bytes):
@@ -135,7 +133,7 @@ def tell(init, transferCount,errorCount,currentResponseLis,lastResponseLis,type)
        s_init_t    
        s_bid_t     
        s_payload_t 
-       s_wakup_t   
+       s_wakeup_t   
     return [init, errorCount, lastResponseLis]
     """
     tempLRL = lastResponseLis
@@ -206,10 +204,17 @@ def transferLis(outLis,spi):
         resLis += [responseLis[i]<<4 | responseLis[i+1]]
     return resLis,correctedCount
 
-def go(type,q):
-    spi = spidev.SpiDev()
-    spi.open(channel,device)
-    #outVec = [0b1000,1,2,1,2,1,2,1,3]
+def resonseToBeEnqueued(type):
+    return type == s_payload_t
+
+def getBid(currentResponseLis):
+    return currentResponseLis[1]
+
+bid = [-1]
+
+def doOneCom(type,spi,q):
+    global bid
+    print(type)
     outVec = getOutVec(type,typeDict[type][0])
     transferCount  = 0
     errorCount = 0
@@ -232,18 +237,27 @@ def go(type,q):
 
             show(transferCount,errorCount,correctedCount,currentResponseLis,type)
             #input()
-            
+            """
+            tell cannot work with query response
             [init, errorCount,lastResponseLis] = tell(init,
                                                       transferCount,
                                                       errorCount,
                                                       currentResponseLis,
                                                       lastResponseLis,
                                                       type)
-             if isNullReturn(currentResponseLis):
-                 print ('Null Return Received!')
-                 moreDataComing = False
-             else:
-                 q.put(list(currentResponseLis))
+           
+            """
+            nullReturn = isNullReturn(currentResponseLis)
+            enQResponse = resonseToBeEnqueued(type)
+
+            if not nullReturn and enQResponse:
+                print('DID NOT GET A NULL STRUCT, enqueueing...')
+                q.put(list(currentResponseLis) + bid)
+            elif type == s_bid_t:
+                bid[0] = getBid(currentResponseLis)
+                print('BID set :', bid), 
+                
+            moreDataComing = not nullReturn and enQResponse
                  
     except KeyboardInterrupt:
         print('\nType of Transfers :', type)
@@ -252,6 +266,16 @@ def go(type,q):
         print(  'percent           :',100*errorCount/transferCount)
         print(  'Corrected         :',correctedCount)
         print('\nbye...')
+
+    time.sleep(typeDict[type][2])
+    
+
+def go(typeLis,q):
+    spi = spidev.SpiDev()
+    spi.open(channel,device)
+    try:
+        for t in typeLis:
+            doOneCom(t,spi,q)
     finally:
         spi.close()
 
@@ -261,7 +285,7 @@ if __name__ == '__main__':
     # if arg given, then do letters, else do numbers!
     if len(sys.argv)<2:
         print('Usage: $ ./spi1Struct.py <type>')
-        print('where <type> is one of: s_init_t, s_bid_t, s_payload_t')
+        print('where <type> is one of:   s_init_t, s_bid_t, s_payload_t,  s_wakeup_t'  )
         print('Note: the AEM board must be running the appropriate software, corresponding to the <type>')
         sys.exit(0)
-    go(eval(sys.argv[1]))
+    go(eval(sys.argv[1:]))
