@@ -39,7 +39,7 @@ pause   = 0.0000   # seconds
 # SPI config
 channel        = 0
 device         = 0
-frequency      = 1000000
+frequency      = 4000000
 afterXferDelay = 2
 
 maxTestFloat = 10.0
