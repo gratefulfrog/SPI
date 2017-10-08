@@ -207,7 +207,7 @@ def getBid(currentResponseLis):
 
 bid = [-1]
 
-def doOneCom(type,spi,q,clearTheAir=False):
+def doOneCom(type,spi,q,clearTheAir=False,printResults=False):
     global bid
     #print('Processing Query :',type)
     outVec = getOutVec(type,typeDict[type][0])
@@ -232,9 +232,10 @@ def doOneCom(type,spi,q,clearTheAir=False):
             #print(currentResponseLis)
             #input()
 
-            #show(transferCount,#errorCount,correctedCount,
-            #     currentResponseLis,
-            #     type)
+            if printResults:
+                show(transferCount,#errorCount,correctedCount,
+                     currentResponseLis,
+                     type)
             #input()
             """
             tell cannot work with query response
@@ -277,10 +278,10 @@ def go(typeLis,q):
     spi.open(channel,device)
     try:
         print('polling type :',typeLis[0])
-        doOneCom(typeLis[0],spi,q,True)
+        doOneCom(typeLis[0],spi,q,True,True)
         for t in typeLis[1:-2]:
             print('polling type :',t)
-            doOneCom(t,spi,q)
+            doOneCom(t,spi,q,False,True)
         count = 1
         while True:
             if (count%10 == 0):
