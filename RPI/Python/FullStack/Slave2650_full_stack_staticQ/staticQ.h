@@ -15,7 +15,7 @@
  * on the value of Q_OVERRUN_DELETE_OLDEST
  */
 #define Q_OVERRUN_DELETE_OLDEST (false)
-#define Q_Q_LENGTH              (100)
+#define Q_Q_LENGTH              (750)
 
 template <class T> 
 class Q{
