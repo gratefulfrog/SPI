@@ -1,25 +1,9 @@
 #!/usr/bin/python3
 
-"""
-**** AEM Results ****
-With interrupts on slave (Slave2650_sendStruct):
-Type of Transfers : 11
-Nb Transfers      : 4 346 249
-Nb Errors         : 0
-percent           : 0.0
-Corrected         : 0
-
-
-Without interrupts on slave, no loop delay (Slave2650_sendStruct):
-Nb Transfers  :  2 479 766
-Nb Errors     :  0
-percent       :  0.0
-Corrected     :  0
 
 """
-
 # wiring of SPI 0,0:
-"""
+
 Color  : Function : RPI pin (SPI0)  : Smartscope
 Yellow : SS       : 24              : D0     NOTE: RPI SPI0-CS1 is  RPI Pin 26
 White  : SCK      : 23              : D1
@@ -51,12 +35,15 @@ s_payload_t   = 0b1011  # DEC 11
 
 #s_startWork_t = 0b1100  # DEC 12
 
+# state errors/ 1000 polls
+# 229 with 0.01 delays
+#
 
 typeDict = { # key=type : value=[ngBytes, formatString, wait time in seconds before next communciation]
-    s_init_t       : [9,'<BIf',0.05], # type 1000, 9 bytes struct,delay 0.1
-    s_bid_t        : [9,'<BIf',0.01], # type 1001, 9 bytes struct,              
-    s_payload_t    : [9,'<BIf',0.01], # type 1010, 9 bytes struct, wait 1 second before next communication
-    s_wakeup_t     : [9,'<BIf',0.05]} # type 1011, 9 bytes struct,
+    s_init_t       : [9,'<BIf',0.1], # type 1000, 9 bytes struct,delay 0.1
+    s_bid_t        : [9,'<BIf',0.1], # type 1001, 9 bytes struct,              
+    s_payload_t    : [9,'<BIf',0.1], # type 1010, 9 bytes struct, wait 1 second before next communication
+    s_wakeup_t     : [9,'<BIf',0.1]} # type 1011, 9 bytes struct,
     #s_startWork_t  : [9,'<BIf',1]} # type 1011, 9 bytes struct,                  
 
 nullResponse = [255,0,0.0]  # used as sentinel value
