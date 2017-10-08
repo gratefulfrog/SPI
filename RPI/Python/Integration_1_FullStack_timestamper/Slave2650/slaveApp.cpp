@@ -4,6 +4,9 @@ SlaveApp::SlaveApp() {
   Serial.begin(115200);
   Serial.println("Ready!");
   q = new Q<u8u32f_struct>(nullStruct);
+
+  board = new Board();
+  bidResponseStruct.u32 = board->getGUID();
   
   /* Set MISO output, all others input */
   pinMode(MISO,OUTPUT);
@@ -63,6 +66,7 @@ void SlaveApp::SlaveApp::loop(){
     // create the timeStamper
     if(TimeStamper::theTimeStamper  == NULL){
       TimeStamper::theTimeStamper = new TimeStamper(micros());
+      initResponseStruct.u32 = TimeStamper::theTimeStamper->t0;
       Serial.println("Time Stamper created");
     }
   }

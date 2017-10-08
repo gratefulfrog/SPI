@@ -5,6 +5,7 @@
 
 #include "staticQ.h"
 #include "timeStamper.h"
+#include "board.h"
 
 
 struct u8u32f_struct{
@@ -33,7 +34,7 @@ class SlaveApp{
                   payload8   = 0b10110000;   // DEC 176
                   
                   //startWork8 = 0b11000000;   // DEC 192
-    u8u32f_struct initResponseStruct =  {init8,init32,0},
+    u8u32f_struct initResponseStruct =  {init8, init32,0},
                    bidResponseStruct  = {bid8, bid32, 0},
                    payload = {255,255,255.0},
                    nullStruct = {255,0,0.0};
@@ -53,6 +54,8 @@ class SlaveApp{
     //boolean saidWorking = false;
 
     Q<u8u32f_struct> *q;
+
+    Board *board;
     
     // protected methods
     void doTests();
