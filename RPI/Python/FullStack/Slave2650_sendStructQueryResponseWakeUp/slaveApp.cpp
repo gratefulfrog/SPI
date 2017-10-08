@@ -9,10 +9,8 @@ SlaveApp::SlaveApp() /* :App() */{
   /* Enable SPI in SLAVE mode */
   SPCR = (1<<SPE);
 
-#ifdef USE_INTERRUPTS
   // turn on interrupts
   SPCR |= _BV(SPIE);
-#endif
 }
 
 void SlaveApp::sayState(){
@@ -47,7 +45,7 @@ void SlaveApp::SlaveApp::loop(){
     currentState = ((currentState == State::bidSent) ? State::working : currentState);
   }
   //else 
-  if (currentState == State::working && saidWorking){
+  if ((currentState == State::working) && saidWorking){
     doWork();
   }
 }
