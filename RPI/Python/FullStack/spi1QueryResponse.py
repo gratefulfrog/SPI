@@ -283,7 +283,7 @@ def go(typeLis,q):
             doOneCom(t,spi,q)
         count = 1
         while True:
-            if (count%100 == 0):
+            if (count%10 == 0):
                 print(count, ': polling :',typeLis[-2:])
             count +=1                
             for t in typeLis[-2:]:

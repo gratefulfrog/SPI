@@ -26,7 +26,12 @@ SPI frequency = 4MHz
              450495 lines in data.csv    711 lines/sec
              1 errors corrected
              137 state errors,  0.0003 state errors/line of data
-         
+
+             1000 polls in 1046  sec =    717 Q items polled/sec
+             749729 lines in data.csv    715 lines/sec
+             3 errors corrected
+             213 state errors,  0.00028 state errors/line of data
+
 
 """
 import csv
