@@ -214,7 +214,7 @@ def getBid(currentResponseLis):
 
 bid = [-1]
 
-def doOneCom(type,spi,q):
+def doOneCom(type,spi,q,clearTheAir=False):
     global bid
     print('Processing Query :',type)
     outVec = getOutVec(type,typeDict[type][0])
@@ -224,7 +224,8 @@ def doOneCom(type,spi,q):
     lastResponseLis = [] #-0.01
     init = False
     # first one is ignored, just to clear the air!
-    transferLis(outVec,spi)
+    if clearTheAir:
+        transferLis(outVec,spi)
     moreDataComing = True
     try:
         while moreDataComing:
@@ -278,7 +279,8 @@ def go(typeLis,q):
     spi = spidev.SpiDev()
     spi.open(channel,device)
     try:
-        for t in typeLis:
+        doOneCom(typeLis[0],spi,q,True)
+        for t in typeLis[1:]:
             doOneCom(t,spi,q)
     finally:
         spi.close()
