@@ -74,6 +74,9 @@ class Q{
     boolean full() const{
       return (qNbObj == qLen);
     }
+    int qLenght() const{
+      return qLen;
+    }
 };
 
 #endif

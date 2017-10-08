@@ -53,12 +53,10 @@ void SlaveApp::doTests(){
 }
 
 void SlaveApp::SlaveApp::loop(){
-  boolean changed = false;
   if (previousState != currentState){
     doTests();
     previousState = currentState;
     sayState();
-    changed=true;
   }
   else if (currentState == State::bidSent){
     currentState = State::readyToWork;
@@ -107,13 +105,6 @@ u8u32f_struct* SlaveApp::getOutgoing(uint8_t type) {
     nextState = State::sendingStructs;
     return &nullStruct;
   }
-  /*
-  else if (type == startWork8){
-    // start working, after a payload send sequence
-    nextState = ((currentState == State::sendingStructs) ? State::readyToWork : State::working);
-    return &nullStruct;
-  }
-  */
   else if (type == payload8) {  // we got a request for payload
     if (!incOutgoing()){
       nextState = State::readyToWork;
@@ -153,10 +144,19 @@ byte SlaveApp::response(uint8_t incoming){
 
 SlaveApp::State SlaveApp::doWork(){
   static u8u32f_struct  nextStruct = {0,0,0.0};
-  static uint32_t counter = 0;  
+  //static uint32_t counter = 0;  
   //static boolean saidQFull = false;
-
+  //static boolean stopped = true;
+  //static uint32_t startTime = micros();
+  
   State res = currentState;
+
+  /*
+  if (stopped){
+    startTime = micros();
+    stopped = false;
+  }
+  */
 
   if (q->push(nextStruct)){  // we could push it onto the q
     /*
@@ -175,21 +175,12 @@ SlaveApp::State SlaveApp::doWork(){
     }
   }
   else { // no more room in q !!
+    //double rate = (micros()-startTime)/(double)q->qLenght();
+    //stopped = true;
+    //Serial.println(String("Sampling rate samples/us : ") +String(rate));
     //Serial.println("Q Full, work stopped!");
     res = State::readyToSend;
   }
   return res;
 }
-
-/*  obsolete code
-void SlaveApp::doWork(){
-  static uint32_t counter = 0;   
-  Serial.print(String("Working :") + String(counter++));
-  uint32_t i = 0;
-  for (; i < NB_WORK_LOOPS;){
-  i++;
-  }
-  Serial.println(String("...")+String(i));
-}
-*/
 
