@@ -39,27 +39,33 @@ pause   = 0.0000   # seconds
 # SPI config
 channel        = 0
 device         = 0
-frequency      = 4000000
-afterXferDelay = 2
+frequency      = 1000000
+afterXferDelay = 20
 
 maxTestFloat = 10.0
 
 s_init_t      = 0b1000  # DEC  8
 s_bid_t       = 0b1001  # DEC  9
-s_payload_t   = 0b1010  # DEC 10
-s_wakeup_t     = 0b1011  # DEC 11
+s_wakeup_t    = 0b1010  # DEC 10
+s_payload_t   = 0b1011  # DEC 11
+
+#s_startWork_t = 0b1100  # DEC 12
 
 
 typeDict = { # key=type : value=[ngBytes, formatString, wait time in seconds before next communciation]
-    s_init_t    : [9,'<BIf',1], # type 1000, 9 bytes struct,delay 0.1
-    s_bid_t     : [9,'<BIf',1], # type 1001, 9 bytes struct,              
-    s_payload_t : [9,'<BIf',2],   # type 1010, 9 bytes struct, wait 1 second before next communication
-    s_wakeup_t  : [9,'<BIf',1]} # type 1011, 9 bytes struct,                  
+    s_init_t       : [9,'<BIf',0.05], # type 1000, 9 bytes struct,delay 0.1
+    s_bid_t        : [9,'<BIf',0.01], # type 1001, 9 bytes struct,              
+    s_payload_t    : [9,'<BIf',0.01], # type 1010, 9 bytes struct, wait 1 second before next communication
+    s_wakeup_t     : [9,'<BIf',0.05]} # type 1011, 9 bytes struct,
+    #s_startWork_t  : [9,'<BIf',1]} # type 1011, 9 bytes struct,                  
 
 nullResponse = [255,0,0.0]  # used as sentinel value
 
 def isNullReturn(responseLis):
-    return responseLis[0] == nullResponse[0]
+    res = all(map(lambda x,y: x==y,responseLis,nullResponse))
+    #if res:
+    #    print("Null Response Received.")
+    return res
 
 ########### packing/unpacking routines ##############
 def packNbytes(bytes):
@@ -216,13 +222,14 @@ bid = [-1]
 
 def doOneCom(type,spi,q,clearTheAir=False):
     global bid
-    print('Processing Query :',type)
+    #print('Processing Query :',type)
     outVec = getOutVec(type,typeDict[type][0])
     transferCount  = 0
     errorCount = 0
     correctedCount = 0
-    lastResponseLis = [] #-0.01
+    lastResponseLis = [] 
     init = False
+    saidEnq = False
     # first one is ignored, just to clear the air!
     if clearTheAir:
         transferLis(outVec,spi)
@@ -238,9 +245,9 @@ def doOneCom(type,spi,q,clearTheAir=False):
             #print(currentResponseLis)
             #input()
 
-            show(transferCount,#errorCount,correctedCount,
-                 currentResponseLis,
-                 type)
+            #show(transferCount,#errorCount,correctedCount,
+            #     currentResponseLis,
+            #     type)
             #input()
             """
             tell cannot work with query response
@@ -254,13 +261,15 @@ def doOneCom(type,spi,q,clearTheAir=False):
             """
             nullReturn = isNullReturn(currentResponseLis)
             enQResponse = resonseToBeEnqueued(type)
-
+            
             if not nullReturn and enQResponse:
-                print('Enqueueing...')
+                if not saidEnq:
+                    #print('***** Enqueueing...')
+                    saidEnq = True
                 q.put(list(currentResponseLis) + bid)
             elif type == s_bid_t:
                 bid[0] = getBid(currentResponseLis)
-                print('BID set :', bid), 
+                #print('BID set :', bid), 
                 
             moreDataComing = not nullReturn and enQResponse
                  
@@ -271,7 +280,8 @@ def doOneCom(type,spi,q,clearTheAir=False):
         print(  'percent           :',100*errorCount/transferCount)
         print(  'Corrected         :',correctedCount)
         print('\nbye...')
-
+        raise 
+    
     time.sleep(typeDict[type][2])
     
 
@@ -279,9 +289,19 @@ def go(typeLis,q):
     spi = spidev.SpiDev()
     spi.open(channel,device)
     try:
+        print('polling type :',typeLis[0])
         doOneCom(typeLis[0],spi,q,True)
-        for t in typeLis[1:]:
+        for t in typeLis[1:-2]:
+            print('polling type :',t)
             doOneCom(t,spi,q)
+        count = 1
+        while True:
+            if (count%100 == 0):
+                print(count, ': polling :',typeLis[-2:])
+            count +=1                
+            for t in typeLis[-2:]:
+                doOneCom(t,spi,q)
+                
     finally:
         spi.close()
 

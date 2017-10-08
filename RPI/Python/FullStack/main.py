@@ -25,13 +25,17 @@ class WriterThread(threading.Thread):
         self.q = q
         self.lock = lock
 
+    def getFormattedRow(self,row):
+        row[3]= round(row[3],4)
+        return row
+
     def do_work(self,thing):
         writer = csv.writer(self.csvfile, delimiter=',',
                             quotechar='"', quoting=csv.QUOTE_MINIMAL)
         self.lock.acquire()
         #print(thing)
         outgoing = [self.name] + thing
-        writer.writerow(outgoing)
+        writer.writerow(self.getFormattedRow(outgoing))
         #print(outgoing)
         self.lock.release()
         
@@ -114,6 +118,8 @@ if __name__ == '__main__':
     if len(sys.argv) < 2:
         print('Usage: $ ./spi1Struct.py <type>')
         print('where <type> is one of:   s_init_t, s_bid_t, s_payload_t,  s_wakeup_t'  )
+        print('e.g.:   s_init_t, s_bid_t, s_wakeup_t, s_payload_t, s_wakeup_t, s_payload_t ')
+        print('add pairs [s_wakeup_t, s_payload_t] to continue comms')
         print('Note: the AEM board must be running the appropriate software, corresponding to the <type>')
         sys.exit(0)
 
