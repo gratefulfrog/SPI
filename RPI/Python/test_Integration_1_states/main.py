@@ -4,12 +4,24 @@
 # ./main.py s_init_t s_bid_t s_wakeup_t s_payload_t
 
 """ some results
-SPI frequency = 4MHz, wait after clock 25 us
-2017 10 09 : Q len = 750:
+
+wait after clock seems to be a key parameter, too low and we get "errors corrected"
+
+2017 10 09 : SPI frequency = 4MHz, 
+             wait after clock 25 us
+             Q len = 750:
              200 polls of Qin 192  sec =     781 items polled/sec
              155915 lines in data.csv    812 lines/sec
+             1 or 2 errors corrected
+             0 state errors
+2017 10 09 : SPI frequency = 4MHz, 
+             wait after clock 30 us
+             Q len = 750:
+             1000 polls of Q in 1006  sec =  745 items polled/sec
+             155915 lines in data.csv     =  746  lines/sec
              0 errors corrected
              0 state errors
+
 
 """
 import csv

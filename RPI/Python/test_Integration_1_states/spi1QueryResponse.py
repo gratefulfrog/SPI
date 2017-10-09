@@ -24,7 +24,7 @@ pause   = 0.0000   # seconds
 channel        = 0
 device         = 0
 frequency      = 4000000
-afterXferDelay = 25
+afterXferDelay = 30
 
 maxTestFloat = 10.0
 
@@ -39,9 +39,11 @@ s_payload_t   = 0b1011  # DEC 11
 #
 
 typeDict = { # key=type : value=[ngBytes, formatString, wait time in seconds before next communciation]
-    s_init_t       : [9,'<BIf',0.1], # type 1000, 9 bytes struct, wait after 0.1 s
-    s_bid_t        : [9,'<BIf',0.1], # type 1001, 9 bytes struct, wait after 0.1 s             
+    s_init_t       : [9,'<BIf',1], # type 1000, 9 bytes struct, wait after 0.1 s
+    s_bid_t        : [9,'<BIf',1], # type 1001, 9 bytes struct, wait after 0.1 s             
     s_payload_t    : [9,'<BIf',0.1]} # type 1010, 9 bytes struct, wait after for 0.1 s
+
+type2NameDict = dict((eval(name),name) for name in ['s_init_t','s_bid_t','s_payload_t'])
 
 nullResponse = [255,0,0.0]  # used as sentinel value
 
@@ -284,14 +286,14 @@ def go(typeLis,q):
     spi = spidev.SpiDev()
     spi.open(channel,device)
     try:
-        print(count, ': polling :',typeLis[0])
-        doOneCom(typeLis[0],spi,q,True,True)
-        print(count, ': polling :',typeLis[1])
-        doOneCom(typeLis[1],spi,q,False,True)
+        print('Polling :',type2NameDict[typeLis[0]])
+        doOneCom(typeLis[0],spi,q,True,False)
+        print('Polling :',type2NameDict[typeLis[1]])
+        doOneCom(typeLis[1],spi,q,False,False)
         count = 1
         while True:
-            if (count%10 == 0):
-                print(count, ': polling :',typeLis[2])
+            if (count%50 == 0):
+                print(count, ': Polling :',type2NameDict[typeLis[2]])
             count +=1                
             doOneCom(typeLis[2],spi,q)
     finally:
