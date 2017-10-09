@@ -27,6 +27,7 @@ frequency      = 4000000
 afterXferDelay = 30
 
 maxTestFloat = 10.0
+pollDisplayIterations = 100
 
 s_init_t      = 0b1000  # DEC  8
 s_bid_t       = 0b1001  # DEC  9
@@ -292,7 +293,7 @@ def go(typeLis,q):
         doOneCom(typeLis[1],spi,q,False,False)
         count = 1
         while True:
-            if (count%50 == 0):
+            if (count%pollDisplayIterations == 0):
                 print(count, ': Polling :',type2NameDict[typeLis[2]])
             count +=1                
             doOneCom(typeLis[2],spi,q)
