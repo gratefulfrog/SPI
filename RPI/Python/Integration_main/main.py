@@ -17,8 +17,8 @@ wait after clock seems to be a key parameter, too low and we get "errors correct
 2017 10 09 : SPI frequency = 4MHz, 
              wait after clock 30 us
              Q len = 750:
-             1000 polls of Q in 1006  sec =  745 items polled/sec
-             155915 lines in data.csv     =  746  lines/sec
+             7000 polls of Q in 7032  sec =  746 items polled/sec
+             5251174 lines in data.csv     = 746 lines/sec
              0 errors corrected
              0 state errors
 
