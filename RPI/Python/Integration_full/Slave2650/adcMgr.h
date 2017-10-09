@@ -22,7 +22,7 @@ class ADCMgr{  // each instance will manage the test of one ADC
     AD7689 *adc;                     /*!< pointer to instance of ADC that will be created */
     boolean usingUSARTSPI  = true;   /*!< value may be changed during setup based on reading of yspiOnPin */
     const uint8_t adcID;             /*!< identifying which adc (or USART channel) we are testing in this app instance */
-    const uint8_t nbChannels;      /*!< adc number of channels to be polled  */
+    //const uint8_t nbChannels;      /*!< adc number of channels to be polled  */
 
     /** doSelfTest pure virtual exectues the ADC self test
      *  runs the adc self-test and informs, blocks if failure  
@@ -40,7 +40,7 @@ class ADCMgr{  // each instance will manage the test of one ADC
     virtual YSPI*   hwInit()     const = 0;  
 
   public:
-    //static const uint8_t nullADCID  = ADCMGR_NULL_ADC_ID;
+    const uint8_t nbChannels;      /*!< adc number of channels to be polled  */
 
     /** get the channle value
      *  @param channel the channel to check and on which to inform
@@ -88,7 +88,7 @@ class YADCMgr : public ADCMgr{
     /** runLoop  as per parent class
      *  @see App::runLoop
      */
-    virtual float getValue(uint8_t channel)const;   
+    virtual float getValue(uint8_t channel) const;   
   
 };
 #endif

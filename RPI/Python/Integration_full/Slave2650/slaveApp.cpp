@@ -30,7 +30,14 @@ SlaveApp::SlaveApp() {
 
   uint8_t board0NBChannelVec[] = {BOARD_BOARD_0_ADC_0_NB_CHANNELS};
 
-  board = new Board(BOARD_BOARD_0_ID,board0NBChannelVec);
+  board = new Board(1,board0NBChannelVec);
+
+  for (int i=0 ; i< BOARD_BOARD_0_ADC_0_NB_CHANNELS; i++){
+    Serial.println(String("Board[0]. ADCMgr[0], Channel[") + 
+                   String(i) + 
+                   String("] : Value : ") +
+                   String(board->getValue(0,i)));
+  }
 
   initResponseStruct.u32 = board->getGUID();
   Serial.println(String("BID : ") + String(initResponseStruct.u32));
@@ -249,6 +256,31 @@ byte SlaveApp::response(uint8_t incoming){
 }
 
 SlaveApp::State SlaveApp::doWork(){
+  static uint8_t ADC_ID = 0;
+  static uint8_t ChannelID = 0;
+
+  u8u32f_struct  nextStruct = {0,0,0.0};
+
+  encode(nextStruct.u8, ADC_ID, ChannelID);
+  nextStruct.u32 = TimeStamper::theTimeStamper->getTimeStamp();
+  nextStruct.f   = board->getValue(ADC_ID,ChannelID);
+  
+  State res = currentState;
+
+  if (q->push(nextStruct)){  // we could push it onto the q   
+    ChannelID = (ChannelID +1 ) % board->getMgrNbChannels(ADC_ID);
+    if(!ChannelID){  // we must inc the ADC_id
+      ADC_ID = (ADC_ID +1) % board->nbADCs;
+    }
+  }
+  else { // no more room in q !!
+    res = State::readyToSend;
+  }
+  return res;
+}
+
+/*
+SlaveApp::State SlaveApp::doWork(){
   static u8u32f_struct  nextStruct = {0,
                                       TimeStamper::theTimeStamper->getTimeStamp(),
                                       0.0};
@@ -259,24 +291,8 @@ SlaveApp::State SlaveApp::doWork(){
   
   State res = currentState;
 
-  /*
-  if (stopped){
-    startTime = micros();
-    stopped = false;
-  }
-  */
-
   if (q->push(nextStruct)){  // we could push it onto the q
-    /*
-    counter++;
-    Serial.println(String("Enqueue : ") + String(counter) +
-                   String("\t") + String(nextStruct.u8) + 
-                   String(" ") + String(nextStruct.u32) + 
-                   String(" ") + String(nextStruct.f)  
-                   );
-    */
     nextStruct.u8++;
-    //nextStruct.u32++;
     nextStruct.u32 = TimeStamper::theTimeStamper->getTimeStamp();
     nextStruct.f += 0.01;
     if (nextStruct.f >= maxFloat){
@@ -284,12 +300,8 @@ SlaveApp::State SlaveApp::doWork(){
     }
   }
   else { // no more room in q !!
-    //double rate = (micros()-startTime)/(double)q->qLenght();
-    //stopped = true;
-    //Serial.println(String("Sampling rate samples/us : ") +String(rate));
-    //Serial.println("Q Full, work stopped!");
     res = State::readyToSend;
   }
   return res;
 }
-
+*/
