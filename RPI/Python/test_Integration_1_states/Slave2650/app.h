@@ -58,14 +58,15 @@ class SlaveApp{
     void fixCurrentState();
     void createTimeStamper();
     void sayState();
-    int SlaveApp::doNothing(int nbLoops);
     void SPI_SlaveReceive(void);
     boolean incOutgoing();
     boolean isSlaveMsg(byte msg) const;
     u8u32f_struct* getOutgoing(uint8_t type) ;
     byte response(byte incoming);
     State doWork();
- 
+
+    //int SlaveApp::doNothing(int nbLoops);
+    
     
   public:
     SlaveApp();

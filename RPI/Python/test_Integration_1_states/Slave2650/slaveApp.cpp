@@ -19,7 +19,20 @@ SlaveApp::SlaveApp() {
   currentState = State::started;
 }
 
+#define SAY_HEARTBEAT_ONLY (true)
+#define HB_SHOW_COUNT      (300)
+
 void SlaveApp::sayState(){
+  static const boolean hbOnly = SAY_HEARTBEAT_ONLY;
+  static uint32_t counter = 0;
+
+  if (hbOnly){
+    if (!(counter++ % HB_SHOW_COUNT)){
+      Serial.println(String("hearbeat : ") + String(counter));
+    }
+    return;
+  }
+  
   String msg = String(int(currentState)) + String(" : "); "started";
   switch (currentState){
     case State::unstarted:
@@ -96,7 +109,7 @@ void SlaveApp::createTimeStamper(){
     Serial.println("Time Stamper created");
   }
 }
-
+/*
 int SlaveApp::doNothing(int nbLoops){
   int res = 0;
   while(nbLoops--){
@@ -104,6 +117,7 @@ int SlaveApp::doNothing(int nbLoops){
   }
   return res;
 }
+*/
 void SlaveApp::SlaveApp::loop(){
   if (previousState != currentState){
     fixCurrentState();
