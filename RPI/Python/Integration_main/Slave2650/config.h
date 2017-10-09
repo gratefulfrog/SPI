@@ -16,6 +16,16 @@ typedef uint32_t boardID;     /*!< typedef for GUID on 32 unsigned bits */
 
 #define BOARD_BOARD_ID (11111111)  // 8x 1s
 
+
+/*************************************************************/
+/** SlaveApp config */
+/*************************************************************/
+
+#define SlaveApp_LED_PIN_1 (35)
+#define SlaveApp_LED_PIN_2 (36)
+#define SlaveApp_HB_TIME (500) // millis secs
+
+
 #endif
 
 

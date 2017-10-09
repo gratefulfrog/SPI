@@ -1,13 +1,39 @@
 #include "app.h"
 
+void SlaveApp::setupHBLed(){
+  pinMode(SlaveApp_LED_PIN_1, OUTPUT);
+  digitalWrite(SlaveApp_LED_PIN_1, HIGH);
+
+  pinMode(SlaveApp_LED_PIN_2, OUTPUT);
+  digitalWrite(SlaveApp_LED_PIN_2, LOW);
+}
+
+void SlaveApp::stepHB(){
+  static uint32_t lastHBTime = millis();
+  uint32_t now = millis();
+
+  static const uint8_t pinVec[] = {SlaveApp_LED_PIN_1, SlaveApp_LED_PIN_2};
+  
+  if ((now-lastHBTime > SlaveApp_HB_TIME) || (now < lastHBTime)) {
+    for (uint8_t i=0;i<2;i++){
+     digitalWrite(pinVec[i],!digitalRead(pinVec[i]));
+    }
+   lastHBTime = now;
+  }
+}
+
 SlaveApp::SlaveApp() {
   Serial.begin(115200);
+  setupHBLed();
   Serial.println("Ready!");
   q = new Q<u8u32f_struct>(nullStruct);
 
   board = new Board();
-  bidResponseStruct.u32 = board->getGUID();
+  //bidResponseStruct.u32 = board->getGUID();
+  initResponseStruct.u32 = board->getGUID();
+  Serial.println(String("BID : ") + String(initResponseStruct.u32));
   
+   
   /* Set MISO output, all others input */
   pinMode(MISO,OUTPUT);
   
@@ -44,9 +70,11 @@ void SlaveApp::sayState(){
     case State::initialized:
       msg += String("initialized");
       break;
+    /*
     case State::bidSent:
       msg += String("Bid Sent");
       break;
+    */
     case State::working:
       msg += String("working");
       break;
@@ -61,8 +89,7 @@ void SlaveApp::sayState(){
 }
 /*  State achine
 - started, expecting SPI init
-- initialized, expecting SPI bid,
-- bid sent, then immediately working,
+- initialized, then immediately working,
 While true:
 - working until Q full,
 - ready to send, expecting SPI payload
@@ -81,12 +108,14 @@ void SlaveApp::fixCurrentState(){
       correctCurrentState = State::initialized;
       break;
     case State::initialized:
-      correctCurrentState = State::bidSent;
+      correctCurrentState = State::working; //State::bidSent;
       break;
-    case State::bidSent:
+    /*
+     case State::bidSent:
       correctCurrentState = State::working;
       break;
-     case State::working:
+     */
+    case State::working:
       correctCurrentState = State::readyToSend;
       break;
     case State::readyToSend:
@@ -109,16 +138,9 @@ void SlaveApp::createTimeStamper(){
     Serial.println("Time Stamper created");
   }
 }
-/*
-int SlaveApp::doNothing(int nbLoops){
-  int res = 0;
-  while(nbLoops--){
-    res++;
-  }
-  return res;
-}
-*/
+
 void SlaveApp::SlaveApp::loop(){
+  stepHB();
   if (previousState != currentState){
     fixCurrentState();
     previousState = currentState;
@@ -126,20 +148,26 @@ void SlaveApp::SlaveApp::loop(){
   }
   // here there has not been a change of state
   else {
-    //doNothing(1000);
     switch(currentState){
-       case State::unstarted:
+    case State::unstarted:
+      noInterrupts();
       currentState = State::started;
+      interrupts();
       break;
     // case State::started:      // SPI init poll changes state
-    case State::initialized:    // SPI BID poll changes state to bid Sent
+    case State::initialized:    
+      noInterrupts();
       createTimeStamper();
+      currentState = State::working;
+      interrupts();
       break;   
-    case State::bidSent:
+    /*case State::bidSent:
       noInterrupts();           // let it work un-interrupted from this point!
       currentState = State::working;
       break;
+     */
      case State::working:
+      noInterrupts();
       currentState =  doWork();
       break;
     case State::readyToSend:    // SPI Payload poll changes state
@@ -176,15 +204,11 @@ u8u32f_struct* SlaveApp::getOutgoing(uint8_t type) {
     nextState = State::initialized;
     res = &initResponseStruct;
   }
+  /*
   // got the BID poll
   else if ((type == bid8)  && (currentState == State::initialized)){
     nextState = State::bidSent;
     res = &bidResponseStruct;
-  }
-  /*else if (type == wakeUp8){
-    // stop working and get ready to send all the data back
-    nextState = State::sendingStructs;
-    return &nullStruct;
   }
   */
   // got the payload poll

@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 
+#include "config.h"
 #include "staticQ.h"
 #include "timeStamper.h"
 #include "board.h"
@@ -36,7 +37,7 @@ class SlaveApp{
                   
                   //startWork8 = 0b11000000;   // DEC 192
     u8u32f_struct initResponseStruct =  {init8, init32,0},
-                   bidResponseStruct  = {bid8, bid32, 0},
+                   //bidResponseStruct  = {bid8, bid32, 0},
                    payload = {255,255,255.0},
                    nullStruct = {255,0,0.0};
     
@@ -45,7 +46,7 @@ class SlaveApp{
 
     uint8_t *bytePtr;
 
-    enum class State  {unstarted,started,initialized,bidSent,working,readyToSend,sendingStructs};
+    enum class State  {unstarted,started,initialized,/*bidSent,*/working,readyToSend,sendingStructs};
     volatile State currentState = State::started;
     State previousState = State::unstarted;
     State nextState = State::unstarted;
@@ -55,6 +56,8 @@ class SlaveApp{
     Board *board;
     
     // protected methods
+    void setupHBLed();
+    void SlaveApp::stepHB();
     void fixCurrentState();
     void createTimeStamper();
     void sayState();

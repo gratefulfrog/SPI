@@ -1,10 +1,8 @@
 #include "board.h"
 
-Board::Board(){  
-  AA025UID g = AA025UID();
-  guid = g.getGuidID();
-}
+Board::Board(){}
 
 boardID Board::getGUID() const{
-  return guid;
+  //AA025UID g = AA025UID();
+  return AA025UID().getGuidID();
 }

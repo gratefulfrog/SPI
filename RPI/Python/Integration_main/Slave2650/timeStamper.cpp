@@ -1,6 +1,8 @@
 #include "timeStamper.h"
 
-TimeStamper::TimeStamper(timeStamp_t tInit) : t0(tInit){}
+TimeStamper::TimeStamper(timeStamp_t tInit) : t0(tInit){
+  Serial.println(String("Timestamp t0 : ")+ String(t0));
+}
     
 timeStamp_t TimeStamper::getTimeStamp(){
   if (micros() < t0){
