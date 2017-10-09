@@ -45,14 +45,10 @@ class SlaveApp{
 
     uint8_t *bytePtr;
 
-    //boolean noMorePayloads = false;
-
-    enum class State  {unstarted,started,initialized,bidSent,working,readyToSend,sendingStructs,readyToWork};
+    enum class State  {unstarted,started,initialized,bidSent,working,readyToSend,sendingStructs};
     volatile State currentState = State::started;
     State previousState = State::unstarted;
     State nextState = State::unstarted;
-    
-    //boolean saidWorking = false;
 
     Q<u8u32f_struct> *q;
 
@@ -62,6 +58,7 @@ class SlaveApp{
     void fixCurrentState();
     void createTimeStamper();
     void sayState();
+    int SlaveApp::doNothing(int nbLoops);
     void SPI_SlaveReceive(void);
     boolean incOutgoing();
     boolean isSlaveMsg(byte msg) const;

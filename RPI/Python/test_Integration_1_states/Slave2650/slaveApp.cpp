@@ -16,34 +16,35 @@ SlaveApp::SlaveApp() {
 
   // turn on interrupts
   SPCR |= _BV(SPIE);
+  currentState = State::started;
 }
 
 void SlaveApp::sayState(){
-  String msg = "started";
+  String msg = String(int(currentState)) + String(" : "); "started";
   switch (currentState){
+    case State::unstarted:
+      msg += String("unstarted");
+      break;
+    case State::started:
+      msg += String("started");
+      break;
     case State::initialized:
-      msg = "initialized";
+      msg += String("initialized");
       break;
     case State::bidSent:
-      msg = "Bid Sent";
-      break;
-    case State::readyToWork:
-      msg = "Ready to Work";
-      //saidWorking = false;
+      msg += String("Bid Sent");
       break;
     case State::working:
-      msg = "working";
-      //saidWorking=true;
+      msg += String("working");
       break;
     case State::sendingStructs:
-      //saidWorking = false;
-      msg = "sending Structs";
+      msg += String("sending Structs");
       break;
     case State::readyToSend:
-      msg = "Ready To Send";
+      msg += String("Ready To Send");
       break;
   }
-  //Serial.println(String("Current State : ") + msg);
+  Serial.println(String("Current State : ") + msg);
 }
 /*  State achine
 - started, expecting SPI init
@@ -85,7 +86,6 @@ void SlaveApp::fixCurrentState(){
   if (currentState != correctCurrentState){
     Serial.println(String("*** STATE ERROR : ") + String(count++));
     Serial.println(String("currentState :") + String(int(currentState)) + String("    correctCurrentState :") + String(int(correctCurrentState))); 
-    //currentState = correctCurrentState;
   }
 }
 
@@ -97,6 +97,13 @@ void SlaveApp::createTimeStamper(){
   }
 }
 
+int SlaveApp::doNothing(int nbLoops){
+  int res = 0;
+  while(nbLoops--){
+    res++;
+  }
+  return res;
+}
 void SlaveApp::SlaveApp::loop(){
   if (previousState != currentState){
     fixCurrentState();
@@ -105,19 +112,20 @@ void SlaveApp::SlaveApp::loop(){
   }
   // here there has not been a change of state
   else {
+    //doNothing(1000);
     switch(currentState){
        case State::unstarted:
       currentState = State::started;
       break;
     // case State::started:      // SPI init poll changes state
-    case State::initialized:  // SPI BID poll changes state to bid Sent
+    case State::initialized:    // SPI BID poll changes state to bid Sent
       createTimeStamper();
       break;   
     case State::bidSent:
+      noInterrupts();           // let it work un-interrupted from this point!
       currentState = State::working;
       break;
      case State::working:
-      noInterrupts();
       currentState =  doWork();
       break;
     case State::readyToSend:    // SPI Payload poll changes state
@@ -174,6 +182,7 @@ u8u32f_struct* SlaveApp::getOutgoing(uint8_t type) {
   else{  // what could this be???
     while(1);
   }
+  return res;
 }
 
 byte SlaveApp::response(uint8_t incoming){
