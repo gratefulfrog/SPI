@@ -4,34 +4,12 @@
 # ./main.py s_init_t s_bid_t s_wakeup_t s_payload_t
 
 """ some results
-SPI frequency = 1MHz
-2017 10 08 : Q len = 100: 
-             1100 polls in 377 secs = 291 Q items polled/sec 
-             114301 lines in data.csv,  303 lines/sec
-             1 error corrected!, 
-             250 state errors, .002 state errors/line of data
-2017 10 08 : Q len = 500:
-             400 polls in 311 sec =  643 Q items polled/sec
-             201382 lines in data.csv   647 lines/sec
-             1 error corrected
-             91 state errors, 0.00045 state errors/line of data
-2017 10 08 : Q len = 750:
-             200 polls in  216 sec =   694 Q items polled/sec
-             151746 lines in data.csv   702  lines/sec
-             NO errors corrected
-             39 state errors,  0.00025 state errors/line of data
-SPI frequency = 4MHz
-2017 10 08 : Q len = 750:
-             600 polls in 633  sec =    710 Q items polled/sec
-             450495 lines in data.csv    711 lines/sec
-             1 errors corrected
-             137 state errors,  0.0003 state errors/line of data
-
-             1000 polls in 1046  sec =    717 Q items polled/sec
-             749729 lines in data.csv    715 lines/sec
-             3 errors corrected
-             213 state errors,  0.00028 state errors/line of data
-
+SPI frequency = 4MHz, wait after clock 25 us
+2017 10 09 : Q len = 750:
+             200 polls of Qin 192  sec =     781 items polled/sec
+             155915 lines in data.csv    812 lines/sec
+             0 errors corrected
+             0 state errors
 
 """
 import csv

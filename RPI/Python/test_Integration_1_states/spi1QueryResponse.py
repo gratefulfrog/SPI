@@ -23,14 +23,13 @@ pause   = 0.0000   # seconds
 # SPI config
 channel        = 0
 device         = 0
-frequency      = 1000000
-afterXferDelay = 20
+frequency      = 4000000
+afterXferDelay = 25
 
 maxTestFloat = 10.0
 
 s_init_t      = 0b1000  # DEC  8
 s_bid_t       = 0b1001  # DEC  9
-s_wakeup_t    = 0b1010  # DEC 10
 s_payload_t   = 0b1011  # DEC 11
 
 #s_startWork_t = 0b1100  # DEC 12
@@ -40,11 +39,9 @@ s_payload_t   = 0b1011  # DEC 11
 #
 
 typeDict = { # key=type : value=[ngBytes, formatString, wait time in seconds before next communciation]
-    s_init_t       : [9,'<BIf',0.1], # type 1000, 9 bytes struct,delay 0.1
-    s_bid_t        : [9,'<BIf',0.1], # type 1001, 9 bytes struct,              
-    s_payload_t    : [9,'<BIf',0.1], # type 1010, 9 bytes struct, wait 1 second before next communication
-    s_wakeup_t     : [9,'<BIf',0.1]} # type 1011, 9 bytes struct,
-    #s_startWork_t  : [9,'<BIf',1]} # type 1011, 9 bytes struct,                  
+    s_init_t       : [9,'<BIf',0.1], # type 1000, 9 bytes struct, wait after 0.1 s
+    s_bid_t        : [9,'<BIf',0.1], # type 1001, 9 bytes struct, wait after 0.1 s             
+    s_payload_t    : [9,'<BIf',0.1]} # type 1010, 9 bytes struct, wait after for 0.1 s
 
 nullResponse = [255,0,0.0]  # used as sentinel value
 
@@ -219,10 +216,12 @@ def doOneCom(type,spi,q,clearTheAir=False,printResults=False):
     saidEnq = False
     # first one is ignored, just to clear the air!
     if clearTheAir:
-        transferLis(outVec,spi)
+        pass
+    #transferLis(outVec,spi)
     moreDataComing = True
     try:
         while moreDataComing:
+            #input()
             [currentResponseLis,correctedInc] = transferLis(outVec,spi)
             transferCount+= 1  # note we are now counting transfers not bytes
             correctedCount += correctedInc
@@ -257,7 +256,7 @@ def doOneCom(type,spi,q,clearTheAir=False,printResults=False):
                 q.put(list(currentResponseLis) + bid)
             elif type == s_bid_t:
                 bid[0] = getBid(currentResponseLis)
-                #print('BID set :', bid), 
+                print('BID set :', bid), 
                 
             moreDataComing = not nullReturn and enQResponse
                  
@@ -269,37 +268,31 @@ def doOneCom(type,spi,q,clearTheAir=False,printResults=False):
         print(  'Corrected         :',correctedCount)
         print('\nbye...')
         raise 
-    
+    #print('Sleeping :',typeDict[type][2])
     time.sleep(typeDict[type][2])
     
 
 def go(typeLis,q):
+    """ opens SPI
+    sends each elt in typeLis as per:
+    [0] : clearTheAir=True, printResults=True
+    [1] : clearTheAir=False, printResults=True
+    loop indefinitely:
+      [2] : use default values for clearTheAir and printResults
+    on exit, closes spi
+    """
     spi = spidev.SpiDev()
     spi.open(channel,device)
     try:
-        print('polling type :',typeLis[0])
+        print(count, ': polling :',typeLis[0])
         doOneCom(typeLis[0],spi,q,True,True)
-        for t in typeLis[1:-1]:
-            print('polling type :',t)
-            doOneCom(t,spi,q,False,True)
+        print(count, ': polling :',typeLis[1])
+        doOneCom(typeLis[1],spi,q,False,True)
         count = 1
         while True:
             if (count%10 == 0):
-                print(count, ': polling :',typeLis[-2:])
+                print(count, ': polling :',typeLis[2])
             count +=1                
-            for t in typeLis[-1:]:
-                doOneCom(t,spi,q)
-                
+            doOneCom(typeLis[2],spi,q)
     finally:
         spi.close()
-
-import sys
-
-if __name__ == '__main__':
-    # if arg given, then do letters, else do numbers!
-    if len(sys.argv)<2:
-        print('Usage: $ ./spi1Struct.py <type>')
-        print('where <type> is one of:   s_init_t, s_bid_t, s_payload_t,  s_wakeup_t'  )
-        print('Note: the AEM board must be running the appropriate software, corresponding to the <type>')
-        sys.exit(0)
-    go(eval(sys.argv[1:]))
