@@ -25,17 +25,17 @@ pause   = 0.0000   # seconds
 channel        = 0
 device         = 0
 frequency      = 4000000
-afterXferDelay = 30
+afterXferDelay = 23  # 25 is ok
 
-maxTestFloat = 10.0
+#maxTestFloat = 10.0
 pollDisplayIterations = 100
 
 s_init_t      = 0b1000  # DEC  8
 s_payload_t   = 0b1011  # DEC 11
 
-typeDict = { # key=type : value=[ngBytes, formatString, wait time in seconds before next communciation]
+typeDict = { # key=type : value=[nbBytes, formatString, wait time in seconds before next communciation]
     s_init_t       : [9,'<BIf',1], # type 1000, 9 bytes struct, wait after 0.1 s
-    s_payload_t    : [9,'<BIf',0.1]} # type 1010, 9 bytes struct, wait after for 0.1 s
+    s_payload_t    : [9,'<BIf',0.09]} # type 1010, 9 bytes struct, wait after for 0.1 s
 
 type2NameDict = dict((eval(name),name) for name in ['s_init_t',
                                                     's_payload_t'])

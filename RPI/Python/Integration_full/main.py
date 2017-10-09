@@ -21,6 +21,14 @@ wait after clock seems to be a key parameter, too low and we get "errors correct
              5251174 lines in data.csv     = 746 lines/sec
              0 errors corrected
              0 state errors
+-----------------------------
+2017 10 09 : SPI frequency = 4MHz, 
+             wait after clock 23 us
+             wait after payloar 0.09 s
+             Q len = 750:
+             5854 lines in data.csv in 87.6     = 866 lines/sec
+             0 errors corrected
+             0 state errors
 
 
 """
