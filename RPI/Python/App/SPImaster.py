@@ -13,7 +13,7 @@ Orange : MOSI     : 19              : D2
 
 import spidev
 from struct import pack,unpack
-from time import sleep,strftime, localtime
+from time import sleep, strftime, localtime
 
 # xfer args: list of bytes,
 #            Hz freq of clck,
