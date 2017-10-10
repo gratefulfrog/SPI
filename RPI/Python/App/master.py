@@ -114,7 +114,7 @@ class Master:
         self.dataDir = './DATA'
         self.q = queue.Queue()
         self.lock = threading.Lock()
-        createThreads(nbThreads,self.q,self.lock)        
+        self.createThreads(nbThreads,self.q,self.lock)        
 
     def createThreads(self,num,que,lok):
         self.threads = []
@@ -137,11 +137,11 @@ class Master:
     def run(self,typeLis):
         t = time.time()
         try:
-            comms.go(typeLis,q)
+            comms.go(typeLis,self.q)
         except Exception as e:
-            print(e) #.message,e.args)
+            print(e) 
         finally:
-            stopAll(self.q,self.threads)
+            self.stopAll()
             print('Elapsed Time :',time.time()-t,'seconds')
 
 if __name__ == '__main__':
