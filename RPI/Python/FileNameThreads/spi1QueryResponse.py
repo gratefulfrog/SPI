@@ -188,8 +188,9 @@ def doOneCom(type,spi,q,clearTheAir=False,printResults=False):
             if nullReturn:
                 pass
             elif enQResponse:
+                #print('***** Enqueueing...',transferCount)
                 if not saidEnq:
-                    #print('***** Enqueueing...')
+                    #print('***** Enqueueing...)
                     saidEnq = True
                 q.put(list(currentResponseLis) + bid)
             elif (type == s_init_t):
@@ -237,5 +238,4 @@ def go(typeLis,q):
             count +=1                
             doOneCom(typeLis[1],spi,q)
     finally:
-        pass
         spi.close()

@@ -61,7 +61,7 @@ class WriterThread(threading.Thread):
         with open(outFile, 'a', newline='') as csvfile:
             writer = csv.writer(csvfile, delimiter=',',
                                 quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            print(headers)
+            #print(headers)
             writer.writerow(headers)
             print('created file:',outFile)
 
@@ -78,8 +78,9 @@ class WriterThread(threading.Thread):
         except KeyError:
             self.fileLock = threading.Lock()
             fileLockDict[filename] = self.fileLock
-            self.createDataFile(filename)
-            self.dictLock.release()
+            if not os.path.exists(filename):
+                self.createDataFile(filename)
+        self.dictLock.release()
         self.fileLock.acquire()
         return filename 
 
@@ -88,6 +89,7 @@ class WriterThread(threading.Thread):
 
     def do_work(self,thing):
         filename = self.getFile(thing)
+        #print('writing a row',thing)
         with open(filename, 'a', newline='') as csvfile:
             writer = csv.writer(csvfile, delimiter=',',
                                 quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -170,7 +172,7 @@ def main(typeLis,numThreads=3):
 
     t = time.time()
     try:
-        comms.doSynch()
+        #comms.doSynch()
         comms.go(typeLis,q)
         #print(comms.syncTime)
         #q.put(tempGetNext())
@@ -182,16 +184,17 @@ def main(typeLis,numThreads=3):
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print('Usage: $ ./spi1Struct.py <type>')
-        print('where <type> is one of:   s_init_t, s_bid_t, s_payload_t,  s_wakeup_t'  )
-        print('e.g.:  ./main.py  s_init_t, s_bid_t, s_wakeup_t, s_payload_t')
-        print('pairs [s_wakeup_t, s_payload_t] will be added to continue comms indefinitely...')
+        print('Usage: $ ./spi1Struct.py s_init_t, s_payload_t'  )
+        print('s_payload_t will be repeated to continue comms indefinitely...')
         print('Note: the AEM board must be running the appropriate software, corresponding to the <type>')
         sys.exit(0)
 
     #main(int(sys.argv[1]),int(sys.argv[2]))
     #main(eval('comms.'+sys.argv[1]))
+    
     tyLis = list(map(lambda s:eval('comms.'+s),sys.argv[1:]))
+    #tyLis = [0,1,1]
+    #for i in range(100):
     main(tyLis)
     
                  
