@@ -31,11 +31,10 @@ import time
 import sys
 import os.path
 
-#import spi1StructWriter as comms
-#import spi1QueryResponse as comms
-import tempspi1QueryResponse as comms
+import spi1QueryResponse as comms
+#import tempspi1QueryResponse as comms
 
-outFile = './DATA/data.csv'
+#outFile = './DATA/data.csv'
 
 syncTime = ''
 fileLockDict = {}
@@ -162,6 +161,7 @@ def tempGetNext():
     return res
         
 #def main(numThreads, nbItems):
+
 def main(typeLis,numThreads=3):
     lock = threading.Lock()
     q = queue.Queue()
@@ -170,8 +170,10 @@ def main(typeLis,numThreads=3):
 
     t = time.time()
     try:
-        #comms.go(typeLis,q)
-        q.put(tempGetNext())
+        comms.doSynch()
+        comms.go(typeLis,q)
+        #print(comms.syncTime)
+        #q.put(tempGetNext())
     except Exception as e:
         print(e) #.message,e.args)
     finally:

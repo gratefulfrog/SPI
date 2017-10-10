@@ -11,8 +11,9 @@ Blue   : MISO     : 21              : D3
 Orange : MOSI     : 19              : D2
 """
 
-import spidev,time
+import spidev
 from struct import pack,unpack
+from time import sleep,strftime, localtime
 
 # xfer args: list of bytes,
 #            Hz freq of clck,
@@ -20,8 +21,6 @@ from struct import pack,unpack
 
 # time after each transfer to observe results
 pause   = 0.0000   # seconds
-
-syncTime = 123123
 
 # SPI config
 channel        = 0
@@ -131,7 +130,7 @@ def transferLis(outLis,spi):
     correctedCount = 0
     # ignore first reply
     spi.xfer(masterMsg(outLis[0]),frequency,afterXferDelay)
-    time.sleep(pause)
+    sleep(pause)
     
     for outByte in outLis[1:]:
         responseLis += spi.xfer(masterMsg(outByte),frequency,afterXferDelay)
@@ -141,7 +140,7 @@ def transferLis(outLis,spi):
             responseLis = responseLis[:-1]
             responseLis += spi.xfer(masterMsg(outByte),frequency,afterXferDelay)
             # here we have a good value in r1
-        time.sleep(pause)
+        sleep(pause)
     # here we have the response list filled with good values
 
     resLis = []
@@ -208,8 +207,13 @@ def doOneCom(type,spi,q,clearTheAir=False,printResults=False):
         print('\nbye...')
         raise KeyboardInterrupt
     #print('Sleeping :',typeDict[type][2])
-    time.sleep(typeDict[type][2])
+    sleep(typeDict[type][2])
+
+syncTime = 'no_time'
     
+def doSynch():
+    global syncTime 
+    syncTime = strftime("%Y_%m _%d_%H.%M.%S", localtime())
 
 def go(typeLis,q):
     """ opens SPI
@@ -224,6 +228,7 @@ def go(typeLis,q):
     try:
         print('Polling :',type2NameDict[typeLis[0]])
         doOneCom(typeLis[0],spi,q,True,False)
+        doSynch()
         #input()
         count = 1
         while True:
@@ -232,56 +237,5 @@ def go(typeLis,q):
             count +=1                
             doOneCom(typeLis[1],spi,q)
     finally:
+        pass
         spi.close()
-
-
-## OBSOLETE CODE ##
-    
-"""
-cannot work with real data and query response        
-def tell(init, transferCount,errorCount,currentResponseLis,lastResponseLis,type):
-    
-    type is one of:
-       s_init_t    
-       s_bid_t     
-       s_payload_t 
-       s_wakeup_t   
-    return [init, errorCount, lastResponseLis]
-    
-    tempLRL = lastResponseLis
-    # the test below is no longer needed since now all responses are structs!
-    #if type == s_payload_t:  
-    for (t,ind) in map(lambda x,y:(x,y), [u8_t,u32_t,f_t], range(3)):
-        lrl = tempLRL if not init else [tempLRL[ind]]
-        [i,e,lr] = tell(init,transferCount,errorCount,[currentResponseLis[ind]],lrl,t)
-        errorCount += e
-        if not init:
-            lastResponseLis += lr
-        else:
-            lastResponseLis[ind] = lr[0]
-    return [True, errorCount,lastResponseLis]
-        
-    takeAway = 0.01 if type == f_t else 1
-    modV = getModV(type)
-    if (not init) or (round(currentResponseLis[0],2) == 0):
-        lastResponseLis = [currentResponseLis[0] - takeAway]
-        init = True;
-    if type != f_t:
-        errorCond = (currentResponseLis[0] != (lastResponseLis[0] + takeAway) % modV)
-    else:
-        errorCond = abs(currentResponseLis[0] - lastResponseLis[0]) > takeAway+ 0.005
-    if errorCond:
-        errorCount+=1
-        print(transferCount,
-              ' : ',
-              [currentResponseLis[0],lastResponseLis[0]],
-              'Error :',
-              errorCount,
-              '!********************')
-        init=True  # leave this here if not using keyboardInterrupt exception
-        raise KeyboardInterrupt
-    else:
-        lastResponseLis = currentResponseLis
-    return [init, errorCount,lastResponseLis]
-"""
-
