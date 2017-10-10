@@ -49,8 +49,7 @@ class SlaveApp{
     enum class State  {unstarted,started,initialized,/*bidSent,*/working,readyToSend,sendingStructs};
     volatile State currentState = State::started;
     State previousState = State::unstarted;
-    volatile State nextState = State::unstarted;
-    volatile boolean flag = false;
+    State nextState = State::unstarted;
 
     Q<u8u32f_struct> *q;
 

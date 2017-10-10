@@ -79,6 +79,11 @@ void SlaveApp::sayState(){
     case State::initialized:
       msg += String("initialized");
       break;
+    /*
+    case State::bidSent:
+      msg += String("Bid Sent");
+      break;
+    */
     case State::working:
       msg += String("working");
       break;
@@ -112,8 +117,13 @@ void SlaveApp::fixCurrentState(){
       correctCurrentState = State::initialized;
       break;
     case State::initialized:
-      correctCurrentState = State::working; 
+      correctCurrentState = State::working; //State::bidSent;
       break;
+    /*
+     case State::bidSent:
+      correctCurrentState = State::working;
+      break;
+     */
     case State::working:
       correctCurrentState = State::readyToSend;
       break;
@@ -140,31 +150,6 @@ void SlaveApp::createTimeStamper(){
 
 void SlaveApp::SlaveApp::loop(){
   stepHB();
-  // if the flag is true, then an interrupt has requested a state change.
-  // This could be either we got an init8 poll and were in State::started, and next is State:initialized
-  // or we got a payload8 and either we are readyToSend or already sendingStructs, then
-  // if there is stuff to send, we go to sendingStructs, 
-  // if not we go to working.
-  // the flag is only true if there nextState != currentState
-  // Truth table:
-  /*
-      Interrupt   currentState     result of incOutgoing   nextState      flag (nextState != currentState)
-      init8       started          N/A                     initialized    TRUE
-      payload8    readyToSend      TRUE                    sendingStructs TRUE
-      payload8    readyToSend      FALSE                   working        TRUE  // this should never happen!
-      payload8    sendingStructs   TRUE                    sendingStructs FALSE
-      payload8    sendingStructs   FALSE                   working        TRUE  
-  */
-  // so the flag will be set to true, but there will always be a wait of at least 0.1 secs before it is set again to true, 
-  // which is why we don't need to worry about the flag changing between the evaluation of the 'if'
-  // and the flag being set to false.
-  // suppose that were to happen, i.e. flag is true, the master always waits at least 0.1 seconds before sending a new SPI poll
-  // so suppose flag is set to true just after the if, the entire rest of the loop must take longer than 0.1 secs if it is to 
-  // be set to true again, before the if is re-evaluated. This is not possile, I think
-  if (flag){
-    currentState=nextState;
-    flag = false;
-  }
   if (previousState != currentState){
     fixCurrentState();
     previousState = currentState;
@@ -174,21 +159,30 @@ void SlaveApp::SlaveApp::loop(){
   else {
     switch(currentState){
     case State::unstarted:
+      noInterrupts();
       currentState = State::started;
-      break;
-    // case State::started:      // SPI init poll will set flag causing change of state
-    case State::initialized:    
-      createTimeStamper();
-      currentState = State::working;
-      break;   
-     case State::working:
-      noInterrupts();   // no interruptions while working
-      currentState =  doWork();  // end of work will cause change of state to readyToSend
-      break;
-    case State::readyToSend:    // we are done working, spi payload poll will set flag causing change of state to sendingStructs
       interrupts();
       break;
-    //case State::sendingStructs:  // SPI Payload poll will set flag causing change of state to working
+    // case State::started:      // SPI init poll changes state
+    case State::initialized:    
+      noInterrupts();
+      createTimeStamper();
+      currentState = State::working;
+      interrupts();
+      break;   
+    /*case State::bidSent:
+      noInterrupts();           // let it work un-interrupted from this point!
+      currentState = State::working;
+      break;
+     */
+     case State::working:
+      noInterrupts();
+      currentState =  doWork();
+      break;
+    case State::readyToSend:    // SPI Payload poll changes state
+      interrupts();
+      break;
+    //case State::sendingStructs:  // SPI Payload poll changes state
     }
   }
 }
@@ -219,6 +213,13 @@ u8u32f_struct* SlaveApp::getOutgoing(uint8_t type) {
     nextState = State::initialized;
     res = &initResponseStruct;
   }
+  /*
+  // got the BID poll
+  else if ((type == bid8)  && (currentState == State::initialized)){
+    nextState = State::bidSent;
+    res = &bidResponseStruct;
+  }
+  */
   // got the payload poll
   else if ((type == payload8) && 
            ((currentState == State::readyToSend) || (currentState == State::sendingStructs))){  // we got a request for payload
@@ -248,9 +249,7 @@ byte SlaveApp::response(uint8_t incoming){
     res = (*(bytePtr+i))>>4 & 0b1111; // send 1st 1/2 byte of outgoing
   }
   else { // it's filler
-    if(currentState != nextState){
-      flag = true;
-    }
+    currentState = nextState;
     i=0;
   }
   return res;
@@ -280,3 +279,29 @@ SlaveApp::State SlaveApp::doWork(){
   return res;
 }
 
+/*
+SlaveApp::State SlaveApp::doWork(){
+  static u8u32f_struct  nextStruct = {0,
+                                      TimeStamper::theTimeStamper->getTimeStamp(),
+                                      0.0};
+  //static uint32_t counter = 0;  
+  //static boolean saidQFull = false;
+  //static boolean stopped = true;
+  //static uint32_t startTime = micros();
+  
+  State res = currentState;
+
+  if (q->push(nextStruct)){  // we could push it onto the q
+    nextStruct.u8++;
+    nextStruct.u32 = TimeStamper::theTimeStamper->getTimeStamp();
+    nextStruct.f += 0.01;
+    if (nextStruct.f >= maxFloat){
+        nextStruct.f=0.0;
+    }
+  }
+  else { // no more room in q !!
+    res = State::readyToSend;
+  }
+  return res;
+}
+*/
