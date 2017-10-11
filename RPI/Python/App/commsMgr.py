@@ -134,7 +134,6 @@ class CommsMgr:
         # ignore first reply
         self.spi.xfer(self.masterMsg(outLis[0]),frequency,afterXferDelay)
         sleep(pause)
-    
         for outByte in outLis[1:]:
             responseLis += self.spi.xfer(self.masterMsg(outByte),frequency,afterXferDelay)
             while(self.isMasterMsg(responseLis[-1])):
@@ -156,7 +155,8 @@ class CommsMgr:
         return currentResponseLis[1]
 
     def doOneCom(self,type,printResults=False):
-        outVec = self.getOutVec(type,typeDict[type][0])
+        #print('Processing Query :',type)
+        outVec = self.getOutVec(type,self.typeDict[type][0])
         transferCount  = 0
         correctedCount = 0
         moreDataComing = True
@@ -165,22 +165,22 @@ class CommsMgr:
                 [currentResponseLis,correctedInc] = self.transferLis(outVec)
                 transferCount+= 1  # note we are now counting transfers not bytes
                 correctedCount += correctedInc
-                currentResponseLis = self.unpackStruct(typeDict[type][1],self.packNbytes(currentResponseLis))
+                currentResponseLis = self.unpackStruct(self.typeDict[type][1],self.packNbytes(currentResponseLis))
 
-            if printResults:
-                self.show(transferCount, currentResponseLis, type)
+                if printResults:
+                    self.show(transferCount, currentResponseLis, type)
 
-            nullReturn = self.isNullReturn(currentResponseLis)
-            enQResponse = (type == s_payload_t)
-            if nullReturn:
-                pass
-            elif enQResponse:
-                q.put(list(currentResponseLis) + self.bid)
-            elif (type == s_init_t):
-                self.bid[0] = getBid(currentResponseLis)
-                print('BID set :', self.bid), 
+                nullReturn = self.isNullReturn(currentResponseLis)
+                enQResponse = (type == s_payload_t)
+                if nullReturn:
+                    pass
+                elif enQResponse:
+                    self.q.put(list(currentResponseLis) + self.bid)
+                elif (type == s_init_t):
+                    self.bid[0] = self.getBid(currentResponseLis)
+                    print('BID set :', self.bid), 
 
-            moreDataComing = not nullReturn and enQResponse
+                moreDataComing = not nullReturn and enQResponse
 
         except KeyboardInterrupt:
             print('\nType of Transfers :', type)
@@ -188,29 +188,32 @@ class CommsMgr:
             print(  'Corrected         :',correctedCount)
             print('\nbye...')
             raise KeyboardInterrupt
-        sleep(typeDict[type][2])
+        sleep(self.typeDict[type][2])
     
-        def doSynch(self):
-            self.syncTime = strftime("%Y_%m _%d_%H.%M.%S", localtime())
+    def doSynch(self):
+        self.syncTime = strftime("%Y_%m_%d_%H.%M.%S", localtime())
 
-        def loop(typeLis):
-            """ opens SPI
-            sends each elt in typeLis as per:
-            [0] : printResults=False
-            loop indefinitely:
-            [1] : use default values for  printResults
-            on exit, closes spi
-            """
-            self.spi.open(channel,device)
-            try:
-                print('Polling :',type2NameDict[typeLis[0]])
-                self.doOneCom(typeLis[0],False)
-                self.doSynch()
-                count = 1
-                while True:
-                    if (count%pollDisplayIterations == 0):
-                        print(count, ': Polling :',self.type2NameDict[typeLis[1]])
-                        count +=1                
-                    self.doOneCom(typeLis[1])
-            finally:
-                self.spi.close()
+    def getSynchTime(self):
+        return self.syncTime
+    
+    def loop(self,typeLis):
+        """ opens SPI
+        sends each elt in typeLis as per:
+        [0] : printResults=False
+        loop indefinitely:
+        [1] : use default values for  printResults
+        on exit, closes spi
+        """
+        self.spi.open(channel,device)
+        try:
+            print('Polling :',self.type2NameDict[typeLis[0]])
+            self.doOneCom(typeLis[0],False)
+            self.doSynch()
+            count = 1
+            while True:
+                if (count%pollDisplayIterations == 0):
+                    print(count, ': Polling :',self.type2NameDict[typeLis[1]])
+                count +=1                
+                self.doOneCom(typeLis[1])
+        finally:
+            self.spi.close()

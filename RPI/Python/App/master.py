@@ -38,7 +38,7 @@ import commsMgr as comms
 fileLockDict = {}
 
 class WriterThread(threading.Thread):
-    def __init__(self, name, q, lock, dataDir):
+    def __init__(self, name, q, lock, dataDir,syncTimeFunc):
         threading.Thread.__init__(self)
         self.name = name
         self.q = q
@@ -49,7 +49,7 @@ class WriterThread(threading.Thread):
         if not os.path.exists(dataDir):
             os.makedirs(dataDir)
         self.dictLock.release()
-        self.commsMgr = comms.CommsMgr(self.q)
+        self.getSynchTimeFunc = syncTimeFunc
 
     def getFormattedRow(self,row):
         row[2]= round(row[2],4)
@@ -70,7 +70,7 @@ class WriterThread(threading.Thread):
             
     def getFile(self,row):
         [adcID,chID] = self.decodeADCCID(row[0])
-        filename = self.dataDir + '/{bid}_{adc}_{cid}_{syc}.csv'.format(bid=row[3],adc=adcID,cid=chID,syc=comms.syncTime)
+        filename = self.dataDir + '/{bid}_{adc}_{cid}_{syc}.csv'.format(bid=row[3],adc=adcID,cid=chID,syc=self.getSynchTimeFunc())
         self.dictLock.acquire()
         try:
             self.fileLock = fileLockDict[filename]
@@ -115,13 +115,14 @@ class Master:
         self.dataDir = './DATA'
         self.q = queue.Queue()
         self.lock = threading.Lock()
-        self.createThreads(nbThreads,self.q,self.lock)        
-
+        self.spiCommsMgr = comms.CommsMgr(self.q)
+        self.createThreads(nbThreads,self.q,self.lock)
+        
     def createThreads(self,num,que,lok):
         self.threads = []
         for i in range(num):
             name='WriterThread-' + str(i)
-            t = WriterThread(name,que,lok,'./DATA')
+            t = WriterThread(name,que,lok,'./DATA',self.spiCommsMgr.getSynchTime)
             t.start()
             self.threads.append(t)
 
@@ -138,7 +139,7 @@ class Master:
     def run(self,typeLis):
         t = time.time()
         try:
-            self.commsMgr(typeLis)
+            self.spiCommsMgr.loop(typeLis)
         except Exception as e:
             print(e) 
         finally:
