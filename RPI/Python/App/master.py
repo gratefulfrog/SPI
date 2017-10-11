@@ -100,11 +100,16 @@ class WriterThread(threading.Thread):
         """
         Thread run method. 
         """
-        while True:
-            item = self.q.get()
-            if item is None:
-                break
-            self.do_work(item)
+        try:
+            while True:
+                item = self.q.get()
+                if item is None:
+                    break
+                self.do_work(item)
+                self.q.task_done()
+        except Exception as e:
+            print('thread exiting...')
+        finally:
             self.q.task_done()
 
 
@@ -141,7 +146,7 @@ class Master:
         try:
             self.spiCommsMgr.loop(typeLis)
         except Exception as e:
-            print(e) 
+            print('main thread exiting...') 
         finally:
             self.stopAll()
             print('Elapsed Time :',time.time()-t,'seconds')
@@ -156,8 +161,9 @@ if __name__ == '__main__':
     master = Master()
 
     tyLis = list(map(lambda s:eval('comms.'+s),sys.argv[1:]))
-
-    master.run(tyLis)
-    
+    try:
+        master.run(tyLis)
+    except Exception as e:
+        print('exiting...')
                  
         
