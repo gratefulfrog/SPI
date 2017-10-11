@@ -215,9 +215,9 @@ class CommsMgr:
                 counts[device] +=1
             finally:
                 self.spi.close()
-            
-        for device in self.devices:
-            while True:
+
+        while True:
+            for device in self.devices:
                 try:
                     self.spi.open(channel,device)
                     if (counts[device]%pollDisplayIterations == 0):

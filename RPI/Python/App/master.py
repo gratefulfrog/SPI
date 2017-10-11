@@ -98,7 +98,7 @@ class WriterThread(threading.Thread):
 
     def run(self):
         """
-        Thread run method. Check URLs one by one.
+        Thread run method. 
         """
         while True:
             item = self.q.get()
