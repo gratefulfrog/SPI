@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 # example call
-# ./main.py s_init_t s_bid_t s_wakeup_t s_payload_t
+# ./master.py s_init_t s s_payload_t
 
 """ some results
 
@@ -31,7 +31,7 @@ import time
 import sys
 import os.path
 
-import spi1QueryResponse as comms
+import commsMgr as comms
 
 
 # global variable shared between threads
@@ -49,6 +49,7 @@ class WriterThread(threading.Thread):
         if not os.path.exists(dataDir):
             os.makedirs(dataDir)
         self.dictLock.release()
+        self.commsMgr = comms.CommsMgr(self.q)
 
     def getFormattedRow(self,row):
         row[2]= round(row[2],4)
@@ -137,7 +138,7 @@ class Master:
     def run(self,typeLis):
         t = time.time()
         try:
-            comms.go(typeLis,self.q)
+            self.commsMgr(typeLis)
         except Exception as e:
             print(e) 
         finally:
@@ -146,7 +147,7 @@ class Master:
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print('Usage: $ ./spi1Struct.py s_init_t, s_payload_t'  )
+        print('Usage: $ ./master.py s_init_t, s_payload_t'  )
         print('s_payload_t will be repeated to continue comms indefinitely...')
         print('Note: the AEM board must be running the appropriate software, corresponding to the <type>')
         sys.exit(0)
