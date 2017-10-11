@@ -24,7 +24,7 @@ pollDisplayIterations = 100
 
 # SPI config
 channel        = 0
-device         = 0  # i.e. SS channel
+devices        = [0]  # i.e. SS channels, this could be [0], [1], or [0,1]
 frequency      = 4000000
 afterXferDelay = 30
 
@@ -58,8 +58,9 @@ class CommsMgr:
     def __init__(self, queue):
         self.q = queue
         self.spi = spidev.SpiDev()
-        self.bid = [-1]  ## temp value until init call!
-        self.syncTime = 'no_time'  ## temp value until init call
+        self.devices = devices
+        self.bids = [-1 for d in self.devices]  ## temp values until init call!
+        self.syncTime = 'no_time' # temp valu, same for all devices
         self.typeDict = { # key=type : value=[ngBytes, formatString, wait time in seconds before next communciation]
                          s_init_t       : [9,'<BIf',1], # type 1000, 9 bytes struct, wait after 0.1 s
                          s_payload_t    : [9,'<BIf',0.1]} # type 1010, 9 bytes struct, wait after for 0.1 s
@@ -154,7 +155,7 @@ class CommsMgr:
     def getBid(self,currentResponseLis):
         return currentResponseLis[1]
 
-    def doOneCom(self,type,printResults=False):
+    def doOneCom(self,type,device,printResults=False):
         #print('Processing Query :',type)
         outVec = self.getOutVec(type,self.typeDict[type][0])
         transferCount  = 0
@@ -175,10 +176,10 @@ class CommsMgr:
                 if nullReturn:
                     pass
                 elif enQResponse:
-                    self.q.put(list(currentResponseLis) + self.bid)
+                    self.q.put(list(currentResponseLis) + [self.bids[device]])
                 elif (type == s_init_t):
-                    self.bid[0] = self.getBid(currentResponseLis)
-                    print('BID set :', self.bid), 
+                    self.bids[device] = self.getBid(currentResponseLis)
+                    print('BID',device,'set :', self.bids[device]), 
 
                 moreDataComing = not nullReturn and enQResponse
 
@@ -190,7 +191,7 @@ class CommsMgr:
             raise KeyboardInterrupt
         sleep(self.typeDict[type][2])
     
-    def doSynch(self):
+    def doSynch(self,):
         self.syncTime = strftime("%Y_%m_%d_%H.%M.%S", localtime())
 
     def getSynchTime(self):
@@ -204,16 +205,26 @@ class CommsMgr:
         [1] : use default values for  printResults
         on exit, closes spi
         """
-        self.spi.open(channel,device)
-        try:
-            print('Polling :',self.type2NameDict[typeLis[0]])
-            self.doOneCom(typeLis[0],False)
-            self.doSynch()
-            count = 1
+        counts=[0,0]
+        for device in self.devices:
+            try:
+                self.spi.open(channel,device)
+                print('Polling device',device,':',self.type2NameDict[typeLis[0]])
+                self.doOneCom(typeLis[0],device,False)
+                self.doSynch()
+                counts[device] +=1
+            finally:
+                self.spi.close()
+            
+        for device in self.devices:
             while True:
-                if (count%pollDisplayIterations == 0):
-                    print(count, ': Polling :',self.type2NameDict[typeLis[1]])
-                count +=1                
-                self.doOneCom(typeLis[1])
-        finally:
-            self.spi.close()
+                try:
+                    self.spi.open(channel,device)
+                    if (counts[device]%pollDisplayIterations == 0):
+                        print(counts[device],
+                              'Polling device',device,':',
+                              self.type2NameDict[typeLis[1]])
+                    self.doOneCom(typeLis[1],device)
+                    counts[device] +=1                
+                finally:
+                    self.spi.close()
