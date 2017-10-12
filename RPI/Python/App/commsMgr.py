@@ -24,7 +24,7 @@ pollDisplayIterations = 100
 
 # SPI config
 channel        = 0
-devices        = [0]  # i.e. SS channels, this could be [0], [1], or [0,1]
+devices        = [1]  # RPI SS channels, this could be [0], [1], or [0,1]
 frequency      = 4000000
 afterXferDelay = 30
 
@@ -184,12 +184,13 @@ class CommsMgr:
                 moreDataComing = not nullReturn and enQResponse
 
         except KeyboardInterrupt:
-            print('\nType of Transfers :', type)
-            print(  'Nb Transfers      :','{:,}'.format(transferCount).replace(',',' '))
-            print(  'Corrected         :',correctedCount)
+            #print('\nType of Transfers :', type)
+            #print(  'Nb Transfers      :','{:,}'.format(transferCount).replace(',',' '))
+            #print(  'Corrected         :',correctedCount)
             print('\nbye...')
-            raise KeyboardInterrupt
+            return False
         sleep(self.typeDict[type][2])
+        return True
     
     def doSynch(self,):
         self.syncTime = strftime("%Y_%m_%d_%H.%M.%S", localtime())
@@ -210,7 +211,9 @@ class CommsMgr:
             try:
                 self.spi.open(channel,device)
                 print('Polling device',device,':',self.type2NameDict[typeLis[0]])
-                self.doOneCom(typeLis[0],device,False)
+                if not self.doOneCom(typeLis[0],device,False):
+                    self.spi.close()
+                    return
                 self.doSynch()
                 counts[device] +=1
             finally:
@@ -224,7 +227,9 @@ class CommsMgr:
                         print(counts[device],
                               'Polling device',device,':',
                               self.type2NameDict[typeLis[1]])
-                    self.doOneCom(typeLis[1],device)
+                    if not self.doOneCom(typeLis[1],device):
+                        self.spi.close()
+                        return
                     counts[device] +=1                
                 finally:
                     self.spi.close()
