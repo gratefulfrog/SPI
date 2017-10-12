@@ -59,7 +59,7 @@ class CommsMgr:
         self.q = queue
         self.spi = spidev.SpiDev()
         self.devices = devices
-        self.bids = [-1 for d in self.devices]  ## temp values until init call!
+        self.bidDict = {device:-1 for device in self.devices}  ## temp values until init call!
         self.syncTime = 'no_time' # temp valu, same for all devices
         self.typeDict = { # key=type : value=[ngBytes, formatString, wait time in seconds before next communciation]
                          s_init_t       : [9,'<BIf',1], # type 1000, 9 bytes struct, wait after 0.1 s
@@ -176,10 +176,10 @@ class CommsMgr:
                 if nullReturn:
                     pass
                 elif enQResponse:
-                    self.q.put(list(currentResponseLis) + [self.bids[device]])
+                    self.q.put(list(currentResponseLis) + [self.bidDict[device]])
                 elif (type == s_init_t):
-                    self.bids[device] = self.getBid(currentResponseLis)
-                    print('BID',device,'set :', self.bids[device]), 
+                    self.bidDict[device] = self.getBid(currentResponseLis)
+                    print('BID',device,'set :', self.bidDict[device]), 
 
                 moreDataComing = not nullReturn and enQResponse
 

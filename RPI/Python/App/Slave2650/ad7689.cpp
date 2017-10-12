@@ -216,38 +216,6 @@ void AD7689::readChannels(uint8_t channels, uint8_t mode, uint16_t data[], uint1
   lastSeqEndTime = now; // micros();
 }
 
-/*
-void AD7689::readChannels(uint8_t channels, uint8_t mode, uint16_t data[], uint16_t* temp) {
-
-  // if the sequencer insn't active yet, enable it
-  // occurs after self testing or at start-up
-  if (!sequencerActive)
-    configureSequencer();
-
-  uint8_t scans = channels; // unipolar mode default
-  if (mode == DIFFERENTIAL_MODE) {
-    scans = channels / 2;
-    if ((channels % 2) > 0)
-      scans++;
-  }
-
-  // read as many values as there are ADC channels active
-  // when reading differential, only half the number of channels will be read
-  for (uint8_t ch = 0; ch < scans; ch++) {
-    data[ch] = shiftTransaction(0, false, NULL);
-    if (ch < 2) { // calculate time stamp based on ending of previous sequence for first 2 frames
-      timeStamps[ch] = lastSeqEndTime - (1 - ch) * framePeriod;
-    } else {
-      timeStamps[ch] = micros() - framePeriod * 2; // sequenceTime in µs, 2 frames lag
-    }
-  }
-
-  // capture temperature too
-  *temp = shiftTransaction(0, false, NULL);
-  tempTime = micros() - framePeriod * 2;
-  lastSeqEndTime = micros();
-}
-*/
 /**
  * [AD7689::calculateVoltage Calculate an absolute or relative voltage based on raw ADC input reading and specified voltage reference(s).]
  * @param  sample The sample to convert. A positive integer between 0 and 65535.
@@ -310,21 +278,7 @@ void AD7689::cycleTimingBenchmark() {
   framePeriod = (micros() - startTime) / 10;
   lastSeqEndTime = startTime;
 }
-/*
-void AD7689::cycleTimingBenchmark() {
-  
-  uint32_t startTime = micros(); // record current CPU time
-  uint16_t data;
-  
-  // make 10 transactions, then average the duration
-  // dummy variable 'data' is assigned to emulate a realistic operation with the retrieved data
-  for (uint8_t trans = 0; trans < 10; trans++){
-   data += shiftTransaction(toCommand(getADCConfig(false)), false, NULL); // default configuration, no readback
-  }
-  framePeriod = (micros() - startTime) / 10;
-  lastSeqEndTime = startTime;
-}
-*/
+
 /** AD7689::getInputConfig returns an inputConfig value according to the following truth table
  *  differential  polarity        inputConfig
  *  TRUE          BIPOLAR_MODE    INCC_BIPOLAR_DIFF
@@ -473,24 +427,7 @@ float AD7689::acquireChannel(uint8_t channel, uint32_t* timeStamp) {
 
   return calculateVoltage(samples[channel]);
 }
-/*
-float AD7689::acquireChannel(uint8_t channel, uint32_t* timeStamp) {
-  if (micros() > (timeStamps[channel] + framePeriod * (TOTAL_CHANNELS - 1))) { // sequence outdated, acquire a new one
-    uint8_t cycles = 1;
-    if (channel < 2) cycles++; // double sequence to update first 2 channels
 
-    // run 1 or 2 sequences depending on the outdated channel
-    for (uint8_t cycle = 0; cycle < cycles; cycle++)
-      readChannels(inputCount, ((inputConfig == INCC_BIPOLAR_DIFF) || (inputConfig == INCC_UNIPOLAR_DIFF)), samples, &curTemp);
-  }
-
-  if(timeStamp){
-    *timeStamp = timeStamps[channel];
-  }
-
-  return calculateVoltage(samples[channel]);
-}
-*/
 /**
  * [AD7689::acquireTemperature Measure temperature.]
  * @return Temperature in °C.
@@ -513,23 +450,6 @@ float AD7689::acquireTemperature() {
     return readTemperature();
   }
 }
-
- 
-/*
-float AD7689::acquireTemperature() {
-  if (sequencerActive) {
-    // when the sequencer is active, check the time stamp of the last temperature sample and take a new measurement if outdated
-    if (micros() > (tempTime + framePeriod * (TOTAL_CHANNELS - 1)))  // temperature outdated, acquire a new one
-      readChannels(inputCount, ((inputConfig == INCC_BIPOLAR_DIFF) || (inputConfig == INCC_UNIPOLAR_DIFF)), &samples[0], &curTemp);
-
-    return calculateTemp(curTemp);
-  } else {
-    // sequencer isn't active yet, fetch tempreature directly
-    return readTemperature();
-  }
-}
-*/
-
 
 // returns a value indicating if the ADC is properly connected and responding
 /**
