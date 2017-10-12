@@ -146,7 +146,8 @@ class Master:
         try:
             self.spiCommsMgr.loop(typeLis)
         except Exception as e:
-            print('main thread exiting...') 
+            print('main thread exiting...')
+            raise
         finally:
             self.stopAll()
             print('Elapsed Time :',time.time()-t,'seconds')
@@ -170,6 +171,7 @@ if __name__ == '__main__':
     try:
         master.run(tyLis)
     except Exception as e:
+        print(e)
         print('exiting...')
                  
         
