@@ -153,14 +153,20 @@ class Master:
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print('Usage: $ ./master.py s_init_t, s_payload_t'  )
+        print('Usage: $ ./master.py <SS channels defaults to ZERO> s_init_t, s_payload_t'  )
+        print('examples;')
+        print('Usage: $ ./master.py s_init_t, s_payload_t      # uses default SS Channel 0'  )
+        print('Usage: $ ./master.py 0 s_init_t, s_payload_t    # same as previous'  )
+        print('Usage: $ ./master.py 1 s_init_t, s_payload_t    # use SS channel 1' )
+        print('Usage: $ ./master.py 0 1 s_init_t, s_payload_t  # use SS channels 0 and 1' )
         print('s_payload_t will be repeated to continue comms indefinitely...')
         print('Note: the AEM board must be running the appropriate software, corresponding to the <type>')
         sys.exit(0)
 
     master = Master()
-
-    tyLis = list(map(lambda s:eval('comms.'+s),sys.argv[1:]))
+    
+    channelVec = [0] if len(sys.argv)==3 else list(map(int,sys.argv[1:-2]))
+    tyLis = [channelVec] + list(map(lambda s:eval('comms.'+s),sys.argv[1:]))
     try:
         master.run(tyLis)
     except Exception as e:

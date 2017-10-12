@@ -53,13 +53,11 @@ class CommsMgr:
       * wait 0.1 second
     usage:
     * commsMgr = CommsMgr(aQueue)
-    * commsMgr.loop([s_init_t,s_payload_t])
+    * commsMgr.loop( [ss channels], s_init_t,s_payload_t])
     """
     def __init__(self, queue):
         self.q = queue
         self.spi = spidev.SpiDev()
-        self.devices = devices
-        self.bidDict = {device:-1 for device in self.devices}  ## temp values until init call!
         self.syncTime = 'no_time' # temp valu, same for all devices
         self.typeDict = { # key=type : value=[ngBytes, formatString, wait time in seconds before next communciation]
                          s_init_t       : [9,'<BIf',1], # type 1000, 9 bytes struct, wait after 0.1 s
@@ -68,6 +66,10 @@ class CommsMgr:
         self.type2NameDict = dict((eval(name),name) for name in ['s_init_t', 's_payload_t'])
         self.nullResponse = [255,0,0.0]  # used as sentinel value
 
+    def initDevices(self, deviceSSChannelLis):
+        self.devices = devices
+        self.bidDict = {device:-1 for device in self.devices}  ## temp values until init call!
+        
     def isNullReturn(self,responseLis):
         return all(map(lambda x,y: x==y,responseLis,self.nullResponse))
 
@@ -199,12 +201,14 @@ class CommsMgr:
     
     def loop(self,typeLis):
         """ opens SPI
+        typeLis[0] is the list of SS Channels, ie [0] or [1], or [0,1]
         sends each elt in typeLis as per:
         [0] : printResults=False
         loop indefinitely:
         [1] : use default values for  printResults
         on exit, closes spi
         """
+        self.initDevices(typeLis[0])
         counts=[0,0]
         for device in self.devices:
             try:

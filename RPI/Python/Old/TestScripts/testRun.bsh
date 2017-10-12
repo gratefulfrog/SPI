@@ -1,0 +1,3 @@
+#!/bin/bash
+./pydo.py "$@"  s_init_t s_payload_t
+ 
