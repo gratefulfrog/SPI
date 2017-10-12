@@ -24,9 +24,11 @@ pollDisplayIterations = 100
 
 # SPI config
 channel        = 0
-devices        = [1]  # RPI SS channels, this could be [0], [1], or [0,1]
 frequency      = 4000000
 afterXferDelay = 30
+
+# device seleciton now set from master.py in call to loop()
+#devices        = [1]  # RPI SS channels, this could be [0], [1], or [0,1]
 
 
 # time after each transfer to observe results
@@ -67,7 +69,7 @@ class CommsMgr:
         self.nullResponse = [255,0,0.0]  # used as sentinel value
 
     def initDevices(self, deviceSSChannelLis):
-        self.devices = devices
+        self.devices = deviceSSChannelLis
         self.bidDict = {device:-1 for device in self.devices}  ## temp values until init call!
         
     def isNullReturn(self,responseLis):
@@ -214,8 +216,8 @@ class CommsMgr:
         for device in self.devices:
             try:
                 self.spi.open(channel,device)
-                print('Polling device',device,':',self.type2NameDict[typeLis[0]])
-                if not self.doOneCom(typeLis[0],device,False):
+                print('Polling device',device,':',self.type2NameDict[typeLis[1]])
+                if not self.doOneCom(typeLis[1],device,False):
                     self.spi.close()
                     return
                 self.doSynch()
@@ -230,8 +232,8 @@ class CommsMgr:
                     if (counts[device]%pollDisplayIterations == 0):
                         print(counts[device],
                               'Polling device',device,':',
-                              self.type2NameDict[typeLis[1]])
-                    if not self.doOneCom(typeLis[1],device):
+                              self.type2NameDict[typeLis[2]])
+                    if not self.doOneCom(typeLis[2],device):
                         self.spi.close()
                         return
                     counts[device] +=1                
