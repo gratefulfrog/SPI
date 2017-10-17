@@ -4,16 +4,13 @@
 # ./master.py 0 1 s_init_t s s_payload_t
 
 """ some results
+Wait after clock seems to be a key parameter, too low and we get "errors corrected"
+It allows the slave time to react to the SPI interrupt.
+The more work the slave does in the interrupt handler, the longer the wait must be.
 
-wait after clock seems to be a key parameter, too low and we get "errors corrected"
+The following retuls are left for historical purposes and no longer reflect the actual
+times of the coded:
 
-2017 10 09 : SPI frequency = 4MHz, 
-             wait after clock 25 us
-             Q len = 750:
-             200 polls of Qin 192  sec =     781 items polled/sec
-             155915 lines in data.csv    812 lines/sec
-             1 or 2 errors corrected
-             0 state errors
 2017 10 09 : SPI frequency = 4MHz, 
              wait after clock 30 us
              Q len = 750:
@@ -21,9 +18,9 @@ wait after clock seems to be a key parameter, too low and we get "errors correct
              5251174 lines in data.csv     = 746 lines/sec
              0 errors corrected
              0 state errors
-
-
 """
+
+## python system imports
 import csv
 import threading
 import queue
@@ -31,10 +28,13 @@ import time
 import sys
 import os.path
 
+## AEM code imports
 import commsMgr as comms
 
 
-# global variable shared between threads
+## global package variable shared between threads,
+## keys: full filename
+## values: threading.lock object used to guarranty exclusive access to the file for writing
 fileLockDict = {}
 
 class WriterThread(threading.Thread):
@@ -58,15 +58,21 @@ class WriterThread(threading.Thread):
         data files.
         """
         threading.Thread.__init__(self)
-        self.name = name
+        ## string name of the thread, used for debugging or information messages
+        self.name = name    
+        ## work q, source of data to be written to files
         self.q = q
+        ## semaphore for exclusive access to the fileLockDict
         self.dictLock = lock
+        ## semaphore locking access to the file currently being written
         self.fileLock = None
+        ## path to the data file target directory
         self.dataDir = dataDir
         self.dictLock.acquire()
         if not os.path.exists(dataDir):
             os.makedirs(dataDir)
         self.dictLock.release()
+        ## function which when called will return the synchronisation time of the boards
         self.getSynchTimeFunc = syncTimeFunc
 
     def getFormattedRow(self,row):
@@ -79,6 +85,9 @@ class WriterThread(threading.Thread):
         return row[1:3]
 
     def createDataFile(self,outFile):
+        """
+        Called to create the data csv file and write the header row.
+        """
         headers = ('Timestamp','Value')
         with open(outFile, 'a', newline='') as csvfile:
             writer = csv.writer(csvfile, delimiter=',',
@@ -178,9 +187,13 @@ class Master:
         @param dataDir default value provided, the directory where the conusmers
         will write the csv files.
         """
+        ## Directory for data files
         self.dataDir = dataDir
+        ## Synchronized work queue
         self.q = queue.Queue()
+        ## Semaphore object to be passed to consumer threads for their use
         self.lock = threading.Lock()
+        ## instance of CommsMgr class used to commuicate via SPI with the AEM Slave boards
         self.spiCommsMgr = comms.CommsMgr(self.q)
         self.createThreads(nbThreads,self.q,self.lock)
         
@@ -238,9 +251,12 @@ if __name__ == '__main__':
         print('Note: the AEM board must be running the appropriate software, corresponding to the <type>')
         sys.exit(0)
 
+    ## instance of Master class running the entire show!
     master = Master()
-    
+
+    ## contains the Channels extracted from the command line args, properly formatted to be passed to the Master.run method
     channelVec = [0] if len(sys.argv)==3 else list(map(int,sys.argv[1:-2]))
+    ## contains the channels and message types, extracted from command line args, properly formatted to be passed to the Master.run method
     tyLis = [channelVec] + list(map(lambda s:eval('comms.'+s),sys.argv[-2:]))
 
     try:
