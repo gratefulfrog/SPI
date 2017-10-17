@@ -195,7 +195,7 @@ class Master:
         self.lock = threading.Lock()
         ## instance of CommsMgr class used to commuicate via SPI with the AEM Slave boards
         self.spiCommsMgr = comms.CommsMgr(self.q)
-        self.createThreads(nbThreads,self.q,self.lock)
+        self.createThreads(nbThreads)
         
     def createThreads(self,num):
         """
