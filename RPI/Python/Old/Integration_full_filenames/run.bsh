@@ -1,0 +1,3 @@
+#!/bin/bash
+./main.py s_init_t s_payload_t
+ 

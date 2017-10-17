@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['base_5ftemp',['BASE_TEMP',['../de/dcb/ad7689_8h.html#a136202e7fab10529a0f8f579afb0dedd',1,'ad7689.h']]],
+  ['begin',['begin',['../d4/d47/class_i2_c.html#ae082806c14689b4dd5a4068a84ab3fac',1,'I2C']]],
+  ['begintransaction',['beginTransaction',['../d9/d80/class_y_s_p_i.html#ab2e304638b68410d362c10b6795543ac',1,'YSPI::beginTransaction()'],['../d0/d68/class_h_w_s_p_i.html#aa7ceab492a2a555f21d90a42e12e5cbe',1,'HWSPI::beginTransaction()'],['../d7/db2/class_u_s_a_r_t_s_p_i.html#a2598384078392c9f37739eaa538155f5',1,'USARTSPI::beginTransaction()']]],
+  ['bid32',['bid32',['../da/ddc/class_slave_app.html#abe57ff92c46d2a1818d7f09224b92648',1,'SlaveApp']]],
+  ['biddict',['bidDict',['../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a6b6e2b8f0beeb2183fac868caa655524',1,'commsMgr::CommsMgr']]],
+  ['bipolar_5fmode',['BIPOLAR_MODE',['../de/dcb/ad7689_8h.html#ab30c55989a6d0dab625ada15f1e31bf9',1,'ad7689.h']]],
+  ['board',['Board',['../d3/dfd/class_board.html',1,'Board'],['../d3/dfd/class_board.html#abfd5601770bbfb3e6d72c1e57c9c1e30',1,'Board::Board()'],['../da/ddc/class_slave_app.html#aae725f1cedc0eb0a5ae896ee99b9139c',1,'SlaveApp::board()']]],
+  ['board_2ecpp',['board.cpp',['../df/d6e/board_8cpp.html',1,'']]],
+  ['board_2eh',['board.h',['../d3/d02/board_8h.html',1,'']]],
+  ['board_5fboard_5f0_5fadc_5f0_5fnb_5fchannels',['BOARD_BOARD_0_ADC_0_NB_CHANNELS',['../db/d16/config_8h.html#a03dbd164e089d624af3ca21ce8f947a6',1,'config.h']]],
+  ['board_5fboard_5f0_5fid',['BOARD_BOARD_0_ID',['../db/d16/config_8h.html#a630305959401c2196cd2ff764391d030',1,'config.h']]],
+  ['board_5fboard_5f0_5fnb_5fadcs',['BOARD_BOARD_0_NB_ADCS',['../db/d16/config_8h.html#a8bc7c490a0631d6fea92dfdfa3041388',1,'config.h']]],
+  ['boardid',['boardID',['../db/d16/config_8h.html#a4463fc2514c805d806ce4d981993967f',1,'config.h']]],
+  ['boardusartchannels',['boardUSARTChannels',['../d3/dfd/class_board.html#a3ba77d09ae3fb601a171f2eff2c08e34',1,'Board']]],
+  ['bufferindex',['bufferIndex',['../d4/d47/class_i2_c.html#a33472a38459394a22f298053a6452f3d',1,'I2C']]],
+  ['bw',['BW',['../de/dcb/ad7689_8h.html#a84909b16209480034c40276c4f84f975',1,'ad7689.h']]],
+  ['bw_5fconf',['BW_conf',['../da/de0/struct_a_d7689__conf.html#a42c57aee2e6630a06ba37995277141f4',1,'AD7689_conf']]],
+  ['byteptr',['bytePtr',['../da/ddc/class_slave_app.html#a98a791d374cb8e278712ef61cac3ef0e',1,'SlaveApp']]],
+  ['bytesavailable',['bytesAvailable',['../d4/d47/class_i2_c.html#af7929760f32f6bbd283aba3a16f7b530',1,'I2C']]]
+];

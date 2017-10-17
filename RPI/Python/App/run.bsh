@@ -1,0 +1,10 @@
+#!/bin/bash
+## a bash shell wrapper to call the python master more simply
+## usage:
+## $ ./run <Slave channel numbers>
+## $ ./run.bsh 0
+## $ ./run.bsh 1
+## $ ./run.bsh 0 1
+## the script adds on the message type arguments to make the code run normally
+./master.py "$@" s_init_t s_payload_t
+ 
