@@ -25,16 +25,16 @@ class Q{
                           qNbObj = 0;  /*!< volatile (for use via interrupt) nb of elts in queue */
     static const unsigned int qLen   = Q_Q_LENGTH; /*!< max nb of elts that the queue can contain */
     static const boolean overrunDeleteOldest = (boolean) Q_OVERRUN_DELETE_OLDEST; /*!< if true when queue is full, delete oldest elt, otherwise do not enqueue new elts  */
-    // define the q as being a vector of objects, physically there, not pointers
-    T q[qLen];
-    T nullObject;
+    
+    T q[qLen];  //<! define the q as being a vector of objects, physically there, not pointers
+    T nullObject;  //<! the null object is needed to be returned when q is empty
     
   public:
-    /** constructor, sets all pointers to NULL */
+    /** constructor, sets the nullObject */
     Q(T nullOb) : nullObject(nullOb){
     }
-    /** copya new elt onto the queue
-     *  @param the elt to be enqueued 
+    /** copy a new elt onto the queue
+     *  @param elt the elt to be enqueued 
      *  @return boolean TRUE if enqueued */
     boolean push(T elt){
       if (qNbObj == qLen){
@@ -57,7 +57,7 @@ class Q{
       return true;
     }
     /** pops the oldest elt off the queue
-     *  @return a pointer to the elt popped, or NULL if queue is empty. the elt is not deleted from heap.
+     *  @return the elt popped, or nullObject if queue is empty. the elt is not deleted from heap.
      */
     T pop(){
       T res = nullObject;
@@ -68,12 +68,21 @@ class Q{
       }
       return res;
     }
+    /** returns the number of objects in the queue
+     *  @return number of objects in queue
+     */
     unsigned int qNbObjects() const{
       return qNbObj;
     }
+    /** returns true if full, false otherwise
+     *  @return  true if full, false otherwise
+     */
     boolean full() const{
       return (qNbObj == qLen);
     }
+    /** return nb elts in queue
+     *  @return nb elts in queue
+     */
     int qLenght() const{
       return qLen;
     }

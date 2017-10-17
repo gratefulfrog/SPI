@@ -21,15 +21,18 @@ typedef uint32_t boardID;     /*!< typedef for GUID on 32 unsigned bits */
 /*************************************************************/
 /** ADCMGR config */
 /*************************************************************/
-#define ADCMGR_SS_PIN  (10)
+#define ADCMGR_SS_PIN  (10)  //<! pin for ADC slave select
 
 /*************************************************************/
 /** SlaveApp config */
 /*************************************************************/
 
-#define SlaveApp_LED_PIN_1 (35)
-#define SlaveApp_LED_PIN_2 (36)
-#define SlaveApp_HB_TIME (500) // millis secs
+#define SlaveApp_LED_PIN_1 (35)  //<! AEM board heartbeat led pin 1
+#define SlaveApp_LED_PIN_2 (36)  //<! AEM board heartbeat led pin 2
+#define SlaveApp_HB_TIME (500)   //<! AEM board led heartbeat flash time in  millisecs
+
+#define SlaveApp_SAY_HEARTBEAT_ONLY (true)  //<! debugging define controls how data the slave prints to serial monitor, leave at TRUE for minimal output
+#define SlaveApp_HB_SHOW_COUNT      (300)   //<! the number of data loop iterations before the slave outputs to serial monitor.
 
 #endif
 

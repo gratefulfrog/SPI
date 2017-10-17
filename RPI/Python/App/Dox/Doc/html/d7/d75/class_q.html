@@ -167,7 +167,7 @@ template&lt;class T&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>constructor, sets all pointers to NULL </p>
+<p>constructor, sets the nullObject </p>
 
 </div>
 </div>
@@ -186,6 +186,7 @@ template&lt;class T&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>returns true if full, false otherwise </p><dl class="section return"><dt>Returns</dt><dd>true if full, false otherwise </dd></dl>
 
 </div>
 </div>
@@ -203,7 +204,7 @@ template&lt;class T&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>pops the oldest elt off the queue </p><dl class="section return"><dt>Returns</dt><dd>a pointer to the elt popped, or NULL if queue is empty. the elt is not deleted from heap. </dd></dl>
+<p>pops the oldest elt off the queue </p><dl class="section return"><dt>Returns</dt><dd>the elt popped, or nullObject if queue is empty. the elt is not deleted from heap. </dd></dl>
 
 </div>
 </div>
@@ -222,9 +223,9 @@ template&lt;class T&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>copya new elt onto the queue </p><dl class="params"><dt>Parameters</dt><dd>
+<p>copy a new elt onto the queue </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">the</td><td>elt to be enqueued </td></tr>
+    <tr><td class="paramname">elt</td><td>the elt to be enqueued </td></tr>
   </table>
   </dd>
 </dl>
@@ -246,6 +247,7 @@ template&lt;class T&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>return nb elts in queue </p><dl class="section return"><dt>Returns</dt><dd>nb elts in queue </dd></dl>
 
 </div>
 </div>
@@ -263,6 +265,7 @@ template&lt;class T&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>returns the number of objects in the queue </p><dl class="section return"><dt>Returns</dt><dd>number of objects in queue </dd></dl>
 
 </div>
 </div>

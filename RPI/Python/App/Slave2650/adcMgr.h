@@ -22,7 +22,6 @@ class ADCMgr{  // each instance will manage the test of one ADC
     AD7689 *adc;                     /*!< pointer to instance of ADC that will be created */
     boolean usingUSARTSPI  = true;   /*!< value may be changed during setup based on reading of yspiOnPin */
     const uint8_t adcID;             /*!< identifying which adc (or USART channel) we are testing in this app instance */
-    //const uint8_t nbChannels;      /*!< adc number of channels to be polled  */
 
     /** doSelfTest pure virtual exectues the ADC self test
      *  runs the adc self-test and informs, blocks if failure  
@@ -50,6 +49,7 @@ class ADCMgr{  // each instance will manage the test of one ADC
   
     /** App instance constructor inits the adc ID 
      *  @param id  ADC id
+     *  @param nbChan the nmber of channels that the adc is using
      *  @return an instance of App
      */    
     ADCMgr(uint8_t id,uint8_t nbChan);              

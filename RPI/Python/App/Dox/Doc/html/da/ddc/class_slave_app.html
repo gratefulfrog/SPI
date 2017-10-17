@@ -196,7 +196,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a3ae30f9ed712cc3a93f306858ac5ad69"><td class="memItemLeft" align="right" valign="top">volatile boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/ddc/class_slave_app.html#a3ae30f9ed712cc3a93f306858ac5ad69">flag</a> = false</td></tr>
 <tr class="separator:a3ae30f9ed712cc3a93f306858ac5ad69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Enumeration Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="../../da/ddc/class_slave_app.html">SlaveApp</a> handles all SPI interactions with master and polls the board for ADC data </p>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a class="anchor" id="a0bd7892eadb9fbb5cdbc351d898ec0d8"></a>
 <div class="memitem">
 <div class="memproto">
@@ -244,6 +246,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>constructor: activates Serial creates all member variables provides output to Serial to inform sets up SPI slave mode </p>
 
 </div>
 </div>
@@ -268,6 +271,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>compare current state with previous state and dispaly error message if incorrect </p>
 
 </div>
 </div>
@@ -291,6 +295,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called to creat the instance of the timeStamper class and set t0 appropriately </p>
 
 </div>
 </div>
@@ -314,6 +319,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>as long as there is room on the queue, poll the adc/channels and push the data to the queue. If there is no room left on the queue, return <a class="el" href="../../da/ddc/class_slave_app.html#a0bd7892eadb9fbb5cdbc351d898ec0d8ace5db362e4caa3c112b9610a479899e3">State::readyToSend</a> to inform the main loop </p><dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../da/ddc/class_slave_app.html#a0bd7892eadb9fbb5cdbc351d898ec0d8ac327b49efdca2668f28cd7b4beee54b3">State::working</a> if there is still room on the queue for more data, or <a class="el" href="../../da/ddc/class_slave_app.html#a0bd7892eadb9fbb5cdbc351d898ec0d8ace5db362e4caa3c112b9610a479899e3">State::readyToSend</a> otherwise </dd></dl>
 
 </div>
 </div>
@@ -338,6 +344,13 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Depending on the msg type received and the current state, a pointer to an appropriate response stuct is provided, In side-effect, the nextState is computed and assigned </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>is the incoming byte from the master either init8 or payload8 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to the struct that should be sent back in response </dd></dl>
 
 </div>
 </div>
@@ -361,6 +374,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>will pop the local queue for the next outgoing value struct. If the q returns an elt, it is copied to the payload struct, if not nullStruct is used meaning that there is nothing left to send </p><dl class="section return"><dt>Returns</dt><dd>True if there is more to send, false if not. </dd></dl>
 
 </div>
 </div>
@@ -385,6 +399,13 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>tests arg to see if is coherent with a slave outgoing msg. Used to avoid errors in SPI </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">msg</td><td>a byt that will have at least one 1 in the top 4 bits if it is a Master msg </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if slave message, false if not </dd></dl>
 
 </div>
 </div>
@@ -400,6 +421,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>called by the main loop, manages the slave state machine by: 1st checking the 'flag' that may have been set in an SPI interrupt, and updating state as neede, then, checking curreent state against prevous, inform if error, and inform of change in data display is such then perform any actions required by the current state. </p>
 
 </div>
 </div>
@@ -424,6 +446,13 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method handles all the logic of interpretting incoming bytes from the master and constructing the appropriate responses for the next exchanges. The incomoing byte can be a s_init_t, s_payload_t or 1,2, or 3 each left shifted 4 bits to make them master messages. Depending on the byte received, the slave will do the appropriate action: if it is a s_init_t or an s_payload_t, a new outgoing struct is filled, and the bytepointer is set to the top 1/2 of the first byte. if it is a 1, then the the byte ptr is set to the lower 1/2 of the current byte, if it is a 2, then the byte ptr is set to the 1st 1/2 of the next byte if is something else, then processing is terminated and the next state is tested to see if the state change flag should be set. the byte ptr is reset. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">incoming</td><td>the byte received from the master </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the byte to send back, knowing that it will only be read in the next exchange! </dd></dl>
 
 </div>
 </div>
@@ -447,6 +476,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Display the heartbeat infor and current state if full data display is active </p>
 
 </div>
 </div>
@@ -470,6 +500,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>setup calls for heartbeat led pins </p>
 
 </div>
 </div>
@@ -493,6 +524,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>the SPI transmission complete interrupt service routine, looks at the SPDR and if it is not an outgoing slave mesage, processes it appropriately </p>
 
 </div>
 </div>
@@ -516,6 +548,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>update the heartbeat flashing </p>
 
 </div>
 </div>

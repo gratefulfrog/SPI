@@ -199,16 +199,12 @@ void SlaveApp::stepHB() const{
   }
 }
 
-
-#define SAY_HEARTBEAT_ONLY (true)
-#define HB_SHOW_COUNT      (300)
-
 void SlaveApp::sayState() const {
-  static const boolean hbOnly = SAY_HEARTBEAT_ONLY;
+  static const boolean hbOnly = SlaveApp_SAY_HEARTBEAT_ONLY;
   static uint32_t counter = 0;
 
   if (hbOnly){
-    if (!(counter++ % HB_SHOW_COUNT)){
+    if (!(counter++ % SlaveApp_HB_SHOW_COUNT)){
       Serial.println(String("hearbeat : ") + String(counter));
     }
     return;

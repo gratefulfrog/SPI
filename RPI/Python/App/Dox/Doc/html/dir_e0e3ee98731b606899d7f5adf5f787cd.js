@@ -19,7 +19,7 @@ var dir_e0e3ee98731b606899d7f5adf5f787cd =
     [ "I2C.cpp", "d8/d25/_i2_c_8cpp.html", "d8/d25/_i2_c_8cpp" ],
     [ "I2C.h", "d9/d06/_i2_c_8h.html", "d9/d06/_i2_c_8h" ],
     [ "Slave2650.ino", "db/d4c/_slave2650_8ino.html", "db/d4c/_slave2650_8ino" ],
-    [ "slaveApp.cpp", "d5/dc5/slave_app_8cpp.html", "d5/dc5/slave_app_8cpp" ],
+    [ "slaveApp.cpp", "d5/dc5/slave_app_8cpp.html", null ],
     [ "staticQ.h", "df/d76/static_q_8h.html", "df/d76/static_q_8h" ],
     [ "timeStamper.cpp", "d7/dc8/time_stamper_8cpp.html", null ],
     [ "timeStamper.h", "de/da8/time_stamper_8h.html", [

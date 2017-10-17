@@ -139,7 +139,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a38cd8d7ac19055110176fce5124f2f2e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d2/d01/class_a_d_c_mgr.html">ADCMgr</a> **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dfd/class_board.html#a38cd8d7ac19055110176fce5124f2f2e">adcMgrVec</a></td></tr>
 <tr class="separator:a38cd8d7ac19055110176fce5124f2f2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class encapsulates board functionality, eg number of ADCS, etc. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="abfd5601770bbfb3e6d72c1e57c9c1e30"></a>
 <div class="memitem">
 <div class="memproto">
@@ -163,6 +165,13 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>constructor </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">numberADC</td><td>how many adcs are on the board </td></tr>
+    <tr><td class="paramname">nbChannelVec</td><td>an array containing the numer of channels that each ADC has </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -196,6 +205,13 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>for a given adc mgr id, get the number of channels available </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mgrId</td><td>an index for the adcMgrVec array </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the number of adc channels for the selected adc </dd></dl>
 
 </div>
 </div>
@@ -222,6 +238,14 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>get a value for an ADC and Channel pair </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">adcID</td><td>the adc in question </td></tr>
+    <tr><td class="paramname">channelID</td><td>the channel in question </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the value returned by the adc </dd></dl>
 
 </div>
 </div>
