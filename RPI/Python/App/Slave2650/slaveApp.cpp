@@ -12,7 +12,7 @@ SlaveApp::SlaveApp() {
 
   uint8_t board0NBChannelVec[] = {BOARD_BOARD_0_ADC_0_NB_CHANNELS};
 
-  board = new Board(1,board0NBChannelVec);
+  board = new Board(BOARD_BOARD_0_NB_ADCS,board0NBChannelVec);
 
   for (int i=0 ; i< BOARD_BOARD_0_ADC_0_NB_CHANNELS; i++){
     Serial.println(String("Board[0]. ADCMgr[0], Channel[") + 
