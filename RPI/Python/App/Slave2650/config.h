@@ -13,7 +13,7 @@ typedef uint32_t boardID;     /*!< typedef for GUID on 32 unsigned bits */
 /** Board config */
 /*************************************************************/
 
-#define BOARD_USE_BOARD_0                (1)    /*<! slecect which board will be configured, a true value uses board ZERO otherwise BOARD_1 */
+#define BOARD_USE_BOARD_0                (0)    /*<! slecect which board will be configured, a true value uses board ZERO otherwise BOARD_1 */
 
 
 #define BOARD_BOARD_0_ID                 (0)    /*!< nb of adcs connected to board  */

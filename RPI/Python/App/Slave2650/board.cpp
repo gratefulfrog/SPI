@@ -2,7 +2,7 @@
 
 
 
-Board::Board(uint8_t numberADCs, uint8_t nbChannelVec[]) : nbADCs(numberADCs){  
+Board::Board(uint8_t numberADCs, const uint8_t nbChannelVec[]) : nbADCs(numberADCs){  
   
   adcMgrVec = new ADCMgr*[nbADCs];
   

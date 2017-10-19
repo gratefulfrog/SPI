@@ -17,22 +17,22 @@ SlaveApp::SlaveApp() {
   // BOARD_BOARD_0 is board zero with only one ADC
   // BOARD_BOARD_1 is board one with 2 adcs
   #if BOARD_USE_BOARD_0
-  board = new Board(BOARD_BOARD_0_NB_ADCS,board0NBChannelVec);
   const int board_ID = BOARD_BOARD_0_ID,
             board_nbADCS = BOARD_BOARD_0_NB_ADCS;
   const uint8_t *bordNbChannelVec = board0NBChannelVec;
+  board = new Board(BOARD_BOARD_0_NB_ADCS,board0NBChannelVec);
   #else
-  board = new Board(BOARD_BOARD_1_NB_ADCS,board1NBChannelVec);
   const int board_ID = BOARD_BOARD_1_ID,
             board_nbADCS = BOARD_BOARD_1_NB_ADCS;
   const uint8_t *bordNbChannelVec = board1NBChannelVec;
+  board = new Board(BOARD_BOARD_1_NB_ADCS,board1NBChannelVec);
   #endif
   
   for (int i=0 ; i< board_nbADCS; i++){
     for(int j=0;j< bordNbChannelVec[i];j++){
-      Serial.println(String("Board[") +
+      Serial.println(String("Board Type : ") +
                      String(board_ID) + 
-                     String("]  ADCMgr[") +
+                     String("   ADCMgr[") +
                      String(i) +
                      String("]  Channel[") + 
                      String(j) + 

@@ -19,7 +19,7 @@ class Board{
      *  @param numberADC how many adcs are on the board
      *  @param nbChannelVec an array containing the numer of channels that each ADC has 
      */
-     Board(uint8_t numberADC, uint8_t nbChannelVec[]);
+     Board(uint8_t numberADC, const uint8_t nbChannelVec[]);
     /** get the board id
      *  @return the board's GUID
      */
