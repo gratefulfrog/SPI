@@ -10,15 +10,35 @@ SlaveApp::SlaveApp() {
   Serial.println("Ready!");
   q = new Q<u8u32f_struct>(nullStruct);
 
-  uint8_t board0NBChannelVec[] = {BOARD_BOARD_0_ADC_0_NB_CHANNELS};
+  const uint8_t board0NBChannelVec[] = {BOARD_BOARD_0_ADC_0_NB_CHANNELS},
+                board1NBChannelVec[] = {BOARD_BOARD_1_ADC_0_NB_CHANNELS,
+                                        BOARD_BOARD_1_ADC_1_NB_CHANNELS};
 
+  // BOARD_BOARD_0 is board zero with only one ADC
+  // BOARD_BOARD_1 is board one with 2 adcs
+  #if BOARD_USE_BOARD_0
   board = new Board(BOARD_BOARD_0_NB_ADCS,board0NBChannelVec);
-
-  for (int i=0 ; i< BOARD_BOARD_0_ADC_0_NB_CHANNELS; i++){
-    Serial.println(String("Board[0]. ADCMgr[0], Channel[") + 
-                   String(i) + 
-                   String("] : Value : ") +
-                   String(board->getValue(0,i)));
+  const int board_ID = BOARD_BOARD_0_ID,
+            board_nbADCS = BOARD_BOARD_0_NB_ADCS;
+  const uint8_t *bordNbChannelVec = board0NBChannelVec;
+  #else
+  board = new Board(BOARD_BOARD_1_NB_ADCS,board1NBChannelVec);
+  const int board_ID = BOARD_BOARD_1_ID,
+            board_nbADCS = BOARD_BOARD_1_NB_ADCS;
+  const uint8_t *bordNbChannelVec = board1NBChannelVec;
+  #endif
+  
+  for (int i=0 ; i< board_nbADCS; i++){
+    for(int j=0;j< bordNbChannelVec[i];j++){
+      Serial.println(String("Board[") +
+                     String(board_ID) + 
+                     String("]  ADCMgr[") +
+                     String(i) +
+                     String("]  Channel[") + 
+                     String(j) + 
+                     String("] : Value : ") +
+                     String(board->getValue(i,j)));
+    }
   }
 
   initResponseStruct.u32 = board->getGUID();

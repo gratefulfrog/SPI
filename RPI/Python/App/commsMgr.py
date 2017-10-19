@@ -260,7 +260,7 @@ class CommsMgr:
                 moreDataComing = not nullReturn and enQResponse
 
         except KeyboardInterrupt:
-            print('\nbye...')
+            print('\nCommsMgr exiting...')
             return False
         sleep(self.typeDict[type][2])
         return True

@@ -214,13 +214,18 @@ class Master:
         Called at the end of a run, it allows all the consumer threads to exit properly
         """
         # block until all tasks are done
+        print('Shutting down all threads...')
         self.q.join()
 
         # stop workers
         for t in self.threads:
             self.q.put(None)
+        threadCounter = 0
         for t in self.threads:
+            print('Thread', threadCounter,' shut down...')
+            threadCounter+=1
             t.join()
+        print('All threads shut down, exiting...')
 
     def run(self,typeLis):
         """

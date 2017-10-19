@@ -13,10 +13,19 @@ typedef uint32_t boardID;     /*!< typedef for GUID on 32 unsigned bits */
 /** Board config */
 /*************************************************************/
 
-#define BOARD_BOARD_0_ID                 (0)    /*!< nb of adcs connected to board  */
+#define BOARD_USE_BOARD_0                (1)    /*<! slecect which board will be configured, a true value uses board ZERO otherwise BOARD_1 */
 
-#define BOARD_BOARD_0_ADC_0_NB_CHANNELS  (8)    /*!< nb of adcs channels for boar dzero adc zero */
-#define BOARD_BOARD_0_NB_ADCS            (1)    /*!< nb of adcs connected to board  */
+
+#define BOARD_BOARD_0_ID                 (0)    /*!< nb of adcs connected to board  */
+#define BOARD_BOARD_0_NB_ADCS            (1)    /*!< nb of adcs connected to board zero */
+#define BOARD_BOARD_0_ADC_0_NB_CHANNELS  (8)    /*!< nb of adcs channels for board zero adc zero */
+
+#define BOARD_BOARD_1_ID                 (1)    /*!< nb of adcs connected to board  */
+#define BOARD_BOARD_1_NB_ADCS            (2)    /*!< nb of adcs connected to board one */
+#define BOARD_BOARD_1_ADC_0_NB_CHANNELS  (8)    /*!< nb of adcs channels for board one adc zero */
+#define BOARD_BOARD_1_ADC_1_NB_CHANNELS  (8)    /*!< nb of adcs channels for board one adc one */
+
+
 
 /*************************************************************/
 /** ADCMGR config */
