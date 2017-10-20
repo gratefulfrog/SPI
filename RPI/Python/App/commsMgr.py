@@ -318,8 +318,11 @@ class CommsMgr:
                     self.spi.open(channel,device)
                     if (counts[device]%pollDisplayIterations == 0):
                         print(counts[device],
-                              'Polling device',device,':',
-                              self.type2NameDict[typeLis[2]])
+                              'Polling device',device,
+                              ':',
+                              self.type2NameDict[typeLis[2]],
+                              'Q size :',
+                              self.q.qsize())
                     if not self.doOneCom(typeLis[2],device):
                         self.spi.close()
                         return
