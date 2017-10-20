@@ -327,6 +327,7 @@ class CommsMgr:
                 try:
                     self.spi.open(channel,device)
                     if (counts[device]%pollDisplayIterations == 0):
+                        self.checkQ()
                         print(counts[device],
                               'Polling device',device,
                               ':',
@@ -337,6 +338,5 @@ class CommsMgr:
                         self.spi.close()
                         return
                     counts[device] +=1
-                    self.checkQ()
                 finally:
                     self.spi.close()
