@@ -171,7 +171,7 @@ class WriterThread(threading.Thread):
 ###### Master Class CODE ##################
 
 class Master:
-    def __init__(self, nbThreads=3,dataDir='./DATA'):
+    def __init__(self, nbThreads=4,dataDir='./DATA'):
         """
         Constructor for class Master, implements the start and Producer part of
         the Producer/Consumer paradigm for parallel processing. 
