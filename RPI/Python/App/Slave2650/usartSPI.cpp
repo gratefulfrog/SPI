@@ -75,7 +75,7 @@ const USARTSPI::uartSpecificBitValueStruct USARTSPI::specificBitVec[nbUARTS] = {
 
 ///// ATMEGA 328P VALUES ////////////
 
-static const uint8_t USARTSPI::nbUARTS =  1;
+const uint8_t USARTSPI::nbUARTS =  1;
 
 // usart reg struct: {&udr,&ucsrA,&ucsrB,&ucsrC,&ubrr}
 const USARTSPI::usartRegisterStruct USARTSPI::usartRegVec[nbUARTS] = {{UDR0,UCSR0A,UCSR0B,UCSR0C,UBRR0}}; // usart 0

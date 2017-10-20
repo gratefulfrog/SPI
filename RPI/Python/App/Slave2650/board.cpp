@@ -8,6 +8,7 @@ Board::Board(uint8_t numberADCs, const uint8_t nbChannelVec[]) : nbADCs(numberAD
   
   for (uint8_t  i=0;i<nbADCs;i++){
     boardUSARTChannels[i] = i+1; // init UART channel vec
+    Serial.println(String("init adc :") + String(i));
     adcMgrVec[i] = new YADCMgr(boardUSARTChannels[i],nbChannelVec[i]);  // init adcMgr vec
     //Serial.println(adcMgrVec[i] == NULL);
   } 
