@@ -1,10 +1,9 @@
 #include "adcMgr.h"
 
-
-
 ADCMgr::ADCMgr(uint8_t id, uint8_t nbChan) : adcID(id), nbChannels(nbChan){}              
 
 void YADCMgr::doSelfTest() const {
+  //Serial.println("call to doSelfTest");
   if (adc->selftest()){
     Serial.println(String("AD7689 instance ") + String(adcID) +String(" Self-Test Passed!"));
   }

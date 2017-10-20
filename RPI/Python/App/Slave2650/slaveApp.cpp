@@ -16,23 +16,30 @@ SlaveApp::SlaveApp() {
 
   // BOARD_BOARD_0 is board zero with only one ADC
   // BOARD_BOARD_1 is board one with 2 adcs
+  
+  
   #if BOARD_USE_BOARD_0
-  board = new Board(BOARD_BOARD_0_NB_ADCS,board0NBChannelVec);
-  const int board_ID = BOARD_BOARD_0_ID,
-            board_nbADCS = BOARD_BOARD_0_NB_ADCS;
-  const uint8_t *bordNbChannelVec = board0NBChannelVec;
+  
+  const uint8_t board_ID         = BOARD_BOARD_0_ID,
+                board_nbADCS     = BOARD_BOARD_0_NB_ADCS,
+               *bordNbChannelVec = board0NBChannelVec;
+  
   #else
-  board = new Board(BOARD_BOARD_1_NB_ADCS,board1NBChannelVec);
-  const int board_ID = BOARD_BOARD_1_ID,
-            board_nbADCS = BOARD_BOARD_1_NB_ADCS;
-  const uint8_t *bordNbChannelVec = board1NBChannelVec;
+  
+  const uint8_t board_ID         = BOARD_BOARD_1_ID,
+                board_nbADCS     = BOARD_BOARD_1_NB_ADCS,
+               *bordNbChannelVec = board1NBChannelVec;
+  
   #endif
   
-  for (int i=0 ; i< board_nbADCS; i++){
-    for(int j=0;j< bordNbChannelVec[i];j++){
-      Serial.println(String("Board[") +
+  board = new Board(board_nbADCS,bordNbChannelVec);
+
+  
+  for (uint8_t i=0 ; i< board_nbADCS; i++){
+    for(uint8_t j=0;j< bordNbChannelVec[i];j++){
+      Serial.println(String("Board Type : ") +
                      String(board_ID) + 
-                     String("]  ADCMgr[") +
+                     String("   ADCMgr[") +
                      String(i) +
                      String("]  Channel[") + 
                      String(j) + 
@@ -57,7 +64,7 @@ SlaveApp::SlaveApp() {
 }
 
 void SlaveApp::SlaveApp::loop(){
-  stepHB();
+  //stepHB();
   // if the flag is true, then an interrupt has requested a state change.
   // This could be either we got an init8 poll and were in State::started, and next is State:initialized
   // or we got a payload8 and either we are readyToSend or already sendingStructs, then
@@ -87,6 +94,7 @@ void SlaveApp::SlaveApp::loop(){
     checkCurrentState();
     previousState = currentState;
     sayState();
+    stepHB();
   }
   // here there has not been a change of state
   else {
@@ -199,12 +207,23 @@ boolean SlaveApp::incOutgoing(){
 
 void SlaveApp::setupHBLed(){
   pinMode(SlaveApp_LED_PIN_1, OUTPUT);
-  digitalWrite(SlaveApp_LED_PIN_1, HIGH);
+  digitalWrite(SlaveApp_LED_PIN_1, LOW);
 
   pinMode(SlaveApp_LED_PIN_2, OUTPUT);
   digitalWrite(SlaveApp_LED_PIN_2, LOW);
 }
 
+void SlaveApp::stepHB() const{
+  static const uint8_t pinVec[] = {SlaveApp_LED_PIN_1, SlaveApp_LED_PIN_2};
+  uint8_t sCount = (int)currentState > 2 ?(int)currentState -2 : 0;
+  for (uint8_t i=0;i<2;i++){
+     digitalWrite(pinVec[i], (i+1) & sCount);
+  }
+}
+
+
+
+/*
 void SlaveApp::stepHB() const{
   static uint32_t lastHBTime = millis();
   uint32_t now = millis();
@@ -218,7 +237,7 @@ void SlaveApp::stepHB() const{
    lastHBTime = now;
   }
 }
-
+*/
 void SlaveApp::sayState() const {
   static const boolean hbOnly = SlaveApp_SAY_HEARTBEAT_ONLY;
   static uint32_t counter = 0;

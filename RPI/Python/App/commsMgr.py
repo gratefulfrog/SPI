@@ -31,7 +31,7 @@ channel        = 0
 ## SPI clock frequency, in Hz
 frequency      = 4000000
 ## Time in microseconds to wait afer clock stops before releasing slave select
-afterXferDelay = 30
+afterXferDelay = 35  # updated to work in 2 board situation
 
 ## time after each transfer to observe results
 pause   = 0.0000   # seconds
@@ -318,8 +318,11 @@ class CommsMgr:
                     self.spi.open(channel,device)
                     if (counts[device]%pollDisplayIterations == 0):
                         print(counts[device],
-                              'Polling device',device,':',
-                              self.type2NameDict[typeLis[2]])
+                              'Polling device',device,
+                              ':',
+                              self.type2NameDict[typeLis[2]],
+                              'Q size :',
+                              self.q.qsize())
                     if not self.doOneCom(typeLis[2],device):
                         self.spi.close()
                         return

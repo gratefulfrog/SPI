@@ -456,7 +456,7 @@ float AD7689::acquireTemperature() {
  * [AD7689::selftest Verifies that the ADC is properly connected and operational]
  * @return True if the ADC works properly, False if errors were encountered. Check SPI connections if selftest fails repeatedly.
  */
-bool AD7689::selftest() const {
+bool AD7689::selftest() {
   // ADC will be tested with its readback function, which reads back a previous command
   // this process takes 3 cycles
 

@@ -127,7 +127,7 @@ class AD7689 {
     void enableFiltering(bool onOff);
     float acquireChannel(uint8_t channel, uint32_t* timeStamp);
     float acquireTemperature();
-    bool selftest(void) const;
+    bool selftest(void);
 };
 #endif
 
