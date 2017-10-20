@@ -2,7 +2,7 @@ var searchData=
 [
   ['saystate',['sayState',['../da/ddc/class_slave_app.html#a25c186f256c0e194e3099e443180eb2f',1,'SlaveApp']]],
   ['scan',['scan',['../d4/d47/class_i2_c.html#ad3ebfa3204880e4fa60beeba997f357a',1,'I2C']]],
-  ['selftest',['selftest',['../d4/d0c/class_a_d7689.html#a5a779022a677cc06a37f522dc37453a3',1,'AD7689']]],
+  ['selftest',['selftest',['../d4/d0c/class_a_d7689.html#ae3954c97b1d8b4b3a8636b394b5be9f0',1,'AD7689']]],
   ['sendaddress',['sendAddress',['../d4/d47/class_i2_c.html#aad03d44efedac3005e08d3520a35dd57',1,'I2C']]],
   ['sendbyte',['sendByte',['../d4/d47/class_i2_c.html#a442d4a0e182443e2c3d3f3b9ad0cfb91',1,'I2C']]],
   ['setspeed',['setSpeed',['../d4/d47/class_i2_c.html#ab07f25ec3828a6d41f0a9f9b2de9b624',1,'I2C']]],

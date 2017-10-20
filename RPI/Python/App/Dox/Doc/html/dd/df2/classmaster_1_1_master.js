@@ -1,6 +1,6 @@
 var classmaster_1_1_master =
 [
-    [ "__init__", "dd/df2/classmaster_1_1_master.html#a8dcba4b24c7a9cf13ed94fc3b3b1b3fa", null ],
+    [ "__init__", "dd/df2/classmaster_1_1_master.html#a8391903fe99264325dfabf998cb2130f", null ],
     [ "createThreads", "dd/df2/classmaster_1_1_master.html#a2fadabb819c4616c55176267691d445d", null ],
     [ "run", "dd/df2/classmaster_1_1_master.html#a83862ea31f8483a31cbdf025bc97f661", null ],
     [ "stopAll", "dd/df2/classmaster_1_1_master.html#a0c0436b4a0c92dee44ec2b156dac15d7", null ],

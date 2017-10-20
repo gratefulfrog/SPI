@@ -16,7 +16,7 @@ var class_a_d7689 =
     [ "initSampleTiming", "d4/d0c/class_a_d7689.html#a2b8d7543440e2ee02340fa98333a64e1", null ],
     [ "readChannels", "d4/d0c/class_a_d7689.html#ae2f327efadba727aa37336ed0be1f4a1", null ],
     [ "readTemperature", "d4/d0c/class_a_d7689.html#a3d26d1478eb821e8fc6726b14540de7b", null ],
-    [ "selftest", "d4/d0c/class_a_d7689.html#a5a779022a677cc06a37f522dc37453a3", null ],
+    [ "selftest", "d4/d0c/class_a_d7689.html#ae3954c97b1d8b4b3a8636b394b5be9f0", null ],
     [ "shiftTransaction", "d4/d0c/class_a_d7689.html#ab60113efe315d377dde72b0c693ba486", null ],
     [ "toCommand", "d4/d0c/class_a_d7689.html#a0a163656b5dc81df7e1d8be125e0a55b", null ],
     [ "conf", "d4/d0c/class_a_d7689.html#af2fa3af5535a45b15a05271b5f2eb0f5", null ],
