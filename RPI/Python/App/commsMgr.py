@@ -16,14 +16,14 @@ import spidev
 
 ## std ptyhon packages
 from struct import pack,unpack
-from time import sleep, strftime, localtime
+from time import sleep, strftime, localtime, time
 
 #### for debugging, will display a heartbeat message after this number of polls
 pollDisplayIterations = 100
 ## qMAxSize : when q reaches this size, data acquistion pauses to let the writer threads
 #             clear the q. Acquisiton restarts when q is empty
 
-qMaxSize  = 1000000  
+qMaxSize  = 1000000
 
 # xfer args: list of bytes,
 #            Hz freq of clck,
@@ -188,8 +188,11 @@ class CommsMgr:
     def checkQ(self):
         if self.q.qsize() > qMaxSize:
             print('Q size reached max, pausing to let writer threads empty it...')
+            start = time()
             self.q.join()
-            print('Q cleared, polling resumes')
+            print('Q cleared, polling resumes, pause duration :',
+                  round(time()-start),
+                  'seconds')
 
     def transferLis(self,outLis):
         """

@@ -242,7 +242,7 @@ class Master:
             raise
         finally:
             self.stopAll()
-            print('Elapsed Time :',time.time()-t,'seconds')
+            print('Elapsed Time :',round(time.time()-t),'seconds')
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
