@@ -8,7 +8,7 @@ var class_u_s_a_r_t_s_p_i =
     [ "endTransaction", "d7/db2/class_u_s_a_r_t_s_p_i.html#a055f0ac3c786df8f1e082ff1a3e35c13", null ],
     [ "setSS", "d7/db2/class_u_s_a_r_t_s_p_i.html#ae5016667be8b1ca1cfdd4e265caff3d9", null ],
     [ "transfer", "d7/db2/class_u_s_a_r_t_s_p_i.html#af84d7493beba49cd1e6d3600d4686d31", null ],
-    [ "nbUARTS", "d7/db2/class_u_s_a_r_t_s_p_i.html#a62bfd1362b45b5afdf84d7646ad2afc7", null ],
+    [ "nbUARTS", "d7/db2/class_u_s_a_r_t_s_p_i.html#a9bca52fcee71722d3a45df25df50293c", null ],
     [ "pinRegVec", "d7/db2/class_u_s_a_r_t_s_p_i.html#a1e5956f4369a5f493cf0ca3c71c2366b", null ],
     [ "specificBitVec", "d7/db2/class_u_s_a_r_t_s_p_i.html#ad0a720085781b2881eec2659cecff2ff", null ],
     [ "uID", "d7/db2/class_u_s_a_r_t_s_p_i.html#a263cfdacd43444ae8ab45c8b4565741b", null ],

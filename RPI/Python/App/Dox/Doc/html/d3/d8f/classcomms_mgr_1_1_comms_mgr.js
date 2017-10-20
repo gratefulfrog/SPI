@@ -1,6 +1,7 @@
 var classcomms_mgr_1_1_comms_mgr =
 [
     [ "__init__", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a04ae9f7e77b5d71a17d8a352a3d5abc2", null ],
+    [ "checkQ", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#ae827c4a8501c0c94bb9728486d82bf07", null ],
     [ "doOneCom", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#ad9ec5f7cbec097242a6c2c2676993de7", null ],
     [ "doSynch", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#ace2e93f45f1c07659790b92f1d51dd3a", null ],
     [ "getBid", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a56045eb570a4f2f0f857be8650167123", null ],

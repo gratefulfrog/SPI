@@ -6,7 +6,7 @@ var searchData=
   ['bid32',['bid32',['../da/ddc/class_slave_app.html#abe57ff92c46d2a1818d7f09224b92648',1,'SlaveApp']]],
   ['biddict',['bidDict',['../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a6b6e2b8f0beeb2183fac868caa655524',1,'commsMgr::CommsMgr']]],
   ['bipolar_5fmode',['BIPOLAR_MODE',['../de/dcb/ad7689_8h.html#ab30c55989a6d0dab625ada15f1e31bf9',1,'ad7689.h']]],
-  ['board',['Board',['../d3/dfd/class_board.html',1,'Board'],['../d3/dfd/class_board.html#abfd5601770bbfb3e6d72c1e57c9c1e30',1,'Board::Board()'],['../da/ddc/class_slave_app.html#aae725f1cedc0eb0a5ae896ee99b9139c',1,'SlaveApp::board()']]],
+  ['board',['Board',['../d3/dfd/class_board.html',1,'Board'],['../d3/dfd/class_board.html#a5928a0e1c6516077900dc982a3c1943b',1,'Board::Board()'],['../da/ddc/class_slave_app.html#aae725f1cedc0eb0a5ae896ee99b9139c',1,'SlaveApp::board()']]],
   ['board_2ecpp',['board.cpp',['../df/d6e/board_8cpp.html',1,'']]],
   ['board_2eh',['board.h',['../d3/d02/board_8h.html',1,'']]],
   ['board_5fboard_5f0_5fadc_5f0_5fnb_5fchannels',['BOARD_BOARD_0_ADC_0_NB_CHANNELS',['../db/d16/config_8h.html#a03dbd164e089d624af3ca21ce8f947a6',1,'config.h']]],

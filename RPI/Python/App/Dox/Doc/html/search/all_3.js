@@ -8,6 +8,7 @@ var searchData=
   ['channel',['channel',['../dd/d74/namespacecomms_mgr.html#aee889f2f77c014c58fd67fda36cabaa5',1,'commsMgr']]],
   ['channelvec',['channelVec',['../de/df5/namespacemaster.html#a32d296bcf21720b0d10df0e797367fa3',1,'master']]],
   ['checkcurrentstate',['checkCurrentState',['../da/ddc/class_slave_app.html#a22689a8aa08191b5edf26a15ee0bc5f5',1,'SlaveApp']]],
+  ['checkq',['checkQ',['../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#ae827c4a8501c0c94bb9728486d82bf07',1,'commsMgr::CommsMgr']]],
   ['commsmgr',['CommsMgr',['../d3/d8f/classcomms_mgr_1_1_comms_mgr.html',1,'commsMgr']]],
   ['commsmgr',['commsMgr',['../dd/d74/namespacecomms_mgr.html',1,'']]],
   ['commsmgr_2epy',['commsMgr.py',['../d3/dd2/comms_mgr_8py.html',1,'']]],

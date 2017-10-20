@@ -1,6 +1,6 @@
 var class_board =
 [
-    [ "Board", "d3/dfd/class_board.html#abfd5601770bbfb3e6d72c1e57c9c1e30", null ],
+    [ "Board", "d3/dfd/class_board.html#a5928a0e1c6516077900dc982a3c1943b", null ],
     [ "getGUID", "d3/dfd/class_board.html#a4912b5bfedda55c62eb12279727c71a1", null ],
     [ "getMgrNbChannels", "d3/dfd/class_board.html#a17cc8bb30324587a5dce73ba4d88df1c", null ],
     [ "getValue", "d3/dfd/class_board.html#ad449ba3038c0276f951d406dcf038e05", null ],
