@@ -31,7 +31,7 @@ channel        = 0
 ## SPI clock frequency, in Hz
 frequency      = 4000000
 ## Time in microseconds to wait afer clock stops before releasing slave select
-afterXferDelay = 35  # updated to work in 2 board situation
+afterXferDelay = 40  # updated to work in 2 board situation
 
 ## time after each transfer to observe results
 pause   = 0.0000   # seconds
@@ -201,7 +201,7 @@ class CommsMgr:
             responseLis += self.spi.xfer(self.masterMsg(outByte),frequency,afterXferDelay)
             while(self.isMasterMsg(responseLis[-1])):
                 correctedCount +=1
-                print('Error Corrected :',correctedCount)
+                print('Error Detected :',correctedCount)
                 responseLis = responseLis[:-1]
                 responseLis += self.spi.xfer(self.masterMsg(outByte),frequency,afterXferDelay)
             # here we have a good value in r1
