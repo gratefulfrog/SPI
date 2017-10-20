@@ -20,6 +20,10 @@ from time import sleep, strftime, localtime
 
 #### for debugging, will display a heartbeat message after this number of polls
 pollDisplayIterations = 100
+## qMAxSize : when q reaches this size, data acquistion pauses to let the writer threads
+#             clear the q. Acquisiton restarts when q is empty
+
+qMaxSize  = 1000000  
 
 # xfer args: list of bytes,
 #            Hz freq of clck,
@@ -181,6 +185,12 @@ class CommsMgr:
     def isMasterMsg(self,byte):
         return (byte & (0b1111<<4))
 
+    def checkQ(self):
+        if self.q.qsize() > qMaxSize:
+            print('Q size reached max, pausing to let writer threads empty it...')
+            self.q.join()
+            print('Q cleared, polling resumes')
+
     def transferLis(self,outLis):
         """
         This method does the SPI transfers and collects the responses. It also collects error information
@@ -326,6 +336,7 @@ class CommsMgr:
                     if not self.doOneCom(typeLis[2],device):
                         self.spi.close()
                         return
-                    counts[device] +=1                
+                    counts[device] +=1
+                    self.checkQ()
                 finally:
                     self.spi.close()
