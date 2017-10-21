@@ -5,5 +5,6 @@ var searchData=
   ['ddclk',['ddCLK',['../d0/dd4/struct_u_s_a_r_t_s_p_i_1_1uart_specific_bit_value_struct.html#a7d4e922945d6118d321cdc9aae41d5ed',1,'USARTSPI::uartSpecificBitValueStruct']]],
   ['ddss',['ddSS',['../d0/dd4/struct_u_s_a_r_t_s_p_i_1_1uart_specific_bit_value_struct.html#a607ace9102e195e426b9620a5f80a1a9',1,'USARTSPI::uartSpecificBitValueStruct']]],
   ['devices',['devices',['../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a271e61b87d5e2edc9e165bf7fdf1c93d',1,'commsMgr::CommsMgr']]],
-  ['dictlock',['dictLock',['../d3/ddd/classmaster_1_1_writer_thread.html#ab80d14d0349763d27598a7514f60c694',1,'master::WriterThread']]]
+  ['dictlock',['dictLock',['../d3/ddd/classmaster_1_1_writer_thread.html#ab80d14d0349763d27598a7514f60c694',1,'master::WriterThread']]],
+  ['diskspacelimit',['diskSpaceLimit',['../dd/d74/namespacecomms_mgr.html#aa18a08a54ce1e9290a4e662386d3c513',1,'commsMgr']]]
 ];

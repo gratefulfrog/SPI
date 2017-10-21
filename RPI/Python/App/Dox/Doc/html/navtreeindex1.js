@@ -1,5 +1,7 @@
 var NAVTREEINDEX1 =
 {
+"d9/d06/_i2_c_8h.html#af5b6df2786e96343f9d31d9a6402db95":[2,0,0,12,18],
+"d9/d06/_i2_c_8h.html#afc735dc116b40c85092452b78b35c100":[2,0,0,12,17],
 "d9/d06/_i2_c_8h_source.html":[2,0,0,12],
 "d9/d80/class_y_s_p_i.html":[1,0,15],
 "d9/d80/class_y_s_p_i.html#a6c50a073ac302526b702799f2b50e41e":[1,0,15,3],
@@ -99,8 +101,8 @@ var NAVTREEINDEX1 =
 "dc/da4/structu8u32f__struct.html#a792c44fded2508b3c6ab6b281521e4d2":[1,0,12,1],
 "dc/da4/structu8u32f__struct.html#abe150eed61f23f9f1dbafb3a96c256c3":[1,0,12,3],
 "dc/da4/structu8u32f__struct.html#ad2f9c7e997f07044a89267c3756074db":[1,0,12,4],
-"dd/d74/namespacecomms_mgr.html":[1,0,0],
 "dd/d74/namespacecomms_mgr.html":[0,0,0],
+"dd/d74/namespacecomms_mgr.html":[1,0,0],
 "dd/df2/classmaster_1_1_master.html":[1,0,1,0],
 "dd/df2/classmaster_1_1_master.html#a0c0436b4a0c92dee44ec2b156dac15d7":[1,0,1,0,3],
 "dd/df2/classmaster_1_1_master.html#a2cdc4c50315a89045d4b1891b546b744":[1,0,1,0,6],
@@ -164,8 +166,8 @@ var NAVTREEINDEX1 =
 "de/df0/utilities_8h.html#ad0827a64c5210b6a27d65e02394d40bc":[2,0,0,20,0],
 "de/df0/utilities_8h.html#ae4f8f4a19ace70804dc0b2ba200555fb":[2,0,0,20,1],
 "de/df0/utilities_8h_source.html":[2,0,0,20],
-"de/df5/namespacemaster.html":[0,0,1],
 "de/df5/namespacemaster.html":[1,0,1],
+"de/df5/namespacemaster.html":[0,0,1],
 "df/d24/usart_s_p_i_8cpp.html":[2,0,0,18],
 "df/d6e/board_8cpp.html":[2,0,0,5],
 "df/d76/static_q_8h.html":[2,0,0,15],
