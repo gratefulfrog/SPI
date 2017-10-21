@@ -17,13 +17,15 @@ import spidev
 ## std ptyhon packages
 from struct import pack,unpack
 from time import sleep, strftime, localtime, time
+import os
 
 #### for debugging, will display a heartbeat message after this number of polls
 pollDisplayIterations = 100
 ## qMAxSize : when q reaches this size, data acquistion pauses to let the writer threads
 #             clear the q. Acquisiton restarts when q is empty
-
-qMaxSize  = 1000000
+qMaxSize = 1000000
+## diskSpaceLimit : in MB, when limit reached, processing halts
+diskSpaceLimit = 100 # MB
 
 # xfer args: list of bytes,
 #            Hz freq of clck,
@@ -193,7 +195,16 @@ class CommsMgr:
             print('Q cleared, polling resumes, pause duration :',
                   round(time()-start),
                   'seconds')
-
+            
+    def diskSpaceLimitReached(self):
+        st = os.statvfs(os.getcwd())
+        free = st.f_bavail * st.f_frsize
+        diskFreeMB = free / 1000000
+        res =  diskFreeMB <= diskSpaceLimit
+        if res:
+            print('Disk Space Limit Reached :',diskSpaceLimit,'MB')
+        return res
+            
     def transferLis(self,outLis):
         """
         This method does the SPI transfers and collects the responses. It also collects error information
@@ -337,7 +348,7 @@ class CommsMgr:
                               self.type2NameDict[typeLis[2]],
                               'Q size :',
                               self.q.qsize())
-                    if not self.doOneCom(typeLis[2],device):
+                    if (not self.doOneCom(typeLis[2],device)) or self.diskSpaceLimitReached():  ## or no disk space left! note: clearing q takes +/- 20MB of disk!
                         self.spi.close()
                         return
                     counts[device] +=1
