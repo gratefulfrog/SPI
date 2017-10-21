@@ -24,10 +24,10 @@ def disk_freeMB(path):
     """
     st = os.statvfs(path)
     free = st.f_bavail * st.f_frsize
-    return  round(free/oneMB,3)
+    return  '{:.3f}'.format(free/oneMB)
 
 def mem_freeMB():
-    return round(psutil.virtual_memory().available/oneMB,3)
+    return '{:.3f}'.format(psutil.virtual_memory().available/oneMB)
 
 
 import time
