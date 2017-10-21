@@ -23,9 +23,9 @@ import os
 pollDisplayIterations = 100
 ## qMAxSize : when q reaches this size, data acquistion pauses to let the writer threads
 #             clear the q. Acquisiton restarts when q is empty
-
-qMaxSize  = 1000000
-diskSpaceLimit = 50 # MB
+qMaxSize = 1000000
+## diskSpaceLimit : in MB, when limit reached, processing halts
+diskSpaceLimit = 100 # MB
 
 # xfer args: list of bytes,
 #            Hz freq of clck,
@@ -200,7 +200,10 @@ class CommsMgr:
         st = os.statvfs(os.getcwd())
         free = st.f_bavail * st.f_frsize
         diskFreeMB = free / 1000000
-        return diskFreeMB <= diskSpaceLimit
+        res =  diskFreeMB <= diskSpaceLimit
+        if res:
+            print('Disk Space Limit Reached :',diskSpaceLimit,'MB')
+        return res
             
     def transferLis(self,outLis):
         """

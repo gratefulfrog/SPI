@@ -7,39 +7,31 @@ namedtuple.  Values are expressed in bytes.
 # Author: Giampaolo Rodola' <g.rodola [AT] gmail [DOT] com>
 # License: MIT
 
-import os
-import collections
+import os, collections
 
 _ntuple_diskusage = collections.namedtuple('usage', 'total used free')
 
-if hasattr(os, 'statvfs'):  # POSIX
-    def disk_usage(path):
-        st = os.statvfs(path)
-        free = st.f_bavail * st.f_frsize
-        total = st.f_blocks * st.f_frsize
-        used = (st.f_blocks - st.f_bfree) * st.f_frsize
-        return _ntuple_diskusage(total, used, free)
+def disk_usage(path):
+    st = os.statvfs(path)
+    free = st.f_bavail * st.f_frsize
+    total = st.f_blocks * st.f_frsize
+    used = (st.f_blocks - st.f_bfree) * st.f_frsize
+    return _ntuple_diskusage(total, used, free)
+def disk_freeMB(path):
+    """ return disk free in MB
+    """
+    st = os.statvfs(path)
+    free = st.f_bavail * st.f_frsize
+    return  round(free/1000000,3)
 
-elif os.name == 'nt':       # Windows
-    import ctypes
-    import sys
-
-    def disk_usage(path):
-        _, total, free = ctypes.c_ulonglong(), ctypes.c_ulonglong(), \
-                           ctypes.c_ulonglong()
-        if sys.version_info >= (3,) or isinstance(path, unicode):
-            fun = ctypes.windll.kernel32.GetDiskFreeSpaceExW
-        else:
-            fun = ctypes.windll.kernel32.GetDiskFreeSpaceExA
-        ret = fun(path, ctypes.byref(_), ctypes.byref(total), ctypes.byref(free))
-        if ret == 0:
-            raise ctypes.WinError()
-        used = total.value - free.value
-        return _ntuple_diskusage(total.value, used, free.value)
-else:
-    raise NotImplementedError("platform not supported")
-
-disk_usage.__doc__ = __doc__
+import time
+def run():
+    while True:
+        print('Disk Free :', disk_freeMB('.'), 'MB')
+        time.sleep(10)
+        
 
 if __name__ == '__main__':
-    print (disk_usage(os.getcwd()))
+    print ('Disk usage :',disk_usage(os.getcwd()))
+    print ('Disk free MB :',disk_freeMB(os.getcwd()))
+    print ('Percent free % limit 1GB :', round(100*disk_freeMB(os.getcwd())/1000,2), '%')
