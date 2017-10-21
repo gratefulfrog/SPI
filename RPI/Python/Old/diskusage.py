@@ -3,13 +3,15 @@
 """
 Return disk usage statistics about the given path as a (total, used, free)
 namedtuple.  Values are expressed in bytes.
-"""
-# Author: Giampaolo Rodola' <g.rodola [AT] gmail [DOT] com>
-# License: MIT
 
-import os, collections
+Memory usage as well
+"""
+
+import os, collections,psutil
 
 _ntuple_diskusage = collections.namedtuple('usage', 'total used free')
+
+oneMB = 1000000
 
 def disk_usage(path):
     st = os.statvfs(path)
@@ -22,15 +24,26 @@ def disk_freeMB(path):
     """
     st = os.statvfs(path)
     free = st.f_bavail * st.f_frsize
-    return  round(free/1000000,3)
+    return  round(free/oneMB,3)
+
+def mem_freeMB():
+    return round(psutil.virtual_memory().available/oneMB,3)
+
 
 import time
 def run():
     while True:
-        print('Disk Free :', disk_freeMB('.'), 'MB')
+        print('Disk Free :',
+              disk_freeMB('.'),
+              'MB',
+              '\tMemory Free :',
+              mem_freeMB(),
+              'MB')
         time.sleep(10)
         
 
+
+        
 if __name__ == '__main__':
     print ('Disk usage :',disk_usage(os.getcwd()))
     print ('Disk free MB :',disk_freeMB(os.getcwd()))
