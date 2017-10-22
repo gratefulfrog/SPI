@@ -17,11 +17,7 @@ Error condition, aborting...
 
 """
 
-import smtplib, getpass
-
-## Parameters to be filled before execution
-senderGmail  = ''
-toList       = []
+import smtplib,getpass,csv
 
 class Error(Exception):
    """Base class for other exceptions"""
@@ -35,20 +31,27 @@ class MissingEmailAccountsException(Error):
    """Raised when the input value is blank"""
    pass
 
-
 class AEMMailer:
    def __init__(self):
-      if not toList or senderGmail == '':
+      self.initToListAndSender()
+      if not self.toList or self.senderGmail == '':
          raise MissingEmailAccountsException
-      self.gmailSender = senderGmail
       self.login()
       self.subject     = 'AEM Monitor'
-      self.toList = toList
       self.msgTemplateBase = ['To: %s ' % ", ".join(self.toList),
-                              'From: %s' % self.gmailSender,
+                              'From: %s' % self.senderGmail,
                               'Subject: %s' % self.subject,
                               '',]
       self.msgBlankText     =  '%s'
+
+   def initToListAndSender(self,filenName='./mail.csv'):
+      with open('mail.csv', newline='') as csvFile:
+         reader= csv.DictReader(csvFile)
+         for row in reader:
+            self.senderGmail = row['SenderGmail']
+            self.toList = row['ToList'].split(',')
+            break
+      #print(self.senderGmail, self.toList)
       
    def getMsg(self, textBody):
       return  '\r\n'.join(self.msgTemplateBase + 
@@ -65,7 +68,7 @@ class AEMMailer:
          if  gmailPassword == '':
             raise NoPasswordException
          try:
-            server.login(self.gmailSender, gmailPassword)
+            server.login(self.senderGmail, gmailPassword)
             self.gmailPassword = gmailPassword
             return
          except KeyboardInterrupt:
@@ -80,12 +83,12 @@ class AEMMailer:
          print('Failed to connect to server')
          return
       try:
-         server.login(self.gmailSender, self.gmailPassword)
+         server.login(self.senderGmail, self.gmailPassword)
       except:
             print('login failed')
             return
       try:
-         server.sendmail(self.gmailSender,
+         server.sendmail(self.senderGmail,
                          self.toList,
                          self.getMsg(outgoing))
          print('Mail sent!')
