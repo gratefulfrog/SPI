@@ -5,6 +5,7 @@ var searchData=
   ['selftest',['selftest',['../d4/d0c/class_a_d7689.html#ae3954c97b1d8b4b3a8636b394b5be9f0',1,'AD7689']]],
   ['sendaddress',['sendAddress',['../d4/d47/class_i2_c.html#aad03d44efedac3005e08d3520a35dd57',1,'I2C']]],
   ['sendbyte',['sendByte',['../d4/d47/class_i2_c.html#a442d4a0e182443e2c3d3f3b9ad0cfb91',1,'I2C']]],
+  ['sendmsg',['sendMsg',['../dd/df2/classmaster_1_1_master.html#a0adc68730b5b4aa878694de941f2a9a8',1,'master::Master']]],
   ['setspeed',['setSpeed',['../d4/d47/class_i2_c.html#ab07f25ec3828a6d41f0a9f9b2de9b624',1,'I2C']]],
   ['setss',['setSS',['../d9/d80/class_y_s_p_i.html#ae48e79e08ea401598f29a5724fd30a92',1,'YSPI::setSS()'],['../d0/d68/class_h_w_s_p_i.html#aad167bc84f5a2eaacb8b2d4ef3da7605',1,'HWSPI::setSS()'],['../d7/db2/class_u_s_a_r_t_s_p_i.html#ae5016667be8b1ca1cfdd4e265caff3d9',1,'USARTSPI::setSS()']]],
   ['settime0',['setTime0',['../d0/da8/class_time_stamper.html#a7e6c062656f468cba82cf79d356a5f88',1,'TimeStamper']]],

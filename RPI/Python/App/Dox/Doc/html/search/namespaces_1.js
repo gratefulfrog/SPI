@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['master',['master',['../de/df5/namespacemaster.html',1,'']]]
+  ['commsmgr',['commsMgr',['../dd/d74/namespacecomms_mgr.html',1,'']]]
 ];

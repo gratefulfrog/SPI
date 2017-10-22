@@ -67,13 +67,16 @@ class CommsMgr:
     * commsMgr = CommsMgr(aQueue)
     * commsMgr.loop( [ss channels], s_init_t,s_payload_t])
     """
-    def __init__(self, queue):
+    def __init__(self, queue, mailerFunc):
         """
         Instance constructor, handles init for member variables known at init time, others are deferred to runtime init.
-        @param queue: the synchronized queue where data will be pushed for the writer threads to process/
+        @param queue: the synchronized queue where data will be pushed for the writer threads to process
+        @prama mailerFunc: a function taking a single argument string that will be mailed to inform at given points in processing
         """
         ## Synchonized queue where data from slaves will be pushed
         self.q = queue
+        ## mailer function to inform remotely
+        self.mailerFunc = mailerFunc
         ## Raspberry SPI manager instance 
         self.spi = spidev.SpiDev()
         ## will contain the system time when the slaves are synched
@@ -187,7 +190,7 @@ class CommsMgr:
     def isMasterMsg(self,byte):
         return (byte & (0b1111<<4))
 
-    def checkQ(self):
+    def checkQAndMail(self, pollCount):
         if self.q.qsize() > qMaxSize:
             print('Q size reached max, pausing to let writer threads empty it...')
             start = time()
@@ -195,6 +198,11 @@ class CommsMgr:
             print('Q cleared, polling resumes, pause duration :',
                   round(time()-start),
                   'seconds')
+            ## mail the news!
+            st = os.statvfs(os.getcwd())
+            free = st.f_bavail * st.f_frsize
+            diskFreeMB = round(free/1000000,3)
+            self.mailerFunc('Poll Count : ' + str(pollCount) + '\nDisk Space Remaing : ' + str(diskFreeMB) + ' MB') 
             
     def diskSpaceLimitReached(self):
         st = os.statvfs(os.getcwd())
@@ -203,6 +211,7 @@ class CommsMgr:
         res =  diskFreeMB <= diskSpaceLimit
         if res:
             print('Disk Space Limit Reached :',diskSpaceLimit,'MB')
+            self.mailerFunc('Disk Space Limit ' + str(diskSpaceLimit) + ' MB reached!') 
         return res
             
     def transferLis(self,outLis):
@@ -236,6 +245,9 @@ class CommsMgr:
         # now combine the 1/2 bytes to make real full bytes
         for i in range(0, len(responseLis), 2):
             resLis += [responseLis[i]<<4 | responseLis[i+1]]
+        if correctedCount:
+            ## send a mail to tell the world
+            self.mailerFunc('Warning : ' + str(correctedCount) + 'new errors detected...\nProcessing will continue')
         return resLis,correctedCount
 
     def getBid(self,currentResponseLis):
@@ -341,14 +353,14 @@ class CommsMgr:
                 try:
                     self.spi.open(channel,device)
                     if (counts[device]%pollDisplayIterations == 0):
-                        self.checkQ()
+                        self.checkQAndMail(counts[device])
                         print(counts[device],
                               'Polling device',device,
                               ':',
                               self.type2NameDict[typeLis[2]],
                               'Q size :',
                               self.q.qsize())
-                    if (not self.doOneCom(typeLis[2],device)) or self.diskSpaceLimitReached():  ## or no disk space left! note: clearing q takes +/- 20MB of disk!
+                    if (not self.doOneCom(typeLis[2],device)) or self.diskSpaceLimitReached():  ## interrupted or no disk space left! note: clearing q takes +/- 20MB of disk!
                         self.spi.close()
                         return
                     counts[device] +=1

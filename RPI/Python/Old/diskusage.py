@@ -29,7 +29,6 @@ def disk_freeMB(path):
 def mem_freeMB():
     return '{:.3f}'.format(psutil.virtual_memory().available/oneMB)
 
-
 import time
 def run():
     while True:
@@ -45,6 +44,9 @@ def run():
 
         
 if __name__ == '__main__':
+    run()
+    """
     print ('Disk usage :',disk_usage(os.getcwd()))
     print ('Disk free MB :',disk_freeMB(os.getcwd()))
     print ('Percent free % limit 1GB :', round(100*disk_freeMB(os.getcwd())/1000,2), '%')
+    """

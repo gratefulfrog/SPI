@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['master',['Master',['../dd/df2/classmaster_1_1_master.html',1,'master']]]
+  ['i2c',['I2C',['../d4/d47/class_i2_c.html',1,'']]]
 ];

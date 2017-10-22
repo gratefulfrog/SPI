@@ -1,5 +1,6 @@
 var annotated_dup =
 [
+    [ "AEMmailer", "d0/d90/namespace_a_e_mmailer.html", "d0/d90/namespace_a_e_mmailer" ],
     [ "commsMgr", "dd/d74/namespacecomms_mgr.html", "dd/d74/namespacecomms_mgr" ],
     [ "master", "de/df5/namespacemaster.html", "de/df5/namespacemaster" ],
     [ "AA025UID", "d6/d03/class_a_a025_u_i_d.html", "d6/d03/class_a_a025_u_i_d" ],

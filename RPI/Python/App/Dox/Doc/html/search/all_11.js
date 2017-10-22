@@ -9,7 +9,9 @@ var searchData=
   ['selftest',['selftest',['../d4/d0c/class_a_d7689.html#ae3954c97b1d8b4b3a8636b394b5be9f0',1,'AD7689']]],
   ['sendaddress',['sendAddress',['../d4/d47/class_i2_c.html#aad03d44efedac3005e08d3520a35dd57',1,'I2C']]],
   ['sendbyte',['sendByte',['../d4/d47/class_i2_c.html#a442d4a0e182443e2c3d3f3b9ad0cfb91',1,'I2C']]],
+  ['sendergmail',['senderGmail',['../d5/d12/class_a_e_mmailer_1_1_a_e_m_mailer.html#a5b5dc95a4f66a97c23009be6f0a1e5be',1,'AEMmailer::AEMMailer']]],
   ['sendingstructs',['sendingStructs',['../da/ddc/class_slave_app.html#a0bd7892eadb9fbb5cdbc351d898ec0d8af55ce52ae97012b37857859bff082a82',1,'SlaveApp']]],
+  ['sendmsg',['sendMsg',['../dd/df2/classmaster_1_1_master.html#a0adc68730b5b4aa878694de941f2a9a8',1,'master::Master']]],
   ['seq',['SEQ',['../de/dcb/ad7689_8h.html#ababb820506a37d8ee60ed2857ba45556',1,'ad7689.h']]],
   ['seq_5fconf',['SEQ_conf',['../da/de0/struct_a_d7689__conf.html#ab47a25238b90f905090e1c45a464aae6',1,'AD7689_conf']]],
   ['seq_5foff',['SEQ_OFF',['../de/dcb/ad7689_8h.html#a884d58972b0df9108dcd0a85069fb849',1,'ad7689.h']]],
@@ -49,5 +51,6 @@ var searchData=
   ['stephb',['stepHB',['../da/ddc/class_slave_app.html#af030d9c35cbe82af19e7c5bba2740cc0',1,'SlaveApp']]],
   ['stop',['stop',['../d4/d47/class_i2_c.html#a805a1f75c4f780d6c5e40cf0677b8219',1,'I2C']]],
   ['stopall',['stopAll',['../dd/df2/classmaster_1_1_master.html#a0c0436b4a0c92dee44ec2b156dac15d7',1,'master::Master']]],
+  ['subject',['subject',['../d5/d12/class_a_e_mmailer_1_1_a_e_m_mailer.html#a150e1bd74c2ce9664222ff1ebe39074d',1,'AEMmailer::AEMMailer']]],
   ['synctime',['syncTime',['../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a94ecd7ae79a6402f121d0ac0d61d1b25',1,'commsMgr::CommsMgr']]]
 ];

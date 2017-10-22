@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hwspi',['HWSPI',['../d0/d68/class_h_w_s_p_i.html',1,'']]]
+  ['error',['Error',['../dc/d02/class_a_e_mmailer_1_1_error.html',1,'AEMmailer']]]
 ];

@@ -27,6 +27,7 @@ import queue
 import time
 import sys
 import os.path
+import AEMmailer
 
 ## AEM code imports
 import commsMgr as comms
@@ -194,8 +195,18 @@ class Master:
         ## Semaphore object to be passed to consumer threads for their use
         self.lock = threading.Lock()
         ## instance of CommsMgr class used to commuicate via SPI with the AEM Slave boards
-        self.spiCommsMgr = comms.CommsMgr(self.q)
+        self.spiCommsMgr = comms.CommsMgr(self.q,self.sendMsg)
         self.createThreads(nbThreads)
+        try:
+            self.mailer = AEMmailer.AEMMailer()
+        except AEMmailer.NoPasswordException:
+            print("No password provided; no mail will be sent...")
+            self.mailer = None
+        self.sendMsg("AEM session started!")
+        
+    def sendMsg(self,msg):
+        if self.mailer:
+            self.mailer.connectAndSend(msg)
         
     def createThreads(self,num):
         """
@@ -226,6 +237,7 @@ class Master:
             threadCounter+=1
             t.join()
         print('All threads shut down, exiting...')
+        
 
     def run(self,typeLis):
         """
@@ -242,7 +254,9 @@ class Master:
             raise
         finally:
             self.stopAll()
-            print('Elapsed Time :',round(time.time()-t),'seconds')
+            elapsedTime = round(time.time()-t)
+            print('Elapsed Time :', elapsedTime, 'seconds')
+            self.sendMsg('Shutting down!\nElapsed Time : ' + str(elapsedTime) + ' seconds.')
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
