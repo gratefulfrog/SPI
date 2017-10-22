@@ -1,7 +1,7 @@
 var classcomms_mgr_1_1_comms_mgr =
 [
-    [ "__init__", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a04ae9f7e77b5d71a17d8a352a3d5abc2", null ],
-    [ "checkQ", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#ae827c4a8501c0c94bb9728486d82bf07", null ],
+    [ "__init__", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a958455922d0f9234e26d4d4fea805fbf", null ],
+    [ "checkQAndMail", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a096844cca17e01b872214e397a34728f", null ],
     [ "diskSpaceLimitReached", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a1ac899626b5e5075415e8c18d878a12f", null ],
     [ "doOneCom", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#ad9ec5f7cbec097242a6c2c2676993de7", null ],
     [ "doSynch", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#ace2e93f45f1c07659790b92f1d51dd3a", null ],
@@ -19,6 +19,7 @@ var classcomms_mgr_1_1_comms_mgr =
     [ "unpackStruct", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#aa7a52698943641eaa326dae0d1c3186a", null ],
     [ "bidDict", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a6b6e2b8f0beeb2183fac868caa655524", null ],
     [ "devices", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a271e61b87d5e2edc9e165bf7fdf1c93d", null ],
+    [ "mailerFunc", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#ad0e9a2f68fa897f84e55aeb8ff778fd4", null ],
     [ "nullResponse", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a9cc8c017f64edb2f196dd94cc1441afd", null ],
     [ "q", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a8f7b24f19614237aedc8f0be25fac594", null ],
     [ "spi", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a21551457d1e797dd6744bf47fafe8012", null ],

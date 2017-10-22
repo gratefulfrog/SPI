@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['writerthread',['WriterThread',['../d3/ddd/classmaster_1_1_writer_thread.html',1,'master']]]
+  ['timestamper',['TimeStamper',['../d0/da8/class_time_stamper.html',1,'']]]
 ];

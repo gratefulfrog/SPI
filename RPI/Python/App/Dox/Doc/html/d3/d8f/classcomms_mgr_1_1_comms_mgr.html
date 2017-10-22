@@ -115,8 +115,8 @@ $(document).ready(function(){initNavTree('d3/d8f/classcomms_mgr_1_1_comms_mgr.ht
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a04ae9f7e77b5d71a17d8a352a3d5abc2"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a04ae9f7e77b5d71a17d8a352a3d5abc2">__init__</a> (self, queue)</td></tr>
-<tr class="separator:a04ae9f7e77b5d71a17d8a352a3d5abc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a958455922d0f9234e26d4d4fea805fbf"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a958455922d0f9234e26d4d4fea805fbf">__init__</a> (self, queue, <a class="el" href="../../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#ad0e9a2f68fa897f84e55aeb8ff778fd4">mailerFunc</a>)</td></tr>
+<tr class="separator:a958455922d0f9234e26d4d4fea805fbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93f7783e73908615757702adb4e8c944"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a93f7783e73908615757702adb4e8c944">initDevices</a> (self, deviceSSChannelLis)</td></tr>
 <tr class="separator:a93f7783e73908615757702adb4e8c944"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a728d657990a4bdd7060337239c072a2f"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a728d657990a4bdd7060337239c072a2f">isNullReturn</a> (self, responseLis)</td></tr>
@@ -134,8 +134,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abcb2f6bc7255d3d06ea3608273e8cfc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0fb2250f9a7434c45c4c3503e40970d5"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a0fb2250f9a7434c45c4c3503e40970d5">isMasterMsg</a> (self, byte)</td></tr>
 <tr class="separator:a0fb2250f9a7434c45c4c3503e40970d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae827c4a8501c0c94bb9728486d82bf07"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#ae827c4a8501c0c94bb9728486d82bf07">checkQ</a> (self)</td></tr>
-<tr class="separator:ae827c4a8501c0c94bb9728486d82bf07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a096844cca17e01b872214e397a34728f"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a096844cca17e01b872214e397a34728f">checkQAndMail</a> (self, pollCount)</td></tr>
+<tr class="separator:a096844cca17e01b872214e397a34728f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ac899626b5e5075415e8c18d878a12f"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a1ac899626b5e5075415e8c18d878a12f">diskSpaceLimitReached</a> (self)</td></tr>
 <tr class="separator:a1ac899626b5e5075415e8c18d878a12f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93fe410af9d1066edcab61daf4a86d4d"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a93fe410af9d1066edcab61daf4a86d4d">transferLis</a> (self, outLis)</td></tr>
@@ -156,6 +156,9 @@ Data Fields</h2></td></tr>
 <tr class="memitem:a8f7b24f19614237aedc8f0be25fac594"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a8f7b24f19614237aedc8f0be25fac594">q</a></td></tr>
 <tr class="memdesc:a8f7b24f19614237aedc8f0be25fac594"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synchonized queue where data from slaves will be pushed.  <a href="#a8f7b24f19614237aedc8f0be25fac594">More...</a><br /></td></tr>
 <tr class="separator:a8f7b24f19614237aedc8f0be25fac594"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0e9a2f68fa897f84e55aeb8ff778fd4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#ad0e9a2f68fa897f84e55aeb8ff778fd4">mailerFunc</a></td></tr>
+<tr class="memdesc:ad0e9a2f68fa897f84e55aeb8ff778fd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">mailer function to inform remotely  <a href="#ad0e9a2f68fa897f84e55aeb8ff778fd4">More...</a><br /></td></tr>
+<tr class="separator:ad0e9a2f68fa897f84e55aeb8ff778fd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21551457d1e797dd6744bf47fafe8012"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a21551457d1e797dd6744bf47fafe8012">spi</a></td></tr>
 <tr class="memdesc:a21551457d1e797dd6744bf47fafe8012"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raspberry SPI manager instance.  <a href="#a21551457d1e797dd6744bf47fafe8012">More...</a><br /></td></tr>
 <tr class="separator:a21551457d1e797dd6744bf47fafe8012"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -196,7 +199,7 @@ usage:
 * commsMgr = CommsMgr(aQueue)
 * commsMgr.loop( [ss channels], s_init_t,s_payload_t])
 </pre> </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a04ae9f7e77b5d71a17d8a352a3d5abc2"></a>
+<a class="anchor" id="a958455922d0f9234e26d4d4fea805fbf"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -210,7 +213,13 @@ usage:
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>queue</em>&#160;</td>
+          <td class="paramname"><em>queue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>mailerFunc</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -220,21 +229,32 @@ usage:
       </table>
 </div><div class="memdoc">
 <pre class="fragment">Instance constructor, handles init for member variables known at init time, others are deferred to runtime init.
-@param queue: the synchronized queue where data will be pushed for the writer threads to process/
+@param queue: the synchronized queue where data will be pushed for the writer threads to process
+@prama mailerFunc: a function taking a single argument string that will be mailed to inform at given points in processing
 </pre> 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ae827c4a8501c0c94bb9728486d82bf07"></a>
+<a class="anchor" id="a096844cca17e01b872214e397a34728f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">def commsMgr.CommsMgr.checkQ </td>
+          <td class="memname">def commsMgr.CommsMgr.checkQAndMail </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em></td><td>)</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>pollCount</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -750,6 +770,20 @@ if we have an unsigned byte, unsigned long, float = 9bytes
 </div><div class="memdoc">
 
 <p>list of SS channels provided at runtime </p>
+
+</div>
+</div>
+<a class="anchor" id="ad0e9a2f68fa897f84e55aeb8ff778fd4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">commsMgr.CommsMgr.mailerFunc</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>mailer function to inform remotely </p>
 
 </div>
 </div>

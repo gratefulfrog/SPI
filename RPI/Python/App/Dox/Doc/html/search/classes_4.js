@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['i2c',['I2C',['../d4/d47/class_i2_c.html',1,'']]]
+  ['hwspi',['HWSPI',['../d0/d68/class_h_w_s_p_i.html',1,'']]]
 ];

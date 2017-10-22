@@ -9,6 +9,7 @@ var searchData=
   ['getguidid',['getGuidID',['../d6/d03/class_a_a025_u_i_d.html#a610fe018c5492618067e785b52293a09',1,'AA025UID']]],
   ['getinputconfig',['getInputConfig',['../d4/d0c/class_a_d7689.html#a22d13672bd50dcdc32c16cc4e93de599',1,'AD7689']]],
   ['getmgrnbchannels',['getMgrNbChannels',['../d3/dfd/class_board.html#a17cc8bb30324587a5dce73ba4d88df1c',1,'Board']]],
+  ['getmsg',['getMsg',['../d5/d12/class_a_e_mmailer_1_1_a_e_m_mailer.html#a1466b7d05d478f3ef388ab490df840eb',1,'AEMmailer::AEMMailer']]],
   ['getnegref',['getNegRef',['../d4/d0c/class_a_d7689.html#ada3a41bb8993113c438ee66708e92cfc',1,'AD7689']]],
   ['getoutgoing',['getOutgoing',['../da/ddc/class_slave_app.html#ada158e7e579e3c6cf7e7c8149a1351e9',1,'SlaveApp']]],
   ['getoutvec',['getOutVec',['../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a1ae25cd2b951f9da62753ccb7c3af43a',1,'commsMgr::CommsMgr']]],

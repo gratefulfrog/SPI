@@ -6,8 +6,15 @@ var hierarchy =
     [ "ADCMgr", "d2/d01/class_a_d_c_mgr.html", [
       [ "YADCMgr", "d5/daa/class_y_a_d_c_mgr.html", null ]
     ] ],
+    [ "AEMmailer.AEMMailer", "d5/d12/class_a_e_mmailer_1_1_a_e_m_mailer.html", null ],
     [ "Board", "d3/dfd/class_board.html", null ],
     [ "commsMgr.CommsMgr", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html", null ],
+    [ "Exception", null, [
+      [ "AEMmailer.Error", "dc/d02/class_a_e_mmailer_1_1_error.html", [
+        [ "AEMmailer.MissingEmailAccountsException", "d9/d2a/class_a_e_mmailer_1_1_missing_email_accounts_exception.html", null ],
+        [ "AEMmailer.NoPasswordException", "d1/d47/class_a_e_mmailer_1_1_no_password_exception.html", null ]
+      ] ]
+    ] ],
     [ "I2C", "d4/d47/class_i2_c.html", null ],
     [ "master.Master", "dd/df2/classmaster_1_1_master.html", null ],
     [ "USARTSPI::pinRegisterStruct", "d9/dd4/struct_u_s_a_r_t_s_p_i_1_1pin_register_struct.html", null ],
