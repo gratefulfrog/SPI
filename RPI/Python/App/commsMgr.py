@@ -201,8 +201,8 @@ class CommsMgr:
             ## mail the news!
             st = os.statvfs(os.getcwd())
             free = st.f_bavail * st.f_frsize
-            diskFreeMB = free / 1000000
-            self.mailerFunc('Poll Count : ' + str(pollCount) + '\n\nDisk Space Remaing : ' + str(diskFreeMB) + ' MB') 
+            diskFreeMB = round(free/1000000,3)
+            self.mailerFunc('Poll Count : ' + str(pollCount) + '\nDisk Space Remaing : ' + str(diskFreeMB) + ' MB') 
             
     def diskSpaceLimitReached(self):
         st = os.statvfs(os.getcwd())
@@ -247,7 +247,7 @@ class CommsMgr:
             resLis += [responseLis[i]<<4 | responseLis[i+1]]
         if correctedCount:
             ## send a mail to tell the world
-            self.mailerFunc('Warning : ' + str(correctedCount) + 'new errors detected...\n\nProcessing will continue')
+            self.mailerFunc('Warning : ' + str(correctedCount) + 'new errors detected...\nProcessing will continue')
         return resLis,correctedCount
 
     def getBid(self,currentResponseLis):

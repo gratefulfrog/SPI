@@ -198,8 +198,8 @@ class Master:
         self.spiCommsMgr = comms.CommsMgr(self.q,self.sendMsg)
         self.createThreads(nbThreads)
         try:
-            self.mailer = AEMMailer()
-        except AEMMailer.NoPasswordException:
+            self.mailer = AEMmailer.AEMMailer()
+        except AEMmailer.NoPasswordException:
             print("No password provided; no mail will be sent...")
             self.mailer = None
         self.sendMsg("AEM session started!")
@@ -248,7 +248,7 @@ class Master:
         """
         t = time.time()
         try:
-            self.spiCommsMgr.loop(typeLis,self.sendMsg)
+            self.spiCommsMgr.loop(typeLis)
         except Exception as e:
             print('main thread exiting...')
             raise
@@ -256,7 +256,7 @@ class Master:
             self.stopAll()
             elapsedTime = round(time.time()-t)
             print('Elapsed Time :', elapsedTime, 'seconds')
-            self.sendMsg('Shutting down!\n\nElapsed Time : ' + str(elapsedTime) + ' seconds.')
+            self.sendMsg('Shutting down!\nElapsed Time : ' + str(elapsedTime) + ' seconds.')
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
