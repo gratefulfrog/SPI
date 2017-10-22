@@ -244,6 +244,9 @@ class CommsMgr:
         # now combine the 1/2 bytes to make real full bytes
         for i in range(0, len(responseLis), 2):
             resLis += [responseLis[i]<<4 | responseLis[i+1]]
+        if correctedCount:
+            ## send a mail to tell the world
+            self.mailerFunc('Warning : ' + str(correctedCount) + 'new errors detected...\n\nProcessing will continue')
         return resLis,correctedCount
 
     def getBid(self,currentResponseLis):
