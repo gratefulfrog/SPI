@@ -211,6 +211,7 @@ class CommsMgr:
         res =  diskFreeMB <= diskSpaceLimit
         if res:
             print('Disk Space Limit Reached :',diskSpaceLimit,'MB')
+            self.mailerFunc('Disk Space Limit ' + str(diskSpaceLimit) + ' MB reached!') 
         return res
             
     def transferLis(self,outLis):
