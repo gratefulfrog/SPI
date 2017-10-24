@@ -37,7 +37,7 @@ channel        = 0
 ## SPI clock frequency, in Hz
 frequency      = 4000000
 ## Time in microseconds to wait afer clock stops before releasing slave select
-afterXferDelay = 40  # updated to work in 2 board situation
+afterXferDelay = 45  # updated to work in 2 board situation
 
 ## time after each transfer to observe results
 pause   = 0.0000   # seconds
