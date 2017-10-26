@@ -22,7 +22,8 @@ var searchData=
   ['aemmailer',['AEMMailer',['../d5/d12/class_a_e_mmailer_1_1_a_e_m_mailer.html',1,'AEMmailer']]],
   ['aemmailer_2epy',['AEMmailer.py',['../d8/de8/_a_e_mmailer_8py.html',1,'']]],
   ['afterxferdelay',['afterXferDelay',['../dd/d74/namespacecomms_mgr.html#ace335434e4cffb9c65664f70e4793b61',1,'commsMgr']]],
-  ['app',['app',['../db/d4c/_slave2650_8ino.html#aa50b0e7f7bd0423b5fc4f0fb645b29ba',1,'Slave2650.ino']]],
+  ['app',['app',['../d2/d77/_slave2560_8ino.html#aa50b0e7f7bd0423b5fc4f0fb645b29ba',1,'Slave2560.ino']]],
   ['app_2eh',['app.h',['../d2/d39/app_8h.html',1,'']]],
+  ['args',['args',['../d0/d90/namespace_a_e_mmailer.html#a44866ad15b5e1ccf8f9c57fc1f19afe9',1,'AEMmailer']]],
   ['available',['available',['../d4/d47/class_i2_c.html#aab65deac959630a236ca0243322d1c88',1,'I2C']]]
 ];

@@ -5,6 +5,7 @@ var NAVTREE =
       [ "Packages", "namespaces.html", "namespaces" ],
       [ "Package Functions", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
+        [ "Functions", "namespacemembers_func.html", null ],
         [ "Variables", "namespacemembers_vars.html", null ]
       ] ]
     ] ],
@@ -35,7 +36,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d8/de8/_a_e_mmailer_8py.html#a897c041e5b0e46d203ed20c49569efed"
+"d7/db2/class_u_s_a_r_t_s_p_i.html#af84d7493beba49cd1e6d3600d4686d31"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
