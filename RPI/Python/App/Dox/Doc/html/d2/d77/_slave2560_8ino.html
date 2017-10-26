@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>AEM: /home/bob/Desktop/temp/Yannick/PhD_Support/temp/SPI/RPI/Python/App/Slave2560/utilities.h File Reference</title>
+<title>AEM: /home/bob/Desktop/temp/Yannick/PhD_Support/temp/SPI/RPI/Python/App/Slave2560/Slave2560.ino File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('de/df0/utilities_8h.html','../../');});
+$(document).ready(function(){initNavTree('d2/d77/_slave2560_8ino.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -104,101 +104,89 @@ $(document).ready(function(){initNavTree('de/df0/utilities_8h.html','../../');})
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
-<div class="title">utilities.h File Reference</div>  </div>
+<div class="title">Slave2560.ino File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;Arduino.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="../../db/d16/config_8h_source.html">config.h</a>&quot;</code><br />
-</div>
-<p><a href="../../de/df0/utilities_8h_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
+<div class="textblock"><code>#include &quot;<a class="el" href="../../d2/d39/app_8h_source.html">app.h</a>&quot;</code><br />
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae4f8f4a19ace70804dc0b2ba200555fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/df0/utilities_8h.html#ae4f8f4a19ace70804dc0b2ba200555fb">encode</a> (uint8_t &amp;coded, const uint8_t &amp;left, const uint8_t &amp;right)</td></tr>
-<tr class="separator:ae4f8f4a19ace70804dc0b2ba200555fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0827a64c5210b6a27d65e02394d40bc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/df0/utilities_8h.html#ad0827a64c5210b6a27d65e02394d40bc">decode</a> (const uint8_t &amp;coded, uint8_t &amp;left, uint8_t &amp;right)</td></tr>
-<tr class="separator:ad0827a64c5210b6a27d65e02394d40bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9cad97352f5ba9bbd800446131125a6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d77/_slave2560_8ino.html#af9cad97352f5ba9bbd800446131125a6">ISR</a> (SPI_STC_vect)</td></tr>
+<tr class="separator:af9cad97352f5ba9bbd800446131125a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fc01d736fe50cf5b977f755b675f11d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d77/_slave2560_8ino.html#a4fc01d736fe50cf5b977f755b675f11d">setup</a> ()</td></tr>
+<tr class="separator:a4fc01d736fe50cf5b977f755b675f11d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe461d27b9c48d5921c00d521181f12f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d77/_slave2560_8ino.html#afe461d27b9c48d5921c00d521181f12f">loop</a> ()</td></tr>
+<tr class="separator:afe461d27b9c48d5921c00d521181f12f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:aa50b0e7f7bd0423b5fc4f0fb645b29ba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/ddc/class_slave_app.html">SlaveApp</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d77/_slave2560_8ino.html#aa50b0e7f7bd0423b5fc4f0fb645b29ba">app</a></td></tr>
+<tr class="separator:aa50b0e7f7bd0423b5fc4f0fb645b29ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ad0827a64c5210b6a27d65e02394d40bc"></a>
+<a class="anchor" id="af9cad97352f5ba9bbd800446131125a6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void decode </td>
+          <td class="memname">ISR </td>
           <td>(</td>
-          <td class="paramtype">const uint8_t &amp;&#160;</td>
-          <td class="paramname"><em>coded</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">SPI_STC_vect&#160;</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
-          <td class="paramtype">uint8_t &amp;&#160;</td>
-          <td class="paramname"><em>left</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t &amp;&#160;</td>
-          <td class="paramname"><em>right</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>decodes bits LLLLRRRR to LLLL, RRRR , max value to decode is 255 </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">&amp;coded</td><td>: a read only value containing the coded bits </td></tr>
-    <tr><td class="paramname">&amp;left</td><td>: reference to variable for the left 4 decoded bits </td></tr>
-    <tr><td class="paramname">&amp;right</td><td>: reference to variable for the right 4 decoded bits </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Deinition of the SPI Slave interrupt handler as app pointers SPI_ISR method </p>
 
 </div>
 </div>
-<a class="anchor" id="ae4f8f4a19ace70804dc0b2ba200555fb"></a>
+<a class="anchor" id="afe461d27b9c48d5921c00d521181f12f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void encode </td>
+          <td class="memname">void loop </td>
           <td>(</td>
-          <td class="paramtype">uint8_t &amp;&#160;</td>
-          <td class="paramname"><em>coded</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
-          <td class="paramtype">const uint8_t &amp;&#160;</td>
-          <td class="paramname"><em>left</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const uint8_t &amp;&#160;</td>
-          <td class="paramname"><em>right</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>encodes bits LLLL, RRRR to LLLLRRRR , max value to encode is 15 </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">&amp;coded</td><td>: a reference the encoded value that the function will create </td></tr>
-    <tr><td class="paramname">&amp;left</td><td>: read only value for the left 4 bits </td></tr>
-    <tr><td class="paramname">&amp;right</td><td>: read only value for the right 4 bits </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>loop code just calls Slave App loop method </p>
+
+</div>
+</div>
+<a class="anchor" id="a4fc01d736fe50cf5b977f755b675f11d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setup </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>setup code instantiates the Slave App </p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a class="anchor" id="aa50b0e7f7bd0423b5fc4f0fb645b29ba"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../da/ddc/class_slave_app.html">SlaveApp</a>* app</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>pointer to instance of <a class="el" href="../../da/ddc/class_slave_app.html">SlaveApp</a> that will do the work! </p>
 
 </div>
 </div>
@@ -207,7 +195,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_1a0631ce530b8c09a1f49ff8f91f5ca5.html">Slave2560</a></li><li class="navelem"><a class="el" href="../../de/df0/utilities_8h.html">utilities.h</a></li>
+    <li class="navelem"><a class="el" href="../../dir_1a0631ce530b8c09a1f49ff8f91f5ca5.html">Slave2560</a></li><li class="navelem"><a class="el" href="../../d2/d77/_slave2560_8ino.html">Slave2560.ino</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.11 </li>

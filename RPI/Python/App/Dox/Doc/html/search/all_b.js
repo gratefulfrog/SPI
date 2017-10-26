@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['mailer',['mailer',['../dd/df2/classmaster_1_1_master.html#a94402fc61e099e4219daccd3e0dbe01c',1,'master.Master.mailer()'],['../d0/d90/namespace_a_e_mmailer.html#a897c041e5b0e46d203ed20c49569efed',1,'AEMmailer.mailer()']]],
+  ['mailer',['mailer',['../dd/df2/classmaster_1_1_master.html#a94402fc61e099e4219daccd3e0dbe01c',1,'master::Master']]],
   ['mailerfunc',['mailerFunc',['../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#ad0e9a2f68fa897f84e55aeb8ff778fd4',1,'commsMgr::CommsMgr']]],
   ['master',['Master',['../dd/df2/classmaster_1_1_master.html',1,'master']]],
   ['master',['master',['../de/df5/namespacemaster.html',1,'master'],['../de/df5/namespacemaster.html#ab61cf6ebb7cabeeae2214de6ec73bd1e',1,'master.master()']]],
@@ -14,7 +14,6 @@ var searchData=
   ['mr_5fsla_5fack',['MR_SLA_ACK',['../d9/d06/_i2_c_8h.html#a0387aa647630944a82081197d34983d4',1,'I2C.h']]],
   ['mr_5fsla_5fnack',['MR_SLA_NACK',['../d9/d06/_i2_c_8h.html#ab9a16d1ba7eca835d25c48a65d0d7cba',1,'I2C.h']]],
   ['msgblanktext',['msgBlankText',['../d5/d12/class_a_e_mmailer_1_1_a_e_m_mailer.html#a1cb9db981d7ee38eaa8c73cd0587854e',1,'AEMmailer::AEMMailer']]],
-  ['msgtemplatebase',['msgTemplateBase',['../d5/d12/class_a_e_mmailer_1_1_a_e_m_mailer.html#a6594eab2f5c4c355ec39b75e13c009ae',1,'AEMmailer::AEMMailer']]],
   ['mt_5fdata_5fack',['MT_DATA_ACK',['../d9/d06/_i2_c_8h.html#ac89a837ee845c12ecd5fed1c59880135',1,'I2C.h']]],
   ['mt_5fdata_5fnack',['MT_DATA_NACK',['../d9/d06/_i2_c_8h.html#acd5f18fcc00de2b96e182394e615af39',1,'I2C.h']]],
   ['mt_5fsla_5fack',['MT_SLA_ACK',['../d9/d06/_i2_c_8h.html#ab121ce1b01991e03fc303b5bfa00d4bb',1,'I2C.h']]],
