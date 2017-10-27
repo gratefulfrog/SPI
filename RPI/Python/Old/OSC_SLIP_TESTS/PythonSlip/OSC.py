@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Open SoundControl for Python
 # Copyright (C) 2002 Daniel Holth, Clinton McChesney
