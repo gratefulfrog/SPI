@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 
 from time import sleep,time
@@ -36,7 +36,6 @@ class Output(asyncio.Protocol):
             count +=1
             if count%10000 == 0:
                 print('Structs recevied:',count,'Elapsed seconds:',round(time()-startTime),'current struct:',decodeOSC(bytes(current)))
-            onGoing=False
             current=[]
                
     def connection_lost(self, exc):
