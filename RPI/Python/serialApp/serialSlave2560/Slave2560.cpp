@@ -1,9 +1,9 @@
 #include "app.h"
 
-#define USE_Q
+//#define USE_Q
 
-#define NO_Q_DELAY (26)   // ?? min value that works is 26 !
-#define Q_DELAY  (10  )      // min value that works 10?    
+#define NO_Q_DELAY (0)   // MicroSeconds min value that works is 0 !
+#define Q_DELAY    (500) // MicroSeconds min value that works 500 !    
 
 //////////////////////////////////////////////////////////
 //////////// Public Methods        ///////////////////////
@@ -17,8 +17,10 @@ SlaveApp::SlaveApp() {
   comms = new MsgMgr();
 
   setupHBLed();
-  //Serial.println("Ready!");
+  
+#ifdef USE_Q 
   q = new Q<u8u32f_struct>(nullStruct);
+#endif
 
   const uint8_t board0NBChannelVec[] = {BOARD_BOARD_0_ADC_0_NB_CHANNELS},
                 board1NBChannelVec[] = {BOARD_BOARD_1_ADC_0_NB_CHANNELS,
@@ -51,9 +53,7 @@ SlaveApp::SlaveApp() {
 
 void SlaveApp::SlaveApp::loop(){
   if (previousState != currentState){
-    //checkCurrentState();
     previousState = currentState;
-    //sayState();
     stepHB();
   }
   // here change of state is done
@@ -71,9 +71,11 @@ void SlaveApp::SlaveApp::loop(){
   case State::working:
     currentState =  doWork();  // end of work will cause change of state to readyToSend
     break;
+#ifdef USE_Q 
   case State::readyToSend:    // we are done working, spi payload poll will set flag causing change of state to sendingStructs
     currentState = doSingleSend();
     break;
+#endif
   }
 }
 
@@ -130,7 +132,7 @@ SlaveApp::State SlaveApp::doWork(){
   }
 #else
   comms->send(nextStruct); 
-  delay(NO_Q_DELAY);  
+  delayMicroseconds(NO_Q_DELAY);  
   ChannelID = (ChannelID +1 ) % board->getMgrNbChannels(ADC_ID);
   if(!ChannelID){  // we must inc the ADC_id
     ADC_ID = (ADC_ID +1) % board->nbADCs;
@@ -138,7 +140,7 @@ SlaveApp::State SlaveApp::doWork(){
 #endif
   return res;
 }
-
+#ifdef USE_Q 
 SlaveApp::State SlaveApp::doSingleSend(){
   State res = currentState;
   u8u32f_struct  nextStruct = q->pop();
@@ -148,9 +150,9 @@ SlaveApp::State SlaveApp::doSingleSend(){
   }
   else{
     comms->send(nextStruct); 
-    delay(Q_DELAY);
+    delayMicroseconds(Q_DELAY);
   }
  
   return res;
 }
-
+#endif
