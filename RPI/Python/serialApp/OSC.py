@@ -28,6 +28,9 @@
 # 13 Feb. 2002:
 #   Added a generic callback handler.
 #   - dwh
+# 28 Oct. 2017
+#   made it compliant with python 3.5x or more
+#
 
 import socket
 import struct
@@ -125,7 +128,6 @@ def readInt(data):
     return (integer, rest)
 
 
-
 def readLong(data):
     """Tries to interpret the next 8 bytes of the data
     as a 64-bit signed integer."""
@@ -215,26 +217,6 @@ def parseArgs(args):
         parsed.append(interpretation)
     return parsed
 
-
-
-l = [47, 116, 101, 115, 116, 0, 0, 0, 44, 105, 0, 0, 0, 0, 0, 4]
-b = bytes(l)
-
-# decodeISC(b)
-# ['/test', ',i', 4]
-
-ll = [47, 116, 101, 115, 116, 0, 0, 0, 44, 105, 0, 0, 0, 0, 1, 23]
-#decode(bytes(ll)
-# ['/test', ',i', 279]
-
-bbf = [47, 116, 101, 115, 116, 47, 48, 0, 44, 98, 98, 102, 0, 0, 0, 0, 0, 0, 0, 1, 21, 0, 0, 0, 0, 0, 0, 4, 0, 8, 8, 8, 66, 242, 0, 0]
-# decode(bytes(bbf)
-# ['/test/0', ',bbf', b'\x15', b'\x00\x08\x08\x08', 121.0]
-
-iif =[47, 116, 101, 115, 116, 47, 48, 0, 44, 105, 105, 102, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 250, 66, 200, 61, 116]
-# defcode(bytes(iif)
-# ['/test/0', ',iif', 12, 250, 100.12002563476562]
-
 class BundleNotSupported(Exception):
     pass
     
@@ -245,24 +227,25 @@ def decodeOSC(data):
     address,  rest = readString(data)
     typetags = ""
 
-    #print('address',address, 'rest', repr(rest))
-    #typetags, rest1 = readString(rest)
-    #print('typetags',typetags, 'rest', repr(rest1))
-    #for tag in typetags[1:]:
-    #    value, rest2 = table[tag](rest)
-    #    print(value,repr(rest2))
-
+    """
+    print('address',address, 'rest', repr(rest))
+    typetags, rest1 = readString(rest)
+    print('typetags',typetags, 'rest', repr(rest1))
+    for tag in typetags[1:]:
+        value, rest2 = table[tag](rest)
+        print(value,repr(rest2))
+    return
+    """
     if address == "#bundle":
         print('BUNDLE not Supported!')
         raise BundleNotSupported
+        """ original bundle code here
         time, rest = readLong(rest)
-#       decoded.append(address)
-#       decoded.append(time)
         while len(rest)>0:
             length, rest = readInt(rest)
             decoded.append(decodeOSC(rest[:length]))
             rest = rest[length:]
-
+        """
     elif len(rest) > 0:
         typetags, rest = readString(rest)
         decoded.append(address)

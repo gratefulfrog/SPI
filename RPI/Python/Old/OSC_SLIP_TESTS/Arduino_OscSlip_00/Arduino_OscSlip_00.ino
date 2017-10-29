@@ -24,12 +24,12 @@ void setup() {
 
 void loop() {
   static int i=0;
-  //comms->send(i++);
-  
+  comms->send(i++);
+  /*
   comms->send(&s);
   s.u8++;
   s.u32+=10;
   s.f+=0.01;
-  
-  delay(2);
+  */
+  delay(200);
 }

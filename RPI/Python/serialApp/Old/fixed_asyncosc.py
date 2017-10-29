@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
 
 from time import sleep,time
@@ -13,7 +13,34 @@ from OSC import decodeOSC
 onGoing = False
 current= []
 startTime = 0 # seconds
-count = 0
+count = -1
+modCount = 101
+def doBid(bidLis):
+    print('BID:',bidLis[1])
+
+def doStruct(structLis):
+    global count
+    global modCount
+    adc = structLis[1] >> 4 & 0b1111
+    channel = structLis[1] & 0b1111
+    timeStamp = structLis[2]
+    value = round(structLis[3],3)
+    count +=1
+    #print('toto')
+    if count%modCount == 0:                
+        print('ADC: {}\tChannel: {}\tTimeStamp: {}\tValue: {}'.format(adc,channel,timeStamp,value))
+    
+def dispatchOSCList(oscLis):
+    global count
+    fDict={'/i':doBid,
+           '/iif':doStruct}
+    count +=1
+    #if count%modCount == 0:                
+    #print(oscLis)
+    #return
+    fDict[oscLis[0]](oscLis[1:])
+    
+
 class Output(asyncio.Protocol):
     def connection_made(self, transport):
         global startTime
@@ -21,9 +48,9 @@ class Output(asyncio.Protocol):
         print('port opened', transport)
         transport.serial.rts = False  # You can manipulate Serial object via transport
         sleep(1)
-        transport.write(b'|') #Hello, World!\n')  # Write serial data via transport
+        transport.write(b'|')
         sleep(1)
-        transport.write(b'|') #Hello, World!\n')  # Write serial data via transp
+        transport.write(b'|')
         print('Started!')
         startTime=time()
 
@@ -31,11 +58,13 @@ class Output(asyncio.Protocol):
         global onGoing
         global current
         global count
+        global modCount
         onGoing, current = decodeFromSLIP(data,current)
         if not onGoing:
             count +=1
-            if count%10000 == 0:
-                print('Structs recevied:',count,'Elapsed seconds:',round(time()-startTime),'current struct:',decodeOSC(bytes(current)))
+            #if count%modCount == 0:
+                #print('Structs recevied:',count,'Elapsed seconds:',round(time()-startTime),'current struct:',decodeOSC(bytes(current)))
+            dispatchOSCList(decodeOSC(bytes(current)))
             current=[]
                
     def connection_lost(self, exc):
@@ -62,42 +91,38 @@ class ProtocolError(Exception):
 def getSerialByte(serialFD):
     next(serialFD)
 
-def decodeFromSLIP(bytes, dataBuffer = []):
+def decodeFromSLIP(bytes, dataBuffer = [], carry=None):
     """
-    arguments are bytes to decode and current decoded list if any
-    return onGoing, Current
+    arguments are bytes to decode and current decoded list if any, and last carrybyte SLIP_ESC 
+    return onGoing, Current, carry 
     where onGoing is True if the Current is not complete
     and onGoing is False if the Current is complete
     """
     serialFD=iter(bytes)
     try:
         while True:
-            serialByte = next(serialFD)
-            if serialByte is None:
-                raise ProtocolError
-            elif serialByte == SLIP_END:
-                if len(dataBuffer) > 0:
-                    return False,dataBuffer
+            serialByte = carry if carry else next(serialFD)  ## could raise StopIteration, so carry better be right!
+            if serialByte == SLIP_END:
+                return False,dataBuffer,None
             elif serialByte == SLIP_ESC:
-                serialByte = next(serialFD)
-                if serialByte is None:
-                    raise ProtocolError
-                elif serialByte == SLIP_ESC_END:
+                carry = SLIP_ESC
+                serialByte = next(serialFD)  ## could raise  StopIteration, with new carry
+                if serialByte == SLIP_ESC_END:
                     dataBuffer.append(SLIP_END)
                 elif serialByte == SLIP_ESC_ESC:
                     dataBuffer.append(SLIP_ESC)
                 else:
                     raise ProtocolError
             else:
+                carry=None  ## in case of future StopIteration exception
                 dataBuffer.append(serialByte)
     except StopIteration:
-        return True, dataBuffer
+        return True, dataBuffer, carry
 
-    
 def run():
     l_dispatcher = dispatcher.Dispatcher()
     loop = asyncio.get_event_loop()
-    coro = serial_asyncio.create_serial_connection(loop, Output, '/dev/ttyACM0', baudrate=2000000) #115200)
+    coro = serial_asyncio.create_serial_connection(loop, Output, '/dev/ttyUSB0', baudrate=2000000) #115200)
     loop.run_until_complete(coro)
     
     # This will print all parameters to stdout.
