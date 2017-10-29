@@ -28,18 +28,14 @@ import time
 import sys
 import os.path
 import AEMmailer
+from casyncosc import SerialServer
 
 ## AEM code imports
-import commsMgr as comms
+#import commsMgr as comms
 
-
-## global package variable shared between threads,
-## keys: full filename
-## values: threading.lock object used to guarranty exclusive access to the file for writing
-fileLockDict = {}
 
 class WriterThread(threading.Thread):
-    def __init__(self, name, q, lock, dataDir,syncTimeFunc):
+    def __init__(self, name, q, lock,fileLockDict, syncTimeFunc, dataDir): #,syncTimeFunc):
         """
         Consumer class instanciation:
         The Writer thread implements the consumer in the producer/consumer paradigm.
@@ -59,6 +55,8 @@ class WriterThread(threading.Thread):
         data files.
         """
         threading.Thread.__init__(self)
+        ## for file name lookup
+        self.fileLockDict = fileLockDict
         ## string name of the thread, used for debugging or information messages
         self.name = name    
         ## work q, source of data to be written to files
@@ -116,12 +114,13 @@ class WriterThread(threading.Thread):
         """
         [adcID,chID] = self.decodeADCCID(row[0])
         filename = self.dataDir + '/{bid}_{adc}_{cid}_{syc}.csv'.format(bid=row[3],adc=adcID,cid=chID,syc=self.getSynchTimeFunc())
+        #print('getting filenam',filename)
         self.dictLock.acquire()
         try:
-            self.fileLock = fileLockDict[filename]
+            self.fileLock = self.fileLockDict[filename]
         except KeyError:
             self.fileLock = threading.Lock()
-            fileLockDict[filename] = self.fileLock
+            self.fileLockDict[filename] = self.fileLock
             if not os.path.exists(filename):
                 self.createDataFile(filename)
         self.dictLock.release()
@@ -159,20 +158,58 @@ class WriterThread(threading.Thread):
         try:
             while True:
                 item = self.q.get()
+                #print(item)
                 if item is None:
                     break
                 self.do_work(item)
                 self.q.task_done()
         except Exception as e:
+            print(e)
             print('thread exiting...')
         finally:
             self.q.task_done()
+
+class ReaderThread(threading.Thread):
+    def __init__(self, q, stopEv, mailerFunc, portT):
+        """
+        Consumer class instanciation:
+        The Writer thread implements the consumer in the producer/consumer paradigm.
+        The number of threads created is not known by the individual threads. They
+        simply pop things off the shared thread-safe queue, extract the data, and
+        write to the correct data (csv) file, creating it and the data directory if needed.
+        The file names for the data files are created from the data elts themselves, in combination
+        with the information obtained by callingthe syncTimeFunc provided as argument.
+        Data file names are used as keys in the shared fileLockDict, whre the values are semaphores
+        ensuring unique access to each file.
+        @param self
+        @param portT a string naming serial port
+        @param q the thread-safe q which will be popped to get data
+        @param lock the semaphore ensure unique access to the fileLockDict
+        @param dataDir the path to the data directory
+        @param syncTimeFunc a function that will be called to get the synch time to be used in naming the
+        data files.
+        """
+        threading.Thread.__init__(self)
+        ## string name of the thread, used for debugging or information messages
+        self.server = SerialServer(portT,stopEv,q,mailerFunc) 
+        ## event to set when disk space runs out we exit
+        self.stopEvent = stopEv
+
+    def run(self):
+        """
+        Thread run method. pops the queue, sends the popped thing to be consumed.
+        if a None value is popped, the method exits properply and the thread ends.
+        """
+        try:
+            self.server.serve()
+        except KeyboardInterrupt:
+            self.stopEvent.set()
 
 
 ###### Master Class CODE ##################
 
 class Master:
-    def __init__(self, nbThreads=4,dataDir='./DATA'):
+    def __init__(self, ports = ['/dev/ttyUSB0'], nbThreads=4, dataDir='./DATA'):
         """
         Constructor for class Master, implements the start and Producer part of
         the Producer/Consumer paradigm for parallel processing. 
@@ -188,37 +225,57 @@ class Master:
         @param dataDir default value provided, the directory where the conusmers
         will write the csv files.
         """
+        ## file lock dire for writer threads
+        ## keys: full filename
+        ## values: threading.lock object used to guarranty exclusive access to the file for writing
+        self.fileLockDict = {}
         ## Directory for data files
         self.dataDir = dataDir
         ## Synchronized work queue
         self.q = queue.Queue()
         ## Semaphore object to be passed to consumer threads for their use
         self.lock = threading.Lock()
-        ## instance of CommsMgr class used to commuicate via SPI with the AEM Slave boards
-        self.spiCommsMgr = comms.CommsMgr(self.q,self.sendMsg)
-        self.createThreads(nbThreads)
+        self.stopEvent = threading.Event()
+        self.stopEvent.clear()
+        self.q = queue.Queue()
+        #self.spiCommsMgr = comms.CommsMgr(self.q,self.sendMsg)
         try:
             self.mailer = AEMmailer.AEMMailer()
         except AEMmailer.NoPasswordException:
             print("No password provided; no mail will be sent...")
             self.mailer = None
         self.sendMsg("AEM session started!")
-        
+        self.startTime = time.strftime('%Y_%m_%d_%H.%M.%S', time.localtime())
+        self.createWriterThreads(nbThreads)
+        self.createReaderThreads(ports)
+
+    def getSyncTime(self):
+        return self.startTime
+    
     def sendMsg(self,msg):
         if self.mailer:
             self.mailer.connectAndSend(msg)
+        else:
+            print(msg)
+
+    def createReaderThreads(self,portLis):
+        self.readerThreads=[]
+        for port in portLis:
+            reader = ReaderThread(self.q,self.stopEvent,self.sendMsg,port)
+            reader.start()
+            self.readerThreads.append(reader)
         
-    def createThreads(self,num):
+    def createWriterThreads(self,num):
         """
         Creates the number of consumer threads according to the argument.
         @param num the number of threads to create
         """
-        self.threads = []
+        self.writerThreads = []
         for i in range(num):
             name='WriterThread-' + str(i)
-            t = WriterThread(name,self.q,self.lock,self.dataDir,self.spiCommsMgr.getSynchTime)
+            t = WriterThread(name,self.q,self.lock,self.fileLockDict, self.getSyncTime, self.dataDir)
             t.start()
-            self.threads.append(t)
+            self.writerThreads.append(t)
 
     def stopAll(self):
         """ 
@@ -226,62 +283,53 @@ class Master:
         """
         # block until all tasks are done
         print('Shutting down all threads...')
+        self.stopEvent.set()
         self.q.join()
-
         # stop workers
-        for t in self.threads:
+        for t in self.writerThreads:
             self.q.put(None)
         threadCounter = 0
-        for t in self.threads:
+        for t in self.writerThreads + self.readerThreads:
             print('Thread', threadCounter,' shut down...')
             threadCounter+=1
             t.join()
         print('All threads shut down, exiting...')
+        time.sleep(0.01)
         
 
-    def run(self,typeLis):
+    def run(self):
         """
         called to start a data run, after the consumer threads have been started.
         will display the elapsed time on exit.
         To exit, ctrl-c will be handled properly.
-        @param tyleLis is a list of the messages to pass on the commsMgr loop. These are values not strings.
         """
-        t = time.time()
+        startTime = time.time()
         try:
-            self.spiCommsMgr.loop(typeLis)
-        except Exception as e:
-            print('main thread exiting...')
-            raise
+            while True:
+                time.sleep(10)
+        except:
+            pass
         finally:
             self.stopAll()
-            elapsedTime = round(time.time()-t)
+            elapsedTime = round(time.time()-startTime)
             print('Elapsed Time :', elapsedTime, 'seconds')
             self.sendMsg('Shutting down!\nElapsed Time : ' + str(elapsedTime) + ' seconds.')
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print('Usage: $ ./master.py <SS channels defaults to ZERO> s_init_t, s_payload_t'  )
+    if any(['-h' in sys.argv, '--h' in sys.argv, '--help' in sys.argv]):
+        print('Usage: $ ./master.py <ports defaults to /dev/ttyUSB0>'  )
         print('examples;')
-        print('Usage: $ ./master.py s_init_t, s_payload_t      # uses default SS Channel 0'  )
-        print('Usage: $ ./master.py 0 s_init_t, s_payload_t    # same as previous'  )
-        print('Usage: $ ./master.py 1 s_init_t, s_payload_t    # use SS channel 1' )
-        print('Usage: $ ./master.py 0 1 s_init_t, s_payload_t  # use SS channels 0 and 1' )
-        print('s_payload_t will be repeated to continue comms indefinitely...')
-        print('Note: the AEM board must be running the appropriate software, corresponding to the <type>')
+        print('Usage: $ ./master.py                               # uses default port /dev/ttyUSB00'  )
+        print('Usage: $ ./master.py /dev/ttyUSB0                  # same as previous'  )
+        print('Usage: $ ./master.py /dev/ttyACM0 /dev/ttyUSB0     # use these ports')
+        print('Note: the AEM board must be running the appropriate software')
         sys.exit(0)
 
-    ## instance of Master class running the entire show!
-    master = Master()
-
-    ## contains the Channels extracted from the command line args, properly formatted to be passed to the Master.run method
-    channelVec = [0] if len(sys.argv)==3 else list(map(int,sys.argv[1:-2]))
-    ## contains the channels and message types, extracted from command line args, properly formatted to be passed to the Master.run method
-    tyLis = [channelVec] + list(map(lambda s:eval('comms.'+s),sys.argv[-2:]))
-
-    try:
-        master.run(tyLis)
-    except Exception as e:
-        print(e)
-        print('exiting...')
+    if len(sys.argv) < 2:
+        ## instance of Master class running the entire show!
+        master = Master()
+    else:
+        master = Master(sys.argv[1:])
+    master.run()
                  
         

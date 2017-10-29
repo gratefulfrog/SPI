@@ -67,142 +67,38 @@ class CommsMgr:
     * commsMgr = CommsMgr(aQueue)
     * commsMgr.loop( [ss channels], s_init_t,s_payload_t])
     """
-    def __init__(self, queue, mailerFunc):
+    def __init__(self, name, queue, mailerFunc,diskEvent):
         """
         Instance constructor, handles init for member variables known at init time, others are deferred to runtime init.
         @param queue: the synchronized queue where data will be pushed for the writer threads to process
         @prama mailerFunc: a function taking a single argument string that will be mailed to inform at given points in processing
         """
+        ## name for identification in outpt
+        self.name = name
         ## Synchonized queue where data from slaves will be pushed
         self.q = queue
         ## mailer function to inform remotely
         self.mailerFunc = mailerFunc
-        ## Raspberry SPI manager instance 
-        self.spi = spidev.SpiDev()
         ## will contain the system time when the slaves are synched
         self.syncTime = 'no_time' # temp valu, same for all devices
-        ## contains information per type of outgoing message, i.e. outgoing byte
-        ## key: a byte, eg s_init_t or s_payload_t
-        ## value: a list of form [nnBytes, formatString, waitTime] where:
-        ## nbBytes is how many bytes to exect in response,
-        ## formatString is the string to be used for unpacking
-        ## waitTime  is how many seconds before next outgoing poll, i.e. how long the slave can work before disturbing it again.
-        self.typeDict = { # key=type : value=[nbBytes, formatString, wait time in seconds before next communciation]
-                         s_init_t       : [9,'<BIf',1], # type 1000, 9 bytes struct, wait after 0.1 s
-                         s_payload_t    : [9,'<BIf',0.1]} # type 1010, 9 bytes struct, wait after for 0.1 s
+        ## will hold GID after init
+        self.bid = None
+        self.diskLimitEvent = diskEvent
 
-        ## an inverse dictionary mapping byte to a string name
-        ## key: byte as per typeDict
-        ## value: the string name of the byte
-        self.type2NameDict = dict((eval(name),name) for name in ['s_init_t', 's_payload_t'])
-        ## null response from slave is sentinel value used to know when to stop polling for data
-        self.nullResponse = [255,0,0.0]  # used as sentinel value
-
-    def initDevices(self, deviceSSChannelLis):
-        """
-        Initialization call, not part of constructor because these values are not known at
-        instanciation time.
-        """
-        ## list of SS channels provided at runtime
-        self.devices = deviceSSChannelLis
-        ## dictionary with placeholder values for the Board GUIDs, not yet available
-        ## key: SS chanel
-        ## value: GUID value, when available, for the board on that channel
-        self.bidDict = {device:-1 for device in self.devices}  ## temp values until init call!
-        
-    def isNullReturn(self,responseLis):
-        """
-        Returns True if the argument is exactly equal to the self.nullRepsonse
-        @param responseLis : a list of values corresponding to a reply from the slave
-        @return True if exactly equal to the null response, Fals otherwise
-        """
-        return all(map(lambda x,y: x==y,responseLis,self.nullResponse))
-
-    ########### packing/unpacking routines ##############
-    def packNbytes(self,bytes):
-        """ 
-        This will return a pack of unsigned bytes, suitable for unpacking into their
-        original values.
-        the argument: bytes : is a list of any length of 
-        unsigned byte values.
-        [255, 0, 1, ...]
-        returns packed bytes of the form:
-        >>> packNbytes(sss)
-        b'\x01\n\x00\x00\x00\x00\x00\xc0?'
-        """
-        return pack('B'*len(bytes),*bytes)
-
-    def unpackStruct(self, format, packed):
-        """This will return a list of values
-        after unpacking the packed bytes.
-        Some formats:
-        b/B : signed/unsigned byte 1
-        h/H : signed/unsigned short int 2
-        i/I : signed/unsigned int 4
-        f   : float 4
-        d   : double 8
-        size and byte order:
-        find the system byteorder by examining 
-        sys.byteorder
-        on Intel and RPI it is 'little'
-        @ native order native size, native alignment (needs examination)
-        = native order, standard size, no alignment
-        </> little/big endian, standard size, no alignment
-        !   big endian, standard size, no alignment
-        the correct choice is '<' to get little endian, which is what is needed 
-        for Arduino and RPI and PC/Intel
-        Will return a list of things corresponding to format spec.
-        Ex:
-        if we have an unsigned byte, unsigned long, float = 9bytes
-        >>> unpack('<BIf' packNbytes([<9 numbers that are on [0,255]])
-        [uint8_t, uint32_t, f]
-        """
-        return unpack(format,packed)
-    
-    ########################################################################
-
-    def getOutVec(self,type,nbBytesExpected):
-        """
-        returns the vector of outgoing bytes as per the type & number of bytes expected args
-        @param type: a tpe byte
-        @param nbBytesExpected: the number of bytes expected in reply from slave
-        @return the list of outgoing bytes needed to get the proper reply via SPI
-        """
-        return [type,] + [1,2]*(nbBytesExpected-1) +  [1,3] 
-
-    def show(self,transferCount,currentResponseLis,type):
-        """
-        Debuggin call used to show information about current comms
-        @param transferCound: current number of SPI transfers
-        @currentResponseLis: current reply from slave
-        @type: current outgoing byte 
-        """
-        print(transferCount,':', [round(v,2) for v in currentResponseLis])
-
-    def masterMsg(self,rightHalfByte):
-        """
-        Returns the outgoing byte, encoded onto 2 bytes as per error detection logic
-        @param rightHalfByte is the outgoing byte which is in fact only the 4 low order bits
-        @return the bits shifted to the high order positions.
-        """
-        return [(0b1111 & rightHalfByte)<<4]
-
-    def isMasterMsg(self,byte):
-        return (byte & (0b1111<<4))
 
     def checkQAndMail(self, pollCount):
         if self.q.qsize() > qMaxSize:
-            print('Q size reached max, pausing to let writer threads empty it...')
+            print(self.name,': Q size reached max, pausing to let writer threads empty it...')
             start = time()
             self.q.join()
-            print('Q cleared, polling resumes, pause duration :',
+            print(self.name,': Q cleared, polling resumes, pause duration :',
                   round(time()-start),
                   'seconds')
             ## mail the news!
             st = os.statvfs(os.getcwd())
             free = st.f_bavail * st.f_frsize
             diskFreeMB = round(free/1000000,3)
-            self.mailerFunc('Poll Count : ' + str(pollCount) + '\nDisk Space Remaing : ' + str(diskFreeMB) + ' MB') 
+            self.mailerFunc(self.name,': Poll Count : ' + str(pollCount) + '\nDisk Space Remaing : ' + str(diskFreeMB) + ' MB') 
             
     def diskSpaceLimitReached(self):
         st = os.statvfs(os.getcwd())
@@ -211,7 +107,8 @@ class CommsMgr:
         res =  diskFreeMB <= diskSpaceLimit
         if res:
             print('Disk Space Limit Reached :',diskSpaceLimit,'MB')
-            self.mailerFunc('Disk Space Limit ' + str(diskSpaceLimit) + ' MB reached!') 
+            self.mailerFunc('Disk Space Limit ' + str(diskSpaceLimit) + ' MB reached!')
+            self.diskLimitEvent.set()
         return res
             
     def transferLis(self,outLis):
