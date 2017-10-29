@@ -4,13 +4,24 @@ import serial
 from time import sleep,time,strftime,localtime
 from OSC import decodeOSC
 
+#### for debugging, will display a heartbeat message after this number of polls
+pollDisplayIterations = 2000 #40000 # = 1/hour
+## qMAxSize : when q reaches this size, data acquistion pauses to let the writer threads
+#             clear the q. Acquisiton restarts when q is empty
+qMaxSize = 1000000
+
 def nullMail(msg):
     print('mailed:', msg)
 
 class CommsMgr:
-    def __init__(self,q, mailerFunc = nullMail, countLim=1, sv = True, sa = False):
+    def __init__(self,
+                 q,
+                 mailerFunc = nullMail,
+                 countLim=pollDisplayIterations,
+                 sv = True,
+                 sa = False):
         self.q = q
-        self.mailerFunct = mailerFunc
+        self.mailerFunc = mailerFunc
         self.count =  self.timeSum = self.timeCount = self.lastTimeStamp = 0
         self.modCount = countLim
         self.showVals= sv
@@ -24,23 +35,38 @@ class CommsMgr:
 
     def structFunc(self,adcChid,timeStamp,value):
         self.q.put([adcChid,timeStamp,value,self.bid])
-        
-    def showWhatWePut(self,adcChid,timeStamp,value):
-        adc,channel =  self.decodeADCCHN(adcChid)
         self.count +=1
-        if self.showAvg:
-            if channel == 0:
-                if not self.initTimeStamps:
-                    self.lastTimeStamp = timeStamp
-                    self.initTimeStamps = True
-                else:
-                    self.timeSum += timeStamp-self.lastTimeStamp
-                    self.timeCount += 1
-                    self.lastTimeStamp = timeStamp
-                    avg = round(self.timeSum/self.timeCount)
-                    print('Time Between reads of 0 channel:',avg,'microseconds')
         if self.showVals and self.count%self.modCount == 0:
-            print('count: {}\tADC: {}\tChannel: {}\tTimeStamp: {}\tValue: {}'.format(self.count,adc,channel,timeStamp,value))
+            self.checkQAndMail(self.count)
+            self.showWhatWePut()
+
+    def showWhatWePut(self):
+        outgoing = str(self.bid) + \
+                   ' : Poll count: ' + \
+                   str(self.count) # + \
+                   #'\tQ size : '    + \
+                   #str(self.q.qsize())
+
+        self.mailerFunc(outgoing)
+
+    def checkQAndMail(self, pollCount):
+        if self.q.qsize() > qMaxSize:
+            print('Q size reached max, pausing to let writer threads empty it...')
+            start = time()
+            self.q.join()
+            print(': Q cleared, polling resumes, pause duration :',
+                  round(time()-start),
+                  'seconds')
+            ## mail the news!
+            st = os.statvfs(os.getcwd())
+            free = st.f_bavail * st.f_frsize
+            diskFreeMB = round(free/1000000,3)
+            self.mailerFunc('Poll Count : '           + \
+                            str(pollCount)            +\
+                            '\nDisk Space Remaing : ' +\
+                            str(diskFreeMB)           +\
+                            ' MB') 
+
 
     def decodeADCCHN(self, val):
         return (val >> 4) & 0b1111, val & 0b1111

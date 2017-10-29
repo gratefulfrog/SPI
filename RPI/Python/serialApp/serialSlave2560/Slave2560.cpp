@@ -1,6 +1,6 @@
 #include "app.h"
 
-//#define USE_Q
+#define USE_Q
 
 #define NO_Q_DELAY (0)   // MicroSeconds min value that works is 0 !
 #define Q_DELAY    (500) // MicroSeconds min value that works 500 !    

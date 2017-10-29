@@ -30,8 +30,9 @@ import os.path
 import AEMmailer
 from casyncosc import SerialServer
 
-## AEM code imports
-#import commsMgr as comms
+## diskSpaceLimit : in MB, when limit reached, processing halts
+diskSpaceLimit = 21953.0 # MB
+
 
 
 class WriterThread(threading.Thread):
@@ -194,6 +195,7 @@ class ReaderThread(threading.Thread):
         self.server = SerialServer(portT,stopEv,q,mailerFunc) 
         ## event to set when disk space runs out we exit
         self.stopEvent = stopEv
+        print('Reader created on port: ',portT)
 
     def run(self):
         """
@@ -238,7 +240,7 @@ class Master:
         self.stopEvent = threading.Event()
         self.stopEvent.clear()
         self.q = queue.Queue()
-        #self.spiCommsMgr = comms.CommsMgr(self.q,self.sendMsg)
+       
         try:
             self.mailer = AEMmailer.AEMMailer()
         except AEMmailer.NoPasswordException:
@@ -255,8 +257,7 @@ class Master:
     def sendMsg(self,msg):
         if self.mailer:
             self.mailer.connectAndSend(msg)
-        else:
-            print(msg)
+        print(msg)
 
     def createReaderThreads(self,portLis):
         self.readerThreads=[]
@@ -290,12 +291,21 @@ class Master:
             self.q.put(None)
         threadCounter = 0
         for t in self.writerThreads + self.readerThreads:
-            print('Thread', threadCounter,' shut down...')
-            threadCounter+=1
+            #print('Thread', threadCounter,' shut down...')
+            #threadCounter+=1
             t.join()
         print('All threads shut down, exiting...')
         time.sleep(0.01)
-        
+
+    def diskSpaceLimitReached(self):
+        st = os.statvfs(os.getcwd())
+        free = st.f_bavail * st.f_frsize
+        diskFreeMB = free / 1000000
+        res =  diskFreeMB <= diskSpaceLimit
+        if res:
+            print('Disk Space Limit Reached :',diskSpaceLimit,'MB')
+            self.sendMsg('Disk Space Limit ' + str(diskSpaceLimit) + ' MB reached!')
+        return res
 
     def run(self):
         """
@@ -306,8 +316,11 @@ class Master:
         startTime = time.time()
         try:
             while True:
+                if self.diskSpaceLimitReached():
+                    self.stopEvent.set()
+                    break
                 time.sleep(10)
-        except:
+        except: 
             pass
         finally:
             self.stopAll()
