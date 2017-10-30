@@ -34,7 +34,7 @@ struct u8u32f_struct{
 /** Board config */
 /*************************************************************/
 
-#define BOARD_USE_BOARD_0                (1)    /*<! slecect which board will be configured, a true value uses board ZERO otherwise BOARD_1 */
+#define BOARD_USE_BOARD_0                (0)    /*<! slecect which board will be configured, a true value uses board ZERO otherwise BOARD_1 */
 
 
 #define BOARD_BOARD_0_ID                 (0)    /*!< ID of board zero  */

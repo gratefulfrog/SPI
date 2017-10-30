@@ -124,7 +124,7 @@ SlaveApp::State SlaveApp::doWork(){
   if (q->push(nextStruct)){  // we could push it onto the q   
     ChannelID = (ChannelID +1 ) % board->getMgrNbChannels(ADC_ID);
     if(!ChannelID){  // we must inc the ADC_id
-      ADC_ID = (ADC_ID +1) % board->nbADCs;
+      ADC_ID = (ADC_ID +1) %  board->nbADCs;
     }
   }
   else { // no more room in q !!
@@ -152,6 +152,7 @@ SlaveApp::State SlaveApp::doSingleSend(){
   else{
     Serial.write((uint8_t*)&nextStruct,sizeof(nextStruct));
     delay(Q_DELAY);
+    //delayMicroseconds(Q_DELAY);
   }
  
   return res;
