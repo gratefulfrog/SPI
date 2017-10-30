@@ -59,15 +59,27 @@ def grouper(iterable, n, fillvalue=None):
         return itertools.zip_longest(*args, fillvalue=fillvalue)
 
 class ReadInputThread(threading.Thread):
+    """
+    This helper thread unburdens the server from the processing of the incoming data.
+    It is needed to prevent a bottleneck at the receiving end of the serial port.
+    """
     def __init__(self, inq, outq,mailer):
         threading.Thread.__init__(self)
-        ## work q, source of data to be written to files
+        ## inq: where the serial server puts data to be processed and forwarded
+        ## outq: where the helper thread will place the processed data
+        ## mailer: a function that will email messages off to the world
         self.inQ  = inq
         self.init = False
         self.comms = CommsMgr(outq,mailerFunc=mailer)
         self.bid  = None
 
     def do_work(self,thing):
+        """
+        take a thing of the incoming queue, process it.
+        the thing is n blocks of 9 bytes, so we break it down into 9s and then process each nine
+        using pack/unpack.
+        The 1st pack contains the BID and is processed differently.
+        """
         iter9 = grouper(thing,9)
         #print(list(iter9))
         try:
@@ -107,25 +119,33 @@ class ReadInputThread(threading.Thread):
             print('\n* Input Reader exiting...')
 
 class CommsMgr:
+    """
+    part of the helper thread, used to process the incoming data structs
+    and forward them as needed 
+    """
     def __init__(self,
                  outq,
                  mailerFunc,
                  countLim=pollDisplayIterations,
-                 sv = True,
-                 sa = False):
-        self.outQ = outq
+                 sv = True):   ##<! show values to the world  or not 
+        self.outQ       = outq
         self.mailerFunc = mailerFunc
-        self.count =  self.timeSum = self.timeCount = self.lastTimeStamp = 0
-        self.modCount = countLim
-        self.showVals= sv
-        self.showAvg = sa
-        self.initTimeStamps = False
+        self.count      = 0
+        self.modCount   = countLim
+        self.showVals   = sv
         
     def bidFunc(self, bid):
+        """
+        process the incoming bid, and save it for future use
+        """
         self.bid=bid
         self.mailerFunc('Started : BID: ' + str(self.bid))
 
     def structFunc(self,s):
+        """
+        process incoming struct, append bid, put it on outQ
+        if counts are enough, tell the world!
+        """
         #print('putting:', s+[self.bid])
         self.outQ.put(s + [self.bid])
         self.count +=1
@@ -133,6 +153,9 @@ class CommsMgr:
             self.showWhatWePut()
 
     def showWhatWePut(self):
+        """
+        form a message and send it off
+        """
         outgoing = str(self.bid)     + \
                    ' : Poll count: ' + \
                    str(self.count)  
@@ -140,19 +163,30 @@ class CommsMgr:
 
 
     def decodeADCCHN(self, val):
+        """
+        decode the byte containing ADC id and Channel id into the values
+        return: adc, channel
+        """
         return (val >> 4) & 0b1111, val & 0b1111
 
 class SerialServer():
+    """
+    Implent the serving of the serial port,
+    reads blocks of 900 bytes, i.e. 100 structs and enqueues them for the helper thread to process
+    """
     def __init__(self, writerq, portT, stopEv , mailerFunc, bd = 1000000, to = None):
         self.port        = portT
         self.stopEvent   = stopEv
         self.baudrate    = bd
         self.timeout     = to
         self.outQ        = queue.Queue()
-        self.processor   = ReadInputThread(self.outQ,writerq,mailerFunc)
+        self.processor   = ReadInputThread(self.outQ,writerq,mailerFunc)  ##<! the helper thread
         self.processor.start()
         
     def serve(self):
+        """
+        clears any incoming stuff, gives the AEM handshake, and serves until shut down by someone
+        """
         with serial.Serial(port = self.port,
                            baudrate= self.baudrate,
                            timeout = self.timeout) as ser:
@@ -178,29 +212,3 @@ class SerialServer():
                     self.outQ.put(ser.read(900))
                 except KeyboardInterrupt:
                     self.stopEvent.set()
-                                    
-"""
-def run(p='/dev/ttyACM0'):
-    q= queue.Queue()
-    processor = ReadInputThread(q)
-    processor.start()
-    server=SerialServer(q,p)
-    server.serve()
-    
-if __name__ == '__main__':
-    p= '/dev/ttyACM0'
-    if len(sys.argv) == 2:
-        p= sys.argv[1]
-    run(p)
-
-
-if __name__ == '__main__':
-    import sys, threading
-    stopEv = threading.Event()
-    stopEv.clear()
-    if len(sys.argv) == 2:
-        server = SerialSever(stopEv,sys.argv[1])
-    else:
-        server = SerialServer(stopEv)
-    server.serve()
-"""

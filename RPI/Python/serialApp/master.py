@@ -162,7 +162,7 @@ class WriterThread(threading.Thread):
 class ReaderThread(threading.Thread):
     def __init__(self, writerq, stopEv, mailerFunc, portT):
         """
-        this manages server, and a helper thread
+        this manages serial server, and its  helper thread
         """
         threading.Thread.__init__(self)
         ## string name of the thread, used for debugging or information messages
@@ -231,7 +231,7 @@ class Master:
     def sendMsg(self,msg):
         outgoing = time.strftime('%Y %m %d :  %H:%M:%S\n', time.localtime()) + \
                    msg + \
-                   '\tDisk space remaining : {}'.format(round(diskFree()))
+                   '\tDisk space remaining : {} MB'.format(round(diskFree()))
         if self.mailer:
             self.mailer.connectAndSend(outgoing)
         print('* mailed:\n'+ outgoing)    

@@ -74,8 +74,7 @@ class SlaveApp{
      */
     SlaveApp();
     /** called by the main loop, manages the slave state machine by:
-     *  1st checking the 'flag' that may have been set in an SPI interrupt, and updating state as neede,
-     *  then, checking curreent state against prevous, inform if error, and inform of change in data display is such
+     *  updating state as needed
      *  then perform any actions required by the current state.
      */
     void loop();
