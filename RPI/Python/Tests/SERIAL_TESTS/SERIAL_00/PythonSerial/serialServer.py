@@ -5,8 +5,6 @@ from time import sleep
 from struct import pack,unpack
 import serial
 
-
-
 import threading
 import queue
 import time
@@ -65,6 +63,7 @@ class ReadInputThread(threading.Thread):
         ## work q, source of data to be written to files
         self.q = q
         self.init = False
+        self.count = self.noks = 0
 
     def do_work(self,thing):
         iter9 = grouper(thing,9)
@@ -76,8 +75,14 @@ class ReadInputThread(threading.Thread):
                 sleep(5)
                 self.init = True
             else:
-                print(v,self.q.qsize())
-            sleep(0.01)
+                ok = (v[0]*10 == v[1]) and (v[2] *1000 == v[0])
+                if not ok:
+                    print(v)
+                self.noks = self.noks if ok else self.noks+1
+                if not ok or ((self.count%100)==0):                 
+                    print('Count :',self.count, '\tNok count :',self.noks, '\tQ size :',self.q.qsize())
+            self.count +=1
+            #sleep(0.01)
         except StopIteration:
             return
             
@@ -104,7 +109,7 @@ class ReadInputThread(threading.Thread):
 
 
 class SerialServer():
-    def __init__(self, q, portT ='/dev/ttyACM0' ,bd = 2000000, to = None):
+    def __init__(self, q, portT ='/dev/ttyACM0' ,bd = 1000000, to = None):
         self.port        = portT
         self.baudrate    = bd
         self.timeout     = to
@@ -114,9 +119,16 @@ class SerialServer():
         with serial.Serial(port = self.port,
                            baudrate= self.baudrate,
                            timeout = self.timeout) as ser:
-            #handshake!
+            sleep(1)
+            # first clear anything on the incoming port
+            ser.setTimeout(0)
+            while ser.read():
+                pass
+            ser.setTimeout(None)
+            # now give the handshake!
             sleep(1)
             ser.write(b'|')
+            # now go for it!
             while True:
                 try:
                     self.q.put(ser.read(900))
@@ -135,7 +147,6 @@ def run(p='/dev/ttyACM0'):
     server.serve()
     
 if __name__ == '__main__':
-    import sys
     p= '/dev/ttyACM0'
     if len(sys.argv) == 2:
         p= sys.argv[1]
