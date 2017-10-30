@@ -1,24 +1,7 @@
 #!/usr/bin/python3
 
 # example call
-# ./master.py 0 1 s_init_t s s_payload_t
-
-""" some results
-Wait after clock seems to be a key parameter, too low and we get "errors corrected"
-It allows the slave time to react to the SPI interrupt.
-The more work the slave does in the interrupt handler, the longer the wait must be.
-
-The following retuls are left for historical purposes and no longer reflect the actual
-times of the coded:
-
-2017 10 09 : SPI frequency = 4MHz, 
-             wait after clock 30 us
-             Q len = 750:
-             7000 polls of Q in 7032  sec =  746 items polled/sec
-             5251174 lines in data.csv     = 746 lines/sec
-             0 errors corrected
-             0 state errors
-"""
+# ./master.py /dev/ttyUSB0 /dev/ttyUSB1
 
 ## python system imports
 import csv
@@ -31,7 +14,7 @@ import AEMmailer
 from casyncosc import SerialServer
 
 ## diskSpaceLimit : in MB, when limit reached, processing halts
-diskSpaceLimit = 21953.0 # MB
+diskSpaceLimit = 100 # MB
 
 
 

@@ -1,11 +1,11 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 import serial
 from time import sleep,time,strftime,localtime
 from OSC import decodeOSC
 
 #### for debugging, will display a heartbeat message after this number of polls
-pollDisplayIterations = 2000 #40000 # = 1/hour
+pollDisplayIterations = 200 #40000 # = 1/hour
 ## qMAxSize : when q reaches this size, data acquistion pauses to let the writer threads
 #             clear the q. Acquisiton restarts when q is empty
 qMaxSize = 1000000
