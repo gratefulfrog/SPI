@@ -157,7 +157,7 @@ class CommsMgr:
         form a message and send it off
         """
         outgoing = str(self.bid)     + \
-                   ' : Poll count: ' + \
+                   ' : Structs Received : ' + \
                    str(self.count)  
         self.mailerFunc(outgoing)
 
