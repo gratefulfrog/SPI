@@ -3,7 +3,7 @@
 #define USE_Q
 
 #define NO_Q_DELAY (0)   // MicroSeconds min value that works is 0 !
-#define Q_DELAY    (500) // MicroSeconds min value that works 500 !    
+#define Q_DELAY    (1) // milliSeconds min value that works 1 @ 1M baud !    
 
 //////////////////////////////////////////////////////////
 //////////// Public Methods        ///////////////////////
@@ -150,7 +150,7 @@ SlaveApp::State SlaveApp::doSingleSend(){
   }
   else{
     comms->send(nextStruct); 
-    delayMicroseconds(Q_DELAY);
+    delay(Q_DELAY);
   }
  
   return res;

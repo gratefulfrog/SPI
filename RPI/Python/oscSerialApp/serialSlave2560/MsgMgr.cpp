@@ -2,7 +2,7 @@
 
 MsgMgr::MsgMgr(){
   SLIPSerial = new SLIPEncodedSerial(Serial);
-  SLIPSerial->begin(2000000); //begin(115200);
+  SLIPSerial->begin(1000000); //begin(115200);
 }
 
 void MsgMgr::send(u8u32f_struct &t){
