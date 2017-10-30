@@ -11,12 +11,18 @@ import time
 import sys
 import os.path
 import AEMmailer
-from casyncosc import SerialServer
+from commsMgr import SerialServer
 
 ## diskSpaceLimit : in MB, when limit reached, processing halts
 diskSpaceLimit = 100 # MB
 
-
+def diskFree():
+    """
+    returns value in MB
+    """
+    st = os.statvfs(os.getcwd())
+    free = st.f_bavail * st.f_frsize
+    return free / 1000000
 
 class WriterThread(threading.Thread):
     def __init__(self, name, q, lock,fileLockDict, syncTimeFunc, dataDir): #,syncTimeFunc):
@@ -77,7 +83,7 @@ class WriterThread(threading.Thread):
                                 quotechar='"', quoting=csv.QUOTE_MINIMAL)
             #print(headers)
             writer.writerow(headers)
-            print('created file:',outFile)
+            print('* created file:',outFile)
 
     def decodeADCCID(self,coded):
         """
@@ -149,7 +155,7 @@ class WriterThread(threading.Thread):
                 self.q.task_done()
         except Exception as e:
             print(e)
-            print('thread exiting...')
+            print('* thread exiting...')
         finally:
             self.q.task_done()
 
@@ -160,10 +166,10 @@ class ReaderThread(threading.Thread):
         """
         threading.Thread.__init__(self)
         ## string name of the thread, used for debugging or information messages
-        self.server = SerialServer(portT,stopEv,writerq,mailerFunc) 
+        self.server = SerialServer(writerq,portT,stopEv,mailerFunc) 
         ## event to set when disk space runs out we exit
         self.stopEvent = stopEv
-        print('Reader created on port: ',portT)
+        print('* Reader created on port: ',portT)
 
     def run(self):
         """
@@ -212,7 +218,7 @@ class Master:
         try:
             self.mailer = AEMmailer.AEMMailer()
         except AEMmailer.NoPasswordException:
-            print("No password provided; no mail will be sent...")
+            print("* No password provided; no mail will be sent...")
             self.mailer = None
         self.sendMsg("AEM session started!")
         self.startTime = time.strftime('%Y_%m_%d_%H.%M.%S', time.localtime())
@@ -223,9 +229,12 @@ class Master:
         return self.startTime
     
     def sendMsg(self,msg):
+        outgoing = time.strftime('%Y %m %d :  %H:%M:%S\n', time.localtime()) + \
+                   msg + \
+                   '\tDisk space remaining : {}'.format(round(diskFree()))
         if self.mailer:
-            self.mailer.connectAndSend(msg)
-        print(msg)
+            self.mailer.connectAndSend(outgoing)
+        print('* mailed:\n'+ outgoing)    
 
     def createReaderThreads(self,portLis):
         """
@@ -255,7 +264,7 @@ class Master:
         Called at the end of a run, it allows all the consumer threads to exit properly
         """
         # block until all tasks are done
-        print('Shutting down all threads...')
+        print('* Shutting down all threads...')
         self.stopEvent.set()
         self.q.join()
         # stop workers
@@ -266,16 +275,13 @@ class Master:
             #print('Thread', threadCounter,' shut down...')
             #threadCounter+=1
             t.join()
-        print('All threads shut down, exiting...')
+        print('* All threads shut down, exiting...')
         time.sleep(0.01)
 
     def diskSpaceLimitReached(self):
-        st = os.statvfs(os.getcwd())
-        free = st.f_bavail * st.f_frsize
-        diskFreeMB = free / 1000000
-        res =  diskFreeMB <= diskSpaceLimit
+        res =  diskFree() <= diskSpaceLimit
         if res:
-            print('Disk Space Limit Reached :',diskSpaceLimit,'MB')
+            print('* Disk Space Limit Reached :',diskSpaceLimit,'MB')
             self.sendMsg('Disk Space Limit ' + str(diskSpaceLimit) + ' MB reached!')
         return res
 
@@ -297,7 +303,7 @@ class Master:
         finally:
             self.stopAll()
             elapsedTime = round(time.time()-startTime)
-            print('Elapsed Time :', elapsedTime, 'seconds')
+            print('* Elapsed Time :', elapsedTime, 'seconds')
             self.sendMsg('Shutting down!\nElapsed Time : ' + str(elapsedTime) + ' seconds.')
 
 if __name__ == '__main__':

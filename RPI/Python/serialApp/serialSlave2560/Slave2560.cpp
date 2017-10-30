@@ -4,13 +4,13 @@
 
 #define NO_Q_DELAY (0)   // MicroSeconds min value that works is 0 !
 #define Q_DELAY    (1) // milliSeconds min value that works 1 @ 1M baud !    
-
+#define BAUDRATE   (1000000)
 //////////////////////////////////////////////////////////
 //////////// Public Methods        ///////////////////////
 //////////////////////////////////////////////////////////
 
 SlaveApp::SlaveApp() {
-  Serial.begin(1000000);
+  Serial.begin(BAUDRATE);
   while(!Serial);
   handShake();
 

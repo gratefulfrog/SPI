@@ -1,14 +1,15 @@
 #!/usr/bin/python3
 
-from time import sleep,strftime,localtime
+from time import sleep
 from struct import pack,unpack
 import serial
+import queue
 
 import threading
 import itertools
 
 #### for debugging, will display a heartbeat message after this number of polls
-pollDisplayIterations = 200 #40000 # = 1/hour
+pollDisplayIterations = 32000 # 1 min (PC) , => = 1,920,000/hour
 
 def packNbytes(bytes):
     """ 
@@ -57,26 +58,29 @@ def grouper(iterable, n, fillvalue=None):
         return itertools.zip_longest(*args, fillvalue=fillvalue)
 
 class ReadInputThread(threading.Thread):
-    def __init__(self, inq, outq):
+    def __init__(self, inq, outq,mailer):
         threading.Thread.__init__(self)
         ## work q, source of data to be written to files
         self.inQ  = inq
         self.init = False
-        self.comms = CommsMgr(outq)
+        self.comms = CommsMgr(outq,mailerFunc=mailer)
         self.bid  = None
 
     def do_work(self,thing):
         iter9 = grouper(thing,9)
+        #print(list(iter9))
         try:
-            b = packNbytes(next(iter9))
-            v = [round(x,3) for x in unpackStruct('<BIf',b)]
-            if not self.init:
-                print('Init:', v)
-                self.comms.bidFunc(v[1])
-                sleep(5)
-                self.init = True
-            else:
-                self.comms.structFunc(v+[self.bid])
+            while True:
+                b = packNbytes(next(iter9))
+                v = list(unpackStruct('<BIf',b))
+                #print(v)
+                if not self.init:
+                    #print('Init:', v)
+                    self.comms.bidFunc(v[1])
+                    sleep(1)
+                    self.init = True
+                else:
+                    self.comms.structFunc(v)
         except StopIteration:
             return
             
@@ -95,19 +99,16 @@ class ReadInputThread(threading.Thread):
                 self.inQ.task_done()
         except Exception as e:
             print(e)
-            print('thread exiting...')
+            print('* thread exiting...')
         finally:
             self.comms.outQ.put(None)
             self.inQ.task_done()
-            print('\nInput Reader exiting...')
-
-def nullMail(msg):
-    print('mailed:', msg)    
+            print('\n* Input Reader exiting...')
 
 class CommsMgr:
     def __init__(self,
                  outq,
-                 mailerFunc = nullMail,
+                 mailerFunc,
                  countLim=pollDisplayIterations,
                  sv = True,
                  sa = False):
@@ -121,20 +122,19 @@ class CommsMgr:
         
     def bidFunc(self, bid):
         self.bid=bid
-        startTime = strftime('%Y_%m_%d_%H.%M.%S', localtime())
-        print('Started!\n',startTime,'\nBID:',self.bid)
+        self.mailerFunc('Started : BID: ' + str(self.bid))
 
     def structFunc(self,s):
-        self.outQ.put(s)
+        #print('putting:', s+[self.bid])
+        self.outQ.put(s + [self.bid])
         self.count +=1
         if self.showVals and self.count%self.modCount == 0:
             self.showWhatWePut()
 
     def showWhatWePut(self):
-        outgoing = str(self.bid) + \
+        outgoing = str(self.bid)     + \
                    ' : Poll count: ' + \
-                   str(self.count) 
-
+                   str(self.count)  
         self.mailerFunc(outgoing)
 
 
@@ -142,14 +142,13 @@ class CommsMgr:
         return (val >> 4) & 0b1111, val & 0b1111
 
 class SerialServer():
-    def __init__(self, writerq, portT, stopEv , mailerFunc,bd = 1000000, to = None):
-        self.outQ        = outq
+    def __init__(self, writerq, portT, stopEv , mailerFunc, bd = 1000000, to = None):
         self.port        = portT
         self.stopEvent   = stopEv
         self.baudrate    = bd
         self.timeout     = to
         self.outQ        = queue.Queue()
-        self.processor   = ReadInputThread(self.outQ,writerq)
+        self.processor   = ReadInputThread(self.outQ,writerq,mailerFunc)
         self.processor.start()
         
     def serve(self):
@@ -172,10 +171,10 @@ class SerialServer():
                 try:
                     if self.stopEvent.is_set():
                         self.outQ.put(None)
-                        print('\nwaiting for processor to finish...')
+                        print('\n* waiting for processor to finish...')
                         self.outQ.join()
                         break
-                    self.q.put(ser.read(900))
+                    self.outQ.put(ser.read(900))
                 except KeyboardInterrupt:
                     self.stopEvent.set()
                                     
