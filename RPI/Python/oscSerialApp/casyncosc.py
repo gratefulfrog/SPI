@@ -144,7 +144,7 @@ class SlipDecoder():
             return None  # here reset is false
 
 class SerialServer():
-    def __init__(self, portT, stopEv, q , mailerFunc,bd = 2000000, to = None):
+    def __init__(self, portT, stopEv, q , mailerFunc,bd = 1000000, to = None):
         self.port        = portT
         self.stopEvent   = stopEv
         self.baudrate    = bd
@@ -154,7 +154,14 @@ class SerialServer():
         
     def serve(self):
         with serial.Serial(port = self.port, baudrate= self.baudrate, timeout = self.timeout) as ser:
-            #handshake!
+            sleep(1)
+            # first clear anything on the incoming port
+            ser.setTimeout(0)
+            while ser.read():
+                pass
+            ser.setTimeout(None)
+
+            # now give the handshake!
             sleep(1)
             ser.write(b'|')
             while True:
