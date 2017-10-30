@@ -9,7 +9,8 @@ import threading
 import itertools
 
 #### for debugging, will display a heartbeat message after this number of polls
-pollDisplayIterations = 32000 # 1 min (PC) , => = 1,920,000/hour
+pollDisplayIterations = 2000000 #= +/-1 hour # 32000 # = 1 min
+#pollDisplayIterations = 32000 # = 1 min 
 
 def packNbytes(bytes):
     """ 
