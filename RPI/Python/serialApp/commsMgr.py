@@ -1,15 +1,14 @@
 #!/usr/bin/python3
 
-
-from time import sleep
+from time import sleep,strftime,localtime
 from struct import pack,unpack
 import serial
 
 import threading
-import queue
-import time
-import sys
 import itertools
+
+#### for debugging, will display a heartbeat message after this number of polls
+pollDisplayIterations = 200 #40000 # = 1/hour
 
 def packNbytes(bytes):
     """ 
@@ -58,12 +57,13 @@ def grouper(iterable, n, fillvalue=None):
         return itertools.zip_longest(*args, fillvalue=fillvalue)
 
 class ReadInputThread(threading.Thread):
-    def __init__(self, q):
+    def __init__(self, inq, outq):
         threading.Thread.__init__(self)
         ## work q, source of data to be written to files
-        self.q = q
+        self.inQ  = inq
         self.init = False
-        self.count = self.noks = 0
+        self.comms = CommsMgr(outq)
+        self.bid  = None
 
     def do_work(self,thing):
         iter9 = grouper(thing,9)
@@ -72,17 +72,11 @@ class ReadInputThread(threading.Thread):
             v = [round(x,3) for x in unpackStruct('<BIf',b)]
             if not self.init:
                 print('Init:', v)
+                self.comms.bidFunc(v[1])
                 sleep(5)
                 self.init = True
             else:
-                ok = (v[0]*10 == v[1]) and (v[2] *1000 == v[0])
-                if not ok:
-                    print(v)
-                self.noks = self.noks if ok else self.noks+1
-                if not ok or ((self.count%100)==0):                 
-                    print('Count :',self.count, '\tNok count :',self.noks, '\tQ size :',self.q.qsize())
-            self.count +=1
-            #sleep(0.01)
+                self.comms.structFunc(v+[self.bid])
         except StopIteration:
             return
             
@@ -93,52 +87,99 @@ class ReadInputThread(threading.Thread):
         """
         try:
             while True:
-                item = self.q.get()
+                item = self.inQ.get()
                 #print(item)
                 if item is None:
                     break
                 self.do_work(item)
-                self.q.task_done()
+                self.inQ.task_done()
         except Exception as e:
             print(e)
             print('thread exiting...')
         finally:
-            self.q.task_done()
+            self.comms.outQ.put(None)
+            self.inQ.task_done()
             print('\nInput Reader exiting...')
-                
 
+def nullMail(msg):
+    print('mailed:', msg)    
+
+class CommsMgr:
+    def __init__(self,
+                 outq,
+                 mailerFunc = nullMail,
+                 countLim=pollDisplayIterations,
+                 sv = True,
+                 sa = False):
+        self.outQ = outq
+        self.mailerFunc = mailerFunc
+        self.count =  self.timeSum = self.timeCount = self.lastTimeStamp = 0
+        self.modCount = countLim
+        self.showVals= sv
+        self.showAvg = sa
+        self.initTimeStamps = False
+        
+    def bidFunc(self, bid):
+        self.bid=bid
+        startTime = strftime('%Y_%m_%d_%H.%M.%S', localtime())
+        print('Started!\n',startTime,'\nBID:',self.bid)
+
+    def structFunc(self,s):
+        self.outQ.put(s)
+        self.count +=1
+        if self.showVals and self.count%self.modCount == 0:
+            self.showWhatWePut()
+
+    def showWhatWePut(self):
+        outgoing = str(self.bid) + \
+                   ' : Poll count: ' + \
+                   str(self.count) 
+
+        self.mailerFunc(outgoing)
+
+
+    def decodeADCCHN(self, val):
+        return (val >> 4) & 0b1111, val & 0b1111
 
 class SerialServer():
-    def __init__(self, q, portT ='/dev/ttyACM0' ,bd = 1000000, to = None):
+    def __init__(self, writerq, portT, stopEv , mailerFunc,bd = 1000000, to = None):
+        self.outQ        = outq
         self.port        = portT
+        self.stopEvent   = stopEv
         self.baudrate    = bd
         self.timeout     = to
-        self.q = q
-    
+        self.outQ        = queue.Queue()
+        self.processor   = ReadInputThread(self.outQ,writerq)
+        self.processor.start()
+        
     def serve(self):
         with serial.Serial(port = self.port,
                            baudrate= self.baudrate,
                            timeout = self.timeout) as ser:
             sleep(1)
-            ser.timeout = 0 # no wait
+            # first clear anything on the incoming port
+            ser.timeout = 0
             while ser.read():
                 pass
             ser.timeout = self.timeout
-            
+
             # now give the handshake!
             sleep(1)
             ser.write(b'|')
+            
             # now go for it!
             while True:
                 try:
+                    if self.stopEvent.is_set():
+                        self.outQ.put(None)
+                        print('\nwaiting for processor to finish...')
+                        self.outQ.join()
+                        break
                     self.q.put(ser.read(900))
                 except KeyboardInterrupt:
-                    self.q.put(None)
-                    print('\nwaiting for processor to finish...')
-                    self.q.join()
-                    return
-                          
-    
+                    self.stopEvent.set()
+                                    
+"""
 def run(p='/dev/ttyACM0'):
     q= queue.Queue()
     processor = ReadInputThread(q)
@@ -151,3 +192,15 @@ if __name__ == '__main__':
     if len(sys.argv) == 2:
         p= sys.argv[1]
     run(p)
+
+
+if __name__ == '__main__':
+    import sys, threading
+    stopEv = threading.Event()
+    stopEv.clear()
+    if len(sys.argv) == 2:
+        server = SerialSever(stopEv,sys.argv[1])
+    else:
+        server = SerialServer(stopEv)
+    server.serve()
+"""
