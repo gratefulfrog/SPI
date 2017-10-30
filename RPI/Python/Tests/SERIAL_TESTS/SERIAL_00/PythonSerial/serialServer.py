@@ -120,11 +120,11 @@ class SerialServer():
                            baudrate= self.baudrate,
                            timeout = self.timeout) as ser:
             sleep(1)
-            # first clear anything on the incoming port
-            ser.setTimeout(0)
+            ser.timeout = 0 # no wait
             while ser.read():
                 pass
-            ser.setTimeout(None)
+            ser.timeout = None
+            
             # now give the handshake!
             sleep(1)
             ser.write(b'|')

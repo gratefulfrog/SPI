@@ -156,10 +156,10 @@ class SerialServer():
         with serial.Serial(port = self.port, baudrate= self.baudrate, timeout = self.timeout) as ser:
             sleep(1)
             # first clear anything on the incoming port
-            ser.setTimeout(0)
+            ser.timeout = 0
             while ser.read():
                 pass
-            ser.setTimeout(None)
+            ser.timeout = self.timeout
 
             # now give the handshake!
             sleep(1)

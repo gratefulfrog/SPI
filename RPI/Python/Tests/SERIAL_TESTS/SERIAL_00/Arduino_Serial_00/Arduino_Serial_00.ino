@@ -4,9 +4,6 @@
 
 u8u32f_struct s = {255,2550,0.250};
 
-#define BUFFSIZE  (100)
-//u8u32f_struct buffer[BUFFSIZE];
-
 int counter = 255;
 
 void handShake(){
@@ -19,20 +16,6 @@ void setup() {
   Serial.begin(1000000);
   while(!Serial);
   handShake();
-}
-
-void doBuffer(){
-  for (int i = 0; i<BUFFSIZE;i++){
-    s.u8++;
-    s.u32+=10;
-    s.f+=0.001;
-    if(! (++counter%256)){
-      s.u8  = 0;
-      s.u32 = 0;
-      s.f   = 0.0;
-    }
-    Serial.write((uint8_t*)&s,sizeof(s));
-  }
 }
 
 void loop() {
