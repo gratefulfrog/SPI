@@ -465,7 +465,8 @@ float AD7689::acquireTemperature() {
 // returns a value indicating if the ADC is properly connected and responding
 /**
  * [AD7689::selftest Verifies that the ADC is properly connected and operational]
- * @return True if the ADC works properly, False if errors were encountered. Check SPI connections if selftest fails repeatedly.
+ * @return True if the ADC works properly, False if errors were encountered. 
+ * Check SPI connections if selftest fails repeatedly.
  */
 bool AD7689::selftest() {
   // ADC will be tested with its readback function, which reads back a previous command
@@ -485,7 +486,11 @@ bool AD7689::selftest() {
   shiftTransaction(toCommand(getADCConfig(false)), true, &readback);
 
   // response with initial readback command
-  return (readback == toCommand(rb_conf));
+  bool res = (readback == toCommand(rb_conf));
+  if (!res){
+    selfTestFailed();
+  }
+  return res;
 }
 
 

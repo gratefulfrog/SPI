@@ -1,135 +1,139 @@
-// Driver code for the  ADLX345 3 channel acceleromater
-// using the USART SPI interface.
-
 #include "adxl345.h"
 
-////////////////////////////////////
-// spi and data read write functions
-////////////////////////////////////
-uint8_t ADXL345::spixfer(uint8_t data) const{
-  return yspi->transfer(data);
+void YADXL345::powerOn() const{
+  //ADXL345 TURN ON
+  writeToSPI(ADXL345_POWER_CTL, 0);	// Wakeup     
+  writeToSPI(ADXL345_POWER_CTL, 16);	// Auto_Sleep
+  writeToSPI(ADXL345_POWER_CTL, 8);	// Measure
 }
 
-void ADXL345::writeRegister(uint8_t reg, uint8_t value) const{
+/* Point to Destination; Write Value; Turn Off  */
+void YADXL345::writeToSPI(byte __reg_address, byte __val) const {
   yspi->beginTransaction();
-  spixfer(reg);
-  spixfer(value);
+  delayMicroseconds(YADXL345_T_DELAY);
+  yspi->transfer(__reg_address); 
+  yspi->transfer(__val);
+  delayMicroseconds(YADXL345_T_QUIET);
   yspi->endTransaction();
 }
 
-uint8_t ADXL345::readRegister(uint8_t reg) const{
-  reg |= 0x80; // read byte
+void YADXL345::readFromSPI(byte __reg_address, int num, byte _buff[]) const{
+  // Read: Most Sig Bit of Reg Address Set
+  char _address = 0x80 | __reg_address;
+  // If Multi-Byte Read: Bit 6 Set 
+  if(num > 1) {
+  	_address = _address | 0x40;
+  }
+
   yspi->beginTransaction();
-  spixfer(reg);
-  uint8_t res = spixfer(0xFF);
+  delayMicroseconds(YADXL345_T_DELAY);
+
+  yspi->transfer(_address);		// Transfer Starting Reg Address To Be Read  
+  for(int i=0; i<num; i++){
+    _buff[i] = yspi->transfer(0x00);
+  }
+  
+  delayMicroseconds(YADXL345_T_QUIET);
   yspi->endTransaction();
-  return res;
 }
 
-int16_t ADXL345::read16(uint8_t reg) const{
-  reg |= 0x80 | 0x40; // read byte | multibyte
-  yspi->beginTransaction();
-  spixfer(reg);
-  uint16_t res = spixfer(0xFF)  | (spixfer(0xFF) << 8);
-  yspi->endTransaction();
-  return res;
+void YADXL345::setRegisterBit(byte regAdress, int bitPos, bool state) const {
+  byte _b;
+  readFromSPI(regAdress, 1, &_b);
+  if (state) {
+    _b |= (1 << bitPos);  // Forces nth Bit of _b to 1. Other Bits Unchanged.  
+  } 
+  else {
+    _b &= ~(1 << bitPos); // Forces nth Bit of _b to 0. Other Bits Unchanged.
+  }
+  writeToSPI(regAdress, _b);  
 }
 
-/////////////////////////////////////
-// initialisation and query funcitons
-/////////////////////////////////////
+void YADXL345::setSpiBit(bool spiBit) const{
+  setRegisterBit(ADXL345_DATA_FORMAT, 6, spiBit);
+}
 
-void  ADXL345::setRange(range_t range){
-  /* Read the data format register to preserve bits */
-  uint8_t format = readRegister(ADXL345_REG_DATA_FORMAT);
-
-  /* Update the data rate */
-  format &= ~0x0F;
-  format |= range;
+void YADXL345::setRangeSetting(int val) const{
+  byte _s;
+  byte _b;
   
-  /* Make sure that the FULL-RES bit is enabled for range scaling */
-  format |= 0x08;
+  switch (val) {
+  case 2:  
+    _s = B00000000; 
+    break;
+  case 4:  
+    _s = B00000001; 
+    break;
+  case 8:  
+    _s = B00000010; 
+    break;
+  case 16: 
+    _s = B00000011; 
+    break;
+  default: 
+    _s = B00000000;
+  }
+  readFromSPI(ADXL345_DATA_FORMAT, 1, &_b);
+  _s |= (_b & B11101100);
+  writeToSPI(ADXL345_DATA_FORMAT, _s);
+}
+
+void YADXL345::readAccel(int* x, int* y, int* z){
+  readFromSPI(ADXL345_DATAX0, ADXL345_TO_READ, _buff);	// Read Accel Data from ADXL345
   
-  /* Write the register back to the IC */
-  writeRegister(ADXL345_REG_DATA_FORMAT, format);
-  
-  /* Keep track of the current range (to avoid readbacks) */
-  _range = range;
+  // Each Axis @ All g Ranges: 10 Bit Resolution (2 Bytes)
+  *x = (((int)_buff[1]) << 8) | _buff[0];   
+  *y = (((int)_buff[3]) << 8) | _buff[2];
+  *z = (((int)_buff[5]) << 8) | _buff[4];
 }
 
-range_t ADXL345::getRange(void) const{
-  return  _range;
+
+YADXL345::YADXL345(const YSPI *const y) : YADC(y){
+  // SPI uses data mode 3
+  //gains[0] = 0.00376390;
+  //gains[1] = 0.00376009;
+  //gains[2] = 0.00349265;
+  yspi->setSS(HIGH);
+  powerOn();
+  setRangeSetting(16);    // Give the range settings
+                          // Accepted values are 2g, 4g, 8g or 16g
+                          // Higher Values = Wider Measurement Range
+                          // Lower Values = Greater Sensitivity
+
+  setSpiBit(0);           // Configure the device to be in 4 wire SPI mode when set to '0' or 3 wire SPI mode when set to 1
+                          // Default: Set to 1
 }
 
-range_t ADXL345::queryRange(void) const{
-  return (range_t)(readRegister(ADXL345_REG_DATA_FORMAT) & 0x03);
-}
 
-void ADXL345::setDataRate(dataRate_t dataRate){
-  writeRegister(ADXL345_REG_BW_RATE, dataRate);
-  _dataRate = dataRate;
-}
-
-dataRate_t ADXL345::getDataRate(void)const{
-  return _dataRate;
-}
-
-dataRate_t ADXL345::queryDataRate(void)const{
-  return (dataRate_t)(readRegister(ADXL345_REG_BW_RATE) & 0x0F);
-}
-
-uint8_t    ADXL345::queryDeviceID(void) const{
-  return readRegister(ADXL345_REG_DEVID);
-}
-
-int16_t    ADXL345::getX(void) const{    /*! raw value needs to be corrected with mutlipliers */
-  return read16(ADXL345_REG_DATAX0);
-}
-int16_t    ADXL345::getY(void) const{    /*! raw value needs to be corrected with mutlipliers */
-  return read16(ADXL345_REG_DATAY0);
-}
-int16_t    ADXL345::getZ(void) const{    /*! raw value needs to be corrected with mutlipliers */
-  return read16(ADXL345_REG_DATAZ0);
-}
-
-/** encapsulate adafruit constructor + begin() 
- * don't forget to set the various parameters range, data rate device ID
- */
-ADXL345::ADXL345(const YSPI *const y) : YADC(y){
-  // Enable measurements
-  writeRegister(ADXL345_REG_POWER_CTL, 0x08);
-
-  setRange(ADXL_G_RANGE);
-  setDataRate(ADXL_DATARATE);
-}
-  
-float ADXL345::acquireChannel(uint8_t channel){   /*! 0=x, 1=y, 2=z : see getEvent for multipliers !!! */
-  float res = 0;
-  switch (channel){
+float YADXL345::acquireChannel(uint8_t channel){   /*! 0=x, 1=y, 2=z : see getEvent for multipliers !!! */
+  int x,y,z;   
+  readAccel(&x, &y, &z);  // Read the accelerometer values and store them in variables declared above x,y,z
+  float res;
+  switch(channel){
   case 0:
-    res = getX();
+    res = x;
     break;
   case 1:
-    res = getY();
+    res = y;
     break;
   case 2:
-    res = getZ();
+    res = z;
     break;
   }
-  return res * ADXL345_MG2G_MULTIPLIER * SENSORS_GRAVITY_STANDARD;
+  return res;
 }
 
-bool ADXL345::selftest(void){
-  return true;
-  /* Check connection */
-  /* doesn't work! DEVICE ID IS ZERO !!!  */
-  uint8_t deviceid = queryDeviceID();
-  if (deviceid != 0xE5){
-    /* No ADXL345 detected ... return false */
-    Serial.println(deviceid, HEX);
-    while(1);
-    return false;
+bool YADXL345::selftest(void){
+  int x,y,z;   
+  delay(100);
+  readAccel(&x, &y, &z);  // Read the accelerometer values and store them in variables declared above x,y,z
+
+  // if a value is not zero it's ok!
+  bool res = x || y || z;
+  if (!res){
+    selfTestFailed();
   }
   return true;
 }
+
 

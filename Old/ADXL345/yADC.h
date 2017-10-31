@@ -14,7 +14,8 @@
  */
 class YADC {
  protected:
-  const YSPI *const yspi = NULL;   /*!< Points to YMSPI instance to be used in all SPI comms. */             
+  const YSPI *const yspi = NULL;   /*!< Points to YMSPI instance to be used in all SPI comms. */
+  void selfTestFailed() const ;
   
  public:
     YADC(const YSPI *const y);

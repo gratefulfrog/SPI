@@ -63,7 +63,7 @@ YADCMgr::YADCMgr(uint8_t id, uint8_t nbChan) : ADCMgr(id,nbChan){
     adc = new AD7689(yspi, nbChannels);
   }
   else{  // it's and adxl345
-    adc = new ADXL345(yspi);
+    adc = new YADXL345(yspi);
   }
   if(adc){
     //Serial.println(String("ADC instance ") + String(adcID) + String(" created!"));

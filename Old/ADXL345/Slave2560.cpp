@@ -44,7 +44,7 @@ SlaveApp::SlaveApp() {
   #endif
   
   board = new Board(board_nbADCS,bordNbChannelVec);
-  
+
   u8u32f_struct  nextStruct = {255,board->getGUID(),0.0};
 
   Serial.write((uint8_t*)&nextStruct,sizeof(nextStruct));
@@ -125,6 +125,14 @@ SlaveApp::State SlaveApp::doWork(){
   
   State res = currentState;
 #ifdef USE_Q 
+  // DEBUG
+  //Serial.print("X: ");
+  //Serial.println(board->getValue(2,0));
+  //Serial.print("Y: ");
+  //Serial.println(board->getValue(2,1));
+  //Serial.print("Z: ");
+  //Serial.println(board->getValue(2,2));
+  //delay(200);
   if (q->push(nextStruct)){  // we could push it onto the q   
     ChannelID = (ChannelID +1 ) % board->getMgrNbChannels(ADC_ID);
     if(!ChannelID){  // we must inc the ADC_id

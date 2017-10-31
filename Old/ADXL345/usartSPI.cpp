@@ -126,7 +126,20 @@ USARTSPI::USARTSPI(uint8_t usartID) : YSPI(), uID(usartID) {
   
   // UCSR0C = _BV (UMSEL00) | _BV (UMSEL01);  // Master SPI mode
   // usartRegVec[uID].ucsrC = _BV (UMSEL00) | _BV (UMSEL01);  // Master SPI mode
-  usartRegVec[uID].ucsrC = _BV (specificBitVec[uID].umsel0) | _BV (specificBitVec[uID].umsel1);  // Master SPI mode
+  usartRegVec[uID].ucsrC = _BV (specificBitVec[uID].umsel0) | _BV (specificBitVec[uID].umsel1);  // Master SPI mode, SPI DATA MODE 0
+
+  /* But for the ADXL345, I need to set data mode 3 !! So this means:
+   * UCSRnC = (1<<UMSELn1)|(1<<UMSELn0)|(1<<UCPHAn)|(1<<UCPOLn);  master mode and data mode 3 (ATMEGA 2560 datasheet page 230)
+   * 
+   * I think that means for for uID == 3 :
+   * usartRegVec[3].ucsrC |= (1<<UCPHAn)|(1<<UCPOLn);
+   *
+   * Then set transmit and receive enable, then set baud rate.
+   */
+  if (uID == 3){  // for the ADXL345, I hope!
+    //usartRegVec[uID].ucsrC |= (1<<UCPHA3)|(1<<UCPOL3);
+    usartRegVec[uID].ucsrC |= (1<<1)|(1<<0);   // could this be right?
+  }
   
   // UCSR0B = _BV (TXEN0) | _BV (RXEN0);  // transmit enable and receive enable
   usartRegVec[uID].ucsrB = _BV (specificBitVec[uID].txen) | _BV (specificBitVec[uID].rxen);  // transmit enable and receive enable
