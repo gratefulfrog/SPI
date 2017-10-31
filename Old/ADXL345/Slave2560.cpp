@@ -22,10 +22,11 @@ SlaveApp::SlaveApp() {
 
   const uint8_t board0NBChannelVec[] = {BOARD_BOARD_0_ADC_0_NB_CHANNELS},
                 board1NBChannelVec[] = {BOARD_BOARD_1_ADC_0_NB_CHANNELS,
-                                        BOARD_BOARD_1_ADC_1_NB_CHANNELS};
+                                        BOARD_BOARD_1_ADC_1_NB_CHANNELS,
+                                        BOARD_BOARD_1_ADC_2_NB_CHANNELS};
 
   // BOARD_BOARD_0 is board zero with only one ADC
-  // BOARD_BOARD_1 is board one with 2 adcs
+  // BOARD_BOARD_1 is board one with 2 adcs + 1 adxl345
   
   
   #if BOARD_USE_BOARD_0
@@ -43,9 +44,9 @@ SlaveApp::SlaveApp() {
   #endif
   
   board = new Board(board_nbADCS,bordNbChannelVec);
-  
+
   u8u32f_struct  nextStruct = {255,board->getGUID(),0.0};
- 
+
   Serial.write((uint8_t*)&nextStruct,sizeof(nextStruct));
   
   currentState = State::initialized;
@@ -118,20 +119,19 @@ SlaveApp::State SlaveApp::doWork(){
   encode(nextStruct.u8, ADC_ID, ChannelID);
   nextStruct.u32 = TimeStamper::theTimeStamper->getTimeStamp();
   nextStruct.f   = board->getValue(ADC_ID,ChannelID);
- 
+  
   State res = currentState;
 #ifdef USE_Q 
   if (q->push(nextStruct)){  // we could push it onto the q   
     ChannelID = (ChannelID +1 ) % board->getMgrNbChannels(ADC_ID);
     if(!ChannelID){  // we must inc the ADC_id
-      ADC_ID = (ADC_ID +1) % board->nbADCs;
+      ADC_ID = (ADC_ID +1) %  board->nbADCs;
     }
   }
   else { // no more room in q !!
     res = State::readyToSend;
   }
 #else
-  //comms->send(nextStruct); 
   Serial.write((uint8_t*)&nextStruct,sizeof(8u32f_struct));
   delayMicroseconds(NO_Q_DELAY);  
   ChannelID = (ChannelID +1 ) % board->getMgrNbChannels(ADC_ID);
@@ -152,6 +152,7 @@ SlaveApp::State SlaveApp::doSingleSend(){
   else{
     Serial.write((uint8_t*)&nextStruct,sizeof(nextStruct));
     delay(Q_DELAY);
+    //delayMicroseconds(Q_DELAY);
   }
  
   return res;
