@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
 
 from time import sleep,time
@@ -33,6 +33,7 @@ class Output(asyncio.Protocol):
         global count
         onGoing, current = decodeFromSLIP(data,current)
         if not onGoing:
+            print(current)
             count +=1
             if count%10000 == 0:
                 print('Structs recevied:',count,'Elapsed seconds:',round(time()-startTime),'current struct:',decodeOSC(bytes(current)))
