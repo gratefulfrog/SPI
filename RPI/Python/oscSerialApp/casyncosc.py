@@ -176,11 +176,12 @@ class SerialServer():
                     return
             
 if __name__ == '__main__':
-    import sys, threading
+    import sys, threading,queue
     stopEv = threading.Event()
     stopEv.clear()
+    q=queue.Queue()
     if len(sys.argv) == 2:
-        server = SerialSever(stopEv,sys.argv[1])
+        server = SerialSever(sys.argv[1],stopEv,q)
     else:
-        server = SerialServer(stopEv)
+        server = SerialServer('/dev/ttyACM0',stopEv,q,nullMail)
     server.serve()
