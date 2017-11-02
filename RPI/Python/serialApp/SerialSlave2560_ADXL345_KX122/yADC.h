@@ -9,8 +9,10 @@
 
 #include "yspi.h"
 
-/**
+/** YADC
  * Represents the abstract ADC class
+ * can also be used as a basis for any mutli channel device that can provide the 
+ * manadatory acquireChannel and selftest methods
  */
 class YADC {
  protected:

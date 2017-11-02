@@ -1,16 +1,7 @@
 var searchData=
 [
-  ['packnbytes',['packNbytes',['../dd/d74/namespacecomms_mgr.html#ab010aa1c7a73005dc2ad7c33b65705de',1,'commsMgr']]],
-  ['pinregisterstruct',['pinRegisterStruct',['../d9/dd4/struct_u_s_a_r_t_s_p_i_1_1pin_register_struct.html',1,'USARTSPI']]],
-  ['pinregvec',['pinRegVec',['../d7/db2/class_u_s_a_r_t_s_p_i.html#a1e5956f4369a5f493cf0ca3c71c2366b',1,'USARTSPI']]],
-  ['polldisplayiterations',['pollDisplayIterations',['../dd/d74/namespacecomms_mgr.html#a586e1a21460bc3ea2e660af24dba1b19',1,'commsMgr']]],
-  ['pop',['pop',['../d7/d75/class_q.html#a04cb5828167d0f9046426d26c0ced5f7',1,'Q']]],
-  ['port',['port',['../d2/d22/classcomms_mgr_1_1_serial_server.html#a1baf4e9f52c6c7c3962d585f5d7fefc3',1,'commsMgr::SerialServer']]],
-  ['portss',['portSS',['../d0/dd4/struct_u_s_a_r_t_s_p_i_1_1uart_specific_bit_value_struct.html#ad9239ce146be620cd841a8b2f6c3c859',1,'USARTSPI::uartSpecificBitValueStruct']]],
-  ['posref',['posref',['../d4/d0c/class_a_d7689.html#a4a71bcf76bac9b53301ae68a3c2cb85e',1,'AD7689']]],
-  ['pptr',['pptr',['../d7/d75/class_q.html#a88fb9e34a05bbfebb3ef821058643d91',1,'Q']]],
-  ['previousstate',['previousState',['../da/ddc/class_slave_app.html#accf76655081ed240a699f2f29acc03f5',1,'SlaveApp']]],
-  ['processor',['processor',['../d2/d22/classcomms_mgr_1_1_serial_server.html#a8447d423177bf34bec5676dc9af61c20',1,'commsMgr::SerialServer']]],
-  ['pullup',['pullup',['../d4/d47/class_i2_c.html#a181c445703cb31d19d5130b86c761033',1,'I2C']]],
-  ['push',['push',['../d7/d75/class_q.html#a41adbd87bfad5a94ae6c9fc4577027e4',1,'Q']]]
+  ['operator_21_3d',['operator!=',['../dc/da4/structu8u32f__struct.html#a4dde2f6f56dfcb9f1e7987636ffff881',1,'u8u32f_struct::operator!=(const u8u32f_struct &amp;r) const '],['../dc/da4/structu8u32f__struct.html#a4dde2f6f56dfcb9f1e7987636ffff881',1,'u8u32f_struct::operator!=(const u8u32f_struct &amp;r) const '],['../db/d16/config_8h.html#a8d7b92fd85c5fada88efcd52598dc6b9',1,'operator!=(const u8u32f_struct &amp;r) const :&#160;config.h'],['../dd/d0f/_k_x122_2config_8h.html#a8d7b92fd85c5fada88efcd52598dc6b9',1,'operator!=(const u8u32f_struct &amp;r) const :&#160;config.h']]],
+  ['operator_3d_3d',['operator==',['../dc/da4/structu8u32f__struct.html#a792c44fded2508b3c6ab6b281521e4d2',1,'u8u32f_struct::operator==(const u8u32f_struct &amp;r) const '],['../dc/da4/structu8u32f__struct.html#a792c44fded2508b3c6ab6b281521e4d2',1,'u8u32f_struct::operator==(const u8u32f_struct &amp;r) const '],['../db/d16/config_8h.html#aaba4687a42ed57670d36c58b475e1933',1,'operator==(const u8u32f_struct &amp;r) const :&#160;config.h'],['../dd/d0f/_k_x122_2config_8h.html#aaba4687a42ed57670d36c58b475e1933',1,'operator==(const u8u32f_struct &amp;r) const :&#160;config.h']]],
+  ['outq',['outQ',['../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#abb0df98a322881e0ef6c3d47bd1a3e0f',1,'commsMgr.CommsMgr.outQ()'],['../d2/d22/classcomms_mgr_1_1_serial_server.html#adac54412b93f2a20015435bff5aa6231',1,'commsMgr.SerialServer.outQ()']]],
+  ['overrundeleteoldest',['overrunDeleteOldest',['../d7/d75/class_q.html#ad6777ce431d3d66d7037899199313c37',1,'Q']]]
 ];

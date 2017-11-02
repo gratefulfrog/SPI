@@ -15,6 +15,9 @@ var annotated_dup =
     [ "TimeStamper", "d0/da8/class_time_stamper.html", "d0/da8/class_time_stamper" ],
     [ "u8u32f_struct", "dc/da4/structu8u32f__struct.html", "dc/da4/structu8u32f__struct" ],
     [ "USARTSPI", "d7/db2/class_u_s_a_r_t_s_p_i.html", "d7/db2/class_u_s_a_r_t_s_p_i" ],
+    [ "YADC", "da/dcf/class_y_a_d_c.html", "da/dcf/class_y_a_d_c" ],
     [ "YADCMgr", "d5/daa/class_y_a_d_c_mgr.html", "d5/daa/class_y_a_d_c_mgr" ],
+    [ "YADXL345", "db/d77/class_y_a_d_x_l345.html", "db/d77/class_y_a_d_x_l345" ],
+    [ "YKX122", "db/da9/class_y_k_x122.html", "db/da9/class_y_k_x122" ],
     [ "YSPI", "d9/d80/class_y_s_p_i.html", "d9/d80/class_y_s_p_i" ]
 ];

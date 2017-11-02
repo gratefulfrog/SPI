@@ -15,7 +15,7 @@ var NAVTREE =
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Data Fields", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
-        [ "Functions", "functions_func.html", null ],
+        [ "Functions", "functions_func.html", "functions_func" ],
         [ "Variables", "functions_vars.html", null ],
         [ "Enumerations", "functions_enum.html", null ]
       ] ]
@@ -23,11 +23,11 @@ var NAVTREE =
     [ "Files", null, [
       [ "File List", "files.html", "files" ],
       [ "Globals", "globals.html", [
-        [ "All", "globals.html", null ],
+        [ "All", "globals.html", "globals_dup" ],
         [ "Functions", "globals_func.html", null ],
         [ "Variables", "globals_vars.html", null ],
         [ "Typedefs", "globals_type.html", null ],
-        [ "Macros", "globals_defs.html", null ]
+        [ "Macros", "globals_defs.html", "globals_defs" ]
       ] ]
     ] ]
   ] ]
@@ -36,7 +36,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d9/d06/_i2_c_8h.html"
+"d4/d47/class_i2_c.html#a0641d17b9e03a355dd8eaa2c6b59cc98",
+"da/ddc/class_slave_app.html#a0bd7892eadb9fbb5cdbc351d898ec0d8a84d10a1ed612e61dbf6880f6e3ee533a",
+"de/dcb/ad7689_8h.html#a171160a766f85c8816b898ed24d28408"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

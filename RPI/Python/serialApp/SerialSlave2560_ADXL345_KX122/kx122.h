@@ -56,22 +56,22 @@
 #define KX122_ODCNTL     (0x1B) // output data rate control register
 
 
-/**
+/** YKH122
  * Represents the  KX122, acts like an ADC with 3 channels
- * does not use  YSPI functionality
+ * does not use  YSPI functionality since it is an I2C device
  */
 class YKX122 : public YADC {
  protected:
-  static const uint8_t regVec[][2];
-  const uint8_t addr;
-  void  configKX122() const;
+  static const uint8_t regVec[][2]; /*! The vector of register, value pairs used in initial configuration of the device */
+  const uint8_t addr;               /*! The hardware adresss for this instance for all the KX122s in the sestem */
+  void  configKX122() const;        /*! call this at instanciation to set up the device */
   
  public:
-  static const uint8_t addrVec[];  // addresses of the 2 KX122s
-  YKX122(uint8_t address, const YSPI *const y = NULL);  
-  float acquireChannel(uint8_t channel) ;   /*! 0=x, 1=y, 2=z */
-  bool selftest(void) ;
-  uint8_t getAddr() const;
+  static const uint8_t addrVec[];  /*! The vector of hardware adresses for all the KX122s in the sestem */
+  YKX122(uint8_t address, const YSPI *const y = NULL);  /*! constructor does not need the YPSI pointer */
+  float acquireChannel(uint8_t channel) ;   /*! as per parent class but 0=x, 1=y, 2=z */
+  bool selftest(void) ;                     /*! runs a simple selftest */
+  uint8_t getAddr() const;                  /*! getter method for the device's hardware address */
 };
 #endif
 
