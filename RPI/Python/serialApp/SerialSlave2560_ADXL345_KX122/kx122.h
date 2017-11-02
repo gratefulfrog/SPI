@@ -43,10 +43,17 @@
 #define KX122_DR_12800 (0x0E)
 #define KX122_DR_25600 (0x0F)
 
-#define KX122_CNTL1         (0x18) // main features control registger, need to set in 2 phases,
-                             // first without operational mode, 
-                             // then set operational
-#define KX122_ODCNTL        (0x1B) // output data rate control register
+#define KX122_IIR_BYPASS (0x80)
+#define KX122_LPRO       (0x40)
+#define KX122_OSA3       (0x08) 
+#define KX122_OSA2       (0x04) 
+#define KX122_OSA1       (0x02) 
+#define KX122_OSA0       (0x01)
+
+#define KX122_CNTL1      (0x18) // main features control registger, need to set in 2 phases,
+                                // first without operational mode, 
+                                // then set operational
+#define KX122_ODCNTL     (0x1B) // output data rate control register
 
 
 /**
