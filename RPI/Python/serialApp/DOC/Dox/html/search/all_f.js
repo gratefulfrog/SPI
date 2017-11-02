@@ -1,12 +1,17 @@
 var searchData=
 [
-  ['q',['Q',['../d7/d75/class_q.html',1,'Q&lt; T &gt;'],['../d3/ddd/classmaster_1_1_writer_thread.html#ad53dfb6f03d5b944d689090104f8f20c',1,'master.WriterThread.q()'],['../dd/df2/classmaster_1_1_master.html#a2cdc4c50315a89045d4b1891b546b744',1,'master.Master.q()'],['../da/ddc/class_slave_app.html#a6374b46d3e13add335ebea630ec2175a',1,'SlaveApp::q()'],['../d7/d75/class_q.html#aa6a2b6d9dfa4bcabda39831a6d96544c',1,'Q::q()'],['../d7/d75/class_q.html#a13f0b4d7336a7b7c358da0a221ec27a9',1,'Q::Q(T nullOb)']]],
-  ['q_3c_20u8u32f_5fstruct_20_3e',['Q&lt; u8u32f_struct &gt;',['../d7/d75/class_q.html',1,'']]],
-  ['q_5fdelay',['Q_DELAY',['../d5/d70/_slave2560_8cpp.html#a9bf3af8a826975b617b72d92ea4f883a',1,'Slave2560.cpp']]],
-  ['q_5foverrun_5fdelete_5foldest',['Q_OVERRUN_DELETE_OLDEST',['../df/d76/static_q_8h.html#a4ac825dbe63a1ce6dd865633fbb2b7d6',1,'staticQ.h']]],
-  ['q_5fq_5flength',['Q_Q_LENGTH',['../df/d76/static_q_8h.html#a497976599cf4b0f907357253203b518d',1,'staticQ.h']]],
-  ['qlen',['qLen',['../d7/d75/class_q.html#ac9801ebeae28bf095f4a2eafeb50982c',1,'Q']]],
-  ['qlenght',['qLenght',['../d7/d75/class_q.html#aef83b831bda58c00e6b38e480fec0773',1,'Q']]],
-  ['qnbobj',['qNbObj',['../d7/d75/class_q.html#a8747eb4e37229fa105a87c25a9a21886',1,'Q']]],
-  ['qnbobjects',['qNbObjects',['../d7/d75/class_q.html#a9ed0003b21902d5ed7e4ad87e23768f3',1,'Q']]]
+  ['packnbytes',['packNbytes',['../dd/d74/namespacecomms_mgr.html#ab010aa1c7a73005dc2ad7c33b65705de',1,'commsMgr']]],
+  ['pinregisterstruct',['pinRegisterStruct',['../d9/dd4/struct_u_s_a_r_t_s_p_i_1_1pin_register_struct.html',1,'USARTSPI']]],
+  ['pinregvec',['pinRegVec',['../d7/db2/class_u_s_a_r_t_s_p_i.html#ac3a978f50b13ff5e6d50bfd691edb7f8',1,'USARTSPI']]],
+  ['polldisplayiterations',['pollDisplayIterations',['../dd/d74/namespacecomms_mgr.html#a586e1a21460bc3ea2e660af24dba1b19',1,'commsMgr']]],
+  ['pop',['pop',['../d7/d75/class_q.html#a04cb5828167d0f9046426d26c0ced5f7',1,'Q::pop()'],['../d7/d75/class_q.html#a04cb5828167d0f9046426d26c0ced5f7',1,'Q::pop()']]],
+  ['port',['port',['../d2/d22/classcomms_mgr_1_1_serial_server.html#a1baf4e9f52c6c7c3962d585f5d7fefc3',1,'commsMgr::SerialServer']]],
+  ['portss',['portSS',['../d0/dd4/struct_u_s_a_r_t_s_p_i_1_1uart_specific_bit_value_struct.html#ad9239ce146be620cd841a8b2f6c3c859',1,'USARTSPI::uartSpecificBitValueStruct']]],
+  ['posref',['posref',['../d4/d0c/class_a_d7689.html#a4a71bcf76bac9b53301ae68a3c2cb85e',1,'AD7689']]],
+  ['poweron',['powerOn',['../db/d77/class_y_a_d_x_l345.html#a016a0baf400a80f3369612787c6971c5',1,'YADXL345::powerOn() const '],['../db/d77/class_y_a_d_x_l345.html#a016a0baf400a80f3369612787c6971c5',1,'YADXL345::powerOn() const ']]],
+  ['pptr',['pptr',['../d7/d75/class_q.html#a88fb9e34a05bbfebb3ef821058643d91',1,'Q']]],
+  ['previousstate',['previousState',['../da/ddc/class_slave_app.html#accf76655081ed240a699f2f29acc03f5',1,'SlaveApp']]],
+  ['processor',['processor',['../d2/d22/classcomms_mgr_1_1_serial_server.html#a8447d423177bf34bec5676dc9af61c20',1,'commsMgr::SerialServer']]],
+  ['pullup',['pullup',['../d4/d47/class_i2_c.html#a181c445703cb31d19d5130b86c761033',1,'I2C::pullup(uint8_t)'],['../d4/d47/class_i2_c.html#a181c445703cb31d19d5130b86c761033',1,'I2C::pullup(uint8_t)']]],
+  ['push',['push',['../d7/d75/class_q.html#a41adbd87bfad5a94ae6c9fc4577027e4',1,'Q::push(T elt)'],['../d7/d75/class_q.html#a41adbd87bfad5a94ae6c9fc4577027e4',1,'Q::push(T elt)']]]
 ];

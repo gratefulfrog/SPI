@@ -1,11 +1,18 @@
 var searchData=
 [
-  ['tacq',['TACQ',['../de/dcb/ad7689_8h.html#a25357938bd695b6b3bea54dadaedf095',1,'ad7689.h']]],
-  ['tconv',['TCONV',['../de/dcb/ad7689_8h.html#a5e7494ae7535ea1a69379cc3faef9ae2',1,'ad7689.h']]],
-  ['temp_5fbase_5fvoltage',['TEMP_BASE_VOLTAGE',['../de/dcb/ad7689_8h.html#a3ca8ceb1bb5043d35e5d1364f52c4417',1,'ad7689.h']]],
-  ['temp_5fref',['TEMP_REF',['../de/dcb/ad7689_8h.html#aeaa28d69d533485fb923ee8c5283c3f0',1,'ad7689.h']]],
-  ['temp_5frico',['TEMP_RICO',['../de/dcb/ad7689_8h.html#a0fcbcdcbb6ef288c2a351335d93fc5ea',1,'ad7689.h']]],
-  ['total_5fchannels',['TOTAL_CHANNELS',['../de/dcb/ad7689_8h.html#ae736c01e49020f31d5e672ad1a2d37a8',1,'ad7689.h']]],
-  ['total_5fsteps',['TOTAL_STEPS',['../de/dcb/ad7689_8h.html#a7fd2a4ce9263f91b3c3fb6bf485a7299',1,'ad7689.h']]],
-  ['twi_5fstatus',['TWI_STATUS',['../d9/d06/_i2_c_8h.html#afc735dc116b40c85092452b78b35c100',1,'I2C.h']]]
+  ['sbi',['sbi',['../d9/d06/_i2_c_8h.html#ac4a5536d9bf092116f88b94797ddc882',1,'sbi():&#160;I2C.h'],['../d5/de2/_k_x122_2_i2_c_8h.html#ac4a5536d9bf092116f88b94797ddc882',1,'sbi():&#160;I2C.h']]],
+  ['seq',['SEQ',['../de/dcb/ad7689_8h.html#ababb820506a37d8ee60ed2857ba45556',1,'SEQ():&#160;ad7689.h'],['../d1/d4d/_k_x122_2ad7689_8h.html#ababb820506a37d8ee60ed2857ba45556',1,'SEQ():&#160;ad7689.h']]],
+  ['seq_5foff',['SEQ_OFF',['../de/dcb/ad7689_8h.html#a884d58972b0df9108dcd0a85069fb849',1,'SEQ_OFF():&#160;ad7689.h'],['../d1/d4d/_k_x122_2ad7689_8h.html#a884d58972b0df9108dcd0a85069fb849',1,'SEQ_OFF():&#160;ad7689.h']]],
+  ['seq_5fscan_5finput',['SEQ_SCAN_INPUT',['../de/dcb/ad7689_8h.html#a063a80c134d9e6a7a1fd3a31059acb74',1,'SEQ_SCAN_INPUT():&#160;ad7689.h'],['../d1/d4d/_k_x122_2ad7689_8h.html#a063a80c134d9e6a7a1fd3a31059acb74',1,'SEQ_SCAN_INPUT():&#160;ad7689.h']]],
+  ['seq_5fscan_5finput_5ftemp',['SEQ_SCAN_INPUT_TEMP',['../de/dcb/ad7689_8h.html#af56da9870d1bca7f484d5c309cc3764b',1,'SEQ_SCAN_INPUT_TEMP():&#160;ad7689.h'],['../d1/d4d/_k_x122_2ad7689_8h.html#af56da9870d1bca7f484d5c309cc3764b',1,'SEQ_SCAN_INPUT_TEMP():&#160;ad7689.h']]],
+  ['seq_5fupdate',['SEQ_UPDATE',['../de/dcb/ad7689_8h.html#af0e903d7541b8e8f90fa5d42976708e0',1,'SEQ_UPDATE():&#160;ad7689.h'],['../d1/d4d/_k_x122_2ad7689_8h.html#af0e903d7541b8e8f90fa5d42976708e0',1,'SEQ_UPDATE():&#160;ad7689.h']]],
+  ['sla_5fr',['SLA_R',['../d9/d06/_i2_c_8h.html#a6ca7c46db5e94d47e65ea91209206c2d',1,'SLA_R():&#160;I2C.h'],['../d5/de2/_k_x122_2_i2_c_8h.html#a6ca7c46db5e94d47e65ea91209206c2d',1,'SLA_R():&#160;I2C.h']]],
+  ['sla_5fw',['SLA_W',['../d9/d06/_i2_c_8h.html#ae9e12dd344c95355c0dacae5c681a7ab',1,'SLA_W():&#160;I2C.h'],['../d5/de2/_k_x122_2_i2_c_8h.html#ae9e12dd344c95355c0dacae5c681a7ab',1,'SLA_W():&#160;I2C.h']]],
+  ['slaveapp_5fhb_5fshow_5fcount',['SlaveApp_HB_SHOW_COUNT',['../db/d16/config_8h.html#a9a6a5cc3674ea235fd8a257c318fc5bd',1,'SlaveApp_HB_SHOW_COUNT():&#160;config.h'],['../dd/d0f/_k_x122_2config_8h.html#a9a6a5cc3674ea235fd8a257c318fc5bd',1,'SlaveApp_HB_SHOW_COUNT():&#160;config.h']]],
+  ['slaveapp_5fhb_5ftime',['SlaveApp_HB_TIME',['../db/d16/config_8h.html#aaf91fb20e598889c3fae035b1a5c0b22',1,'SlaveApp_HB_TIME():&#160;config.h'],['../dd/d0f/_k_x122_2config_8h.html#aaf91fb20e598889c3fae035b1a5c0b22',1,'SlaveApp_HB_TIME():&#160;config.h']]],
+  ['slaveapp_5fled_5fpin_5f1',['SlaveApp_LED_PIN_1',['../db/d16/config_8h.html#a01ae40179d841e4816246c32ca13a4a6',1,'SlaveApp_LED_PIN_1():&#160;config.h'],['../dd/d0f/_k_x122_2config_8h.html#a01ae40179d841e4816246c32ca13a4a6',1,'SlaveApp_LED_PIN_1():&#160;config.h']]],
+  ['slaveapp_5fled_5fpin_5f2',['SlaveApp_LED_PIN_2',['../db/d16/config_8h.html#a2b9e37aa016ad8d040b7eca56b17008d',1,'SlaveApp_LED_PIN_2():&#160;config.h'],['../dd/d0f/_k_x122_2config_8h.html#a2b9e37aa016ad8d040b7eca56b17008d',1,'SlaveApp_LED_PIN_2():&#160;config.h']]],
+  ['slaveapp_5fsay_5fheartbeat_5fonly',['SlaveApp_SAY_HEARTBEAT_ONLY',['../db/d16/config_8h.html#aaba0975f58e226cde11d5c8ca45df4b6',1,'SlaveApp_SAY_HEARTBEAT_ONLY():&#160;config.h'],['../dd/d0f/_k_x122_2config_8h.html#aaba0975f58e226cde11d5c8ca45df4b6',1,'SlaveApp_SAY_HEARTBEAT_ONLY():&#160;config.h']]],
+  ['start',['START',['../d9/d06/_i2_c_8h.html#a3018c7600b7bb9866400596a56a57af7',1,'START():&#160;I2C.h'],['../d5/de2/_k_x122_2_i2_c_8h.html#a3018c7600b7bb9866400596a56a57af7',1,'START():&#160;I2C.h']]],
+  ['startup_5fdelay',['STARTUP_DELAY',['../de/dcb/ad7689_8h.html#aaed067aba1d8dc17479c812291ca1bcc',1,'STARTUP_DELAY():&#160;ad7689.h'],['../d1/d4d/_k_x122_2ad7689_8h.html#aaed067aba1d8dc17479c812291ca1bcc',1,'STARTUP_DELAY():&#160;ad7689.h']]]
 ];

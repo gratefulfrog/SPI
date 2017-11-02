@@ -126,6 +126,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad449ba3038c0276f951d406dcf038e05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17cc8bb30324587a5dce73ba4d88df1c"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dfd/class_board.html#a17cc8bb30324587a5dce73ba4d88df1c">getMgrNbChannels</a> (uint8_t mgrId) const </td></tr>
 <tr class="separator:a17cc8bb30324587a5dce73ba4d88df1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5928a0e1c6516077900dc982a3c1943b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dfd/class_board.html#a5928a0e1c6516077900dc982a3c1943b">Board</a> (uint8_t numberADC, const uint8_t nbChannelVec[])</td></tr>
+<tr class="separator:a5928a0e1c6516077900dc982a3c1943b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4912b5bfedda55c62eb12279727c71a1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../db/d16/config_8h.html#a4463fc2514c805d806ce4d981993967f">boardID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dfd/class_board.html#a4912b5bfedda55c62eb12279727c71a1">getGUID</a> () const </td></tr>
+<tr class="separator:a4912b5bfedda55c62eb12279727c71a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad449ba3038c0276f951d406dcf038e05"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dfd/class_board.html#ad449ba3038c0276f951d406dcf038e05">getValue</a> (uint8_t adcID, uint8_t channelID) const </td></tr>
+<tr class="separator:ad449ba3038c0276f951d406dcf038e05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17cc8bb30324587a5dce73ba4d88df1c"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dfd/class_board.html#a17cc8bb30324587a5dce73ba4d88df1c">getMgrNbChannels</a> (uint8_t mgrId) const </td></tr>
+<tr class="separator:a17cc8bb30324587a5dce73ba4d88df1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
@@ -136,12 +144,45 @@ Data Fields</h2></td></tr>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a3ba77d09ae3fb601a171f2eff2c08e34"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dfd/class_board.html#a3ba77d09ae3fb601a171f2eff2c08e34">boardUSARTChannels</a> [3]</td></tr>
 <tr class="separator:a3ba77d09ae3fb601a171f2eff2c08e34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38cd8d7ac19055110176fce5124f2f2e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d2/d01/class_a_d_c_mgr.html">ADCMgr</a> **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dfd/class_board.html#a38cd8d7ac19055110176fce5124f2f2e">adcMgrVec</a></td></tr>
-<tr class="separator:a38cd8d7ac19055110176fce5124f2f2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8387ea3b646b98297aa3b7aa769a71b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d2/d01/class_a_d_c_mgr.html">ADCMgr</a> **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dfd/class_board.html#ae8387ea3b646b98297aa3b7aa769a71b">adcMgrVec</a></td></tr>
+<tr class="separator:ae8387ea3b646b98297aa3b7aa769a71b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class encapsulates board functionality, eg number of ADCS, etc. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a5928a0e1c6516077900dc982a3c1943b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Board::Board </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>numberADC</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t&#160;</td>
+          <td class="paramname"><em>nbChannelVec</em>[]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>constructor </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">numberADC</td><td>how many adcs are on the board </td></tr>
+    <tr><td class="paramname">nbChannelVec</td><td>an array containing the numer of channels that each ADC has </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a5928a0e1c6516077900dc982a3c1943b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -189,6 +230,45 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>get the board id </p><dl class="section return"><dt>Returns</dt><dd>the board's GUID </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4912b5bfedda55c62eb12279727c71a1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../db/d16/config_8h.html#a4463fc2514c805d806ce4d981993967f">boardID</a> Board::getGUID </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>get the board id </p><dl class="section return"><dt>Returns</dt><dd>the board's GUID </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a17cc8bb30324587a5dce73ba4d88df1c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t Board::getMgrNbChannels </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>mgrId</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>for a given adc mgr id, get the number of channels available </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mgrId</td><td>an index for the adcMgrVec array </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the number of adc channels for the selected adc </dd></dl>
 
 </div>
 </div>
@@ -249,8 +329,42 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ad449ba3038c0276f951d406dcf038e05"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Board::getValue </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>adcID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>channelID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>get a value for an ADC and Channel pair </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">adcID</td><td>the adc in question </td></tr>
+    <tr><td class="paramname">channelID</td><td>the channel in question </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the value returned by the adc </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">Field Documentation</h2>
-<a class="anchor" id="a38cd8d7ac19055110176fce5124f2f2e"></a>
+<a class="anchor" id="ae8387ea3b646b98297aa3b7aa769a71b"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -258,7 +372,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d2/d01/class_a_d_c_mgr.html">ADCMgr</a>** Board::adcMgrVec</td>
+          <td class="memname"><a class="el" href="../../d2/d01/class_a_d_c_mgr.html">ADCMgr</a> ** Board::adcMgrVec</td>
         </tr>
       </table>
   </td>
@@ -305,8 +419,8 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/bob/Desktop/temp/Yannick/PhD_Support/temp/SPI/RPI/Python/serialApp/serialSlave2560/<a class="el" href="../../d3/d02/board_8h_source.html">board.h</a></li>
-<li>/home/bob/Desktop/temp/Yannick/PhD_Support/temp/SPI/RPI/Python/serialApp/serialSlave2560/<a class="el" href="../../df/d6e/board_8cpp.html">board.cpp</a></li>
+<li>/home/bob/Desktop/temp/Yannick/PhD_Support/temp/SPI/RPI/Python/serialApp/SerialSlave2560_ADXL345/<a class="el" href="../../d3/d02/board_8h_source.html">board.h</a></li>
+<li>/home/bob/Desktop/temp/Yannick/PhD_Support/temp/SPI/RPI/Python/serialApp/SerialSlave2560_ADXL345/<a class="el" href="../../df/d6e/board_8cpp.html">board.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
