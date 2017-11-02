@@ -7,14 +7,14 @@ const uint8_t YKX122::regVec[][2] = {{KX122_XOUT_L,KX122_XOUT_H},
 				                             {KX122_ZOUT_L,KX122_ZOUT_H}};
 
 void YKX122::configKX122() const{
-  uint8_t regVal[][2] = {{KX122_CNTL1,  KX122_HI_RES | KX122_8G},        // set to high res and +/-8g mode
-                        {KX122_ODCNTL, KX122_DR_1600},                 // set output data rate 1600Hz
-                        {KX122_CNTL1,  KX122_OPERATE}};                // set operational mode
+  uint8_t regVal[][2] = {{KX122_ODCNTL, KX122_IIR_BYPASS | KX122_LPRO | KX122_OSA2 | KX122_OSA1 | KX122_OSA0},
+                         {KX122_CNTL1, KX122_HI_RES},        // set HI Res
+                         {KX122_CNTL1, KX122_OPERATE}};                // set operational mode
+  // disable device for setup
+  I2c.write(addr, KX122_CNTL1,0);
   
-  for (int j=0;j<2;j++){
-    for(int i=0;i<3;i++){
-      I2c.write(addr,regVal[i][0],regVal[i][1]);
-    }
+  for (int i=0;i<3;i++){
+    I2c.write(addr,regVal[i][0],regVal[i][1]);
   }
 }
 
@@ -23,12 +23,12 @@ YKX122::YKX122(uint8_t address, const YSPI *const y)  : YADC(y),addr(address){
 }
 
 float YKX122::acquireChannel(uint8_t channel) {
-  I2c.write(addr, regVec[channel][0]);
-  uint8_t bytes[2];
-  for (uint8_t i=0;i<2;i++){
-    I2c.read(addr, regVec[channel][i],1,&bytes[i]);
-  }
-  return (float)((bytes[1]<<8)|bytes[0]);
+  I2c.write(addr, 0x06);
+  
+  uint8_t bytes[6];
+  I2c.read(addr, 6, &bytes[0]);
+
+  return ((bytes[channel*2+1]<<8)|bytes[channel*2])/ 16384.0;
 }
   
 bool YKX122::selftest(void) {
