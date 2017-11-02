@@ -1,9 +1,0 @@
-#!/bin/bash
-## a bash shell wrapper to call the python master more simply
-## usage:
-## $ ./run <Slave channel numbers>
-## $ ./run /dev/ttyUSB0
-## $ ./run /dev/ttyUSB0
-## $ ./run /dev/ttyUSB0  /dev/ttyUSB1
-./master.py "$@"
- 
