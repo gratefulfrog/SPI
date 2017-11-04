@@ -104,10 +104,10 @@ class AEMMailer:
          try:
             print('Connecting to gmail server...')
             server = smtplib.SMTP_SSL('smtp.gmail.com')
-            print('logging in')
+            print('Connected, logging in...')
             server.login(self.senderGmail, gmailPassword)
             self.gmailPassword = gmailPassword
-            print('success!')
+            print('Success!')
             return
          except KeyboardInterrupt:
             return
