@@ -97,18 +97,17 @@ class AEMMailer:
       if password, try to login, if failure, loop,
       if success, ave password for future use as self.gmailPassword
       """
-      try:
-         server = smtplib.SMTP_SSL('smtp.gmail.com')
-      except:
-         print('Failed to connect to server')
-         raise
       while True:
          gmailPassword =  getpass.getpass('Input password or enter to cancel email notifications : ')
          if  gmailPassword == '':
             raise NoPasswordException
          try:
+            print('Connecting to gmail server...')
+            server = smtplib.SMTP_SSL('smtp.gmail.com')
+            print('logging in')
             server.login(self.senderGmail, gmailPassword)
             self.gmailPassword = gmailPassword
+            print('success!')
             return
          except KeyboardInterrupt:
             return
