@@ -126,14 +126,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a604f62c92b612b7e9c0a3cf2a74b85d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e6c062656f468cba82cf79d356a5f88"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/da8/class_time_stamper.html#a7e6c062656f468cba82cf79d356a5f88">setTime0</a> (<a class="el" href="../../db/d16/config_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a> t)</td></tr>
 <tr class="separator:a7e6c062656f468cba82cf79d356a5f88"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cdcaccd4272186d996250f34c43a6ef"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/da8/class_time_stamper.html#a5cdcaccd4272186d996250f34c43a6ef">TimeStamper</a> (<a class="el" href="../../db/d16/config_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a> tInit)</td></tr>
-<tr class="separator:a5cdcaccd4272186d996250f34c43a6ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd5475279026a3efa138a26e9ae382de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../db/d16/config_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/da8/class_time_stamper.html#abd5475279026a3efa138a26e9ae382de">getTimeStamp</a> ()</td></tr>
-<tr class="separator:abd5475279026a3efa138a26e9ae382de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a604f62c92b612b7e9c0a3cf2a74b85d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../db/d16/config_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/da8/class_time_stamper.html#a604f62c92b612b7e9c0a3cf2a74b85d7">getCompensatedTimeStamp</a> (const <a class="el" href="../../db/d16/config_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a> &amp;uTime)</td></tr>
-<tr class="separator:a604f62c92b612b7e9c0a3cf2a74b85d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e6c062656f468cba82cf79d356a5f88"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/da8/class_time_stamper.html#a7e6c062656f468cba82cf79d356a5f88">setTime0</a> (<a class="el" href="../../db/d16/config_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a> t)</td></tr>
-<tr class="separator:a7e6c062656f468cba82cf79d356a5f88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
@@ -142,8 +134,8 @@ Data Fields</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a7b710e8d5c1cdcd42f6333648411824e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d0/da8/class_time_stamper.html">TimeStamper</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/da8/class_time_stamper.html#a7b710e8d5c1cdcd42f6333648411824e">theTimeStamper</a> = NULL</td></tr>
-<tr class="separator:a7b710e8d5c1cdcd42f6333648411824e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabae549b991789d8601c667469dec521"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d0/da8/class_time_stamper.html">TimeStamper</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/da8/class_time_stamper.html#aabae549b991789d8601c667469dec521">theTimeStamper</a> = NULL</td></tr>
+<tr class="separator:aabae549b991789d8601c667469dec521"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="../../d0/da8/class_time_stamper.html">TimeStamper</a> class provides time services at instanciation, or after by a call to setTime0, the time0, i.e. the reference time that should be called 0 microseconds can be set.</p>
@@ -152,30 +144,8 @@ Static Public Attributes</h2></td></tr>
 <p><a class="el" href="../../d0/da8/class_time_stamper.html#abd5475279026a3efa138a26e9ae382de">getTimeStamp()</a> returns time in micro secs since t0</p>
 <p>getCompensatedTimeStamp(timeStamp_t uTime) returns the uTime (uncompensated time) minus t0, thus the compensated value.</p>
 <p><a class="el" href="../../d0/da8/class_time_stamper.html#a7e6c062656f468cba82cf79d356a5f88">setTime0(timeStamp_t t)</a> sets t0 to the arg.</p>
-<p>The class provides a public static instance via the pointer <a class="el" href="../../d0/da8/class_time_stamper.html#a7b710e8d5c1cdcd42f6333648411824e">TimeStamper::theTimeStamper</a>. This should be the only instance created. </p>
+<p>The class provides a public static instance via the pointer <a class="el" href="../../d0/da8/class_time_stamper.html#aabae549b991789d8601c667469dec521">TimeStamper::theTimeStamper</a>. This should be the only instance created. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a5cdcaccd4272186d996250f34c43a6ef"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TimeStamper::TimeStamper </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../db/d16/config_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a>&#160;</td>
-          <td class="paramname"><em>tInit</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>constructor </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">tInit</td><td>the value to be used to initialize t0 </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a class="anchor" id="a5cdcaccd4272186d996250f34c43a6ef"></a>
 <div class="memitem">
 <div class="memproto">
@@ -222,29 +192,6 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a604f62c92b612b7e9c0a3cf2a74b85d7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../db/d16/config_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a> TimeStamper::getCompensatedTimeStamp </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../db/d16/config_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a> &amp;&#160;</td>
-          <td class="paramname"><em>uTime</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>gets the compensated timestamp of the argument, if the argument is less than t0, resets t0 to 0 micro seconds </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">uTime</td><td>a time value </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>, uTime- t0 in microsecs </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="abd5475279026a3efa138a26e9ae382de"></a>
 <div class="memitem">
 <div class="memproto">
@@ -258,44 +205,6 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>gets the current timestamp, i.e. current time - t0 in microsecs if time is less than t0, resets t0 to 0 </p><dl class="section return"><dt>Returns</dt><dd>timeStamp time </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="abd5475279026a3efa138a26e9ae382de"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../db/d16/config_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a> TimeStamper::getTimeStamp </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>gets the current timestamp, i.e. current time - t0 in microsecs if time is less than t0, resets t0 to 0 </p><dl class="section return"><dt>Returns</dt><dd>timeStamp time </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a7e6c062656f468cba82cf79d356a5f88"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void TimeStamper::setTime0 </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../db/d16/config_8h.html#a960b78ff8403b00081e24daa66949811">timeStamp_t</a>&#160;</td>
-          <td class="paramname"><em>t</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Resets the value of t0 to the arg </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">t</td><td>the new value of t0 </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
@@ -335,7 +244,7 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7b710e8d5c1cdcd42f6333648411824e"></a>
+<a class="anchor" id="aabae549b991789d8601c667469dec521"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -343,7 +252,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="../../d0/da8/class_time_stamper.html">TimeStamper</a> * TimeStamper::theTimeStamper = NULL</td>
+          <td class="memname"><a class="el" href="../../d0/da8/class_time_stamper.html">TimeStamper</a> * TimeStamper::theTimeStamper = NULL</td>
         </tr>
       </table>
   </td>
@@ -357,8 +266,8 @@ Static Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/bob/Desktop/temp/Yannick/PhD_Support/temp/SPI/RPI/Python/serialApp/SerialSlave2560_ADXL345/<a class="el" href="../../de/da8/time_stamper_8h_source.html">timeStamper.h</a></li>
-<li>/home/bob/Desktop/temp/Yannick/PhD_Support/temp/SPI/RPI/Python/serialApp/SerialSlave2560_ADXL345/<a class="el" href="../../d7/dc8/time_stamper_8cpp.html">timeStamper.cpp</a></li>
+<li>/home/bob/Desktop/temp/Yannick/PhD_Support/temp/SPI/RPI/Python/serialApp/SerialSlave2560_ADXL345_KX122/<a class="el" href="../../de/da8/time_stamper_8h_source.html">timeStamper.h</a></li>
+<li>/home/bob/Desktop/temp/Yannick/PhD_Support/temp/SPI/RPI/Python/serialApp/SerialSlave2560_ADXL345_KX122/<a class="el" href="../../d7/dc8/time_stamper_8cpp.html">timeStamper.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
