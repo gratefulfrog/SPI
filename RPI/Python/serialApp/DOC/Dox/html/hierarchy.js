@@ -3,7 +3,6 @@ var hierarchy =
     [ "AA025UID", "d6/d03/class_a_a025_u_i_d.html", null ],
     [ "AD7689_conf", "da/de0/struct_a_d7689__conf.html", null ],
     [ "ADCMgr", "d2/d01/class_a_d_c_mgr.html", [
-      [ "YADCMgr", "d5/daa/class_y_a_d_c_mgr.html", null ],
       [ "YADCMgr", "d5/daa/class_y_a_d_c_mgr.html", null ]
     ] ],
     [ "AEMmailer.AEMMailer", "d5/d12/class_a_e_mmailer_1_1_a_e_m_mailer.html", null ],
@@ -33,15 +32,11 @@ var hierarchy =
     [ "USARTSPI::usartRegisterStruct", "da/d97/struct_u_s_a_r_t_s_p_i_1_1usart_register_struct.html", null ],
     [ "YADC", "da/dcf/class_y_a_d_c.html", [
       [ "AD7689", "d4/d0c/class_a_d7689.html", null ],
-      [ "AD7689", "d4/d0c/class_a_d7689.html", null ],
-      [ "YADXL345", "db/d77/class_y_a_d_x_l345.html", null ],
       [ "YADXL345", "db/d77/class_y_a_d_x_l345.html", null ],
       [ "YKX122", "db/da9/class_y_k_x122.html", null ]
     ] ],
     [ "YSPI", "d9/d80/class_y_s_p_i.html", [
       [ "HWSPI", "d0/d68/class_h_w_s_p_i.html", null ],
-      [ "HWSPI", "d0/d68/class_h_w_s_p_i.html", null ],
-      [ "USARTSPI", "d7/db2/class_u_s_a_r_t_s_p_i.html", null ],
       [ "USARTSPI", "d7/db2/class_u_s_a_r_t_s_p_i.html", null ]
     ] ]
 ];

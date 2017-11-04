@@ -121,7 +121,6 @@ Inheritance diagram for HWSPI:</div>
   <img src="../../d0/d68/class_h_w_s_p_i.png" usemap="#HWSPI_map" alt=""/>
   <map id="HWSPI_map" name="HWSPI_map">
 <area href="../../d9/d80/class_y_s_p_i.html" alt="YSPI" shape="rect" coords="0,0,51,24"/>
-<area href="../../d9/d80/class_y_s_p_i.html" alt="YSPI" shape="rect" coords="61,0,112,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -137,16 +136,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a857f315645b573e3b3abcc4f4f761e5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a791898aa17d659ae615434e7e3dd3e79"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d68/class_h_w_s_p_i.html#a791898aa17d659ae615434e7e3dd3e79">endTransaction</a> () const </td></tr>
 <tr class="separator:a791898aa17d659ae615434e7e3dd3e79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5074227891a21e97876af3703ae96cc7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d68/class_h_w_s_p_i.html#a5074227891a21e97876af3703ae96cc7">HWSPI</a> (uint8_t SSpin, uint32_t clockF, uint8_t bitOrder, uint8_t dataMode)</td></tr>
-<tr class="separator:a5074227891a21e97876af3703ae96cc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4792a9740ab45165bcd45401292316e3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d68/class_h_w_s_p_i.html#a4792a9740ab45165bcd45401292316e3">setSS</a> (uint8_t highLow) const </td></tr>
-<tr class="separator:a4792a9740ab45165bcd45401292316e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a81ae03bc81daf205149c31f050ddef"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d68/class_h_w_s_p_i.html#a2a81ae03bc81daf205149c31f050ddef">beginTransaction</a> () const </td></tr>
-<tr class="separator:a2a81ae03bc81daf205149c31f050ddef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7fb698736c65614edde956d3c601583e"><td class="memItemLeft" align="right" valign="top">virtual uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d68/class_h_w_s_p_i.html#a7fb698736c65614edde956d3c601583e">transfer</a> (uint8_t data) const </td></tr>
-<tr class="separator:a7fb698736c65614edde956d3c601583e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d8eb2f251d4679c6f5cfd3a2f07688f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d68/class_h_w_s_p_i.html#a8d8eb2f251d4679c6f5cfd3a2f07688f">endTransaction</a> () const </td></tr>
-<tr class="separator:a8d8eb2f251d4679c6f5cfd3a2f07688f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -156,54 +145,6 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a016eade55436e7b1d2fdeaa5fcb4bcf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a5074227891a21e97876af3703ae96cc7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">HWSPI::HWSPI </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>SSpin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>clockF</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>bitOrder</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>dataMode</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Class constructor. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">SSpin</td><td>the Slave Select pin ID </td></tr>
-    <tr><td class="paramname">clockF</td><td>the clock frequency to us </td></tr>
-    <tr><td class="paramname">bitOrder</td><td>either MSBFIRST or LSBFIRST </td></tr>
-    <tr><td class="paramname">dataMode</td><td>theSPI mode to use eg SPI_MODE0 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>an instance. </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="a5074227891a21e97876af3703ae96cc7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -279,32 +220,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a2a81ae03bc81daf205149c31f050ddef"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void HWSPI::beginTransaction </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd>virtual void <a class="el" href="../../d9/d80/class_y_s_p_i.html#ab2e304638b68410d362c10b6795543ac">YSPI::beginTransaction() const </a>= 0; </dd></dl>
-
-<p>Implements <a class="el" href="../../d9/d80/class_y_s_p_i.html#ab2e304638b68410d362c10b6795543ac">YSPI</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a791898aa17d659ae615434e7e3dd3e79"></a>
 <div class="memitem">
 <div class="memproto">
@@ -328,59 +243,6 @@ Protected Attributes</h2></td></tr>
 <dl class="section see"><dt>See also</dt><dd>virtual void <a class="el" href="../../d9/d80/class_y_s_p_i.html#a9ccfe275e7e716ccb1325f56b1f7ec97">YSPI::endTransaction() const </a>= 0; </dd></dl>
 
 <p>Implements <a class="el" href="../../d9/d80/class_y_s_p_i.html#a9ccfe275e7e716ccb1325f56b1f7ec97">YSPI</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a8d8eb2f251d4679c6f5cfd3a2f07688f"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void HWSPI::endTransaction </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd>virtual void <a class="el" href="../../d9/d80/class_y_s_p_i.html#a9ccfe275e7e716ccb1325f56b1f7ec97">YSPI::endTransaction() const </a>= 0; </dd></dl>
-
-<p>Implements <a class="el" href="../../d9/d80/class_y_s_p_i.html#a9ccfe275e7e716ccb1325f56b1f7ec97">YSPI</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a4792a9740ab45165bcd45401292316e3"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void HWSPI::setSS </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>highLow</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd>virtual void <a class="el" href="../../d9/d80/class_y_s_p_i.html#ae48e79e08ea401598f29a5724fd30a92">YSPI::setSS(uint8_t highLow) const </a>= 0; </dd></dl>
-
-<p>Implements <a class="el" href="../../d9/d80/class_y_s_p_i.html#ae48e79e08ea401598f29a5724fd30a92">YSPI</a>.</p>
 
 </div>
 </div>
@@ -408,33 +270,6 @@ Protected Attributes</h2></td></tr>
 <dl class="section see"><dt>See also</dt><dd>virtual void <a class="el" href="../../d9/d80/class_y_s_p_i.html#ae48e79e08ea401598f29a5724fd30a92">YSPI::setSS(uint8_t highLow) const </a>= 0; </dd></dl>
 
 <p>Implements <a class="el" href="../../d9/d80/class_y_s_p_i.html#ae48e79e08ea401598f29a5724fd30a92">YSPI</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7fb698736c65614edde956d3c601583e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual uint8_t HWSPI::transfer </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>data</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd>virtual uint8_t <a class="el" href="../../d9/d80/class_y_s_p_i.html#a6c50a073ac302526b702799f2b50e41e">YSPI::transfer(uint8_t data) const </a>= 0; </dd></dl>
-
-<p>Implements <a class="el" href="../../d9/d80/class_y_s_p_i.html#a6c50a073ac302526b702799f2b50e41e">YSPI</a>.</p>
 
 </div>
 </div>
@@ -509,8 +344,8 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/bob/Desktop/temp/Yannick/PhD_Support/temp/SPI/RPI/Python/serialApp/SerialSlave2560_ADXL345/<a class="el" href="../../d5/d1a/yspi_8h_source.html">yspi.h</a></li>
-<li>/home/bob/Desktop/temp/Yannick/PhD_Support/temp/SPI/RPI/Python/serialApp/SerialSlave2560_ADXL345/<a class="el" href="../../d4/d7b/hw_s_p_i_8cpp.html">hwSPI.cpp</a></li>
+<li>/home/bob/Desktop/temp/Yannick/PhD_Support/temp/SPI/RPI/Python/serialApp/SerialSlave2560_ADXL345_KX122/<a class="el" href="../../d5/d1a/yspi_8h_source.html">yspi.h</a></li>
+<li>/home/bob/Desktop/temp/Yannick/PhD_Support/temp/SPI/RPI/Python/serialApp/SerialSlave2560_ADXL345_KX122/<a class="el" href="../../d4/d7b/hw_s_p_i_8cpp.html">hwSPI.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
