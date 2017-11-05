@@ -45,11 +45,16 @@ struct u8u32f_struct{
 
 #define BOARD_BOARD_1_ID                 (1)    /*!< ID of board one */
 #define BOARD_BOARD_1_NB_ADCS            (5)    /*!< nb of adcs connected to board one */
-#define BOARD_BOARD_1_ADC_0_NB_CHANNELS  (8)    /*!< nb of adcs channels for board one adc zero */
-#define BOARD_BOARD_1_ADC_1_NB_CHANNELS  (8)    /*!< nb of adcs channels for board one adc one */
-#define BOARD_BOARD_1_ADC_2_NB_CHANNELS  (3)    /*!< nb of adcs channels for board one adc two (the adxl345) */
-#define BOARD_BOARD_1_ADC_3_NB_CHANNELS  (3)    /*!< nb of adcs channels for board one adc two (one of the KX122) */
-#define BOARD_BOARD_1_ADC_4_NB_CHANNELS  (3)    /*!< nb of adcs channels for board one adc two (one of the KX122) */
+
+// the following lines determine the number of channels querried per adc (or assimilated device)
+// channels are queried from channel 0,
+// there is currently no way to querry a cherry picked subset of the channels,
+// if that is needed, then it will require more work
+#define BOARD_BOARD_1_ADC_0_NB_CHANNELS  (0)    /*!< nb of adcs channels for board one adc zero   AD7689  */
+#define BOARD_BOARD_1_ADC_1_NB_CHANNELS  (0)    /*!< nb of adcs channels for board one adc one    AD7689  */
+#define BOARD_BOARD_1_ADC_2_NB_CHANNELS  (0)    /*!< nb of adcs channels for board one adc two    ADXL345 */
+#define BOARD_BOARD_1_ADC_3_NB_CHANNELS  (0)    /*!< nb of adcs channels for board one adc three  KX122   */
+#define BOARD_BOARD_1_ADC_4_NB_CHANNELS  (3)    /*!< nb of adcs channels for board one adc four   KX122   */
 
 
 /*************************************************************/
