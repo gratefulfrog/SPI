@@ -2,9 +2,9 @@
 
 void YADXL345::powerOn() const{
   //ADXL345 TURN ON
-  writeToSPI(ADXL345_POWER_CTL, 0);	 // Wakeup     
+  writeToSPI(ADXL345_POWER_CTL, 0);  // Wakeup     
   writeToSPI(ADXL345_POWER_CTL, 16); // Auto_Sleep
-  writeToSPI(ADXL345_POWER_CTL, 8);	 // Measure
+  writeToSPI(ADXL345_POWER_CTL, 8);  // Measure
 }
 
 /* Point to Destination; Write Value; Turn Off  */
@@ -91,10 +91,11 @@ void YADXL345::readAccel(int* x, int* y, int* z){
 YADXL345::YADXL345(const YSPI *const y) : YADC(y){
   // SPI uses data mode 3
   // this is taken care of in the USART settings 
-  
-  //gains[0] = 0.00376390;
-  //gains[1] = 0.00376009;
-  //gains[2] = 0.00349265;
+
+  // values from Sparkfun..
+  gains[0] = 0.00376390;
+  gains[1] = 0.00376009;
+  gains[2] = 0.00349265;
 
   yspi->setSS(HIGH);  // from the Sparkfun driver code
   powerOn();
@@ -123,7 +124,7 @@ float YADXL345::acquireChannel(uint8_t channel){   /*! 0=x, 1=y, 2=z : see getEv
     res = z;
     break;
   }
-  return res;
+  return res*gains[channel];
 }
 
 bool YADXL345::selftest(void){

@@ -21,6 +21,7 @@
 class YADXL345 : public YADC {
  protected:
   byte _buff[ADXL345_TO_READ];		      //	6 Byte Buffer
+  float gains[3];                            // used to convert output to g's
 
   void powerOn() const;
   void writeToSPI(byte __reg_address, byte __val) const;
