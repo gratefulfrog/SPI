@@ -125,23 +125,21 @@ void SlaveApp::createTimeStamper(){
 }
 
 SlaveApp::State SlaveApp::doWork(){
-  static uint8_t ADC_ID = 0;
+  static uint8_t ADC_Index = 0;
   static uint8_t ChannelID = 0;
   State res = currentState;
 
-//  if (ChannelID == board->getMgrNbChannels(ADC_ID)){
-//    ADC_ID = (ADC_ID +1) %  board->nbADCs;
-  if (ChannelID == board->getMgrNbChannels(adcIndexVec[ADC_ID])){
-    ADC_ID = (ADC_ID +1) %  nbActiveADCS;
+ if (ChannelID == board->getMgrNbChannels(adcIndexVec[ADC_Index])){
+    ADC_Index = (ADC_Index +1) %  nbActiveADCS;
     ChannelID = 0;
     return res;
   }
       
   u8u32f_struct  nextStruct = {0,0,0.0};
 
-  encode(nextStruct.u8, ADC_ID, ChannelID);
+  encode(nextStruct.u8, adcIndexVec[ADC_Index], ChannelID);
   nextStruct.u32 = TimeStamper::theTimeStamper->getTimeStamp();
-  nextStruct.f   = board->getValue(ADC_ID,ChannelID);
+  nextStruct.f   = board->getValue(adcIndexVec[ADC_Index],ChannelID);
   
 #ifdef USE_Q 
   if (!q->push(nextStruct)){ // no more room in q !! yes, this value is lost forever...
