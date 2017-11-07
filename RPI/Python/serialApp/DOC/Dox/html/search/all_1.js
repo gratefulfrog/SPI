@@ -13,6 +13,7 @@ var searchData=
   ['adc_5fvalue_5ft',['ADC_value_t',['../db/d16/config_8h.html#af14686474a4001808372fdca11bf5a8e',1,'config.h']]],
   ['adccid_5ft',['ADCCID_t',['../db/d16/config_8h.html#a12a9e4652c2f4e9192edf6e2500db8bd',1,'config.h']]],
   ['adcid',['adcID',['../d2/d01/class_a_d_c_mgr.html#ab237bdca16f606bf4d8ca44fc3c9b112',1,'ADCMgr']]],
+  ['adcindexvec',['adcIndexVec',['../da/ddc/class_slave_app.html#ad2d75afc460f5134237000baf883d698',1,'SlaveApp']]],
   ['adcmgr',['ADCMgr',['../d2/d01/class_a_d_c_mgr.html',1,'ADCMgr'],['../d2/d01/class_a_d_c_mgr.html#a3ff74b78b554a45da983fdd78f6bcf2a',1,'ADCMgr::ADCMgr()']]],
   ['adcmgr_2ecpp',['adcMgr.cpp',['../d7/d3f/adc_mgr_8cpp.html',1,'']]],
   ['adcmgr_2eh',['adcMgr.h',['../da/dca/adc_mgr_8h.html',1,'']]],

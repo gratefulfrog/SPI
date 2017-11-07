@@ -150,6 +150,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a25c186f256c0e194e3099e443180eb2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22689a8aa08191b5edf26a15ee0bc5f5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/ddc/class_slave_app.html#a22689a8aa08191b5edf26a15ee0bc5f5">checkCurrentState</a> () const </td></tr>
 <tr class="separator:a22689a8aa08191b5edf26a15ee0bc5f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ae937088ce52151106486bc39c4a3f6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/ddc/class_slave_app.html#a9ae937088ce52151106486bc39c4a3f6">setupADCVectors</a> (uint8_t board_nbADCS, const uint8_t *bordNbChannelVec)</td></tr>
+<tr class="separator:a9ae937088ce52151106486bc39c4a3f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a188c4d7b8c3603707bd14e8518712a3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/ddc/class_slave_app.html#a188c4d7b8c3603707bd14e8518712a3a">createTimeStamper</a> ()</td></tr>
 <tr class="separator:a188c4d7b8c3603707bd14e8518712a3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac16ee19626c9a16abfd1ff54f927636e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/ddc/class_slave_app.html#a0bd7892eadb9fbb5cdbc351d898ec0d8">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/ddc/class_slave_app.html#ac16ee19626c9a16abfd1ff54f927636e">doWork</a> ()</td></tr>
@@ -167,6 +169,10 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a6374b46d3e13add335ebea630ec2175a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae725f1cedc0eb0a5ae896ee99b9139c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/dfd/class_board.html">Board</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/ddc/class_slave_app.html#aae725f1cedc0eb0a5ae896ee99b9139c">board</a></td></tr>
 <tr class="separator:aae725f1cedc0eb0a5ae896ee99b9139c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ca8a3b91f09d5244ec2ab06b3029aec"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/ddc/class_slave_app.html#a8ca8a3b91f09d5244ec2ab06b3029aec">nbActiveADCS</a></td></tr>
+<tr class="separator:a8ca8a3b91f09d5244ec2ab06b3029aec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2d75afc460f5134237000baf883d698"><td class="memItemLeft" align="right" valign="top">uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/ddc/class_slave_app.html#ad2d75afc460f5134237000baf883d698">adcIndexVec</a></td></tr>
+<tr class="separator:ad2d75afc460f5134237000baf883d698"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3acea2752aff33e2adc1f099383290a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/ddc/class_slave_app.html#a0bd7892eadb9fbb5cdbc351d898ec0d8">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/ddc/class_slave_app.html#a3acea2752aff33e2adc1f099383290a4">currentState</a> = <a class="el" href="../../da/ddc/class_slave_app.html#a0bd7892eadb9fbb5cdbc351d898ec0d8a3bebb2f89180b03fa5ae736665f648d9">State::started</a></td></tr>
 <tr class="separator:a3acea2752aff33e2adc1f099383290a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a252ea3853f039ed923fbc1116cefc05d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/ddc/class_slave_app.html#a0bd7892eadb9fbb5cdbc351d898ec0d8">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/ddc/class_slave_app.html#a252ea3853f039ed923fbc1116cefc05d">nextState</a> = <a class="el" href="../../da/ddc/class_slave_app.html#a0bd7892eadb9fbb5cdbc351d898ec0d8a28ee56ece67abbd7bfc38eb955412865">State::unstarted</a></td></tr>
@@ -387,6 +393,47 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a9ae937088ce52151106486bc39c4a3f6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SlaveApp::setupADCVectors </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>board_nbADCS</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>bordNbChannelVec</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Called to initialize the nbActiveADCS and the adcIndexVector so that in the querying, there will be no wasted cycles </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">board_nbADCS</td><td>total number of adcs available on the board </td></tr>
+    <tr><td class="paramname">*bordNbChannelVec,a</td><td>vector of all the adc channels available </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a1471d300129040e7650670a1f8a2a8b6"></a>
 <div class="memitem">
 <div class="memproto">
@@ -436,6 +483,26 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Field Documentation</h2>
+<a class="anchor" id="ad2d75afc460f5134237000baf883d698"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t * SlaveApp::adcIndexVec</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="aae725f1cedc0eb0a5ae896ee99b9139c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -465,6 +532,26 @@ Protected Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="../../da/ddc/class_slave_app.html#a0bd7892eadb9fbb5cdbc351d898ec0d8">State</a> SlaveApp::currentState = <a class="el" href="../../da/ddc/class_slave_app.html#a0bd7892eadb9fbb5cdbc351d898ec0d8a3bebb2f89180b03fa5ae736665f648d9">State::started</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a8ca8a3b91f09d5244ec2ab06b3029aec"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t SlaveApp::nbActiveADCS</td>
         </tr>
       </table>
   </td>

@@ -8,7 +8,7 @@ var searchData=
   ['temp_5frico',['TEMP_RICO',['../de/dcb/ad7689_8h.html#a0fcbcdcbb6ef288c2a351335d93fc5ea',1,'ad7689.h']]],
   ['temptime',['tempTime',['../d4/d0c/class_a_d7689.html#a952d2ecef3cc42e64fed06cec85c2c57',1,'AD7689']]],
   ['thetimestamper',['theTimeStamper',['../d0/da8/class_time_stamper.html#aabae549b991789d8601c667469dec521',1,'TimeStamper']]],
-  ['timeout',['timeout',['../d2/d22/classcomms_mgr_1_1_serial_server.html#a98d7f9c43cc7fe17ee69c6260b29096a',1,'commsMgr.SerialServer.timeout()'],['../d4/d47/class_i2_c.html#ac5701b91c4c28fb44792bfc3d09bad0c',1,'I2C::timeOut()']]],
+  ['timeout',['timeOut',['../d4/d47/class_i2_c.html#ac5701b91c4c28fb44792bfc3d09bad0c',1,'I2C::timeOut()'],['../d2/d22/classcomms_mgr_1_1_serial_server.html#a98d7f9c43cc7fe17ee69c6260b29096a',1,'commsMgr.SerialServer.timeout()']]],
   ['timeoutdelay',['timeOutDelay',['../d4/d47/class_i2_c.html#a66702c8a9d1d6b86bea23ef2dee47da5',1,'I2C']]],
   ['timestamp_5ft',['timeStamp_t',['../db/d16/config_8h.html#a960b78ff8403b00081e24daa66949811',1,'config.h']]],
   ['timestamper',['TimeStamper',['../d0/da8/class_time_stamper.html',1,'TimeStamper'],['../d0/da8/class_time_stamper.html#a5cdcaccd4272186d996250f34c43a6ef',1,'TimeStamper::TimeStamper()']]],

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['gains',['gains',['../db/d77/class_y_a_d_x_l345.html#addd1cfd4923a00f04914d2821b218fd3',1,'YADXL345']]],
   ['getadcconfig',['getADCConfig',['../d4/d0c/class_a_d7689.html#a78eddc2f4da7ee135d7666952df9e3ac',1,'AD7689']]],
   ['getaddr',['getAddr',['../db/da9/class_y_k_x122.html#abe92effcdec744185ab8127d1b54cbb4',1,'YKX122']]],
   ['getcompensatedtimestamp',['getCompensatedTimeStamp',['../d0/da8/class_time_stamper.html#a604f62c92b612b7e9c0a3cf2a74b85d7',1,'TimeStamper']]],

@@ -48,6 +48,7 @@ SlaveApp::SlaveApp() {
   #endif
   
   board = new Board(board_nbADCS,bordNbChannelVec);
+  setupADCVectors(board_nbADCS,bordNbChannelVec);
   u8u32f_struct  nextStruct = {255,board->getGUID(),0.0};
   Serial.write((uint8_t*)&nextStruct,sizeof(nextStruct));
   currentState = State::initialized;
@@ -106,6 +107,17 @@ void SlaveApp::stepHB() const{
   }
 }
 
+void SlaveApp::setupADCVectors(uint8_t board_nbADCS, const uint8_t *bordNbChannelVec){
+  nbActiveADCS = 0;
+  adcIndexVec = new uint8_t[board_nbADCS];
+
+  for (uint8_t i=0;i<board_nbADCS;i++){
+    if (bordNbChannelVec[i]>0) { // i represents an active adc
+      adcIndexVec[nbActiveADCS++] = i;
+    }
+  }
+}
+
 void SlaveApp::createTimeStamper(){
   if(TimeStamper::theTimeStamper  == NULL){
     TimeStamper::theTimeStamper = new TimeStamper(micros());
@@ -117,8 +129,10 @@ SlaveApp::State SlaveApp::doWork(){
   static uint8_t ChannelID = 0;
   State res = currentState;
 
-  if (ChannelID == board->getMgrNbChannels(ADC_ID)){
-    ADC_ID = (ADC_ID +1) %  board->nbADCs;
+//  if (ChannelID == board->getMgrNbChannels(ADC_ID)){
+//    ADC_ID = (ADC_ID +1) %  board->nbADCs;
+  if (ChannelID == board->getMgrNbChannels(adcIndexVec[ADC_ID])){
+    ADC_ID = (ADC_ID +1) %  nbActiveADCS;
     ChannelID = 0;
     return res;
   }

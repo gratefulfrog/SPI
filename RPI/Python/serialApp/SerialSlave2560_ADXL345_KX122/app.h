@@ -30,6 +30,10 @@ class SlaveApp{
     Q<u8u32f_struct> *q;                     //<! poointer to the local q where sensor data is stored before sending to master
     Board *board;                            //<! pointer to board instance which handles the adc interactions
 
+    uint8_t nbActiveADCS,                 //<! of all the adcs on the board this is the number that are going to be used, is <- board_nbADCS
+            *adcIndexVec;                 /*<! this vector contains the indexes of all the active adcs, eg. if thereare 2 actve, 1 and 3, this would
+                                               look like {1,3} 
+                                           */
     State currentState = State::started;  //<! current state of the SlaveApp state machine
     State nextState = State::unstarted;   //<! next state to be set in SlaveApp::loop when SPI ISR returns
 
@@ -51,6 +55,11 @@ class SlaveApp{
     /** compare current state with previous state and dispaly error message if incorrect
      */
     void checkCurrentState() const;
+    /** Called to initialize the nbActiveADCS and the adcIndexVector so that in the querying, there will be no wasted cycles  
+     *  @param board_nbADCS: total number of adcs available on the board
+     *  @param *bordNbChannelVec, a vector of all the adc channels available
+     */
+    void setupADCVectors(uint8_t board_nbADCS, const uint8_t *bordNbChannelVec);
     /** Called to creat the instance of the timeStamper class and set t0 appropriately
      */
     void createTimeStamper();
