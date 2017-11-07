@@ -50,11 +50,11 @@ struct u8u32f_struct{
 // channels are queried from channel 0,
 // there is currently no way to querry a cherry picked subset of the channels,
 // if that is needed, then it will require more work
-#define BOARD_BOARD_1_ADC_0_NB_CHANNELS  (0)    /*!< nb of adcs channels for board one adc zero   AD7689  */
-#define BOARD_BOARD_1_ADC_1_NB_CHANNELS  (0)    /*!< nb of adcs channels for board one adc one    AD7689  */
-#define BOARD_BOARD_1_ADC_2_NB_CHANNELS  (0)    /*!< nb of adcs channels for board one adc two    ADXL345 */
-#define BOARD_BOARD_1_ADC_3_NB_CHANNELS  (0)    /*!< nb of adcs channels for board one adc three  KX122   */
-#define BOARD_BOARD_1_ADC_4_NB_CHANNELS  (3)    /*!< nb of adcs channels for board one adc four   KX122   */
+#define BOARD_BOARD_1_ADC_0_NB_CHANNELS  (0)    /*!< max = 8; nb of adcs channels for board one adc zero   AD7689  */
+#define BOARD_BOARD_1_ADC_1_NB_CHANNELS  (0)    /*!< max = 8; nb of adcs channels for board one adc one    AD7689  */
+#define BOARD_BOARD_1_ADC_2_NB_CHANNELS  (0)    /*!< max = 3; nb of adcs channels for board one adc two    ADXL345 */
+#define BOARD_BOARD_1_ADC_3_NB_CHANNELS  (0)    /*!< max = 3; nb of adcs channels for board one adc three  KX122   */
+#define BOARD_BOARD_1_ADC_4_NB_CHANNELS  (3)    /*!< max = 3; nb of adcs channels for board one adc four   KX122   */
 
 
 /*************************************************************/
@@ -65,7 +65,7 @@ struct u8u32f_struct{
 /*************************************************************/
 /** SlaveApp config */
 /*************************************************************/
-
+  
 #define SlaveApp_LED_PIN_1 (35)  //<! AEM board heartbeat led pin 1
 #define SlaveApp_LED_PIN_2 (36)  //<! AEM board heartbeat led pin 2
 #define SlaveApp_HB_TIME (500)   //<! AEM board led heartbeat flash time in  millisecs

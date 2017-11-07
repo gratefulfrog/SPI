@@ -6,7 +6,12 @@ Board::Board(uint8_t numberADCs, const uint8_t nbChannelVec[]) : nbADCs(numberAD
   adcMgrVec = new ADCMgr*[nbADCs];
   
   for (uint8_t  i=0;i<nbADCs;i++){
-    adcMgrVec[i] = new YADCMgr(i+1,nbChannelVec[i]);  // init adcMgr vec
+    if (nbChannelVec[i]>0){
+      adcMgrVec[i] = new YADCMgr(i+1,nbChannelVec[i]);  // init adcMgr vec if there are channels, if not, skip
+    }
+    else{
+      adcMgrVec[i] = NULL;
+    }
   }
 }
 
