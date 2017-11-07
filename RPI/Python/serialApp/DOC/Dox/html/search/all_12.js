@@ -33,6 +33,7 @@ var searchData=
   ['settings',['settings',['../d0/d68/class_h_w_s_p_i.html#a016eade55436e7b1d2fdeaa5fcb4bcf2',1,'HWSPI']]],
   ['settolist',['setToList',['../d5/d12/class_a_e_mmailer_1_1_a_e_m_mailer.html#aee94833cf10cc268350a5259e76e5702',1,'AEMmailer::AEMMailer']]],
   ['setup',['setup',['../df/d82/_serial_slave2560___a_d_x_l345___k_x122_8ino.html#a4fc01d736fe50cf5b977f755b675f11d',1,'SerialSlave2560_ADXL345_KX122.ino']]],
+  ['setupadcvectors',['setupADCVectors',['../da/ddc/class_slave_app.html#a9ae937088ce52151106486bc39c4a3f6',1,'SlaveApp']]],
   ['setuphbled',['setupHBLed',['../da/ddc/class_slave_app.html#a1471d300129040e7650670a1f8a2a8b6',1,'SlaveApp']]],
   ['shifttransaction',['shiftTransaction',['../d4/d0c/class_a_d7689.html#ab60113efe315d377dde72b0c693ba486',1,'AD7689']]],
   ['showvals',['showVals',['../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a4ac19a6570460d2254a87c073fd940a0',1,'commsMgr::CommsMgr']]],

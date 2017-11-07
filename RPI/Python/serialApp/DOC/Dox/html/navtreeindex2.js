@@ -1,5 +1,9 @@
 var NAVTREEINDEX2 =
 {
+"de/dcb/ad7689_8h.html#aa14ecbd99e746fe2009eab290e3e2f8a":[2,0,0,1,18],
+"de/dcb/ad7689_8h.html#aa3b633c1a963f8868f44e8fc27904649":[2,0,0,1,25],
+"de/dcb/ad7689_8h.html#aaed067aba1d8dc17479c812291ca1bcc":[2,0,0,1,35],
+"de/dcb/ad7689_8h.html#aaf6f11ed9f38844572c640cabc3e21d0":[2,0,0,1,20],
 "de/dcb/ad7689_8h.html#ab031308534de1e5f18f37e381b43f181":[2,0,0,1,12],
 "de/dcb/ad7689_8h.html#ab30c55989a6d0dab625ada15f1e31bf9":[2,0,0,1,3],
 "de/dcb/ad7689_8h.html#ab49290b2589ac36584de506a3b6ce748":[2,0,0,1,21],
@@ -30,8 +34,8 @@ var NAVTREEINDEX2 =
 "df/d82/_serial_slave2560___a_d_x_l345___k_x122_8ino.html#afe461d27b9c48d5921c00d521181f12f":[2,0,0,17,0],
 "dir_2cca44d75b5586f43a5bdf2bf8842f43.html":[2,0,0],
 "files.html":[2,0],
-"functions.html":[1,3,0,0],
 "functions.html":[1,3,0],
+"functions.html":[1,3,0,0],
 "functions_a.html":[1,3,0,1],
 "functions_b.html":[1,3,0,2],
 "functions_c.html":[1,3,0,3],
