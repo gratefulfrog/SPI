@@ -1,31 +1,32 @@
 #include <Arduino.h>
 
 #define NB_ITER (10000)
-#define NB_BYTES (4096)
+#define NB_BYTES (6300)
+
+//#define SerialUSB Serial
 
 void setup() {
   uint8_t vec[NB_BYTES];
 
-  SerialUSB.begin(100);
+  SerialUSB.begin(2000000);
   while(!SerialUSB);
 
   for (int i = 0;i<NB_BYTES;i++){
     vec[i] = 'a';
   }
-
-  int nb = NB_ITER;
   
   int now = millis();
-  for (int i = 0;i<nb;i++){
+  for (int i = 0;i<NB_ITER;i++){
     SerialUSB.write(vec,NB_BYTES);
   }
   int taken = millis()-now;
   
-  SerialUSB.println(SerialUSB.baud());
+  //SerialUSB.println(SerialUSB.baud());
+  
   SerialUSB.end();
   delay(2000);
 
-  float bps = nb*NB_BYTES*1000.0/taken;
+  float bps = 8*NB_ITER*NB_BYTES*1000.0/taken;
   
   SerialUSB.println();
   SerialUSB.println();
