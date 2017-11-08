@@ -1,11 +1,7 @@
 #ifndef AD7689_H
 #define AD7689_H
 
-#if defined(ARDUINO) && ARDUINO >= 100
 #include <Arduino.h>
-#else
-#include <WProgram.h>
-#endif
 
 #include "yspi.h"
 #include "yADC.h"

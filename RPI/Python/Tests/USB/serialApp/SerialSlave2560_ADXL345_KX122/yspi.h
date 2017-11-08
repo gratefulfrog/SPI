@@ -8,6 +8,8 @@
 
 #include "config.h"
 
+
+
 /** 
  *  YPSI abstract class.
  *  This serves as a defintion of the YSPI interface.

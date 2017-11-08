@@ -4,7 +4,7 @@
 
 #define NO_Q_DELAY (0)   // MicroSeconds min value that works is 0 !
 #define Q_DELAY    (1) // milliSeconds min value that works 1 @ 1M baud !    
-#define BAUDRATE   (12100000) //(1000000)
+#define BAUDRATE   /*(12100000) */(1000000)
 //////////////////////////////////////////////////////////
 //////////// Public Methods        ///////////////////////
 //////////////////////////////////////////////////////////
@@ -48,7 +48,9 @@ SlaveApp::SlaveApp() {
   #endif
   
   board = new Board(board_nbADCS,bordNbChannelVec);
-  SerialUSB.println("board created");
+  #ifdef DEBUG
+    SerialUSB.println("board created");
+  #endif
   setupADCVectors(board_nbADCS,bordNbChannelVec);
   u8u32f_struct  nextStruct = {255,board->getGUID(),0.0};
   SerialUSB.write((uint8_t*)&nextStruct,sizeof(nextStruct));

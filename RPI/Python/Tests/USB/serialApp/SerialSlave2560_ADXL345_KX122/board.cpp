@@ -4,11 +4,11 @@
 
 Board::Board(uint8_t numberADCs, const uint8_t nbChannelVec[]) : nbADCs(numberADCs){  
   adcMgrVec = new ADCMgr*[nbADCs];
-  /*
-  SerialUSB.println("called Board::Board");
-  SerialUSB.print("NB ADCs : ");
-  SerialUSB.println(numberADCs);
-  */
+  #ifdef DEBUG
+    SerialUSB.println("called Board::Board");
+    SerialUSB.print("NB ADCs : ");
+    SerialUSB.println(numberADCs);
+  #endif
 
   
   for (uint8_t  i=0;i<nbADCs;i++){

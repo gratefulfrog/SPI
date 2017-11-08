@@ -6,7 +6,9 @@
 YADC::YADC(const YSPI *const y) : yspi(y){}
 
 void YADC::selfTestFailed() const {
-  SerialUSB.println("YADC::selfTestFailed()");
+  #ifdef DEBUG
+    SerialUSB.println("YADC::selfTestFailed()");
+  #endif
   
   if (yspi){
     while (true){

@@ -6,13 +6,7 @@
 ADCMgr::ADCMgr(uint8_t id, uint8_t nbChan) : adcID(id), nbChannels(nbChan){}              
 
 void YADCMgr::doSelfTest() const {
-  if (adc->selftest()){
-    SerialUSB.println(String("ADC instance ") + String(adcID) +String(" Self-Test Passed!"));
-  }
-  else{
-    SerialUSB.println(String("ADC instance ") + String(adcID) +String(" Self-Test FAILED!"));
-    while(1);
-  }
+  adc->selftest();
 }
 
 YSPI* YADCMgr::usartInit() const {}
@@ -32,10 +26,14 @@ YSPI* YADCMgr::hwInit() const {
   // step 1: YSPI instantiation
   YSPI* y = new HWSPI(AD7689_SS_pin,F_CPU >= MAX_FREQ ? MAX_FREQ : F_CPU, MSBFIRST, SPI_MODE0); // HW SPI
   if(y){
-    SerialUSB.println(String("HWSPI instance ") + String(adcID) + String(" created!"));
+    #ifdef DEBUG
+      SerialUSB.println(String("HWSPI instance ") + String(adcID) + String(" created!"));
+    #endif
   }
   else{
-    SerialUSB.println(String("HWSPI instance ") + String(adcID) +  String(" failed!"));
+    #ifdef DEBUG
+      SerialUSB.println(String("HWSPI instance ") + String(adcID) +  String(" failed!"));
+    #endif
     while(1);
   }
   return y;
@@ -49,34 +47,20 @@ YADCMgr::YADCMgr(uint8_t id, uint8_t nbChan) : ADCMgr(id,nbChan){
   usingUSARTSPI  = false;
   YSPI *yspi;
   // step 1 : instance creation
-  if (usingUSARTSPI){
-    if (id<=3){
-      yspi = usartInit();
-    }
-    else{
-      yspi = NULL;
-    }
-  }
-  else{  // HW SPI
-    yspi = hwInit(); 
-  }
+  yspi = hwInit(); 
   
   // step 2: ADC instantiation
-  if(id <3) { // it's an AD7689
-    adc = new AD7689(yspi, nbChannels);
-  }
-  else if (id ==3) {  // it's and adxl345
-    adc = new YADXL345(yspi);
-  }
-  else{ // it's a KX122  // id = 4,5
-    //adc = new YKX122(YKX122::addrVec[id-4]);
-  }
+  adc = new AD7689(yspi, nbChannels);
   
   if(adc){
-    SerialUSB.println(String("ADC instance ") + String(adcID) + String(" created!"));
+    #ifdef DEBUG
+      SerialUSB.println(String("ADC instance ") + String(adcID) + String(" created!"));
+    #endif
   }
   else{
-    SerialUSB.println(String("ADC instance ") + String(adcID) +   String(" creation failed!"));
+    #ifdef DEBUG
+      SerialUSB.println(String("ADC instance ") + String(adcID) +   String(" creation failed!"));
+    #endif
     while(1);
   }  // step 3: AD7689 self-test
   doSelfTest();

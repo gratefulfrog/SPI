@@ -1,34 +1,40 @@
 #include <Arduino.h>
 
-void setup() {
-  uint8_t vec[1000];
+#define NB_ITER (10000)
+#define NB_BYTES (4096)
 
-  SerialUSB.begin(1210000);
+void setup() {
+  uint8_t vec[NB_BYTES];
+
+  SerialUSB.begin(100);
   while(!SerialUSB);
 
-  int nb = 1000;
-  
-  long now = micros();
-  for (int i = 0;i<nb;i++){
-    SerialUSB.write(vec,1000);
+  for (int i = 0;i<NB_BYTES;i++){
+    vec[i] = 'a';
   }
-  long taken = micros()-now;
+
+  int nb = NB_ITER;
+  
+  int now = millis();
+  for (int i = 0;i<nb;i++){
+    SerialUSB.write(vec,NB_BYTES);
+  }
+  int taken = millis()-now;
   
   SerialUSB.println(SerialUSB.baud());
   SerialUSB.end();
   delay(2000);
+
+  float bps = nb*NB_BYTES*1000.0/taken;
   
   SerialUSB.println();
   SerialUSB.println();
   SerialUSB.println();
   SerialUSB.println();
   SerialUSB.println();
-  SerialUSB.println(String("Time taken for ") + String(nb) + String(" bytes in us: ") + String(taken));
- //
-
+  SerialUSB.println(String("Bps: ") + String(bps));
+  // that's what we got: 778 470.44 bps, not a lot!  (he BAUD rate makes no difference!
+  // it goes as fast as it can??, nor does the NB_BYTES, unless very small, less than 64 !
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-
-}
+void loop() {}
