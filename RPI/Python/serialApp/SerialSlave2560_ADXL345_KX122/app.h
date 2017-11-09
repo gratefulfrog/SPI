@@ -57,7 +57,7 @@ class SlaveApp{
     void checkCurrentState() const;
     /** Called to initialize the nbActiveADCS and the adcIndexVector so that in the querying, there will be no wasted cycles  
      *  @param board_nbADCS: total number of adcs available on the board
-     *  @param *bordNbChannelVec, a vector of all the adc channels available
+     *  @param *bordNbChannelVec: a vector of all the adc channels available
      */
     void setupADCVectors(uint8_t board_nbADCS, const uint8_t *bordNbChannelVec);
     /** Called to creat the instance of the timeStamper class and set t0 appropriately
@@ -82,7 +82,7 @@ class SlaveApp{
      *  sets up SPI slave mode
      */
     SlaveApp();
-    /** called by the main loop, manages the slave state machine by:
+    /** loop() is called by the main loop, manages the slave state machine by:
      *  updating state as needed
      *  then perform any actions required by the current state.
      */

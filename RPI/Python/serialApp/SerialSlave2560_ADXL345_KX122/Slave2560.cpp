@@ -54,7 +54,7 @@ SlaveApp::SlaveApp() {
   currentState = State::initialized;
 }
 
-void SlaveApp::SlaveApp::loop(){
+void SlaveApp::loop(){
   if (previousState != currentState){
     previousState = currentState;
     stepHB();
