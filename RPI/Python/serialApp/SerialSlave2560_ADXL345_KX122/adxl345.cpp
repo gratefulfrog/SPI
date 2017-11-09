@@ -93,9 +93,9 @@ YADXL345::YADXL345(const YSPI *const y) : YADC(y){
   // this is taken care of in the USART settings 
 
   // values from Sparkfun..
-  gains[0] = 0.00376390;
-  gains[1] = 0.00376009;
-  gains[2] = 0.00349265;
+  gains[0] = 0.0376390;
+  gains[1] = 0.0376009;
+  gains[2] = 0.0349265;
 
   yspi->setSS(HIGH);  // from the Sparkfun driver code
   powerOn();
