@@ -11,7 +11,6 @@ set timestamp
 # list <- all the csv filenames in the current directory
 list = system("ls -1 *.csv")
 # create a counter
-#i = 1
 # iterate over the list of filenames
 do for [file in list] {
    # set the output file name to the input filename in the plot directory with
@@ -21,6 +20,4 @@ do for [file in list] {
    set title sprintf("%s", file) noenhanced
    # plot it, to the output as above
    plot file
-   # inc the counter
-   #i = i + 1
 }
