@@ -431,7 +431,6 @@ float AD7689::acquireChannel(uint8_t channel, uint32_t* timeStamp) {
 /**
  * [AD7689::acquireChannel Sample analog input signal along with its time stamp.]
  * @param  channel   The channel to sample, between 1 and 8.
- * @param  timeStamp A pointer to a variable in which the time stamp should be stored.
  * @return           Measured voltage.
  */
  // 2017 08 14 update to try to fix micros() overflow bug

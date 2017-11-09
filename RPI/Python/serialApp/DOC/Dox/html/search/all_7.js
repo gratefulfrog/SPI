@@ -19,7 +19,7 @@ var searchData=
   ['gettimestamp',['getTimeStamp',['../d0/da8/class_time_stamper.html#abd5475279026a3efa138a26e9ae382de',1,'TimeStamper']]],
   ['getvalue',['getValue',['../d2/d01/class_a_d_c_mgr.html#aa2ed2ad0dc62290673f275c42cf2ca52',1,'ADCMgr::getValue()'],['../d5/daa/class_y_a_d_c_mgr.html#a59c55e58b309bcf551e1b8db37dd247a',1,'YADCMgr::getValue()'],['../d3/dfd/class_board.html#ad449ba3038c0276f951d406dcf038e05',1,'Board::getValue()']]],
   ['gmailpassword',['gmailPassword',['../d5/d12/class_a_e_mmailer_1_1_a_e_m_mailer.html#a72d6ff500c8b45046aa8212af436cd46',1,'AEMmailer::AEMMailer']]],
-  ['gptr',['gptr',['../d7/d75/class_q.html#a323346e34abb7ed3c3cf738ee5a961b8',1,'Q']]],
+  ['gptr',['gptr',['../d7/d75/class_q.html#a8c5e6a300aa4c17ff2e6edb1c3780a39',1,'Q']]],
   ['grouper',['grouper',['../dd/d74/namespacecomms_mgr.html#ac052daf8d55f889069e32c561cf5d294',1,'commsMgr']]],
   ['guid_5f24aa025uid_2ecpp',['guid_24AA025UID.cpp',['../db/d51/guid__24_a_a025_u_i_d_8cpp.html',1,'']]],
   ['guid_5f24aa025uid_2eh',['guid_24AA025UID.h',['../d1/d82/guid__24_a_a025_u_i_d_8h.html',1,'']]],

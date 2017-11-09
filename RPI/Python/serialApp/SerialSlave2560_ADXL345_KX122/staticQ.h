@@ -3,8 +3,6 @@
 
 #include <Arduino.h>
 
-//#include "config.h"
-
 /** Constructor of a template Queue class
  * Usage:
  * type T should be an object you want to enqueue, it will be copied to the queue
@@ -20,9 +18,9 @@
 template <class T> 
 class Q{
   protected:
-    volatile unsigned int pptr   = 0,  /*!< volatile (for use via interrupt) index of the next spot to put an elt */
-                          gptr   = 0,  /*!< volatile (for use via interrupt) index of the next spot to get an elt */
-                          qNbObj = 0;  /*!< volatile (for use via interrupt) nb of elts in queue */
+    unsigned int pptr   = 0,  /*!< index of the next spot to put an elt */
+                 gptr   = 0,  /*!< index of the next spot to get an elt */
+                 qNbObj = 0;  /*!< nb of elts in queue */
     static const unsigned int qLen   = Q_Q_LENGTH; /*!< max nb of elts that the queue can contain */
     static const boolean overrunDeleteOldest = (boolean) Q_OVERRUN_DELETE_OLDEST; /*!< if true when queue is full, delete oldest elt, otherwise do not enqueue new elts  */
     
@@ -83,7 +81,7 @@ class Q{
     /** return nb elts in queue
      *  @return nb elts in queue
      */
-    int qLenght() const{
+    int qLength() const{
       return qLen;
     }
 };

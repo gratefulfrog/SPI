@@ -6,7 +6,7 @@ var searchData=
   ['q_5foverrun_5fdelete_5foldest',['Q_OVERRUN_DELETE_OLDEST',['../df/d76/static_q_8h.html#a4ac825dbe63a1ce6dd865633fbb2b7d6',1,'staticQ.h']]],
   ['q_5fq_5flength',['Q_Q_LENGTH',['../df/d76/static_q_8h.html#a497976599cf4b0f907357253203b518d',1,'staticQ.h']]],
   ['qlen',['qLen',['../d7/d75/class_q.html#ac9801ebeae28bf095f4a2eafeb50982c',1,'Q']]],
-  ['qlenght',['qLenght',['../d7/d75/class_q.html#aef83b831bda58c00e6b38e480fec0773',1,'Q']]],
-  ['qnbobj',['qNbObj',['../d7/d75/class_q.html#a8747eb4e37229fa105a87c25a9a21886',1,'Q']]],
+  ['qlength',['qLength',['../d7/d75/class_q.html#af523f19246eff67786d5eca28e4feda1',1,'Q']]],
+  ['qnbobj',['qNbObj',['../d7/d75/class_q.html#a78776286afec99b5f86d877ee7d68129',1,'Q']]],
   ['qnbobjects',['qNbObjects',['../d7/d75/class_q.html#a9ed0003b21902d5ed7e4ad87e23768f3',1,'Q']]]
 ];
