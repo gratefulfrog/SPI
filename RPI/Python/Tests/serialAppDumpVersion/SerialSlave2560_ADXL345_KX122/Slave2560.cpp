@@ -15,7 +15,6 @@ SlaveApp::SlaveApp() {
   I2c.begin();
   
   handShake();
-
   setupHBLed();  
   
 #ifdef USE_Q 
@@ -160,20 +159,20 @@ SlaveApp::State SlaveApp::doWork(){
 
 
 SlaveApp::State SlaveApp::doSingleSend(){
-  digitalWrite(SlaveApp_LED_PIN_2,HIGH);
+  //digitalWrite(SlaveApp_LED_PIN_2,HIGH);
   //handShake();
-  while (Serial.available() <=0){
-    delayMicroseconds(10);
+  //while (Serial.available() <=0);
+  //Serial.read();
+  
+  //digitalWrite(SlaveApp_LED_PIN_1, HIGH);
+  for(uint16_t i=0;i<Q_LEN; i+=100){
+    Serial.write((uint8_t*)&q[i],sizeof( u8u32f_struct ) * Q_LEN);
+    delay(Q_DELAY);
   }
-  while(Serial.available()>0){
-    Serial.read();
-  }
-  digitalWrite(SlaveApp_LED_PIN_1, HIGH);
-  Serial.write((uint8_t*)&q[0],sizeof( u8u32f_struct ) * Q_LEN);
   qIndex = 0;
   //delay(Q_DELAY);
-  digitalWrite(SlaveApp_LED_PIN_1,LOW);
-  digitalWrite(SlaveApp_LED_PIN_2, LOW);
+  //digitalWrite(SlaveApp_LED_PIN_1,LOW);
+  //digitalWrite(SlaveApp_LED_PIN_2, LOW);
  
   return State::working;
 }

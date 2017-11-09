@@ -12,7 +12,7 @@ import itertools
 pollDisplayIterations = 2000000 #= +/-1 hour # 32000 # = 1 min
 #pollDisplayIterations = 32000 # = 1 min 
 
-AEM_Q_LEN       = 700
+AEM_Q_LEN       = 100
 AEM_STRUCT_SIZE = 9
 AEM_SERIAL_READ_SIZE = AEM_Q_LEN * AEM_STRUCT_SIZE
 
@@ -207,6 +207,12 @@ class SerialServer():
             
             # now go for it!
             count = 0
+            #ser.write(b'|')
+            #print('wrote', count)
+            #sleep(0.5)
+            self.outQ.put(ser.read(AEM_STRUCT_SIZE))
+            print('read!',count)
+            count +=1
             while True:
                 try:
                     if self.stopEvent.is_set():
@@ -214,13 +220,13 @@ class SerialServer():
                         print('\n* waiting for processor to finish...')
                         self.outQ.join()
                         break
-                    ser.write(b'|')
-                    ser.write(b'|')
-                    print('wrote', count)
-                    #sleep(0.5)
+                    #ser.write(b'|')
+                    #ser.write(b'|')
+                    #print('wrote', count)
+                    #sleep(0.01)
                     self.outQ.put(ser.read(AEM_SERIAL_READ_SIZE))
-                    print('read!')
+                    print('read!', count)
                     count +=1
-                    #sleep(0.5)
+                    #sleep(0.1)
                 except KeyboardInterrupt:
                     self.stopEvent.set()
