@@ -51,6 +51,10 @@ YADCMgr::YADCMgr(uint8_t id, uint8_t nbChan) : ADCMgr(id,nbChan){
   
   // step 2: ADC instantiation
   adc = new AD7689(yspi, nbChannels);
+
+  #ifdef DEBUG
+    SerialUSB.println(String("adc truth value : ") + String(adc ? "true" : "false"));
+  #endif
   
   if(adc){
     #ifdef DEBUG

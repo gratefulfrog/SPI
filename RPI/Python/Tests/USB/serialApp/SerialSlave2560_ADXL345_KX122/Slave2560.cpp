@@ -1,10 +1,15 @@
 #include "app.h"
 
-#define USE_Q
+//#define USE_Q
 
 #define NO_Q_DELAY (0)   // MicroSeconds min value that works is 0 !
 #define Q_DELAY    (1) // milliSeconds min value that works 1 @ 1M baud !    
-#define BAUDRATE   /*(12100000) */(1000000)
+#define FULL_SPEED (12100000)
+#define M_SPEED     (1000000)
+//#define BAUDRATE   M_SPEED
+#define BAUDRATE   FULL_SPEED
+
+
 //////////////////////////////////////////////////////////
 //////////// Public Methods        ///////////////////////
 //////////////////////////////////////////////////////////
@@ -16,7 +21,7 @@ SlaveApp::SlaveApp() {
   
   handShake();
 
-  setupHBLed();
+  //setupHBLed();
   
 #ifdef USE_Q 
   q = new Q<u8u32f_struct>(nullStruct);
@@ -51,7 +56,11 @@ SlaveApp::SlaveApp() {
   #ifdef DEBUG
     SerialUSB.println("board created");
   #endif
+  
   setupADCVectors(board_nbADCS,bordNbChannelVec);
+  #ifdef DEBUG
+    SerialUSB.println(String("board Guid : ") + String(board->getGUID()));
+  #endif
   u8u32f_struct  nextStruct = {255,board->getGUID(),0.0};
   SerialUSB.write((uint8_t*)&nextStruct,sizeof(nextStruct));
   currentState = State::initialized;
@@ -103,6 +112,7 @@ void SlaveApp::setupHBLed(){
 }
 
 void SlaveApp::stepHB() const{
+  return;
   static const uint8_t pinVec[] = {SlaveApp_LED_PIN_1, SlaveApp_LED_PIN_2};
   uint8_t sCount = (int)currentState > 2 ?(int)currentState -2 : 0;
   for (uint8_t i=0;i<2;i++){
@@ -149,7 +159,7 @@ SlaveApp::State SlaveApp::doWork(){
     res = State::readyToSend;
   }
 #else
-  SerialUSB.write((uint8_t*)&nextStruct,sizeof(8u32f_struct));
+  SerialUSB.write((uint8_t*)&nextStruct,sizeof(u8u32f_struct));
   delayMicroseconds(NO_Q_DELAY);  
 #endif
 
