@@ -12,6 +12,9 @@ import itertools
 pollDisplayIterations = 2000000 #= +/-1 hour # 32000 # = 1 min
 #pollDisplayIterations = 32000 # = 1 min 
 
+USB_FULL_SPEED = 12100000
+M_SPEED        =  1000000
+
 def packNbytes(bytes):
     """ 
     This will return a pack of unsigned bytes, suitable for unpacking into their
@@ -174,7 +177,7 @@ class SerialServer():
     Implent the serving of the serial port,
     reads blocks of 900 bytes, i.e. 100 structs and enqueues them for the helper thread to process
     """
-    def __init__(self, writerq, portT, stopEv , mailerFunc, bd = 1000000, to = None):
+    def __init__(self, writerq, portT, stopEv , mailerFunc, bd = USB_FULL_SPEED, to = None):
         self.port        = portT
         self.stopEvent   = stopEv
         self.baudrate    = bd

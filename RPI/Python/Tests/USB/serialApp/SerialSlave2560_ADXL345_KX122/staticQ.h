@@ -15,7 +15,7 @@
  * on the value of Q_OVERRUN_DELETE_OLDEST
  */
 #define Q_OVERRUN_DELETE_OLDEST (false)
-#define Q_Q_LENGTH              (700) // 700 seems to be the max size possible
+#define Q_Q_LENGTH              (3000) // 700 seems to be the max size possible
 
 template <class T> 
 class Q{
