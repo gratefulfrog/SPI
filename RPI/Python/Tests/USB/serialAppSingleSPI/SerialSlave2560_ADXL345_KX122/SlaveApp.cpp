@@ -1,7 +1,5 @@
 #include "app.h"
 
-//#define USE_Q
-
 #define NO_Q_DELAY (0)   // MicroSeconds min value that works is 0 !
 #define Q_DELAY    (1) // milliSeconds min value that works 1 @ 1M baud !    
 #define FULL_SPEED (12100000)
@@ -17,7 +15,8 @@
 SlaveApp::SlaveApp() {
   SerialUSB.begin(BAUDRATE);
   while(!SerialUSB);
-  //I2c.begin();
+  SPI.begin();
+  Wire.begin();
   
   handShake();
 
@@ -28,36 +27,42 @@ SlaveApp::SlaveApp() {
 #endif
 
   const uint8_t board0NBChannelVec[] = {BOARD_BOARD_0_ADC_0_NB_CHANNELS},
+                board0SSVec[]        = {BOARD_BOARD_0_ADC_0_SS_PIN},
                 board1NBChannelVec[] = {BOARD_BOARD_1_ADC_0_NB_CHANNELS,
                                         BOARD_BOARD_1_ADC_1_NB_CHANNELS,
                                         BOARD_BOARD_1_ADC_2_NB_CHANNELS,
                                         BOARD_BOARD_1_ADC_3_NB_CHANNELS,
-                                        BOARD_BOARD_1_ADC_4_NB_CHANNELS};
+                                        BOARD_BOARD_1_ADC_4_NB_CHANNELS},
+		            board1SSVec[]        = {BOARD_BOARD_1_ADC_0_SS_PIN,
+					                              BOARD_BOARD_1_ADC_1_SS_PIN,
+					                              BOARD_BOARD_1_ADC_2_SS_PIN};
 
   // BOARD_BOARD_0 is board zero with only one ADC
-  // BOARD_BOARD_1 is board one with 2 adcs + 1 adxl345
+  // BOARD_BOARD_1 is board one with 2 adcs + 1 adxl345 (uses SPI) + 2 KX122 (use I2C)
   
   
  #if BOARD_USE_BOARD_0
   
-  const uint8_t board_ID         = BOARD_BOARD_0_ID,
-                board_nbADCS     = BOARD_BOARD_0_NB_ADCS,
-               *bordNbChannelVec = board0NBChannelVec;
+  const uint8_t board_ID          = BOARD_BOARD_0_ID,
+                board_nbADCS      = BOARD_BOARD_0_NB_ADCS,
+               *boardNbChannelVec = board0NBChannelVec,
+               *boardSSVEc        = board0SSVec;
   
   #else
   
-  const uint8_t board_ID         = BOARD_BOARD_1_ID,
-                board_nbADCS     = BOARD_BOARD_1_NB_ADCS,
-               *bordNbChannelVec = board1NBChannelVec;
+  const uint8_t board_ID          = BOARD_BOARD_1_ID,
+                board_nbADCS      = BOARD_BOARD_1_NB_ADCS,
+               *boardNbChannelVec = board1NBChannelVec,
+               *boardSSVEc        = board1SSVec;
   
   #endif
   
-  board = new Board(board_nbADCS,bordNbChannelVec);
+  board = new Board(board_nbADCS,boardNbChannelVec, boardSSVEc );
   #ifdef DEBUG
     SerialUSB.println("board created");
   #endif
   
-  setupADCVectors(board_nbADCS,bordNbChannelVec);
+  setupADCVectors(board_nbADCS,boardNbChannelVec);
   #ifdef DEBUG
     SerialUSB.println(String("board Guid : ") + String(board->getGUID()));
   #endif
@@ -67,10 +72,12 @@ SlaveApp::SlaveApp() {
 }
 
 void SlaveApp::SlaveApp::loop(){
+  /*
   if (previousState != currentState){
     previousState = currentState;
     stepHB();
   }
+  */
   // here change of state is done
   switch(currentState){
   case State::unstarted:
