@@ -55,14 +55,14 @@ struct u8u32f_struct{
 #define BOARD_BOARD_0_ID                 (0)    /*!< ID of board zero  */
 #define BOARD_BOARD_0_NB_ADCS            (1)    /*!< nb of adcs connected to board zero */
 #define BOARD_BOARD_0_ADC_0_NB_CHANNELS  (8)    /*!< nb of adcs channels for board zero adc zero */
-#define BOARD_BOARD_0_ADC_0_SS_PIN       (10)
+#define BOARD_BOARD_0_ADC_0_SS_PIN       (10)   /*!< slave select pin for the only ADC of board 0 */
 
 #define BOARD_BOARD_1_ID                 (1)    /*!< ID of board one */
 #define BOARD_BOARD_1_NB_ADCS            (5)    /*!< nb of adcs connected to board one */
 
-#define BOARD_BOARD_1_ADC_0_SS_PIN       (10)
-#define BOARD_BOARD_1_ADC_1_SS_PIN       (11)
-#define BOARD_BOARD_1_ADC_2_SS_PIN       (12)
+#define BOARD_BOARD_1_ADC_0_SS_PIN       (11)  /*!< slave select pin for the 1st AD7689 of board 1 */
+#define BOARD_BOARD_1_ADC_1_SS_PIN       (15)  /*!< slave select pin for the 2nd AD7689 of board 1 */
+#define BOARD_BOARD_1_ADC_2_SS_PIN       (16)  /*!< slave select pin for the ADXL345 of board 1    */
 
 // the following lines determine the number of channels querried per adc (or assimilated device)
 // channels are queried from channel 0,
