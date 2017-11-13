@@ -158,7 +158,7 @@ class CommsMgr:
         """
         outgoing = str(self.bid)     + \
                    ' : Structs Received : ' + \
-                   str(self.count)  
+                   '{:,}'.format(self.count)                    
         self.mailerFunc(outgoing)
 
 
