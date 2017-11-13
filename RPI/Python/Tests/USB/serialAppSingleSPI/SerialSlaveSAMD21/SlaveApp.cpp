@@ -41,20 +41,17 @@ SlaveApp::SlaveApp() {
   // BOARD_BOARD_1 is board one with 2 adcs + 1 adxl345 (uses SPI) + 2 KX122 (use I2C)
   
   
- #if BOARD_USE_BOARD_0
-  
+ #if BOARD_USE_BOARD_0 
   const uint8_t board_ID          = BOARD_BOARD_0_ID,
                 board_nbADCS      = BOARD_BOARD_0_NB_ADCS,
                *boardNbChannelVec = board0NBChannelVec,
                *boardSSVEc        = board0SSVec;
   
-  #else
-  
+ #else 
   const uint8_t board_ID          = BOARD_BOARD_1_ID,
                 board_nbADCS      = BOARD_BOARD_1_NB_ADCS,
                *boardNbChannelVec = board1NBChannelVec,
-               *boardSSVEc        = board1SSVec;
-  
+               *boardSSVEc        = board1SSVec;  
   #endif
   
   board = new Board(board_nbADCS,boardNbChannelVec, boardSSVEc );
@@ -105,8 +102,7 @@ void SlaveApp::SlaveApp::loop(){
 //////////// end Public Methods    ///////////////////////
 //////////////////////////////////////////////////////////
 void SlaveApp::handShake(){
-  while (SerialUSB.available() <=0){
-  }
+  while (SerialUSB.available() <=0);
   SerialUSB.read();
 }
 
