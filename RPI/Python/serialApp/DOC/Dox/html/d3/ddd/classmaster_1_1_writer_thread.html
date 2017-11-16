@@ -123,8 +123,8 @@ Inheritance diagram for master.WriterThread:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9d92e3d6f7759953f10c9722debfb26b"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/ddd/classmaster_1_1_writer_thread.html#a9d92e3d6f7759953f10c9722debfb26b">__init__</a> (self, <a class="el" href="../../d3/ddd/classmaster_1_1_writer_thread.html#a6653f92d812c79a955270ad7f2acefbb">name</a>, <a class="el" href="../../d3/ddd/classmaster_1_1_writer_thread.html#ad53dfb6f03d5b944d689090104f8f20c">q</a>, lock, <a class="el" href="../../d3/ddd/classmaster_1_1_writer_thread.html#af52bf52810441f342aa47a44d51c16d1">fileLockDict</a>, syncTimeFunc, <a class="el" href="../../d3/ddd/classmaster_1_1_writer_thread.html#a46fe0a329fc9e1cee04d50fed468d2e6">dataDir</a>)</td></tr>
-<tr class="separator:a9d92e3d6f7759953f10c9722debfb26b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c96ec2414e74247d735940c8d0f5bc3"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/ddd/classmaster_1_1_writer_thread.html#a5c96ec2414e74247d735940c8d0f5bc3">__init__</a> (self, <a class="el" href="../../d3/ddd/classmaster_1_1_writer_thread.html#a6653f92d812c79a955270ad7f2acefbb">name</a>, <a class="el" href="../../d3/ddd/classmaster_1_1_writer_thread.html#ad53dfb6f03d5b944d689090104f8f20c">q</a>, lock, <a class="el" href="../../d3/ddd/classmaster_1_1_writer_thread.html#af52bf52810441f342aa47a44d51c16d1">fileLockDict</a>, syncTimeFunc, <a class="el" href="../../d3/ddd/classmaster_1_1_writer_thread.html#a46fe0a329fc9e1cee04d50fed468d2e6">dataDir</a>, stopEvt)</td></tr>
+<tr class="separator:a5c96ec2414e74247d735940c8d0f5bc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12d7451c60759229fc46e7bdcf8ae3f9"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/ddd/classmaster_1_1_writer_thread.html#a12d7451c60759229fc46e7bdcf8ae3f9">getFormattedRow</a> (self, row)</td></tr>
 <tr class="separator:a12d7451c60759229fc46e7bdcf8ae3f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a317d6ddc71f01f6a5300346d36316380"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/ddd/classmaster_1_1_writer_thread.html#a317d6ddc71f01f6a5300346d36316380">createDataFile</a> (self, outFile)</td></tr>
@@ -163,9 +163,12 @@ Data Fields</h2></td></tr>
 <tr class="memitem:aebeeef60ab0fec764820d47c8f2e4512"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/ddd/classmaster_1_1_writer_thread.html#aebeeef60ab0fec764820d47c8f2e4512">getSynchTimeFunc</a></td></tr>
 <tr class="memdesc:aebeeef60ab0fec764820d47c8f2e4512"><td class="mdescLeft">&#160;</td><td class="mdescRight">function which when called will return the synchronisation time of the boards  <a href="#aebeeef60ab0fec764820d47c8f2e4512">More...</a><br /></td></tr>
 <tr class="separator:aebeeef60ab0fec764820d47c8f2e4512"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70cca1cf40162430966838baa8583bb6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/ddd/classmaster_1_1_writer_thread.html#a70cca1cf40162430966838baa8583bb6">stopEvent</a></td></tr>
+<tr class="memdesc:a70cca1cf40162430966838baa8583bb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">setting this event cause the main program to exit  <a href="#a70cca1cf40162430966838baa8583bb6">More...</a><br /></td></tr>
+<tr class="separator:a70cca1cf40162430966838baa8583bb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a9d92e3d6f7759953f10c9722debfb26b"></a>
+<a class="anchor" id="a5c96ec2414e74247d735940c8d0f5bc3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -209,7 +212,13 @@ Data Fields</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>dataDir</em>&#160;</td>
+          <td class="paramname"><em>dataDir</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>stopEvt</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -232,8 +241,10 @@ ensuring unique access to each file.
 @param q the thread-safe q which will be popped to get data
 @param lock the semaphore ensure unique access to the fileLockDict
 @param dataDir the path to the data directory
-@param syncTimeFunc a function that will be called to get the synch time to be used in naming the
-data files.
+@param syncTimeFunc a function that will be called to get the synch time to be used 
+in naming the data files.
+#param stopEvt an event that is set in case this thread has detected 
+a failure contidition
 </pre> 
 </div>
 </div>
@@ -526,6 +537,20 @@ if a None value is popped, the method exits properply and the thread ends.
 </div><div class="memdoc">
 
 <p>work q, source of data to be written to files </p>
+
+</div>
+</div>
+<a class="anchor" id="a70cca1cf40162430966838baa8583bb6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">master.WriterThread.stopEvent</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>setting this event cause the main program to exit </p>
 
 </div>
 </div>

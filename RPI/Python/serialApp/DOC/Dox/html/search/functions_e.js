@@ -8,6 +8,6 @@ var searchData=
   ['receive',['receive',['../d4/d47/class_i2_c.html#aa2d244c430395e76aa0a61618a6590a4',1,'I2C']]],
   ['receivebyte',['receiveByte',['../d4/d47/class_i2_c.html#afb320975c9bc913c5ec1fabb82b7a7cc',1,'I2C']]],
   ['releasefile',['releaseFile',['../d3/ddd/classmaster_1_1_writer_thread.html#a60f0c45d303a1cf4bd1a2687641c0336',1,'master::WriterThread']]],
-  ['run',['run',['../de/d8e/classcomms_mgr_1_1_read_input_thread.html#aff5f3fec93df2767665c732371498487',1,'commsMgr.ReadInputThread.run()'],['../d3/ddd/classmaster_1_1_writer_thread.html#a9a66de1ee6a6301980f4460624db697a',1,'master.WriterThread.run()'],['../d2/d5e/classmaster_1_1_reader_thread.html#a546ccc9b511ef04cce21e4f792151662',1,'master.ReaderThread.run()'],['../dd/df2/classmaster_1_1_master.html#ae81393fb97ef7be6e4b4f45a84354fa2',1,'master.Master.run()']]],
+  ['run',['run',['../d5/d12/class_a_e_mmailer_1_1_a_e_m_mailer.html#a0b9a46f0ed7e9281e4345ef815ccc5e7',1,'AEMmailer.AEMMailer.run()'],['../de/d8e/classcomms_mgr_1_1_read_input_thread.html#aff5f3fec93df2767665c732371498487',1,'commsMgr.ReadInputThread.run()'],['../d3/ddd/classmaster_1_1_writer_thread.html#a9a66de1ee6a6301980f4460624db697a',1,'master.WriterThread.run()'],['../d2/d5e/classmaster_1_1_reader_thread.html#a546ccc9b511ef04cce21e4f792151662',1,'master.ReaderThread.run()'],['../dd/df2/classmaster_1_1_master.html#ae81393fb97ef7be6e4b4f45a84354fa2',1,'master.Master.run()']]],
   ['runtest',['runTest',['../d0/d90/namespace_a_e_mmailer.html#aa21b66aa9418aae042ed82f18d28e343',1,'AEMmailer']]]
 ];
