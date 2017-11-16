@@ -63,15 +63,17 @@ class ReadInputThread(threading.Thread):
     This helper thread unburdens the server from the processing of the incoming data.
     It is needed to prevent a bottleneck at the receiving end of the serial port.
     """
-    def __init__(self, inq, outq,mailer):
-        threading.Thread.__init__(self)
-        ## inq: where the serial server puts data to be processed and forwarded
-        ## outq: where the helper thread will place the processed data
-        ## mailer: a function that will email messages off to the world
+    def __init__(self, inq, outq,mailer,stopEvt):
+        threading.Thread.__init__(self,daemon=True)
+        #@param inq: where the serial server puts data to be processed and forwarded
+        #@param outq: where the helper thread will place the processed data
+        #@param mailer: a function that will email messages off to the world
+        #@param stopEvt an event that is set in case this thread has detected a failure contidition
         self.inQ  = inq
         self.init = False
         self.comms = CommsMgr(outq,mailerFunc=mailer)
         self.bid  = None
+        self.stopEvent = stopEvt
 
     def do_work(self,thing):
         """
@@ -105,17 +107,16 @@ class ReadInputThread(threading.Thread):
         try:
             while True:
                 item = self.inQ.get()
+                self.inQ.task_done()
                 #print(item)
                 if item is None:
                     break
                 self.do_work(item)
-                self.inQ.task_done()
         except Exception as e:
             print(e)
             print('* thread exiting...')
         finally:
-            self.comms.outQ.put(None)
-            self.inQ.task_done()
+            self.stopEvent.set()
             print('\n* Input Reader exiting...')
 
 class CommsMgr:
@@ -180,7 +181,7 @@ class SerialServer():
         self.baudrate    = bd
         self.timeout     = to
         self.outQ        = queue.Queue()
-        self.processor   = ReadInputThread(self.outQ,writerq,mailerFunc)  ##<! the helper thread
+        self.processor   = ReadInputThread(self.outQ,writerq,mailerFunc,stopEv)  ##<! the helper thread
         self.processor.start()
         
     def serve(self):
@@ -204,11 +205,6 @@ class SerialServer():
             # now go for it!
             while True:
                 try:
-                    if self.stopEvent.is_set():
-                        self.outQ.put(None)
-                        print('\n* waiting for processor to finish...')
-                        self.outQ.join()
-                        break
                     self.outQ.put(ser.read(900))
                 except KeyboardInterrupt:
                     self.stopEvent.set()

@@ -19,7 +19,7 @@ var searchData=
   ['seq_5fupdate',['SEQ_UPDATE',['../de/dcb/ad7689_8h.html#af0e903d7541b8e8f90fa5d42976708e0',1,'ad7689.h']]],
   ['sequenceractive',['sequencerActive',['../d4/d0c/class_a_d7689.html#a8c2c26d5571812cad79e609e09294fc3',1,'AD7689']]],
   ['serialserver',['SerialServer',['../d2/d22/classcomms_mgr_1_1_serial_server.html',1,'commsMgr']]],
-  ['serialslave2560_5fadxl345_5fkx122_2eino',['SerialSlave2560_ADXL345_KX122.ino',['../df/d82/_serial_slave2560___a_d_x_l345___k_x122_8ino.html',1,'']]],
+  ['serialslave2560_2eino',['SerialSlave2560.ino',['../de/d8f/_serial_slave2560_8ino.html',1,'']]],
   ['serve',['serve',['../d2/d22/classcomms_mgr_1_1_serial_server.html#a347a154776dcbff458e8ed1749d3e2f0',1,'commsMgr::SerialServer']]],
   ['server',['server',['../d2/d5e/classmaster_1_1_reader_thread.html#a253a00c61dad2dde0c3cb7dd15293a58',1,'master::ReaderThread']]],
   ['set',['set',['../d9/dd4/struct_u_s_a_r_t_s_p_i_1_1pin_register_struct.html#a1b15e3760ad295a0674196b3f910ca88',1,'USARTSPI::pinRegisterStruct']]],
@@ -32,7 +32,7 @@ var searchData=
   ['settime0',['setTime0',['../d0/da8/class_time_stamper.html#a7e6c062656f468cba82cf79d356a5f88',1,'TimeStamper']]],
   ['settings',['settings',['../d0/d68/class_h_w_s_p_i.html#a016eade55436e7b1d2fdeaa5fcb4bcf2',1,'HWSPI']]],
   ['settolist',['setToList',['../d5/d12/class_a_e_mmailer_1_1_a_e_m_mailer.html#aee94833cf10cc268350a5259e76e5702',1,'AEMmailer::AEMMailer']]],
-  ['setup',['setup',['../df/d82/_serial_slave2560___a_d_x_l345___k_x122_8ino.html#a4fc01d736fe50cf5b977f755b675f11d',1,'SerialSlave2560_ADXL345_KX122.ino']]],
+  ['setup',['setup',['../de/d8f/_serial_slave2560_8ino.html#a4fc01d736fe50cf5b977f755b675f11d',1,'SerialSlave2560.ino']]],
   ['setupadcvectors',['setupADCVectors',['../da/ddc/class_slave_app.html#a9ae937088ce52151106486bc39c4a3f6',1,'SlaveApp']]],
   ['setuphbled',['setupHBLed',['../da/ddc/class_slave_app.html#a1471d300129040e7650670a1f8a2a8b6',1,'SlaveApp']]],
   ['shifttransaction',['shiftTransaction',['../d4/d0c/class_a_d7689.html#ab60113efe315d377dde72b0c693ba486',1,'AD7689']]],
@@ -57,8 +57,7 @@ var searchData=
   ['staticq_2eh',['staticQ.h',['../df/d76/static_q_8h.html',1,'']]],
   ['stephb',['stepHB',['../da/ddc/class_slave_app.html#af030d9c35cbe82af19e7c5bba2740cc0',1,'SlaveApp']]],
   ['stop',['stop',['../d4/d47/class_i2_c.html#a805a1f75c4f780d6c5e40cf0677b8219',1,'I2C']]],
-  ['stopall',['stopAll',['../dd/df2/classmaster_1_1_master.html#a0c0436b4a0c92dee44ec2b156dac15d7',1,'master::Master']]],
-  ['stopevent',['stopEvent',['../d2/d22/classcomms_mgr_1_1_serial_server.html#aeacab437ad294107464be349f6a13090',1,'commsMgr.SerialServer.stopEvent()'],['../d2/d5e/classmaster_1_1_reader_thread.html#af60761daff5380a15b266ec2da5e569b',1,'master.ReaderThread.stopEvent()'],['../dd/df2/classmaster_1_1_master.html#a4817609c30d4ea617882430c6ec677b6',1,'master.Master.stopEvent()']]],
+  ['stopevent',['stopEvent',['../d5/d12/class_a_e_mmailer_1_1_a_e_m_mailer.html#adac1dd29a10002de32241dacd5778828',1,'AEMmailer.AEMMailer.stopEvent()'],['../de/d8e/classcomms_mgr_1_1_read_input_thread.html#a8df30b29675ca197090546343d186596',1,'commsMgr.ReadInputThread.stopEvent()'],['../d2/d22/classcomms_mgr_1_1_serial_server.html#aeacab437ad294107464be349f6a13090',1,'commsMgr.SerialServer.stopEvent()'],['../d3/ddd/classmaster_1_1_writer_thread.html#a70cca1cf40162430966838baa8583bb6',1,'master.WriterThread.stopEvent()'],['../d2/d5e/classmaster_1_1_reader_thread.html#af60761daff5380a15b266ec2da5e569b',1,'master.ReaderThread.stopEvent()'],['../dd/df2/classmaster_1_1_master.html#a4817609c30d4ea617882430c6ec677b6',1,'master.Master.stopEvent()']]],
   ['structfunc',['structFunc',['../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#a675fd99f5c2e9167abe419f03cfcc149',1,'commsMgr::CommsMgr']]],
   ['subject',['subject',['../d5/d12/class_a_e_mmailer_1_1_a_e_m_mailer.html#a150e1bd74c2ce9664222ff1ebe39074d',1,'AEMmailer::AEMMailer']]]
 ];

@@ -5,7 +5,6 @@ var hierarchy =
     [ "ADCMgr", "d2/d01/class_a_d_c_mgr.html", [
       [ "YADCMgr", "d5/daa/class_y_a_d_c_mgr.html", null ]
     ] ],
-    [ "AEMmailer.AEMMailer", "d5/d12/class_a_e_mmailer_1_1_a_e_m_mailer.html", null ],
     [ "Board", "d3/dfd/class_board.html", null ],
     [ "commsMgr.CommsMgr", "d3/d8f/classcomms_mgr_1_1_comms_mgr.html", null ],
     [ "Exception", null, [
@@ -22,6 +21,7 @@ var hierarchy =
     [ "commsMgr.SerialServer", "d2/d22/classcomms_mgr_1_1_serial_server.html", null ],
     [ "SlaveApp", "da/ddc/class_slave_app.html", null ],
     [ "Thread", null, [
+      [ "AEMmailer.AEMMailer", "d5/d12/class_a_e_mmailer_1_1_a_e_m_mailer.html", null ],
       [ "commsMgr.ReadInputThread", "de/d8e/classcomms_mgr_1_1_read_input_thread.html", null ],
       [ "master.ReaderThread", "d2/d5e/classmaster_1_1_reader_thread.html", null ],
       [ "master.WriterThread", "d3/ddd/classmaster_1_1_writer_thread.html", null ]

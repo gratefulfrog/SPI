@@ -2,6 +2,7 @@ var searchData=
 [
   ['mailer',['mailer',['../dd/df2/classmaster_1_1_master.html#a94402fc61e099e4219daccd3e0dbe01c',1,'master::Master']]],
   ['mailerfunc',['mailerFunc',['../d3/d8f/classcomms_mgr_1_1_comms_mgr.html#ad0e9a2f68fa897f84e55aeb8ff778fd4',1,'commsMgr::CommsMgr']]],
+  ['mailq',['mailQ',['../dd/df2/classmaster_1_1_master.html#ab0d3b968bb148f7cfeb5a0b655632ef0',1,'master::Master']]],
   ['master',['Master',['../dd/df2/classmaster_1_1_master.html',1,'master']]],
   ['master',['master',['../de/df5/namespacemaster.html',1,'master'],['../de/df5/namespacemaster.html#ab61cf6ebb7cabeeae2214de6ec73bd1e',1,'master.master()']]],
   ['master_2epy',['master.py',['../db/d00/master_8py.html',1,'']]],

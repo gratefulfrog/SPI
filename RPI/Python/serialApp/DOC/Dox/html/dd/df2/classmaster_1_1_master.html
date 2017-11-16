@@ -125,8 +125,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a54b7956a248ce2aa90f863d0c60851e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5bf310bec78bef7f3b7d946415632b1"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df2/classmaster_1_1_master.html#ac5bf310bec78bef7f3b7d946415632b1">createWriterThreads</a> (self, num)</td></tr>
 <tr class="separator:ac5bf310bec78bef7f3b7d946415632b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c0436b4a0c92dee44ec2b156dac15d7"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df2/classmaster_1_1_master.html#a0c0436b4a0c92dee44ec2b156dac15d7">stopAll</a> (self)</td></tr>
-<tr class="separator:a0c0436b4a0c92dee44ec2b156dac15d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c48f517eb91cb104486add256c94c3c"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df2/classmaster_1_1_master.html#a6c48f517eb91cb104486add256c94c3c">diskSpaceLimitReached</a> (self)</td></tr>
 <tr class="separator:a6c48f517eb91cb104486add256c94c3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae81393fb97ef7be6e4b4f45a84354fa2"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df2/classmaster_1_1_master.html#ae81393fb97ef7be6e4b4f45a84354fa2">run</a> (self)</td></tr>
@@ -148,6 +146,8 @@ Data Fields</h2></td></tr>
 <tr class="separator:a9f4f2182b46ce9e65e41281622e230f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4817609c30d4ea617882430c6ec677b6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df2/classmaster_1_1_master.html#a4817609c30d4ea617882430c6ec677b6">stopEvent</a></td></tr>
 <tr class="separator:a4817609c30d4ea617882430c6ec677b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0d3b968bb148f7cfeb5a0b655632ef0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df2/classmaster_1_1_master.html#ab0d3b968bb148f7cfeb5a0b655632ef0">mailQ</a></td></tr>
+<tr class="separator:ab0d3b968bb148f7cfeb5a0b655632ef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94402fc61e099e4219daccd3e0dbe01c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df2/classmaster_1_1_master.html#a94402fc61e099e4219daccd3e0dbe01c">mailer</a></td></tr>
 <tr class="separator:a94402fc61e099e4219daccd3e0dbe01c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27b7372b4483cf8389948032a8b372c6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df2/classmaster_1_1_master.html#a27b7372b4483cf8389948032a8b372c6">startTime</a></td></tr>
@@ -343,23 +343,6 @@ To exit, ctrl-c will be handled properly.
 
 </div>
 </div>
-<a class="anchor" id="a0c0436b4a0c92dee44ec2b156dac15d7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">def master.Master.stopAll </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<pre class="fragment">Called at the end of a run, it allows all the consumer threads to exit properly
-</pre> 
-</div>
-</div>
 <h2 class="groupheader">Field Documentation</h2>
 <a class="anchor" id="adc3b387996dc33c9bda33ea92e97d6f6"></a>
 <div class="memitem">
@@ -409,6 +392,18 @@ To exit, ctrl-c will be handled properly.
       <table class="memname">
         <tr>
           <td class="memname">master.Master.mailer</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ab0d3b968bb148f7cfeb5a0b655632ef0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">master.Master.mailQ</td>
         </tr>
       </table>
 </div><div class="memdoc">

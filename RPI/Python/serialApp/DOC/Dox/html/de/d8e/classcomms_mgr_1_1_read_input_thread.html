@@ -123,8 +123,8 @@ Inheritance diagram for commsMgr.ReadInputThread:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af1cfd0f759a0190164b3a979cbeacd8b"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d8e/classcomms_mgr_1_1_read_input_thread.html#af1cfd0f759a0190164b3a979cbeacd8b">__init__</a> (self, inq, outq, mailer)</td></tr>
-<tr class="separator:af1cfd0f759a0190164b3a979cbeacd8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20a09b9d6059e031c24e377a57b2648f"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d8e/classcomms_mgr_1_1_read_input_thread.html#a20a09b9d6059e031c24e377a57b2648f">__init__</a> (self, inq, outq, mailer, stopEvt)</td></tr>
+<tr class="separator:a20a09b9d6059e031c24e377a57b2648f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3375d22bddbd2438b244beb20cf36cb"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d8e/classcomms_mgr_1_1_read_input_thread.html#ac3375d22bddbd2438b244beb20cf36cb">do_work</a> (self, thing)</td></tr>
 <tr class="separator:ac3375d22bddbd2438b244beb20cf36cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff5f3fec93df2767665c732371498487"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d8e/classcomms_mgr_1_1_read_input_thread.html#aff5f3fec93df2767665c732371498487">run</a> (self)</td></tr>
@@ -133,7 +133,6 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a2831a00ff5bd95eebe5987baaffbdf76"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d8e/classcomms_mgr_1_1_read_input_thread.html#a2831a00ff5bd95eebe5987baaffbdf76">inQ</a></td></tr>
-<tr class="memdesc:a2831a00ff5bd95eebe5987baaffbdf76"><td class="mdescLeft">&#160;</td><td class="mdescRight">inq: where the serial server puts data to be processed and forwarded outq: where the helper thread will place the processed data mailer: a function that will email messages off to the world  <a href="#a2831a00ff5bd95eebe5987baaffbdf76">More...</a><br /></td></tr>
 <tr class="separator:a2831a00ff5bd95eebe5987baaffbdf76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a5e8a77a39c92ed301fcfdec422ea88"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d8e/classcomms_mgr_1_1_read_input_thread.html#a5a5e8a77a39c92ed301fcfdec422ea88">init</a></td></tr>
 <tr class="separator:a5a5e8a77a39c92ed301fcfdec422ea88"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,12 +140,14 @@ Data Fields</h2></td></tr>
 <tr class="separator:adb54fa2c405c906acce8320cbe65547c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96b9585fd3b5dd115b8e90e1d230cb1e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d8e/classcomms_mgr_1_1_read_input_thread.html#a96b9585fd3b5dd115b8e90e1d230cb1e">bid</a></td></tr>
 <tr class="separator:a96b9585fd3b5dd115b8e90e1d230cb1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8df30b29675ca197090546343d186596"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d8e/classcomms_mgr_1_1_read_input_thread.html#a8df30b29675ca197090546343d186596">stopEvent</a></td></tr>
+<tr class="separator:a8df30b29675ca197090546343d186596"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><pre class="fragment">This helper thread unburdens the server from the processing of the incoming data.
 It is needed to prevent a bottleneck at the receiving end of the serial port.
 </pre> </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="af1cfd0f759a0190164b3a979cbeacd8b"></a>
+<a class="anchor" id="a20a09b9d6059e031c24e377a57b2648f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -172,7 +173,13 @@ It is needed to prevent a bottleneck at the receiving end of the serial port.
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>mailer</em>&#160;</td>
+          <td class="paramname"><em>mailer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>stopEvt</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -280,7 +287,17 @@ if a None value is popped, the method exits properply and the thread ends.
       </table>
 </div><div class="memdoc">
 
-<p>inq: where the serial server puts data to be processed and forwarded outq: where the helper thread will place the processed data mailer: a function that will email messages off to the world </p>
+</div>
+</div>
+<a class="anchor" id="a8df30b29675ca197090546343d186596"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">commsMgr.ReadInputThread.stopEvent</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

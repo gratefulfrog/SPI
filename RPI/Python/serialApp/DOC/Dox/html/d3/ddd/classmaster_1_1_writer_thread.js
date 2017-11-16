@@ -1,6 +1,6 @@
 var classmaster_1_1_writer_thread =
 [
-    [ "__init__", "d3/ddd/classmaster_1_1_writer_thread.html#a9d92e3d6f7759953f10c9722debfb26b", null ],
+    [ "__init__", "d3/ddd/classmaster_1_1_writer_thread.html#a5c96ec2414e74247d735940c8d0f5bc3", null ],
     [ "createDataFile", "d3/ddd/classmaster_1_1_writer_thread.html#a317d6ddc71f01f6a5300346d36316380", null ],
     [ "decodeADCCID", "d3/ddd/classmaster_1_1_writer_thread.html#a2db388980af5cc755bc96c250b6b27dc", null ],
     [ "do_work", "d3/ddd/classmaster_1_1_writer_thread.html#a656fbde26673911e5724d0cc60e17b8a", null ],
@@ -14,5 +14,6 @@ var classmaster_1_1_writer_thread =
     [ "fileLockDict", "d3/ddd/classmaster_1_1_writer_thread.html#af52bf52810441f342aa47a44d51c16d1", null ],
     [ "getSynchTimeFunc", "d3/ddd/classmaster_1_1_writer_thread.html#aebeeef60ab0fec764820d47c8f2e4512", null ],
     [ "name", "d3/ddd/classmaster_1_1_writer_thread.html#a6653f92d812c79a955270ad7f2acefbb", null ],
-    [ "q", "d3/ddd/classmaster_1_1_writer_thread.html#ad53dfb6f03d5b944d689090104f8f20c", null ]
+    [ "q", "d3/ddd/classmaster_1_1_writer_thread.html#ad53dfb6f03d5b944d689090104f8f20c", null ],
+    [ "stopEvent", "d3/ddd/classmaster_1_1_writer_thread.html#a70cca1cf40162430966838baa8583bb6", null ]
 ];
