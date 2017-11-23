@@ -366,9 +366,9 @@ AD7689::AD7689(const YSPI *const y,
                                          posref(getPosRef(REF_INTERNAL, INTERNAL_25)),
                                          refConfig(INT_REF_25)
                                          //negref(getNegRef(INTERNAL_4096, UNIPOLAR_MODE)),
-                                         //refsrc(getRefSrc(REF_EXTERNAL, 5.0)), //INTERNAL_4096)),
-                                         //posref(getPosRef(REF_EXTERNAL, 5.0)), //INTERNAL_4096)),
-                                         //refConfig(5.0) //INT_REF_4096)
+                                         //refsrc(getRefSrc(REF_INTERNAL, INTERNAL_4096)),
+                                         //posref(getPosRef(REF_INTERNAL, INTERNAL_4096)),
+                                         //refConfig(INT_REF_4096)
                                          {
   // set default configuration options
   filterConfig = false;                 // full bandwidth
@@ -389,9 +389,6 @@ AD7689::AD7689(const YSPI *const y,
 
   // sequencer disabled by default
   sequencerActive = false; 
-  #ifdef DEBUG
-    SerialUSB.println("exiting AD7689::AD7689");
-  #endif
 }
 
 /**
@@ -434,7 +431,6 @@ float AD7689::acquireChannel(uint8_t channel, uint32_t* timeStamp) {
 /**
  * [AD7689::acquireChannel Sample analog input signal along with its time stamp.]
  * @param  channel   The channel to sample, between 1 and 8.
- * @param  timeStamp A pointer to a variable in which the time stamp should be stored.
  * @return           Measured voltage.
  */
  // 2017 08 14 update to try to fix micros() overflow bug
@@ -475,8 +471,6 @@ bool AD7689::selftest() {
   // ADC will be tested with its readback function, which reads back a previous command
   // this process takes 3 cycles
 
-  //SerialUSB.println("Call to AD7689 self test");
-
   AD7689_conf rb_conf = getADCConfig(true);
   rb_conf.RB_conf = true;    // enable readback
 
@@ -492,16 +486,9 @@ bool AD7689::selftest() {
 
   // response with initial readback command
   bool res = (readback == toCommand(rb_conf));
-  //SerialUSB.println(String("result of self test: ") + String(res));
   if (!res){
     selfTestFailed();
   }
-  #ifdef DEBUG
-  else {
-    Serial.println("selftest passed!");
-  }
-  #endif
-  
   return res;
 }
 
