@@ -99,7 +99,7 @@ YADXL345::YADXL345(const YSPI *const y) : YADC(y){
 
   yspi->setSS(HIGH);  // from the Sparkfun driver code
   powerOn();
-  setRangeSetting(2);    // Give the range settings
+  setRangeSetting(16);    // Give the range settings
                           // Accepted values are 2g, 4g, 8g or 16g
                           // Higher Values = Wider Measurement Range
                           // Lower Values = Greater Sensitivity
